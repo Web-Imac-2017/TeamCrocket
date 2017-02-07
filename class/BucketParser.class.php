@@ -48,6 +48,8 @@ class BucketParser
                                 break;
 
                             case "string" :
+                            case "float" :
+                            case "date" :
                                 $type = PDO::PARAM_STR;
                                 break;
 

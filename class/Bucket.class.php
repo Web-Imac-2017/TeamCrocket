@@ -5,11 +5,20 @@ define('QUERY_TYPE_UPDATE', 2);
 class Bucket
 {
     protected $id = 0;
+    protected $creation_date;
+    protected $modification_date;
+    protected $active = 1;
+    private $errorlist = [];
 
     protected function __construct($data = NULL){
         if(is_array($data)){
             $this->hydrate($data);
         }
+    }
+
+    // ajoute une erreur personnalisable à la liste
+    public function addError($property, $message = ""){
+        $this->errorlist[] = new BucketError(get_called_class(), $property, $message);
     }
 
     public function hydrate($data = []){
@@ -18,9 +27,11 @@ class Bucket
         $fields = $orm->getFields();
 
         foreach($data as $key => $value){
-            if(!in_array($key, $fields)){
+            /*
+            if(!in_array($key, $fields) && $key != 'creation_date' && $key != 'modification_date'){
                 continue;
             }
+            */
             $method = 'set'.ucfirst($key);
             if(method_exists($class, $method)){
                 $this->$method($value);
@@ -40,15 +51,15 @@ class Bucket
         // on génère la requête SQL
         if($query_type == QUERY_TYPE_INSERT){
             // insertion de données
-            $query = "INSERT INTO " . DB_PREFIX . $orm->getTable() . "(".join($orm->getFields(), ", ").") VALUES(".join(array_map(function($field){
+            $query = "INSERT INTO " . DB_PREFIX . $orm->getTable() . "(".join($orm->getFields(), ", ").", creation_date) VALUES(".join(array_map(function($field){
                 return ":".$field;
-            }, $orm->getFields()), ", ").");";
+            }, $orm->getFields()), ", ").", NOW());";
         }
         else{
             // mise à jour de données
             $query = "UPDATE " . DB_PREFIX . $orm->getTable() . " SET ".join(array_map(function($field){
                 return $field . " = :". $field;
-            }, $orm->getFields()), ", ")." WHERE id = :id;";
+            }, $orm->getFields()), ", ").", modification_date = NOW() WHERE id = :id;";
         }
 
 
@@ -74,11 +85,30 @@ class Bucket
     public function save(){
         $this->check();
 
-        if($this->isNew()){
-            $this->edit(QUERY_TYPE_INSERT);
+        // on vérifie qu'il n'y a aucune erreur bloquante empêchant d'exécuter la requête
+        if(count($this->errorlist) == 0){
+            try{
+                if($this->isNew()){
+                    $this->edit(QUERY_TYPE_INSERT);
+                }
+                else{
+                    $this->edit(QUERY_TYPE_UPDATE);
+                }
+            } catch(PDOException $e){
+                /**
+                * TODO : Gérer les autres cas
+                */
+                switch($e->getCode()){
+                    case "23000" :
+                        $this->addError("db", "duplicate entry");
+                        break;
+                }
+            }
         }
-        else{
-            $this->edit(QUERY_TYPE_UPDATE);
+
+        // on affiche TOUTES les erreurs
+        if(count($this->errorlist) > 0){
+            throw new BucketSaveException("Could not save, check error list for more details");
         }
     }
 
@@ -139,13 +169,45 @@ class Bucket
     }
 
 
+    // affiche de manière lisible la liste des erreurs (pour le debug)
+    public function showErrors(){
+        $errorlist = $this->getErrorlist();
+        echo "Errors : \n";
+        foreach($errorlist as $error){
+            echo $error."\n";
+        }
+        echo "\n";
+    }
+
+
     // setters
     public function setId(int $id){
         $this->id = $id;
+    }
+    public function setCreation_date($date){
+        $this->creation_date = $date;
+    }
+    public function setModification_date($date){
+        $this->modification_date = $date;
+    }
+    public function setActive(int $active = 1){
+        $this->active = $active;
     }
 
     //getters
     public function getId() : int{
         return $this->id;
+    }
+    public function getCreation_date(){
+        return $this->creation_date;
+    }
+    public function getModification_date(){
+        return $this->modification_date;
+    }
+    public function getActive() : int{
+        return $this->active;
+    }
+    public function getErrorlist() : array{
+        return $this->errorlist;
     }
 }

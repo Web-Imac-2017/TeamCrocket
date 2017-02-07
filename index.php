@@ -23,5 +23,5 @@ spl_autoload_register(function($class){
 });
 
 
-
+require("./inc/functions.php");
 include("test.php");
