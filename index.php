@@ -14,6 +14,7 @@ define('DB_PREFIX', 'ajkl7_');
 define('DB_USER', 'root');
 define('DB_PASSWORD', 'root');
 
+
 // autoloader
 spl_autoload_register(function($class){
     $path = ROOT_CLASS."/".$class.".class.php";

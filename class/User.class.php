@@ -22,8 +22,13 @@ class User extends Bucket implements BucketInterface
     const SEX_MALE = 'h';
     const SEX_FEMALE = 'f';
 
+    const PASSWORD_SALT = 'Im4c#';
+
     private $nickname = "";
     private $password = "";
+    private $old_password;
+    private $new_password;
+    private $confirm_password;
     private $lastname = "";
     private $firstname = "";
     private $email = "";
@@ -46,8 +51,28 @@ class User extends Bucket implements BucketInterface
 
     // permet de contrôler l'intégrité des valeurs avant de les envoyer
     public function check(){
+        // cas où on modifie le mot de passe
+        if($this->new_password){
+            if($this->new_password != $this->confirm_password){
+                $this->addError("password", "New and password confirmation does not match");
+            }
+            if($this->password !== User::hashPassword($this->old_password)){
+                $this->addError("password", "Wrong old password");
+            }
+            if(!testPassword($this->new_password)){
+                $this->addError("password", "Invalid format");
+            }
+            // on assigne le nouveau mot de passe à la valeur stockée dans la BDD
+            $this->password = User::hashPassword($this->new_password);
+        }
+
+
         if(!testMail($this->email)) $this->addError("email", "Invalid format");
         if(!testUsername($this->nickname)) $this->addError("nickname", "Invalid format");
+    }
+
+    public static function hashPassword(string $password) : string{
+        return sha1(self::PASSWORD_SALT . '/' . $password);
     }
 
     // setters
@@ -56,6 +81,15 @@ class User extends Bucket implements BucketInterface
     }
     public function setPassword(string $password){
         $this->password = $password;
+    }
+    public function setOld_password(string $password){
+        $this->old_password = $password;
+    }
+    public function setNew_password(string $password){
+        $this->new_password = $password;
+    }
+    public function setConfirm_password(string $password){
+        $this->confirm_password = $password;
     }
     public function setLastname(string $lastname){
         $this->lastname = $lastname;
