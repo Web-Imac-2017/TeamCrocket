@@ -22,7 +22,7 @@
 @field date_birth, date
 */
 
-class User extends Bucket implements BucketInterface
+class User extends Bucket\Bucket implements Bucket\BucketInterface
 {
     const SEX_MALE = 'h';
     const SEX_FEMALE = 'f';
@@ -56,7 +56,7 @@ class User extends Bucket implements BucketInterface
             if($this->new_password != $this->confirm_password){
                 $this->addError("password", "New and password confirmation does not match");
             }
-            if($this->password != User::hashPassword($this->old_password)){
+            if($this->password != self::hashPassword($this->old_password)){
                 $this->addError("password", "Wrong old password");
             }
             if(!testPassword($this->new_password)){
@@ -64,12 +64,12 @@ class User extends Bucket implements BucketInterface
             }
 
             // on assigne le nouveau mot de passe à la valeur stockée dans la BDD
-            $this->password = User::hashPassword($this->new_password);
+            $this->password = self::hashPassword($this->new_password);
         }
 
         if($this->new_password && $this->id == 0){
             if(!testPassword($this->new_password)) $this->addError("password", "Invalid format");
-            $this->password = User::hashPassword($this->new_password);
+            $this->password = self::hashPassword($this->new_password);
         }
 
         if(!testMail($this->email)) $this->addError("email", "Invalid format");
@@ -94,7 +94,7 @@ class User extends Bucket implements BucketInterface
     public static function login(string $email, string $password) : int{
         return (int)DB::fetchUnique("SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND password = :password LIMIT 0, 1", array(
             [":email", $email, PDO::PARAM_STR],
-            [":password", User::hashPassword($password), PDO::PARAM_STR]
+            [":password", self::hashPassword($password), PDO::PARAM_STR]
         ))['id'];
     }
 

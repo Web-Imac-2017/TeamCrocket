@@ -22,7 +22,7 @@ if(isset($_POST['user'])){
         $user->save();
         header("Location:index.php");
     }
-    catch(BucketSaveException $e){
+    catch(Bucket\BucketSaveException $e){
         // la sauvegarde a echoué
         echo '<pre>';
         $user->showErrors();

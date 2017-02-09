@@ -39,13 +39,14 @@ if(DEBUG){
 * Autoloader
 */
 spl_autoload_register(function($class){
-    $path = ROOT_CLASS."/".$class.".class.php";
+    $path = ROOT_CLASS."/".str_replace('\\', '/', $class).".class.php";
     if(file_exists($path)){
         require $path;
     }
 });
 
 require_once ROOT_INC."/lang.php";
+
 
 /**
 * Utilisateur

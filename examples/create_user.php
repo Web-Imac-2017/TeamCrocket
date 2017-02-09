@@ -14,7 +14,7 @@ try{
     $user->save();
     echo "L'utilisateur {$user->getId()} a été ajouté !\n";
 }
-catch(BucketSaveException $e){
+catch(Bucket\BucketSaveException $e){
     // la sauvegarde a echoué
     $user->showErrors();
 }

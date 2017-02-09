@@ -1,4 +1,6 @@
 <?php
+namespace Bucket;
+
 /**
 * Interface de la classe Bucket
 * @author METTER-ROTHAN Jérémie

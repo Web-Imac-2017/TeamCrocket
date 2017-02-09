@@ -1,4 +1,6 @@
 <?php
+namespace Bucket;
+
 /**
 * Parse une classe pour récupérer la structure de la table correspondante dans la base de donnée
 * @author METTER-ROTHAN Jérémie
@@ -17,7 +19,7 @@ class BucketParser
         $filename = $class . ".class.php";
         $path = ROOT_CLASS."/". $filename;
         if(!file_exists($path)){
-            throw new Exception("Could not class '".$filename."'");
+            throw new \Exception("Could not class '".$filename."'");
         }
 
         $handle = fopen($path, 'r');
@@ -49,17 +51,17 @@ class BucketParser
 
                         switch($temp[1]){
                             case "int" :
-                                $type = PDO::PARAM_INT;
+                                $type = \PDO::PARAM_INT;
                                 break;
 
                             case "string" :
                             case "float" :
                             case "date" :
-                                $type = PDO::PARAM_STR;
+                                $type = \PDO::PARAM_STR;
                                 break;
 
                             default :
-                                $type = PDO::PARAM_NULL;
+                                $type = \PDO::PARAM_NULL;
                         }
 
                         $map[] = array(

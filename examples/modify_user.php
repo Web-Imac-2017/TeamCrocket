@@ -14,6 +14,6 @@ try{
     $user->save();
     echo "L'utilisateur {$user->getId()} a été modifié !\n";
 }
-catch(BucketSaveException $e){
+catch(Bucket\BucketSaveException $e){
     $user->showErrors();
 }

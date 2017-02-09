@@ -1,4 +1,6 @@
 <?php
+namespace Bucket;
+
 /**
 * Représentation objet d'une classe CRUD parsé avec BucketParser
 * @author METTER-ROTHAN Jérémie

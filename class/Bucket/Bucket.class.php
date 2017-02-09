@@ -1,4 +1,6 @@
 <?php
+namespace Bucket;
+
 /**
 * Gestion générique des fonctionnalités CRUD d'un objet
 * @author METTER-ROTHAN Jérémie
@@ -52,7 +54,7 @@ abstract class Bucket
     private function edit(int $query_type){
         $class = get_called_class();
         $orm = BucketParser::parse($class);
-        $pdo = DB::getInstance()->getLink();
+        $pdo = \DB::getInstance()->getLink();
         $map = $orm->getMap();
 
 
@@ -82,7 +84,7 @@ abstract class Bucket
         }
 
         if(!$stmt->execute()){
-            throw new Exception("Query failed");
+            throw new \Exception("Query failed");
         }
         if($query_type == QUERY_TYPE_INSERT){
             $this->setId($pdo->lastInsertId());
@@ -103,7 +105,7 @@ abstract class Bucket
                 else{
                     $this->edit(QUERY_TYPE_UPDATE);
                 }
-            } catch(PDOException $e){
+            } catch(\PDOException $e){
                 /**
                 * TODO : Gérer les autres cas
                 */
@@ -125,12 +127,12 @@ abstract class Bucket
     final public static function getUniqueById(int $id){
         $class = get_called_class();
         $orm = BucketParser::parse($class);
-        $pdo = DB::getInstance()->getLink();
+        $pdo = \DB::getInstance()->getLink();
         $result = [];
 
         $stmt = $pdo->prepare("SELECT * FROM " . DB_PREFIX . $orm->getTable() . " WHERE id = :id");
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
         if($stmt->execute()){
             $result = $stmt->fetch();
@@ -142,18 +144,18 @@ abstract class Bucket
     final public static function getMultiple(int $start = -1, int $amount = -1, string $options = "") : array{
         $class = get_called_class();
         $orm = BucketParser::parse($class);
-        $pdo = DB::getInstance()->getLink();
+        $pdo = \DB::getInstance()->getLink();
         $results = [];
 
         $limit = ($start != -1 && $amount != -1) ? "LIMIT :start, :amount" : "";
 
         $stmt = $pdo->prepare("SELECT * FROM " . DB_PREFIX . $orm->getTable() . " " . $options . " " . $limit);
         if($start != -1 && $amount != -1){
-            $stmt->bindValue(':start', $start, PDO::PARAM_INT);
-            $stmt->bindValue(':amount', $amount, PDO::PARAM_INT);
+            $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
+            $stmt->bindValue(':amount', $amount, \PDO::PARAM_INT);
         }
 
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
 
         if($stmt->execute()){
             while($result = $stmt->fetch()){
@@ -170,7 +172,7 @@ abstract class Bucket
         $pdo = DB::getInstance()->getLink();
 
         $stmt = $pdo->prepare("DELETE FROM " . DB_PREFIX . $orm->getTable() . " WHERE id = :id " . $options);
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
 
         $result = $stmt->execute();
         $stmt->closeCursor();
