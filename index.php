@@ -27,7 +27,7 @@ spl_autoload_register(function($class){
 /**
 * Langues
 */
-$language = 'fr_FR';
+$language = $_GET['lang'] ?? 'fr_FR';
 $domain = $language;
 
 putenv('LANG='.$language);

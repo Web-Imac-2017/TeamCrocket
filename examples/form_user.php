@@ -6,11 +6,11 @@ session_start();
 
 // pour créer un nouvel utilisateur modifier la valeur en 0
 $user = User::getUniqueById((int)$_GET['id'] ?? 0);
-
 if(isset($_POST['user'])){
     $user->hydrate($_POST['user']);
     try{
         $user->save();
+        header("Location:index.php?id={$user->getId()}");
     }
     catch(BucketSaveException $e){
         // la sauvegarde a echoué
@@ -34,7 +34,7 @@ if(isset($_POST['user'])){
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     </head>
     <body>
-        <form style="width:90%;margin:0 auto;padding:20px 0;" action="index.php" method="POST">
+        <form style="width:90%;margin:0 auto;padding:20px 0;" action="index.php?id=<?php echo $user->getId(); ?>" method="POST">
             <h3><?php echo ($user->getId() == 0) ? gettext("Create a new user") : gettext("Modify user %s", $user->getId()); ?></h3>
             <hr>
             <fieldset>
@@ -50,7 +50,7 @@ if(isset($_POST['user'])){
                     <div class="form-group row">
                         <label for="user-password" class="col-3 col-form-label"><?php echo gettext("Password"); ?></label>
                         <div class="col-9">
-                            <input id="user-password" type="password" class="form-control" name="user[password]" placeholder="<?php echo gettext("Password"); ?>" required value="">
+                            <input id="user-password" type="password" class="form-control" name="user[new_password]" placeholder="<?php echo gettext("Password"); ?>" required value="">
                         </div>
                     </div>
                 <?php endif; ?>
