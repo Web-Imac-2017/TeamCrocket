@@ -24,5 +24,20 @@ spl_autoload_register(function($class){
 });
 
 
+/**
+* Langues
+*/
+$language = 'fr_FR';
+$domain = $language;
+
+putenv('LANG='.$language);
+setlocale(LC_MESSAGES, $language);
+bindtextdomain($domain, './locale');
+bind_textdomain_codeset($domain, 'UTF-8');
+textdomain($domain);
+#clearstatcache();
+
+
+
 require("./inc/functions.php");
 include("test.php");

@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-02-09 02:14+0100\n"
+"PO-Revision-Date: 2017-02-09 02:14+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: examples/form_user.php:38
+msgid "Create a new user"
+msgstr "Créer un nouvel utilisateur"
+
+#: examples/form_user.php:38
+#, php-format
+msgid "Modify user %s"
+msgstr "Modifier l’utilisateur %s"
+
+#: examples/form_user.php:41
+msgid "Profile"
+msgstr "Profile"
+
+#: examples/form_user.php:44 examples/form_user.php:46
+msgid "Nickname"
+msgstr "Nom d’utilisateur"
+
+#: examples/form_user.php:51 examples/form_user.php:53
+#: examples/form_user.php:123
+msgid "Password"
+msgstr "Mot de passe"
+
+#: examples/form_user.php:58 examples/form_user.php:60
+msgid "Firstname"
+msgstr "Prénom"
+
+#: examples/form_user.php:64 examples/form_user.php:66
+msgid "Lastname"
+msgstr "Nom"
+
+#: examples/form_user.php:70 examples/form_user.php:72
+msgid "Email"
+msgstr "Email"
+
+#: examples/form_user.php:76
+msgid "Sex"
+msgstr "Sexe"
+
+#: examples/form_user.php:79
+msgid "Man"
+msgstr "Homme"
+
+#: examples/form_user.php:80
+msgid "Women"
+msgstr "Femme"
+
+#: examples/form_user.php:85 examples/form_user.php:87
+msgid "Description"
+msgstr "Description"
+
+#: examples/form_user.php:91 examples/form_user.php:93
+msgid "City"
+msgstr "Ville"
+
+#: examples/form_user.php:97
+msgid "Country"
+msgstr "Pays"
+
+#: examples/form_user.php:100
+msgid "France"
+msgstr "France"
+
+#: examples/form_user.php:101
+msgid "Belgium"
+msgstr "Belgique"
+
+#: examples/form_user.php:102
+msgid "Swiss"
+msgstr "Suisse"
+
+#: examples/form_user.php:107 examples/form_user.php:109
+msgid "Birth date"
+msgstr "Date de naissance"
+
+#: examples/form_user.php:113
+msgid "Profile picture"
+msgstr "Photo de profil"
+
+#: examples/form_user.php:115
+msgid "Profile picture link"
+msgstr "Url photo de profil"
+
+#: examples/form_user.php:121
+msgid "Security"
+msgstr "Sécurité"
+
+#: examples/form_user.php:125
+msgid "Old password"
+msgstr "Ancien mot de passe"
+
+#: examples/form_user.php:131
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+#: examples/form_user.php:137
+msgid "Confirm password"
+msgstr "Confirmer le mot de passe"
+
+#: examples/form_user.php:142
+msgid "Submit"
+msgstr "Soumettre"

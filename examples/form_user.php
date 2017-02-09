@@ -35,111 +35,111 @@ if(isset($_POST['user'])){
     </head>
     <body>
         <form style="width:90%;margin:0 auto;padding:20px 0;" action="index.php" method="POST">
-            <h3><?php echo ($user->getId() == 0) ? "Créer un nouvel utilisateur" : "Modifier l'utilisateur {$user->getId()}"; ?></h3>
+            <h3><?php echo ($user->getId() == 0) ? gettext("Create a new user") : gettext("Modify user %s", $user->getId()); ?></h3>
             <hr>
             <fieldset>
-                <legend>Profil</legend>
+                <legend><?php echo gettext("Profile"); ?></legend>
                 <input type="hidden" class="form-control" name="user[id]" value="<?php echo $user->getId(); ?>">
                 <div class="form-group row">
-                    <label for="user-nickname" class="col-3 col-form-label">Pseudonyme</label>
+                    <label for="user-nickname" class="col-3 col-form-label"><?php echo gettext("Nickname"); ?></label>
                     <div class="col-9">
-                        <input id="user-nickname" type="text" class="form-control" name="user[nickname]" placeholder="Pseudonyme" required value="<?php echo $user->getNickname(); ?>">
+                        <input id="user-nickname" type="text" class="form-control" name="user[nickname]" placeholder="<?php echo gettext("Nickname"); ?>" required value="<?php echo $user->getNickname(); ?>">
                     </div>
                 </div>
                 <?php if($user->getId() == 0): ?>
                     <div class="form-group row">
-                        <label for="user-password" class="col-3 col-form-label">Mot de passe</label>
+                        <label for="user-password" class="col-3 col-form-label"><?php echo gettext("Password"); ?></label>
                         <div class="col-9">
-                            <input id="user-password" type="password" class="form-control" name="user[password]" placeholder="Password" required value="">
+                            <input id="user-password" type="password" class="form-control" name="user[password]" placeholder="<?php echo gettext("Password"); ?>" required value="">
                         </div>
                     </div>
                 <?php endif; ?>
                 <div class="form-group row">
-                    <label for="user-firstname" class="col-3 col-form-label">Prénom</label>
+                    <label for="user-firstname" class="col-3 col-form-label"><?php echo gettext("Firstname"); ?></label>
                     <div class="col-9">
-                        <input id="user-firstname" type="text" class="form-control" name="user[firstname]" placeholder="Prénom" value="<?php echo $user->getFirstname(); ?>">
+                        <input id="user-firstname" type="text" class="form-control" name="user[firstname]" placeholder="<?php echo gettext("Firstname"); ?>" value="<?php echo $user->getFirstname(); ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user-lastname" class="col-3 col-form-label">Nom</label>
+                    <label for="user-lastname" class="col-3 col-form-label"><?php echo gettext("Lastname"); ?></label>
                     <div class="col-9">
-                        <input id="user-lastname" type="text" class="form-control" name="user[lastname]" placeholder="Nom" value="<?php echo $user->getLastname(); ?>">
+                        <input id="user-lastname" type="text" class="form-control" name="user[lastname]" placeholder="<?php echo gettext("Lastname"); ?>" value="<?php echo $user->getLastname(); ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user-email" class="col-3 col-form-label">Email</label>
+                    <label for="user-email" class="col-3 col-form-label"><?php echo gettext("Email"); ?></label>
                     <div class="col-9">
-                        <input id="user-email" type="email" class="form-control" name="user[email]" placeholder="Email" required value="<?php echo $user->getEmail(); ?>">
+                        <input id="user-email" type="email" class="form-control" name="user[email]" placeholder="<?php echo gettext("Email"); ?>" required value="<?php echo $user->getEmail(); ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user-sex" class="col-3 col-form-label">Sex</label>
+                    <label for="user-sex" class="col-3 col-form-label"><?php echo gettext("Sex"); ?></label>
                     <div class="col-9">
                         <select id="user-sex" name="user[sex]" class="form-control">
-                            <option value="h" <?php if($user->getSex() == User::SEX_MALE) echo "selected"; ?>>Homme</option>
-                            <option value="h" <?php if($user->getSex() == User::SEX_FEMALE) echo "selected"; ?>>Femme</option>
+                            <option value="h" <?php if($user->getSex() == User::SEX_MALE) echo "selected"; ?>><?php echo gettext("Man"); ?></option>
+                            <option value="h" <?php if($user->getSex() == User::SEX_FEMALE) echo "selected"; ?>><?php echo gettext("Women"); ?></option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user-description" class="col-3 col-form-label">Description</label>
+                    <label for="user-description" class="col-3 col-form-label"><?php echo gettext("Description"); ?></label>
                     <div class="col-9">
-                        <textarea rows="8" id="user-description" name="user[description]" class="form-control" placeholder="Description"><?php echo $user->getDescription(); ?></textarea>
+                        <textarea rows="8" id="user-description" name="user[description]" class="form-control" placeholder="<?php echo gettext("Description"); ?>"><?php echo $user->getDescription(); ?></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user-city" class="col-3 col-form-label">Ville</label>
+                    <label for="user-city" class="col-3 col-form-label"><?php echo gettext("City"); ?></label>
                     <div class="col-9">
-                        <input id="user-city" type="text" class="form-control" name="user[city]" placeholder="Ville" value="<?php echo $user->getCity(); ?>">
+                        <input id="user-city" type="text" class="form-control" name="user[city]" placeholder="<?php echo gettext("City"); ?>" value="<?php echo $user->getCity(); ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user-country" class="col-3 col-form-label">Pays</label>
+                    <label for="user-country" class="col-3 col-form-label"><?php echo gettext("Country"); ?></label>
                     <div class="col-9">
                         <select id="user-country" name="user[country]" class="form-control">
-                            <option value="FRA" <?php if($user->getCountry() == 'FRA') echo "selected"; ?>>France</option>
-                            <option value="BEL" <?php if($user->getCountry() == 'BEL') echo "selected"; ?>>Belgique</option>
-                            <option value="CHE" <?php if($user->getCountry() == 'CHE') echo "selected"; ?>>Suisse</option>
+                            <option value="FRA" <?php if($user->getCountry() == 'FRA') echo "selected"; ?>><?php echo gettext("France"); ?></option>
+                            <option value="BEL" <?php if($user->getCountry() == 'BEL') echo "selected"; ?>><?php echo gettext("Belgium"); ?></option>
+                            <option value="CHE" <?php if($user->getCountry() == 'CHE') echo "selected"; ?>><?php echo gettext("Swiss"); ?></option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user-date_birth" class="col-3 col-form-label">Date de naissance</label>
+                    <label for="user-date_birth" class="col-3 col-form-label"><?php echo gettext("Birth date"); ?></label>
                     <div class="col-9">
-                        <input type="date" class="form-control" name="user[date_birth]" placeholder="Date de naissance" value="<?php echo $user->getDate_birth(); ?>">
+                        <input type="date" class="form-control" name="user[date_birth]" placeholder="<?php echo gettext("Birth date"); ?>" value="<?php echo $user->getDate_birth(); ?>">
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="user-image" class="col-3 col-form-label">Image de profil</label>
+                    <label for="user-image" class="col-3 col-form-label"><?php echo gettext("Profile picture"); ?></label>
                     <div class="col-9">
-                        <input type="url" class="form-control" name="user[image]" placeholder="URL photo de profil" value="<?php echo $user->getImage(); ?>">
+                        <input type="url" class="form-control" name="user[image]" placeholder="<?php echo gettext("Profile picture link"); ?>" value="<?php echo $user->getImage(); ?>">
                     </div>
                 </div>
             </fieldset>
             <?php if($user->getId() > 0): ?>
             <fieldset class="mt-4">
-                <legend>Securité</legend>
+                <legend><?php echo gettext("Security"); ?></legend>
                 <div class="form-group row">
-                    <label for="user-old_password" class="col-3 col-form-label">Mot de passe</label>
+                    <label for="user-old_password" class="col-3 col-form-label"><?php echo gettext("Password"); ?></label>
                     <div class="col-9">
-                        <input id="user-old_password" type="password" class="form-control" name="user[old_password]" placeholder="Ancien mot de passe" value="">
+                        <input id="user-old_password" type="password" class="form-control" name="user[old_password]" placeholder="<?php echo gettext("Old password"); ?>" value="">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="user-new_password" class="col-3 col-form-label"></label>
                     <div class="col-9">
-                        <input id="user-new_password" type="password" class="form-control" name="user[new_password]" placeholder="Nouveau mot de passe" value="">
+                        <input id="user-new_password" type="password" class="form-control" name="user[new_password]" placeholder="<?php echo gettext("New password"); ?>" value="">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="user-confirm_password" class="col-3 col-form-label"></label>
                     <div class="col-9">
-                        <input id="user-confirm_password" type="password" class="form-control" name="user[confirm_password]" placeholder="Confirmer mot de passe" value="">
+                        <input id="user-confirm_password" type="password" class="form-control" name="user[confirm_password]" placeholder="<?php echo gettext("Confirm password"); ?>" value="">
                     </div>
                 </div>
             </fieldset>
             <?php endif; ?>
-            <input type="submit" class="btn btn-primary float-right mt-4" name="profile" value="Soumettre">
+            <input type="submit" class="btn btn-primary float-right mt-4" name="profile" value="<?php echo gettext("Submit"); ?>">
             <div class="clearfix"></div>
         </form>
     </body>
