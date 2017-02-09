@@ -48,6 +48,43 @@ class DB implements DBInterface
         $this->pdo = null;
     }
 
+
+    final public static function fetchUnique(string $sql, array $values = []){
+        $pdo = self::getInstance()->getLink();
+        $result = null;
+
+        $stmt = $pdo->prepare($sql);
+        foreach($values as $temp){
+            $stmt->bindValue($temp[0], $temp[1], $temp[2]);
+        }
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        if($stmt->execute()){
+            $result = $stmt->fetch();
+        }
+        $stmt->closeCursor();
+        return $result;
+    }
+
+
+    final public static function fetchMultiple(string $sql, array $values = []){
+        $pdo = self::getInstance()->getLink();
+        $result = null;
+
+        $stmt = $pdo->prepare($sql);
+        foreach($values as $temp){
+            $stmt->bindValue($temp[0], $temp[1], $temp[2]);
+        }
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        if($stmt->execute()){
+            $result = $stmt->fetchAll();
+        }
+        $stmt->closeCursor();
+        return $result;
+    }
+
+
     public function getLink(){ return $this->pdo; }
     public function getPrefix(){ return $this->prefix; }
 }
