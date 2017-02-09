@@ -1,8 +1,13 @@
 <?php
+/**
+* Gestion générique des fonctionnalités CRUD d'un objet
+* @author METTER-ROTHAN Jérémie
+*/
+
 define('QUERY_TYPE_INSERT', 1);
 define('QUERY_TYPE_UPDATE', 2);
 
-class Bucket
+abstract class Bucket
 {
     protected $id = 0;
     protected $creation_date;
@@ -16,12 +21,12 @@ class Bucket
         }
     }
 
-    // ajoute une erreur personnalisable à la liste
-    public function addError($property, $message = ""){
-        $this->errorlist[] = new BucketError(get_called_class(), $property, $message);
+    public function isNew() : bool{
+        return (!$this->id);
     }
 
-    public function hydrate($data = []){
+
+    public function hydrate(array $data = []){
         $class = get_called_class();
         $orm = BucketParser::parse($class);
         $fields = $orm->getFields();
@@ -39,8 +44,11 @@ class Bucket
         }
     }
 
-
-    // édition de l'objet
+    /**
+    * Construit une requête SQL d'insertion ou de mise à jour de l'objet courant et l'exécute
+    * @param int $query_type Constante définissant le mode INSERT / UPDATE de la requête
+    * @return void
+    */
     private function edit(int $query_type){
         $class = get_called_class();
         $orm = BucketParser::parse($class);
@@ -82,6 +90,7 @@ class Bucket
         $stmt->closeCursor();
     }
 
+
     public function save(){
         $this->check();
 
@@ -113,8 +122,7 @@ class Bucket
     }
 
 
-    // récupérer des données
-    public static function getUniqueById(int $id){
+    final public static function getUniqueById(int $id){
         $class = get_called_class();
         $orm = BucketParser::parse($class);
         $pdo = DB::getInstance()->getLink();
@@ -131,7 +139,7 @@ class Bucket
         return new $class($result);
     }
 
-    public static function getMultiple(int $start = -1, int $amount = -1, string $options = "") : array{
+    final public static function getMultiple(int $start = -1, int $amount = -1, string $options = "") : array{
         $class = get_called_class();
         $orm = BucketParser::parse($class);
         $pdo = DB::getInstance()->getLink();
@@ -156,7 +164,7 @@ class Bucket
         return $results;
     }
 
-    public static function deleteById(int $id, string $options = ""){
+    final public static function deleteById(int $id, string $options = ""){
         $class = get_called_class();
         $orm = BucketParser::parse($class);
         $pdo = DB::getInstance()->getLink();
@@ -169,7 +177,10 @@ class Bucket
     }
 
 
-    // affiche de manière lisible la liste des erreurs (pour le debug)
+    public function addError(string $property, string $message = ""){
+        $this->errorlist[] = new BucketError(get_called_class(), $property, $message);
+    }
+
     public function showErrors(){
         $errorlist = $this->getErrorlist();
         echo "Errors : \n";

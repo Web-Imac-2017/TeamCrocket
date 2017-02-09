@@ -2,15 +2,25 @@
 /**
 * Exemple sans angularJS
 */
-session_start();
 
-// pour créer un nouvel utilisateur modifier la valeur en 0
-$user = User::getUniqueById((int)$_GET['id'] ?? 0);
+$user = $_USER;
+
+// login
+if(isset($_POST['login'])){
+    $id = User::login($_POST['login']['email'], $_POST['login']['password']);
+
+    if($id > 0){
+        $_SESSION['uid'] = $id;
+        header("Location:index.php");
+    }
+}
+
+// modification / création utilisateur
 if(isset($_POST['user'])){
     $user->hydrate($_POST['user']);
     try{
         $user->save();
-        header("Location:index.php?id={$user->getId()}");
+        header("Location:index.php");
     }
     catch(BucketSaveException $e){
         // la sauvegarde a echoué
@@ -34,113 +44,143 @@ if(isset($_POST['user'])){
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     </head>
     <body>
-        <form style="width:90%;margin:0 auto;padding:20px 0;" action="index.php?id=<?php echo $user->getId(); ?>" method="POST">
-            <h3><?php echo ($user->getId() == 0) ? gettext("Create a new user") : gettext("Modify user %s", $user->getId()); ?></h3>
-            <hr>
-            <fieldset>
-                <legend><?php echo gettext("Profile"); ?></legend>
-                <input type="hidden" class="form-control" name="user[id]" value="<?php echo $user->getId(); ?>">
-                <div class="form-group row">
-                    <label for="user-nickname" class="col-3 col-form-label"><?php echo gettext("Nickname"); ?></label>
-                    <div class="col-9">
-                        <input id="user-nickname" type="text" class="form-control" name="user[nickname]" placeholder="<?php echo gettext("Nickname"); ?>" required value="<?php echo $user->getNickname(); ?>">
+        <div style="width:90%;margin:0 auto;padding:20px 0;">
+            <?php if($user->getId() > 0): ?>
+            <p class="clearfix">
+                Logged in as <b><?php echo $user->getNickname(); ?></b>
+                <a href="index.php?disconnect" class="btn btn-danger float-right">Disconnect</a>
+            </p>
+            <?php else: ?>
+            <form action="index.php" method="POST" class="mb-5" style="width:50%;">
+                <h3>Se connecter</h3>
+                <hr>
+                <fieldset>
+                    <div class="form-group row">
+                        <label for="user-email" class="col-3 col-form-label"><?php echo gettext("Email"); ?></label>
+                        <div class="col-9">
+                            <input id="user-email" type="email" class="form-control" name="login[email]" placeholder="<?php echo gettext("Email"); ?>" required value="">
+                        </div>
                     </div>
-                </div>
-                <?php if($user->getId() == 0): ?>
                     <div class="form-group row">
                         <label for="user-password" class="col-3 col-form-label"><?php echo gettext("Password"); ?></label>
                         <div class="col-9">
-                            <input id="user-password" type="password" class="form-control" name="user[new_password]" placeholder="<?php echo gettext("Password"); ?>" required value="">
+                            <input id="user-password" type="password" class="form-control" name="login[password]" placeholder="<?php echo gettext("Password"); ?>" required value="">
                         </div>
                     </div>
-                <?php endif; ?>
-                <div class="form-group row">
-                    <label for="user-firstname" class="col-3 col-form-label"><?php echo gettext("Firstname"); ?></label>
-                    <div class="col-9">
-                        <input id="user-firstname" type="text" class="form-control" name="user[firstname]" placeholder="<?php echo gettext("Firstname"); ?>" value="<?php echo $user->getFirstname(); ?>">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-lastname" class="col-3 col-form-label"><?php echo gettext("Lastname"); ?></label>
-                    <div class="col-9">
-                        <input id="user-lastname" type="text" class="form-control" name="user[lastname]" placeholder="<?php echo gettext("Lastname"); ?>" value="<?php echo $user->getLastname(); ?>">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-email" class="col-3 col-form-label"><?php echo gettext("Email"); ?></label>
-                    <div class="col-9">
-                        <input id="user-email" type="email" class="form-control" name="user[email]" placeholder="<?php echo gettext("Email"); ?>" required value="<?php echo $user->getEmail(); ?>">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-sex" class="col-3 col-form-label"><?php echo gettext("Sex"); ?></label>
-                    <div class="col-9">
-                        <select id="user-sex" name="user[sex]" class="form-control">
-                            <option value="h" <?php if($user->getSex() == User::SEX_MALE) echo "selected"; ?>><?php echo gettext("Man"); ?></option>
-                            <option value="h" <?php if($user->getSex() == User::SEX_FEMALE) echo "selected"; ?>><?php echo gettext("Women"); ?></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-description" class="col-3 col-form-label"><?php echo gettext("Description"); ?></label>
-                    <div class="col-9">
-                        <textarea rows="8" id="user-description" name="user[description]" class="form-control" placeholder="<?php echo gettext("Description"); ?>"><?php echo $user->getDescription(); ?></textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-city" class="col-3 col-form-label"><?php echo gettext("City"); ?></label>
-                    <div class="col-9">
-                        <input id="user-city" type="text" class="form-control" name="user[city]" placeholder="<?php echo gettext("City"); ?>" value="<?php echo $user->getCity(); ?>">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-country" class="col-3 col-form-label"><?php echo gettext("Country"); ?></label>
-                    <div class="col-9">
-                        <select id="user-country" name="user[country]" class="form-control">
-                            <option value="FRA" <?php if($user->getCountry() == 'FRA') echo "selected"; ?>><?php echo gettext("France"); ?></option>
-                            <option value="BEL" <?php if($user->getCountry() == 'BEL') echo "selected"; ?>><?php echo gettext("Belgium"); ?></option>
-                            <option value="CHE" <?php if($user->getCountry() == 'CHE') echo "selected"; ?>><?php echo gettext("Swiss"); ?></option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-date_birth" class="col-3 col-form-label"><?php echo gettext("Birth date"); ?></label>
-                    <div class="col-9">
-                        <input type="date" class="form-control" name="user[date_birth]" placeholder="<?php echo gettext("Birth date"); ?>" value="<?php echo $user->getDate_birth(); ?>">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-image" class="col-3 col-form-label"><?php echo gettext("Profile picture"); ?></label>
-                    <div class="col-9">
-                        <input type="url" class="form-control" name="user[image]" placeholder="<?php echo gettext("Profile picture link"); ?>" value="<?php echo $user->getImage(); ?>">
-                    </div>
-                </div>
-            </fieldset>
-            <?php if($user->getId() > 0): ?>
-            <fieldset class="mt-4">
-                <legend><?php echo gettext("Security"); ?></legend>
-                <div class="form-group row">
-                    <label for="user-old_password" class="col-3 col-form-label"><?php echo gettext("Password"); ?></label>
-                    <div class="col-9">
-                        <input id="user-old_password" type="password" class="form-control" name="user[old_password]" placeholder="<?php echo gettext("Old password"); ?>" value="">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-new_password" class="col-3 col-form-label"></label>
-                    <div class="col-9">
-                        <input id="user-new_password" type="password" class="form-control" name="user[new_password]" placeholder="<?php echo gettext("New password"); ?>" value="">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="user-confirm_password" class="col-3 col-form-label"></label>
-                    <div class="col-9">
-                        <input id="user-confirm_password" type="password" class="form-control" name="user[confirm_password]" placeholder="<?php echo gettext("Confirm password"); ?>" value="">
-                    </div>
-                </div>
-            </fieldset>
+                    <input type="submit" class="btn btn-primary float-right mt-4" value="<?php echo gettext("Login"); ?>">
+                    <div class="clearfix"></div>
+                </fieldset>
+            </form>
             <?php endif; ?>
-            <input type="submit" class="btn btn-primary float-right mt-4" name="profile" value="<?php echo gettext("Submit"); ?>">
-            <div class="clearfix"></div>
-        </form>
+
+            <form action="index.php" method="POST">
+                <h3><?php echo ($user->getId() == 0) ? gettext("Create a new user") : sprintf(gettext("Modify user %s"), $user->getId()); ?></h3>
+                <hr>
+                <fieldset>
+                    <legend><?php echo gettext("Profile"); ?></legend>
+                    <input type="hidden" class="form-control" name="user[id]" value="<?php echo $user->getId(); ?>">
+                    <div class="form-group row">
+                        <label for="user-nickname" class="col-3 col-form-label"><?php echo gettext("Nickname"); ?></label>
+                        <div class="col-9">
+                            <input id="user-nickname" type="text" class="form-control" name="user[nickname]" placeholder="<?php echo gettext("Nickname"); ?>" required value="<?php echo $user->getNickname(); ?>">
+                        </div>
+                    </div>
+                    <?php if($user->getId() == 0): ?>
+                        <div class="form-group row">
+                            <label for="user-password" class="col-3 col-form-label"><?php echo gettext("Password"); ?></label>
+                            <div class="col-9">
+                                <input id="user-password" type="password" class="form-control" name="user[new_password]" placeholder="<?php echo gettext("Password"); ?>" required value="">
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <div class="form-group row">
+                        <label for="user-firstname" class="col-3 col-form-label"><?php echo gettext("Firstname"); ?></label>
+                        <div class="col-9">
+                            <input id="user-firstname" type="text" class="form-control" name="user[firstname]" placeholder="<?php echo gettext("Firstname"); ?>" value="<?php echo $user->getFirstname(); ?>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-lastname" class="col-3 col-form-label"><?php echo gettext("Lastname"); ?></label>
+                        <div class="col-9">
+                            <input id="user-lastname" type="text" class="form-control" name="user[lastname]" placeholder="<?php echo gettext("Lastname"); ?>" value="<?php echo $user->getLastname(); ?>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-email" class="col-3 col-form-label"><?php echo gettext("Email"); ?></label>
+                        <div class="col-9">
+                            <input id="user-email" type="email" class="form-control" name="user[email]" placeholder="<?php echo gettext("Email"); ?>" required value="<?php echo $user->getEmail(); ?>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-sex" class="col-3 col-form-label"><?php echo gettext("Sex"); ?></label>
+                        <div class="col-9">
+                            <select id="user-sex" name="user[sex]" class="form-control">
+                                <option value="h" <?php if($user->getSex() == User::SEX_MALE) echo "selected"; ?>><?php echo gettext("Man"); ?></option>
+                                <option value="h" <?php if($user->getSex() == User::SEX_FEMALE) echo "selected"; ?>><?php echo gettext("Women"); ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-description" class="col-3 col-form-label"><?php echo gettext("Description"); ?></label>
+                        <div class="col-9">
+                            <textarea rows="8" id="user-description" name="user[description]" class="form-control" placeholder="<?php echo gettext("Description"); ?>"><?php echo $user->getDescription(); ?></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-city" class="col-3 col-form-label"><?php echo gettext("City"); ?></label>
+                        <div class="col-9">
+                            <input id="user-city" type="text" class="form-control" name="user[city]" placeholder="<?php echo gettext("City"); ?>" value="<?php echo $user->getCity(); ?>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-country" class="col-3 col-form-label"><?php echo gettext("Country"); ?></label>
+                        <div class="col-9">
+                            <select id="user-country" name="user[country]" class="form-control">
+                                <option value="FRA" <?php if($user->getCountry() == 'FRA') echo "selected"; ?>><?php echo gettext("France"); ?></option>
+                                <option value="BEL" <?php if($user->getCountry() == 'BEL') echo "selected"; ?>><?php echo gettext("Belgium"); ?></option>
+                                <option value="CHE" <?php if($user->getCountry() == 'CHE') echo "selected"; ?>><?php echo gettext("Swiss"); ?></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-date_birth" class="col-3 col-form-label"><?php echo gettext("Birth date"); ?></label>
+                        <div class="col-9">
+                            <input type="date" class="form-control" name="user[date_birth]" placeholder="<?php echo gettext("Birth date"); ?>" value="<?php echo $user->getDate_birth(); ?>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-image" class="col-3 col-form-label"><?php echo gettext("Profile picture"); ?></label>
+                        <div class="col-9">
+                            <input type="url" class="form-control" name="user[image]" placeholder="<?php echo gettext("Profile picture link"); ?>" value="<?php echo $user->getImage(); ?>">
+                        </div>
+                    </div>
+                </fieldset>
+                <?php if($user->getId() > 0): ?>
+                <fieldset class="mt-4">
+                    <legend><?php echo gettext("Security"); ?></legend>
+                    <div class="form-group row">
+                        <label for="user-old_password" class="col-3 col-form-label"><?php echo gettext("Password"); ?></label>
+                        <div class="col-9">
+                            <input id="user-old_password" type="password" class="form-control" name="user[old_password]" placeholder="<?php echo gettext("Old password"); ?>" value="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-new_password" class="col-3 col-form-label"></label>
+                        <div class="col-9">
+                            <input id="user-new_password" type="password" class="form-control" name="user[new_password]" placeholder="<?php echo gettext("New password"); ?>" value="">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="user-confirm_password" class="col-3 col-form-label"></label>
+                        <div class="col-9">
+                            <input id="user-confirm_password" type="password" class="form-control" name="user[confirm_password]" placeholder="<?php echo gettext("Confirm password"); ?>" value="">
+                        </div>
+                    </div>
+                </fieldset>
+                <?php endif; ?>
+                <input type="submit" class="btn btn-primary float-right mt-4" name="profile" value="<?php echo gettext("Submit"); ?>">
+                <div class="clearfix"></div>
+            </form>
+        </div>
     </body>
 </html>

@@ -1,7 +1,9 @@
 <?php
-/*
-Génére des erreurs en fonction du champs dont la valeur ne passe pas la vérification
+/**
+* Génère des erreurs en fonction du champs dont la valeur ne passe pas la vérification
+* @author METTER-ROTHAN Jérémie
 */
+
 class BucketError
 {
     private $class;

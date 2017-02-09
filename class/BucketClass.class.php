@@ -1,4 +1,9 @@
 <?php
+/**
+* Représentation objet d'une classe CRUD parsé avec BucketParser
+* @author METTER-ROTHAN Jérémie
+*/
+
 class BucketClass
 {
     private $table;

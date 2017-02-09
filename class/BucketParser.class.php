@@ -1,10 +1,15 @@
 <?php
+/**
+* Parse une classe pour récupérer la structure de la table correspondante dans la base de donnée
+* @author METTER-ROTHAN Jérémie
+*/
+
 class BucketParser
 {
     private static $list = [];
 
     public static function parse(string $class){
-        if(self::$list[$class] instanceof BucketClass){
+        if(isset(self::$list[$class]) && self::$list[$class] instanceof BucketClass){
             // empêche de parser la même classe 2 fois
             return self::$list[$class];
         }

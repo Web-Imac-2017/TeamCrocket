@@ -1,5 +1,9 @@
 <?php
-class DB
+/**
+* @author METTER-ROTHAN Jérémie
+*/
+
+class DB implements DBInterface
 {
     private $host;
     private $base;
@@ -32,7 +36,7 @@ class DB
         }
     }
 
-    public static function getInstance(array $data = []){
+    public static function getInstance() : DB{
         if(!static::$instance instanceof static){
             static::$instance = new static;
         }

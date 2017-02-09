@@ -1,4 +1,9 @@
 <?php
+/**
+* Utilisateur
+* @author METTER-ROTHAN Jérémie
+*/
+
 /*
 @table user
 @field id, int
@@ -32,7 +37,7 @@ class User extends Bucket implements BucketInterface
     private $lastname = "";
     private $firstname = "";
     private $email = "";
-    private $sex = SEX_MALE;
+    private $sex = self::SEX_MALE;
     private $image = "";
     private $description = "";
     private $city = "";
@@ -45,11 +50,6 @@ class User extends Bucket implements BucketInterface
         parent::__construct($data);
     }
 
-    public function isNew() : bool{
-        return (!$this->id);
-    }
-
-    // permet de contrôler l'intégrité des valeurs avant de les envoyer
     public function check(){
         // cas où on modifie le mot de passe
         if($this->new_password && $this->id > 0){
@@ -76,9 +76,28 @@ class User extends Bucket implements BucketInterface
         if(!testUsername($this->nickname)) $this->addError("nickname", "Invalid format");
     }
 
+    /**
+    * Permet de crypter un mot de passe
+    * @param string $password Mot de passe en clair
+    * @return string Version hashé du mot de passe
+    */
     public static function hashPassword(string $password) : string{
         return sha1(self::PASSWORD_SALT . '/' . $password);
     }
+
+    /**
+    * Interroge la base de donnée sur une combinaison email/mot de passe
+    * @param string $email
+    * @param string $password
+    * @return int ID du compte correspondant à la combinaison email/mot de passe
+    */
+    public static function login(string $email, string $password) : int{
+        return (int)DB::fetchUnique("SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND password = :password LIMIT 0, 1", array(
+            [":email", $email, PDO::PARAM_STR],
+            [":password", User::hashPassword($password), PDO::PARAM_STR]
+        ))['id'];
+    }
+
 
     // setters
     public function setNickname(string $nickname){
