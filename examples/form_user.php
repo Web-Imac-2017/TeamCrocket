@@ -4,7 +4,6 @@
 */
 
 $user = $_USER;
-
 // login
 if(isset($_POST['login'])){
     $id = User::login($_POST['login']['email'], $_POST['login']['password']);
@@ -47,12 +46,12 @@ if(isset($_POST['user'])){
         <div style="width:90%;margin:0 auto;padding:20px 0;">
             <?php if($user->getId() > 0): ?>
             <p class="clearfix">
-                Logged in as <b><?php echo $user->getNickname(); ?></b>
-                <a href="index.php?disconnect" class="btn btn-danger float-right">Disconnect</a>
+                <?php echo gettext("Logged in as"); ?> <b><?php echo $user->getNickname(); ?></b>
+                <a href="index.php?disconnect" class="btn btn-danger float-right"><?php echo gettext("Disconnect"); ?></a>
             </p>
             <?php else: ?>
             <form action="index.php" method="POST" class="mb-5" style="width:50%;">
-                <h3>Se connecter</h3>
+                <h3><?php echo gettext("Login"); ?></h3>
                 <hr>
                 <fieldset>
                     <div class="form-group row">
@@ -73,7 +72,7 @@ if(isset($_POST['user'])){
             </form>
             <?php endif; ?>
 
-            <form action="index.php" method="POST">
+            <form action="index.php" method="POST" enctype="multipart/form-data">
                 <h3><?php echo ($user->getId() == 0) ? gettext("Create a new user") : sprintf(gettext("Modify user %s"), $user->getId()); ?></h3>
                 <hr>
                 <fieldset>
@@ -151,7 +150,15 @@ if(isset($_POST['user'])){
                     <div class="form-group row">
                         <label for="user-image" class="col-3 col-form-label"><?php echo gettext("Profile picture"); ?></label>
                         <div class="col-9">
-                            <input type="url" class="form-control" name="user[image]" placeholder="<?php echo gettext("Profile picture link"); ?>" value="<?php echo $user->getImage(); ?>">
+                            <input type="file" class="form-control" name="image_file" placeholder="<?php echo gettext("File"); ?>" accept="image/*">
+                            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+
+                            <?php if(!empty($user->getImage())): ?>
+                            <figure class="figure mt-3">
+                                <img class="figure-img img-fluid rounded" width="250" src="<?php echo $user->getImage(); ?>" alt="<?php echo $user->getNickname(); ?>">
+                                <figcaption class="figure-caption"><?php echo gettext("Current profile picture."); ?></figcaption>
+                            </figure>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </fieldset>

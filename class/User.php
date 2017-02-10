@@ -31,9 +31,6 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
 
     private $nickname = "";
     private $password = "";
-    private $old_password;
-    private $new_password;
-    private $confirm_password;
     private $lastname = "";
     private $firstname = "";
     private $email = "";
@@ -51,26 +48,99 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
     }
 
     public function beforeEdit(){
+        $old_password = $_POST['user']['old_password'] ?? null;
+        $new_password = $_POST['user']['new_password'] ?? null;
+        $confirm_password = $_POST['user']['confirm_password'] ?? null;
+
         // cas où on modifie le mot de passe
-        if($this->new_password && $this->id > 0){
-            if($this->new_password != $this->confirm_password){
+        if($new_password && $this->id > 0){
+            if($new_password != $confirm_password){
                 $this->addError("password", "New and password confirmation does not match");
             }
-            if($this->password != self::hashPassword($this->old_password)){
+            if($this->password != self::hashPassword($old_password)){
                 $this->addError("password", "Wrong old password");
             }
-            if(!testPassword($this->new_password)){
+            if(!testPassword($new_password)){
                 $this->addError("password", "Invalid format");
             }
 
             // on assigne le nouveau mot de passe à la valeur stockée dans la BDD
-            $this->password = $this->new_password;
+            $this->password = $new_password;
         }
 
         // cas où on créé l'utilisateur (nouveau mot de passe)
-        if($this->new_password && $this->id == 0){
-            if(!testPassword($this->new_password)) $this->addError("password", "Invalid format");
-            $this->password = $this->new_password;
+        if($new_password && $this->id == 0){
+            if(!testPassword($new_password)) $this->addError("password", "Invalid format");
+            $this->password = $new_password;
+        }
+
+
+
+        // image de profil
+        $upload = $_FILES['image_file'] ?? null;
+
+        try{
+            if(is_uploaded_file($upload['tmp_name'])){
+                $dir = ROOT_UPLOADS . "/users/" . $this->nickname . "/";
+                $filename = $nom = md5(uniqid(rand(), true));
+                $extension = @explode('/', $upload['type'])[1];
+
+                // vérifications de l'intégrité du fichier
+                if($_FILES['image_file']['error'] > 0){
+                    throw new Exception("Error " . $_FILES['image_file']['error']);
+                }
+                if(!in_array($extension, PROFILE_PIC_EXTENSION)){
+                    throw new Exception("Invalid image extension (only " . implode(PROFILE_PIC_EXTENSION, ", ") . ")");
+                }
+                if($upload['size'] > PROFILE_PIC_MAX_SIZE){
+                    throw new Exception("File is too large");
+                }
+
+                // création du dossier de destination si il n'existe pas encore
+                if(!is_dir($dir)){
+                    mkdir($dir, 0777, true);
+                }
+
+                // déplacement du fichier depuis le dossier tmp
+                $path = $dir . $filename . '.' . $extension;
+                if(!move_uploaded_file($upload['tmp_name'], $path)){
+                    throw new Exception("image", "Could not move image");
+                }
+                else{
+                    // redimensionnement si nécessaire du fichier
+                    $imagine = new Imagine\Gd\Imagine();
+                    $image = $imagine->open($path);
+                    list($width, $height) = getimagesize($path);
+
+                    // nouvelles dimensions de l'image
+                    $newWidth = $width;
+                    $newHeight = $height;
+
+                    if($width > PROFILE_PIC_MAX_WIDTH){
+                        $newWidth = PROFILE_PIC_MAX_WIDTH;
+                        $newHeight = $height * PROFILE_PIC_MAX_WIDTH / $width;
+                    }
+
+                    // options
+                    $options = [];
+                    if($extension == 'jpeg' || $extension == 'jpg'){
+                        $options['jpeg_quality'] = 70;
+                    }
+                    else if($extension == 'png'){
+                        $options['png_compression_level'] = 9;
+                    }
+
+                    // enregistrement
+                    $image->resize(new Imagine\Image\Box($newWidth, $newHeight));
+                    $image->save($path, $options);
+
+
+                    $this->image = $path;
+                }
+            }
+        }
+        catch(Exception $e){
+            $this->addError("image", $e->getMessage());
         }
     }
 
@@ -115,15 +185,6 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
     }
     public function setPassword(string $password){
         $this->password = $password;
-    }
-    public function setOld_password(string $password){
-        $this->old_password = $password;
-    }
-    public function setNew_password(string $password){
-        $this->new_password = $password;
-    }
-    public function setConfirm_password(string $password){
-        $this->confirm_password = $password;
     }
     public function setLastname(string $lastname){
         $this->lastname = $lastname;

@@ -10,9 +10,16 @@ define('DEBUG', true);
 // paths
 define('ROOT_CLASS', './class');
 define('ROOT_INC', './inc');
+define('ROOT_UPLOADS', './uploads');
 
 // langs
 define('AVAILABLE_LANG', array('fr_FR', 'en_US'));
+
+// files
+define('PROFILE_PIC_EXTENSION', array('jpeg', 'jpg', 'png', 'gif'));
+define('PROFILE_PIC_MAX_SIZE', 2097152);
+define('PROFILE_PIC_MAX_WIDTH', 500);
+define('PROFILE_PIC_MAX_HEIGHT', 500);
 
 // vérifications
 define('REGEX_PASSWORD', '#(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$#');
@@ -39,7 +46,7 @@ if(DEBUG){
 * Autoloader
 */
 spl_autoload_register(function($class){
-    $path = ROOT_CLASS."/".str_replace('\\', '/', $class).".class.php";
+    $path = ROOT_CLASS."/".str_replace('\\', '/', $class).".php";
     if(file_exists($path)){
         require $path;
     }

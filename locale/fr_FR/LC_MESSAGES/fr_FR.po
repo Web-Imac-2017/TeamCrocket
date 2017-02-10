@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-02-09 02:14+0100\n"
-"PO-Revision-Date: 2017-02-09 02:14+0100\n"
+"POT-Creation-Date: 2017-02-10 03:09+0100\n"
+"PO-Revision-Date: 2017-02-10 03:09+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -14,104 +14,129 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: examples/form_user.php:38
+#: class/User.php:183 class/User.php:196
+msgid "Invalid format"
+msgstr "Format invalide"
+
+#: examples/form_user.php:49
+msgid "Logged in as"
+msgstr "Connecté en tant que"
+
+#: examples/form_user.php:50
+msgid "Disconnect"
+msgstr "Déconnexion"
+
+#: examples/form_user.php:54 examples/form_user.php:69
+msgid "Login"
+msgstr "Connexion"
+
+#: examples/form_user.php:58 examples/form_user.php:60
+#: examples/form_user.php:108 examples/form_user.php:110
+msgid "Email"
+msgstr "Email"
+
+#: examples/form_user.php:64 examples/form_user.php:66
+#: examples/form_user.php:89 examples/form_user.php:91
+#: examples/form_user.php:169
+msgid "Password"
+msgstr "Mot de passe"
+
+#: examples/form_user.php:76
 msgid "Create a new user"
 msgstr "Créer un nouvel utilisateur"
 
-#: examples/form_user.php:38
+#: examples/form_user.php:76
 #, php-format
 msgid "Modify user %s"
 msgstr "Modifier l’utilisateur %s"
 
-#: examples/form_user.php:41
+#: examples/form_user.php:79
 msgid "Profile"
-msgstr "Profile"
+msgstr "Profil"
 
-#: examples/form_user.php:44 examples/form_user.php:46
+#: examples/form_user.php:82 examples/form_user.php:84
 msgid "Nickname"
 msgstr "Nom d’utilisateur"
 
-#: examples/form_user.php:51 examples/form_user.php:53
-#: examples/form_user.php:123
-msgid "Password"
-msgstr "Mot de passe"
-
-#: examples/form_user.php:58 examples/form_user.php:60
+#: examples/form_user.php:96 examples/form_user.php:98
 msgid "Firstname"
 msgstr "Prénom"
 
-#: examples/form_user.php:64 examples/form_user.php:66
+#: examples/form_user.php:102 examples/form_user.php:104
 msgid "Lastname"
 msgstr "Nom"
 
-#: examples/form_user.php:70 examples/form_user.php:72
-msgid "Email"
-msgstr "Email"
-
-#: examples/form_user.php:76
+#: examples/form_user.php:114
 msgid "Sex"
 msgstr "Sexe"
 
-#: examples/form_user.php:79
+#: examples/form_user.php:117
 msgid "Man"
 msgstr "Homme"
 
-#: examples/form_user.php:80
+#: examples/form_user.php:118
 msgid "Women"
 msgstr "Femme"
 
-#: examples/form_user.php:85 examples/form_user.php:87
+#: examples/form_user.php:123 examples/form_user.php:125
 msgid "Description"
 msgstr "Description"
 
-#: examples/form_user.php:91 examples/form_user.php:93
+#: examples/form_user.php:129 examples/form_user.php:131
 msgid "City"
 msgstr "Ville"
 
-#: examples/form_user.php:97
+#: examples/form_user.php:135
 msgid "Country"
 msgstr "Pays"
 
-#: examples/form_user.php:100
+#: examples/form_user.php:138
 msgid "France"
 msgstr "France"
 
-#: examples/form_user.php:101
+#: examples/form_user.php:139
 msgid "Belgium"
 msgstr "Belgique"
 
-#: examples/form_user.php:102
+#: examples/form_user.php:140
 msgid "Swiss"
 msgstr "Suisse"
 
-#: examples/form_user.php:107 examples/form_user.php:109
+#: examples/form_user.php:145 examples/form_user.php:147
 msgid "Birth date"
 msgstr "Date de naissance"
 
-#: examples/form_user.php:113
+#: examples/form_user.php:151
 msgid "Profile picture"
 msgstr "Photo de profil"
 
-#: examples/form_user.php:115
-msgid "Profile picture link"
-msgstr "Url photo de profil"
+#: examples/form_user.php:153
+msgid "File"
+msgstr "Fichier"
 
-#: examples/form_user.php:121
+#: examples/form_user.php:159
+msgid "Current profile picture."
+msgstr "Photo de profil active."
+
+#: examples/form_user.php:167
 msgid "Security"
 msgstr "Sécurité"
 
-#: examples/form_user.php:125
+#: examples/form_user.php:171
 msgid "Old password"
 msgstr "Ancien mot de passe"
 
-#: examples/form_user.php:131
+#: examples/form_user.php:177
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: examples/form_user.php:137
+#: examples/form_user.php:183
 msgid "Confirm password"
 msgstr "Confirmer le mot de passe"
 
-#: examples/form_user.php:142
+#: examples/form_user.php:188
 msgid "Submit"
 msgstr "Soumettre"
+
+#~ msgid "Profile picture link"
+#~ msgstr "Url photo de profil"

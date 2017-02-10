@@ -16,7 +16,7 @@ class BucketParser
             return self::$list[$class];
         }
 
-        $filename = $class . ".class.php";
+        $filename = $class . ".php";
         $path = ROOT_CLASS."/". $filename;
         if(!file_exists($path)){
             throw new \Exception("Could not class '".$filename."'");
