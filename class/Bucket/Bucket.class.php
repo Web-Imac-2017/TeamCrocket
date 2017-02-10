@@ -28,7 +28,7 @@ abstract class Bucket
     }
 
 
-    public function hydrate(array $data = []){
+    public function hydrate(array $data = [], bool $check = false){
         $class = get_called_class();
         $orm = BucketParser::parse($class);
         $fields = $orm->getFields();
@@ -41,7 +41,7 @@ abstract class Bucket
             */
             $method = 'set'.ucfirst($key);
             if(method_exists($class, $method)){
-                $this->$method($value);
+                $this->$method($value, $check);
             }
         }
     }
@@ -77,9 +77,12 @@ abstract class Bucket
         $stmt = $pdo->prepare($query);
         for($i = 0, $n = count($map); $i < $n; $i++){
             $method = "get".ucfirst($map[$i]['name']);
+            $beforeSend = $map[$i]['beforeSend'];
+            // on applique le filtre beforeSend (callback) si il existe à la valeur avant l'édition
+            $value = ($beforeSend != NULL) ? call_user_func($beforeSend, $this->$method()) : $this->$method();
 
             if(method_exists($class, $method)){
-                $stmt->bindValue($map[$i]['name'], $this->$method(), $map[$i]['type']);
+                $stmt->bindValue($map[$i]['name'], $value, $map[$i]['type']);
             }
         }
 
@@ -94,7 +97,7 @@ abstract class Bucket
 
 
     public function save(){
-        $this->check();
+        $this->beforeEdit();
 
         // on vérifie qu'il n'y a aucune erreur bloquante empêchant d'exécuter la requête
         if(count($this->errorlist) == 0){
@@ -105,6 +108,8 @@ abstract class Bucket
                 else{
                     $this->edit(QUERY_TYPE_UPDATE);
                 }
+
+                $this->afterEdit();
             } catch(\PDOException $e){
                 /**
                 * TODO : Gérer les autres cas

@@ -48,6 +48,7 @@ class BucketParser
                         $temp = array_map('trim', explode(',', $value));
                         //Ordre des valeurs : <name>, <type>
                         $name = $temp[0];
+                        $beforeSend = (isset($temp[2])) ? $temp[2] : NULL;
 
                         switch($temp[1]){
                             case "int" :
@@ -66,7 +67,8 @@ class BucketParser
 
                         $map[] = array(
                             'name' => $name,
-                            'type' => $type
+                            'type' => $type,
+                            'beforeSend' => $beforeSend
                         );
                         break;
                 }

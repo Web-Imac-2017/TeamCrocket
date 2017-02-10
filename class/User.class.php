@@ -8,7 +8,7 @@
 @table user
 @field id, int
 @field nickname, string
-@field password, string
+@field password, string, User::hashPassword
 @field lastname, string
 @field firstname, string
 @field email, string
@@ -16,7 +16,7 @@
 @field image, string
 @field description, string
 @field city, string
-@field country, string
+@field country, string, User::formatCountry
 @field latitude, float
 @field longitude, float
 @field date_birth, date
@@ -50,7 +50,7 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
         parent::__construct($data);
     }
 
-    public function check(){
+    public function beforeEdit(){
         // cas où on modifie le mot de passe
         if($this->new_password && $this->id > 0){
             if($this->new_password != $this->confirm_password){
@@ -64,17 +64,17 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
             }
 
             // on assigne le nouveau mot de passe à la valeur stockée dans la BDD
-            $this->password = self::hashPassword($this->new_password);
+            $this->password = $this->new_password;
         }
 
+        // cas où on créé l'utilisateur (nouveau mot de passe)
         if($this->new_password && $this->id == 0){
             if(!testPassword($this->new_password)) $this->addError("password", "Invalid format");
-            $this->password = self::hashPassword($this->new_password);
+            $this->password = $this->new_password;
         }
-
-        if(!testMail($this->email)) $this->addError("email", "Invalid format");
-        if(!testUsername($this->nickname)) $this->addError("nickname", "Invalid format");
     }
+
+    public function afterEdit(){}
 
     /**
     * Permet de crypter un mot de passe
@@ -82,7 +82,16 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
     * @return string Version hashé du mot de passe
     */
     public static function hashPassword(string $password) : string{
-        return sha1(self::PASSWORD_SALT . '/' . $password);
+        return (!is_sha1($password)) ? sha1(self::PASSWORD_SALT . '/' . $password) : $password;
+    }
+
+    /**
+    * Retourne le code du pays selon le format ISO 3166-2
+    * @param string $country
+    * @return string Code pays formaté
+    */
+    public static function formatCountry(string $country) : string{
+        return strtoupper(substr($country, 0, 3));
     }
 
     /**
@@ -100,8 +109,9 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
 
 
     // setters
-    public function setNickname(string $nickname){
-        $this->nickname = $nickname;
+    public function setNickname(string $nickname, bool $check = false){
+        if($check && !testUsername($nickname)) $this->addError("nickname", gettext("Invalid format"));
+        else $this->nickname = $nickname;
     }
     public function setPassword(string $password){
         $this->password = $password;
@@ -121,8 +131,9 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
     public function setFirstname(string $firstname){
         $this->firstname = $firstname;
     }
-    public function setEmail(string $email){
-        $this->email = $email;
+    public function setEmail(string $email, bool $check = false){
+        if($check && !testMail($email)) $this->addError("email", gettext("Invalid format"));
+        else $this->email = $email;
     }
     public function setSex(string $sex){
         $this->sex = $sex;

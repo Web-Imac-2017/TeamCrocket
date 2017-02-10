@@ -15,15 +15,21 @@ interface BucketInterface
     public function isNew() : bool;
 
     /**
-    * Permet de contrôler l'intégrité des valeurs avant de les envoyer
+    * Permet d'effectuer des actions AVANT d'insérer/modifier les données dans la base, exécuté avant la vérification des erreurs
     * @return void
     */
-    public function check();
+    public function beforeEdit();
+
+    /**
+    * Permet d'effectuer des actions APRÈS d'insérer/modifier les données dans la base, exécuté après l'insertion/modification
+    * @return void
+    */
+    public function afterEdit();
 
     /**
     * @param array $data Liste des propriétés de l'objet à remplir ou écraser (key:value)
     */
-    public function hydrate(array $data = []);
+    public function hydrate(array $data = [], bool $check = false);
 
     /**
     * Sauvegarde l'instance de l'objet dans la base de donnée

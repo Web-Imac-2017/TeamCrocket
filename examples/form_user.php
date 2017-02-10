@@ -17,7 +17,7 @@ if(isset($_POST['login'])){
 
 // modification / création utilisateur
 if(isset($_POST['user'])){
-    $user->hydrate($_POST['user']);
+    $user->hydrate($_POST['user'], true);
     try{
         $user->save();
         header("Location:index.php");
