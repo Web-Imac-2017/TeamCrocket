@@ -16,6 +16,7 @@ CREATE TABLE `ajkl7_user` (
   `longitude` float NOT NULL,
   `country` char(3) NOT NULL DEFAULT 'FRA' COMMENT 'ISO ALPHA-3 Code',
   `date_birth` date DEFAULT NULL,
+  `verified` tinyint(1) NOT NULL DEFAULT '1',
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
