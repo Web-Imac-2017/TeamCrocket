@@ -43,7 +43,7 @@
                 <div class="form-group row">
                     <label for="user-password" class="col-3 col-form-label"><?php echo gettext("Password"); ?></label>
                     <div class="col-9">
-                        <input id="user-password" type="password" class="form-control" name="user[new_password]" placeholder="<?php echo gettext("Password"); ?>" required value="">
+                        <input id="user-password" type="password" class="form-control" name="user[password]" placeholder="<?php echo gettext("Password"); ?>" required value="">
                     </div>
                 </div>
             <?php endif; ?>

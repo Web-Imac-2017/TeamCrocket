@@ -20,9 +20,10 @@
 @field latitude, float
 @field longitude, float
 @field date_birth, date
+@field verified, int
 */
 
-class User extends Bucket\Bucket implements Bucket\BucketInterface
+class User extends Bucket\Bucket
 {
     const SEX_MALE = 'h';
     const SEX_FEMALE = 'f';
@@ -42,40 +43,55 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
     private $longitude = 0;
     private $country = "FRA";
     private $date_birth;
+    private $verified = 0;
 
     function __construct($data = NULL){
         parent::__construct($data);
     }
 
-    public function beforeEdit(){
+    protected function beforeInsert(){
+        // on vérifie que l'utilisateur n'existe pas encore
+        if(User::userExists($this->email)){
+            $this->addError("email", "An account already exists with this email adress");
+        }
+
+
+        // photo de profil
+        $this->handleProfilePic();
+    }
+
+    protected function beforeUpdate(){
+        // on gère l'édition du mot de passe
         $old_password = $_POST['user']['old_password'] ?? null;
         $new_password = $_POST['user']['new_password'] ?? null;
         $confirm_password = $_POST['user']['confirm_password'] ?? null;
 
-        // cas où on modifie le mot de passe
-        if($new_password && $this->id > 0){
+        if($new_password){
             if($new_password != $confirm_password){
                 $this->addError("password", "New and password confirmation does not match");
             }
             if($this->password != self::hashPassword($old_password)){
                 $this->addError("password", "Wrong old password");
             }
-            if(!testPassword($new_password)){
-                $this->addError("password", "Invalid format");
-            }
 
             // on assigne le nouveau mot de passe à la valeur stockée dans la BDD
-            $this->password = $new_password;
-        }
-
-        // cas où on créé l'utilisateur (nouveau mot de passe)
-        if($new_password && $this->id == 0){
-            if(!testPassword($new_password)) $this->addError("password", "Invalid format");
-            $this->password = $new_password;
+            $this->setPassword($new_password, true);
         }
 
 
+        // photo de profil
+        $this->handleProfilePic();
+    }
 
+    protected function afterInsert(){}
+
+    protected function afterUpdate(){}
+
+    /**
+    * Permet de gérer l'envoi et le traitement de la photo de profil
+    * @return void
+    */
+    protected function handleProfilePic(){
         // image de profil
         $upload = $_FILES['image_file'] ?? null;
 
@@ -143,8 +159,6 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
         }
     }
 
-    public function afterEdit(){}
-
     /**
     * Permet de crypter un mot de passe
     * @param string $password Mot de passe en clair
@@ -170,10 +184,41 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
     * @return int ID du compte correspondant à la combinaison email/mot de passe
     */
     public static function login(string $email, string $password) : int{
-        return (int)DB::fetchUnique("SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND password = :password LIMIT 0, 1", array(
+        $sql = "SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND password = :password AND verified = 1 LIMIT 0, 1";
+        $data = array(
             [":email", $email, PDO::PARAM_STR],
             [":password", self::hashPassword($password), PDO::PARAM_STR]
-        ))['id'];
+        );
+        return (int)(DB::fetchUnique($sql, $data)['id']);
+    }
+
+    /**
+    * Détermine si le compte associé à une adresse email est vérifié
+    * @param string $email
+    * @return bool
+    */
+    public static function isVerified(string $email) : bool{
+        $sql = "SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND verified = 1 AND active = 1 LIMIT 0, 1";
+        $data = array(
+            [":email", $email, PDO::PARAM_STR]
+        );
+
+        return (int)(DB::fetchUnique($sql, $data)['id']) > 0;
+    }
+
+    /**
+    * Retourne l'ID du compte associé à une adresse email vérifiée (permet de savoir si le compte existe si il est > 0)
+    * /!\ Ne permet pas de savoir si le compte est vérifié, juste si il existe
+    * @param string $email
+    * @return bool
+    */
+    public static function userExists(string $email) : int{
+        $sql = "SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND active = 1 LIMIT 0, 1";
+        $data = array(
+            [":email", $email, PDO::PARAM_STR]
+        );
+
+        return (int)(DB::fetchUnique($sql, $data)['id']);
     }
 
 
@@ -182,7 +227,8 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
         if($check && !testUsername($nickname)) $this->addError("nickname", gettext("Invalid format"));
         else $this->nickname = $nickname;
     }
-    public function setPassword(string $password){
+    public function setPassword(string $password, bool $check = false){
+        if($check && !testPassword($password)) $this->addError("password", gettext("Invalid format"));
         $this->password = $password;
     }
     public function setLastname(string $lastname){
@@ -218,6 +264,9 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
     }
     public function setDate_birth(string $date = NULL){
         $this->date_birth = $date;
+    }
+    public function setVerified(int $verified){
+        $this->verified = $verified;
     }
 
     // getters
@@ -259,5 +308,8 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
     }
     public function getDate_birth(){
         return $this->date_birth;
+    }
+    public function getVerified() : int{
+        return $this->verified;
     }
 }

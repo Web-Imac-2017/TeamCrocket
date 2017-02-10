@@ -6,10 +6,7 @@ namespace Bucket;
 * @author METTER-ROTHAN Jérémie
 */
 
-define('QUERY_TYPE_INSERT', 1);
-define('QUERY_TYPE_UPDATE', 2);
-
-abstract class Bucket
+abstract class Bucket implements BucketInterface
 {
     protected $id = 0;
     protected $creation_date;
@@ -21,10 +18,6 @@ abstract class Bucket
         if(is_array($data)){
             $this->hydrate($data);
         }
-    }
-
-    public function isNew() : bool{
-        return (!$this->id);
     }
 
 
@@ -48,10 +41,10 @@ abstract class Bucket
 
     /**
     * Construit une requête SQL d'insertion ou de mise à jour de l'objet courant et l'exécute
-    * @param int $query_type Constante définissant le mode INSERT / UPDATE de la requête
+    * @param bool $new
     * @return void
     */
-    private function edit(int $query_type){
+    private function edit(bool $new){
         $class = get_called_class();
         $orm = BucketParser::parse($class);
         $pdo = \DB::getInstance()->getLink();
@@ -59,7 +52,7 @@ abstract class Bucket
 
 
         // on génère la requête SQL
-        if($query_type == QUERY_TYPE_INSERT){
+        if($new){
             // insertion de données
             $query = "INSERT INTO " . DB_PREFIX . $orm->getTable() . "(".join($orm->getFields(), ", ").", creation_date) VALUES(".join(array_map(function($field){
                 return ":".$field;
@@ -89,7 +82,7 @@ abstract class Bucket
         if(!$stmt->execute()){
             throw new \Exception("Query failed");
         }
-        if($query_type == QUERY_TYPE_INSERT){
+        if($new){
             $this->setId($pdo->lastInsertId());
         }
         $stmt->closeCursor();
@@ -97,19 +90,18 @@ abstract class Bucket
 
 
     public function save(){
-        $this->beforeEdit();
+        $new = $this->isNew();
+
+        if($new) $this->beforeInsert();
+        else $this->beforeUpdate();
 
         // on vérifie qu'il n'y a aucune erreur bloquante empêchant d'exécuter la requête
         if(count($this->errorlist) == 0){
             try{
-                if($this->isNew()){
-                    $this->edit(QUERY_TYPE_INSERT);
-                }
-                else{
-                    $this->edit(QUERY_TYPE_UPDATE);
-                }
+                $this->edit($new);
+                if($new) $this->afterInsert();
+                else $this->afterUpdate();
 
-                $this->afterEdit();
             } catch(\PDOException $e){
                 /**
                 * TODO : Gérer les autres cas
@@ -127,6 +119,37 @@ abstract class Bucket
             throw new BucketSaveException("Could not save, check error list for more details");
         }
     }
+
+
+    public function isNew() : bool{
+        return (!$this->id);
+    }
+
+    /**
+    * Permet d'effectuer des actions AVANT insertion des données dans la base
+    * @return void
+    */
+    abstract protected function beforeInsert();
+
+    /**
+    * Permet d'effectuer des actions AVANT mise à jour des données dans la base
+    * @return void
+    */
+    abstract protected function beforeUpdate();
+
+    /**
+    * Permet d'effectuer des actions APRES insertion des données dans la base
+    * @return void
+    */
+    abstract protected function afterInsert();
+
+    /**
+    * Permet d'effectuer des actions APRES mise à jour des données dans la base
+    * @return void
+    */
+    abstract protected function afterUpdate();
+
+
 
 
     final public static function getUniqueById(int $id){
