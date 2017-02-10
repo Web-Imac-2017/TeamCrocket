@@ -28,7 +28,7 @@ class User extends Bucket\Bucket
     const SEX_MALE = 'h';
     const SEX_FEMALE = 'f';
 
-    const PASSWORD_SALT = 'Im4c#';
+    const PASSWORD_SALT = 'mjh7vLUZrR';
 
     private $nickname = "";
     private $password = "";
