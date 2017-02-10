@@ -107,19 +107,19 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
                     throw new Exception("image", "Could not move image");
                 }
                 else{
-                    // redimensionnement si nécessaire du fichier
+                    // traitement sur le fichier
                     $imagine = new Imagine\Gd\Imagine();
                     $image = $imagine->open($path);
                     list($width, $height) = getimagesize($path);
 
-                    // nouvelles dimensions de l'image
-                    $newWidth = $width;
-                    $newHeight = $height;
+                    $cropSize = ($width > $height) ? $height : $width;
+                    $cropPosX = $width / 2 - $cropSize / 2;
+                    $cropPosY = $height / 2 - $cropSize / 2;
 
-                    if($width > PROFILE_PIC_MAX_WIDTH){
-                        $newWidth = PROFILE_PIC_MAX_WIDTH;
-                        $newHeight = $height * PROFILE_PIC_MAX_WIDTH / $width;
-                    }
+                    // on créé un beau carré
+                    $image->crop(new Imagine\Image\Point($cropPosX, $cropPosY), new Imagine\Image\Box($cropSize, $cropSize));
+                    // on redimensionne selon les tailles max
+                    $image->resize(new Imagine\Image\Box(PROFILE_PIC_MAX_WIDTH, PROFILE_PIC_MAX_HEIGHT));
 
                     // options
                     $options = [];
@@ -131,7 +131,6 @@ class User extends Bucket\Bucket implements Bucket\BucketInterface
                     }
 
                     // enregistrement
-                    $image->resize(new Imagine\Image\Box($newWidth, $newHeight));
                     $image->save($path, $options);
 
 

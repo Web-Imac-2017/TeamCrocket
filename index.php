@@ -20,9 +20,9 @@ define('AVAILABLE_LANG', array('fr_FR', 'en_US'));
 
 // files
 define('PROFILE_PIC_EXTENSION', array('jpeg', 'jpg', 'png', 'gif'));
-define('PROFILE_PIC_MAX_SIZE', 2097152);
-define('PROFILE_PIC_MAX_WIDTH', 500);
-define('PROFILE_PIC_MAX_HEIGHT', 500);
+define('PROFILE_PIC_MAX_SIZE', 1048576 * 2); // 2mo
+define('PROFILE_PIC_MAX_WIDTH', 400);
+define('PROFILE_PIC_MAX_HEIGHT', 400);
 
 // vérifications
 define('REGEX_PASSWORD', '#(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$#');
