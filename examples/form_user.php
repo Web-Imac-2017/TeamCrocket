@@ -19,6 +19,7 @@ if(isset($_POST['user'])){
     $user->hydrate($_POST['user'], true);
     try{
         $user->save();
+        $_SESSION['uid'] = $user->getId();
         header("Location:index.php");
     }
     catch(Bucket\BucketSaveException $e){
