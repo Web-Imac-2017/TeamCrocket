@@ -8,9 +8,12 @@ define('DEBUG', true);
 */
 
 // paths
-define('ROOT_CLASS', './class');
-define('ROOT_INC', './inc');
-define('ROOT_UPLOADS', './uploads');
+define('ROOT', '.');
+define('ROOT_MODEL', ROOT.'/mvc/model');
+define('ROOT_CONTROLLER', ROOT.'/mvc/controller');
+define('ROOT_VIEW', ROOT.'/mvc/view');
+define('ROOT_INC', ROOT.'/inc');
+define('ROOT_UPLOADS', ROOT.'/uploads');
 
 // langs
 define('AVAILABLE_LANG', array('fr_FR', 'en_US'));
@@ -46,31 +49,18 @@ if(DEBUG){
 * Autoloader
 */
 spl_autoload_register(function($class){
-    $path = ROOT_CLASS."/".str_replace('\\', '/', $class).".php";
+    $path = ROOT_MODEL."/".str_replace('\\', '/', $class).".php";
     if(file_exists($path)){
         require $path;
     }
 });
 
-require_once ROOT_INC."/lang.php";
-
-
-/**
-* Utilisateur
-*/
-if(isset($_GET['disconnect'])){
-    unset($_SESSION['uid']);
-    header("Location:index.php");
-}
-if(!isset($_SESSION['uid'])){
-    $_SESSION['uid'] = 0;
-}
-
-// Compte de l'utilisateur courant
-$GLOBALS['_USER'] = User::getUniqueById($_SESSION['uid']);
-
-
-
+// fonctions globales
 require_once ROOT_INC."/functions.php";
+// gestion de la langue
+require_once ROOT_INC."/lang.php";
+// gestion de la session
+require_once ROOT_INC."/connexion.php";
 
-include("test.php");
+// vue
+include(ROOT."/layout.php");
