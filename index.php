@@ -40,6 +40,8 @@ define('DB_PASSWORD', 'root');
 define("EMAIL_ACCOUNT", "jmetterrothan@gmail.com");
 define("NOREPLY_EMAIL_ACCOUNT", "jmetterrothan@gmail.com");
 
+// reCAPTCHA 
+define("RECAPTCHA_SECRET", "6LcIPBUUAAAAAObdZCAIudQA_1qdaN_kzAKwBKkW");
 
 
 if(DEBUG){

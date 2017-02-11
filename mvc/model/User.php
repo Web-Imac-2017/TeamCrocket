@@ -55,6 +55,8 @@ class User extends Bucket\Bucket
             $this->addError("email", "An account already exists with this email adress");
         }
 
+        // reCAPTCHA
+        $this->handleCaptcha();
 
         // photo de profil
         $this->handleProfilePic();
@@ -88,6 +90,24 @@ class User extends Bucket\Bucket
     }
 
     protected function afterUpdate(){}
+
+    /**
+    * Vérification du captcha avec l'API reCAPTCHA de Google
+    */
+    protected function handleCaptcha(){
+        // récupération du captcha
+        $temp = $_POST['g-recaptcha-response'] ?? '';
+
+        $captcha = json_decode(curl_post('https://www.google.com/recaptcha/api/siteverify', array(
+            'secret' => RECAPTCHA_SECRET,
+            'response' => $temp,
+            'remoteip' => $_SERVER['REMOTE_ADDR']
+        )));
+
+        if(!$captcha || !$captcha->success){
+            $this->addError("captcha", "Failed verifying captcha");
+        }
+    }
 
     /**
     * Permet de gérer l'envoi et le traitement de la photo de profil

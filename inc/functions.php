@@ -1,4 +1,28 @@
 <?php
+/**
+* Envoi une requête POST
+* @param string $url
+* @param array $data (key|value)
+* @return mixed
+*/
+function curl_post(string $url, array $data = []){
+    //open connection
+    $ch = curl_init($url);
+
+    //set the url, number of POST vars, POST data
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, count($data));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    //execute post
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    return $result;
+}
+
+
 function crypto_rand_secure($min, $max){
     $range = $max - $min;
     if ($range < 1) return $min; // not so random...

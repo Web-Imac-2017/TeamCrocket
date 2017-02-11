@@ -1,4 +1,4 @@
-<div style="width:90%;margin:0 auto;padding:20px 0;">
+<div style="width:80%;margin:0 auto;padding:20px 0;">
     <?php if($user->getId() > 0): ?>
     <p class="clearfix">
         <?php echo gettext("Logged in as"); ?> <b><?php echo $user->getNickname(); ?></b>
@@ -138,9 +138,18 @@
                     <input id="user-confirm_password" type="password" class="form-control" name="user[confirm_password]" placeholder="<?php echo gettext("Confirm password"); ?>" value="">
                 </div>
             </div>
+
+            <?php endif; ?>
+            <div class="row mt-4">
+                <?php if($user->getId() == 0): ?>
+                <div class="col-12">
+                    <div class="g-recaptcha float-right mb-4" data-sitekey="6LcIPBUUAAAAAL7aFlWT0BNXe6nNKbRUTvQNrhXg"></div>
+                </div>
+                <?php endif; ?>
+                <div class="col-12">
+                    <input type="submit" class="btn btn-primary float-right" name="profile" value="<?php echo gettext("Submit"); ?>">
+                </div>
+            </div>
         </fieldset>
-        <?php endif; ?>
-        <input type="submit" class="btn btn-primary float-right mt-4" name="profile" value="<?php echo gettext("Submit"); ?>">
-        <div class="clearfix"></div>
     </form>
 </div>
