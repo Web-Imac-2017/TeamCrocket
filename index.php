@@ -62,5 +62,7 @@ require_once ROOT_INC."/lang.php";
 // gestion de la session
 require_once ROOT_INC."/connexion.php";
 
+
+
 // vue
 include(ROOT."/layout.php");

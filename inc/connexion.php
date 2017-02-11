@@ -20,5 +20,12 @@ if(isset($_POST['login'])){
     }
 }
 
+if(isset($_GET['token'], $_GET['email'])){
+    $user = User::getUniqueByEmail($_GET['email']);
+    if($user->getId() > 0){
+        $user->verifyAccount($_GET['token']);
+    }
+}
+
 // Compte de l'utilisateur courant
 $GLOBALS['_USER'] = User::getUniqueById($_SESSION['uid']);

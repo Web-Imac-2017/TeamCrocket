@@ -83,7 +83,9 @@ class User extends Bucket\Bucket
         $this->handleProfilePic();
     }
 
-    protected function afterInsert(){}
+    protected function afterInsert(){
+        createVerificationToken();
+    }
 
     protected function afterUpdate(){}
 
@@ -178,6 +180,19 @@ class User extends Bucket\Bucket
     }
 
     /**
+    * Retourne une instance de la classe User à partir du mail
+    * @param string $email
+    * @return User
+    */
+    public static function getUniqueByEmail(string $email) : User{
+        $sql = "SELECT * FROM ".DB_PREFIX."user WHERE email = :email AND active = 1 LIMIT 0, 1";
+        $data = array( [":email", $email, PDO::PARAM_STR] );
+
+        return new User(DB::fetchUnique($sql, $data));
+    }
+
+
+    /**
     * Interroge la base de donnée sur une combinaison email/mot de passe
     * @param string $email
     * @param string $password
@@ -199,9 +214,7 @@ class User extends Bucket\Bucket
     */
     public static function isVerified(string $email) : bool{
         $sql = "SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND verified = 1 AND active = 1 LIMIT 0, 1";
-        $data = array(
-            [":email", $email, PDO::PARAM_STR]
-        );
+        $data = array( [":email", $email, PDO::PARAM_STR] );
 
         return (int)(DB::fetchUnique($sql, $data)['id']) > 0;
     }
@@ -214,11 +227,44 @@ class User extends Bucket\Bucket
     */
     public static function userExists(string $email) : int{
         $sql = "SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND active = 1 LIMIT 0, 1";
-        $data = array(
-            [":email", $email, PDO::PARAM_STR]
-        );
+        $data = array( [":email", $email, PDO::PARAM_STR] );
 
         return (int)(DB::fetchUnique($sql, $data)['id']);
+    }
+
+    /**
+    * Retourne l'ID du compte associé à une adresse email vérifiée (permet de savoir si le compte existe si il est > 0)
+    * /!\ Ne permet pas de savoir si le compte est vérifié, juste si il existe
+    * @param string $email
+    * @return void
+    */
+    public function verifyAccount(string $token){
+        $sql = "SELECT token FROM ".DB_PREFIX."user_verification WHERE user_id = :id LIMIT 0, 1";
+        $data = array( [":id", $this->id, PDO::PARAM_INT] );
+
+        $storedToken = DB::fetchUnique($sql, $data)['token'];
+        if(!empty($token) && $storedToken === $token){
+            $this->verified = 1;
+            $this->save();
+
+            \DB::exec("DELETE FROM ". DB_PREFIX ."user_verification WHERE user_id = :id", array( [":id", $this->id, PDO::PARAM_INT] ));
+        }
+    }
+
+    /**
+    * Créé une clé de vérification associée au compte de l'utilisateur
+    */
+    public function createVerificationToken(){
+        $token = getToken(32);
+
+        \DB::exec("
+            INSERT INTO ".DB_PREFIX."user_verification (user_id, token, date_exp)
+            VALUES(:id, :token, DATE_ADD(NOW(), INTERVAL 1 DAY))
+            ON DUPLICATE KEY UPDATE token = :token, date_exp = DATE_ADD(NOW(), INTERVAL 1 DAY)
+        ", array(
+            [":id", $this->id, PDO::PARAM_INT],
+            [":token", $token, PDO::PARAM_STR]
+        ));
     }
 
 

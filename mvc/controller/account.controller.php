@@ -5,6 +5,7 @@
 
 $user = $_USER;
 
+
 // modification / création utilisateur
 if(isset($_POST['user'])){
     $user->hydrate($_POST['user'], true);
