@@ -84,7 +84,7 @@ class User extends Bucket\Bucket
     }
 
     protected function afterInsert(){
-        createVerificationToken();
+        $this->createVerificationToken();
     }
 
     protected function afterUpdate(){}
@@ -265,6 +265,44 @@ class User extends Bucket\Bucket
             [":id", $this->id, PDO::PARAM_INT],
             [":token", $token, PDO::PARAM_STR]
         ));
+
+        $this->sendValidationMail($token);
+    }
+
+
+    /**
+    * TODO : Créer un template HTML et compléter la fonction
+    * Envoi le mail contenant le lien pour confirmer son compte
+    * @param string $token
+    * @return void
+    */
+    public function sendValidationMail(string $token){
+        $mail = new \PHPMailer(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->setFrom(EMAIL_ACCOUNT);
+        $mail->AddReplyTo(NOREPLY_EMAIL_ACCOUNT);
+        $mail->addAddress($this->email);
+
+        $mail->isHTML(true);
+
+        ob_start();
+        echo '
+        <html>
+            <body>
+                <table>
+                    <tr><td>'.gettext("Verify your email adress").'</td></tr>
+                    <tr><td>'.gettext("To finish setting up your account, we just need to make sure this email adress is yours.").'</td></tr>
+                    <tr><td><a href="http://'.$_SERVER['SERVER_NAME'].'/index.php?email='.$this->email.'&token='.$token.'">'.sprintf(gettext("Verify %s"), $this->email).'</a></td></tr>
+                </table>
+            </body>
+        </html>
+        ';
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        $mail->Subject = gettext("Verify your email adress");
+        $mail->Body = $html;
+        $mail->send();
     }
 
 

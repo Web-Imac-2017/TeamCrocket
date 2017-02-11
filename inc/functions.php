@@ -30,6 +30,7 @@ function getToken(int $length){
     return $token;
 }
 
+
 /**
 * Vérifie si l'adresse email en paramètre correspond à la REGEX
 * @param string $email

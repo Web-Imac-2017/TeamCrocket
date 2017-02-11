@@ -36,6 +36,10 @@ define('DB_PREFIX', 'ajkl7_');
 define('DB_USER', 'root');
 define('DB_PASSWORD', 'root');
 
+// mail accounts
+define("EMAIL_ACCOUNT", "jmetterrothan@gmail.com");
+define("NOREPLY_EMAIL_ACCOUNT", "jmetterrothan@gmail.com");
+
 
 
 if(DEBUG){
@@ -54,6 +58,8 @@ spl_autoload_register(function($class){
         require $path;
     }
 });
+
+require ROOT_MODEL."/PHPMailer/PHPMailerAutoload.php";
 
 // fonctions globales
 require_once ROOT_INC."/functions.php";
