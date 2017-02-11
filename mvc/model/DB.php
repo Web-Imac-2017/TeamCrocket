@@ -84,6 +84,18 @@ class DB implements DBInterface
         return $result;
     }
 
+    final public static function exec(string $sql, array $values = []){
+        $pdo = self::getInstance()->getLink();
+
+        $stmt = $pdo->prepare($sql);
+        foreach($values as $temp){
+            $stmt->bindValue($temp[0], $temp[1], $temp[2]);
+        }
+
+        $stmt->execute();
+        $stmt->closeCursor();
+    }
+
 
     public function getLink(){ return $this->pdo; }
     public function getPrefix(){ return $this->prefix; }
