@@ -1,11 +1,21 @@
 <?php
 /**
+* Listing de fonctions utilisées sur l'ensemble du projet
+* @author METTER-ROTHAN Jérémie
+*/
+
+
+
+
+
+/**
 * Envoi une requête POST
 * @param string $url
 * @param array $data (key|value)
+* @param bool $return Retourne les données / print les données
 * @return mixed
 */
-function curl_post(string $url, array $data = []){
+function curl_post(string $url, array $data = [], bool $return = true){
     //open connection
     $ch = curl_init($url);
 
@@ -13,7 +23,7 @@ function curl_post(string $url, array $data = []){
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, count($data));
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, $return);
 
     //execute post
     $result = curl_exec($ch);

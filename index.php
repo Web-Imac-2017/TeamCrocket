@@ -40,9 +40,10 @@ define('DB_PASSWORD', 'root');
 define("EMAIL_ACCOUNT", "jmetterrothan@gmail.com");
 define("NOREPLY_EMAIL_ACCOUNT", "jmetterrothan@gmail.com");
 
-// reCAPTCHA 
+// reCAPTCHA
 define("RECAPTCHA_SECRET", "6LcIPBUUAAAAAObdZCAIudQA_1qdaN_kzAKwBKkW");
 
+define("LOCATION", $_SERVER['SERVER_NAME'] . '/TeamCrocket');
 
 if(DEBUG){
     ini_set('display_errors', 1);
@@ -68,7 +69,7 @@ require_once ROOT_INC."/functions.php";
 // gestion de la langue
 require_once ROOT_INC."/lang.php";
 // gestion de la session
-require_once ROOT_INC."/connexion.php";
+require_once ROOT_INC."/session.php";
 
 
 

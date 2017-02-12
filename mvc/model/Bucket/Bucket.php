@@ -213,11 +213,13 @@ abstract class Bucket implements BucketInterface
 
     public function showErrors(){
         $errorlist = $this->getErrorlist();
-        echo "Errors : \n";
-        foreach($errorlist as $error){
-            echo $error."\n";
+        if(count($errorlist) > 0){
+            echo '<div class="alert alert-danger">';
+            foreach($errorlist as $error){
+                echo '<p class="m-0">'.$error.'</p>';
+            }
+            echo '</div>';
         }
-        echo "\n";
     }
 
 

@@ -252,17 +252,19 @@ class User extends Bucket\Bucket
         return (int)(DB::fetchUnique($sql, $data)['id']);
     }
 
+
     /**
     * Retourne l'ID du compte associé à une adresse email vérifiée (permet de savoir si le compte existe si il est > 0)
     * /!\ Ne permet pas de savoir si le compte est vérifié, juste si il existe
-    * @param string $email
+    * @param string $token
     * @return void
     */
     public function verifyAccount(string $token){
-        $sql = "SELECT token FROM ".DB_PREFIX."user_verification WHERE user_id = :id LIMIT 0, 1";
+        $sql = "SELECT token FROM ".DB_PREFIX."user_verification WHERE user_id = :id AND date_exp > NOW() LIMIT 0, 1";
         $data = array( [":id", $this->id, PDO::PARAM_INT] );
 
         $storedToken = DB::fetchUnique($sql, $data)['token'];
+
         if(!empty($token) && $storedToken === $token){
             $this->verified = 1;
             $this->save();
@@ -296,7 +298,7 @@ class User extends Bucket\Bucket
     * @param string $token
     * @return void
     */
-    public function sendValidationMail(string $token){
+    private function sendValidationMail(string $token){
         $mail = new \PHPMailer(true);
         $mail->CharSet = 'UTF-8';
         $mail->setFrom(EMAIL_ACCOUNT);
@@ -311,8 +313,8 @@ class User extends Bucket\Bucket
             <body>
                 <table>
                     <tr><td>'.gettext("Verify your email adress").'</td></tr>
-                    <tr><td>'.gettext("To finish setting up your account, we just need to make sure this email adress is yours.").'</td></tr>
-                    <tr><td><a href="http://'.$_SERVER['SERVER_NAME'].'/index.php?email='.$this->email.'&token='.$token.'">'.sprintf(gettext("Verify %s"), $this->email).'</a></td></tr>
+                    <tr><td>'.gettext("To finish setting up your account, we just need to make sure this email adress is yours. Please follow the link bellow (link expires in 24h) :").'</td></tr>
+                    <tr><td><a href="http://'.LOCATION.'/index.php?task=verify&email='.$this->email.'&token='.$token.'">'.sprintf(gettext("Verify %s"), $this->email).'</a></td></tr>
                 </table>
             </body>
         </html>
@@ -321,6 +323,80 @@ class User extends Bucket\Bucket
         ob_end_clean();
 
         $mail->Subject = gettext("Verify your email adress");
+        $mail->Body = $html;
+        $mail->send();
+    }
+
+
+
+    /**
+    * Créé une clé de vérification associée au compte de l'utilisateur
+    */
+    public function createRecoveryToken(){
+        $token = getToken(32);
+
+        \DB::exec("
+            INSERT INTO ".DB_PREFIX."user_reset_password (user_id, token, date_exp)
+            VALUES(:id, :token, DATE_ADD(NOW(), INTERVAL 1 DAY))
+            ON DUPLICATE KEY UPDATE token = :token, date_exp = DATE_ADD(NOW(), INTERVAL 1 DAY)
+        ", array(
+            [":id", $this->id, PDO::PARAM_INT],
+            [":token", $token, PDO::PARAM_STR]
+        ));
+
+        $this->sendRecoveryMail($token);
+    }
+
+    /**
+    * Retourne l'ID du compte associé à une adresse email vérifiée (permet de savoir si le compte existe si il est > 0)
+    * /!\ Ne permet pas de savoir si le compte est vérifié, juste si il existe
+    * @param string $token
+    * @return void
+    */
+    public function resetPassword(string $token, string $password){
+        $sql = "SELECT token FROM ".DB_PREFIX."user_reset_password WHERE user_id = :id AND date_exp > NOW() LIMIT 0, 1";
+        $data = array( [":id", $this->id, PDO::PARAM_INT] );
+
+        $storedToken = DB::fetchUnique($sql, $data)['token'];
+        if(!empty($token) && $storedToken === $token){
+            $this->password = $password;
+            $this->save();
+
+            \DB::exec("DELETE FROM ". DB_PREFIX ."user_reset_password WHERE user_id = :id", array( [":id", $this->id, PDO::PARAM_INT] ));
+        }
+    }
+
+
+    /**
+    * TODO : Créer un template HTML et compléter la fonction
+    * Envoi le mail contenant le lien pour reset son mot de passe
+    * @param string $token
+    * @return void
+    */
+    private function sendRecoveryMail(string $token){
+        $mail = new \PHPMailer(true);
+        $mail->CharSet = 'UTF-8';
+        $mail->setFrom(EMAIL_ACCOUNT);
+        $mail->AddReplyTo(NOREPLY_EMAIL_ACCOUNT);
+        $mail->addAddress($this->email);
+
+        $mail->isHTML(true);
+
+        ob_start();
+        echo '
+        <html>
+            <body>
+                <table>
+                    <tr><td>'.gettext("Please visit the following page to reset your password (link expires in 24h) :").'</td></tr>
+                    <tr><td><a href="http://'.LOCATION.'/index.php?task=recover&email='.$this->email.'&token='.$token.'">Reset my password</a></td></tr>
+                </table>
+            </body>
+        </html>
+        ';
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        $mail->Subject = gettext("Password reset request");
         $mail->Body = $html;
         $mail->send();
     }
