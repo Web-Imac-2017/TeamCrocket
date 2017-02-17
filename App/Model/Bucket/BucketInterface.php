@@ -36,9 +36,12 @@ interface BucketInterface
 
     /**
     * Retourne plusieurs objets
-    * @param int $start Décalage de la tête de lecture dans la base
-    * @param int $amount Nombre d'élément maximum à récupérer
-    * @param string $options
+    * @param array $options
+    * - int page
+    * - int start
+    * - int amount
+    * - array<BucketFilter> filter
+    * - string order
     * @return array Liste d'instances de la classe fille
     * @throws PDOException
     */
@@ -52,4 +55,16 @@ interface BucketInterface
     * @throws PDOException
     */
     public static function deleteById(int $id, string $options = "");
+
+    /**
+    * Retourne le nom du champs $key formaté en setter
+    * @param string $key
+    */
+    public static function getKeySetter(string $key);
+
+    /**
+    * Retourne le nom du champs $key formaté en getter
+    * @param string $key
+    */
+    public static function getKeyGetter(string $key);
 }
