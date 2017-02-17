@@ -92,9 +92,9 @@ function testPassword(string $password) : bool{
 }
 
 /**
-* Retourne le code du pays selon le format ISO 3166-2
+* Vérifie la limite d'âge
 * @param string $date
-* @return string Code pays formaté
+* @return bool
 */
 function testAge(string $date) : bool{
     return (date('Y') - (int)substr($date, 0, 4) >= 13);
