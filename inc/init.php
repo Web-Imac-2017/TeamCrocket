@@ -4,6 +4,7 @@ session_start();
 define('ROOT_APP', ROOT.'App/');
 define('ROOT_MODEL', ROOT_APP.'Model/');
 define('ROOT_CONTROLLER', ROOT_APP.'Controller/');
+define('ROOT_UPLOADS', ROOT.'uploads/');
 
 // On charge le fichier de configuration
 $config = parse_ini_file(ROOT.'/config/config.ini', true);
@@ -50,5 +51,7 @@ bindtextdomain($domain, './locale');
 bind_textdomain_codeset($domain, 'UTF-8');
 textdomain($domain);
 
-
+/**
+* Objet utilisateur global
+*/
 $GLOBALS['_USER'] = App\Model\User::getUniqueById($_SESSION['uid']);
