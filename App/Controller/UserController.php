@@ -7,6 +7,7 @@
 namespace App\Controller;
 
 use App\Model\User;
+use App\Model\Log;
 use App\Model\Bucket\BucketFilter;
 
 class UserController extends BucketAbstractController
@@ -52,8 +53,12 @@ class UserController extends BucketAbstractController
         if($id == 0){
             throw new \Exception(gettext("Wrong credentials, login failed"));
         }
+
         $_SESSION['uid'] = $id;
-        return User::getUniqueById($id);
+
+        $user = User::getUniqueById($id);
+        Log::register($user);
+        return $user;
     }
 
     public function disconnect(){

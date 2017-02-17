@@ -1,7 +1,12 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-CREATE DATABASE IF NOT EXISTS `teamcrocket` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE `teamcrocket`;
+
+CREATE TABLE `ajkl7_log` (
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `ip_adress` varchar(48) NOT NULL,
+  `user_agent` varchar(32) NOT NULL,
+  `last_connexion_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `ajkl7_todo` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -47,6 +52,9 @@ CREATE TABLE `ajkl7_user_verification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+ALTER TABLE `ajkl7_log`
+  ADD KEY `user_id` (`user_id`);
+
 ALTER TABLE `ajkl7_todo`
   ADD PRIMARY KEY (`id`),
   ADD KEY `creator_id` (`creator_id`);
@@ -67,6 +75,9 @@ ALTER TABLE `ajkl7_todo`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 ALTER TABLE `ajkl7_user`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=126;
+
+ALTER TABLE `ajkl7_log`
+  ADD CONSTRAINT `ajkl7_log_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_todo`
   ADD CONSTRAINT `ajkl7_todo_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
