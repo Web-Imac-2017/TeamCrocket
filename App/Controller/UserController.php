@@ -69,7 +69,7 @@ class UserController extends BucketAbstractController
         $_SESSION['login_attempts'] = 0;
 
         $user = User::getUniqueById($id);
-        Log::register($user);
+        LogConnexion::register($user);
         return $user;
     }
 
