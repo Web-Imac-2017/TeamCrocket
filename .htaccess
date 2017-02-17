@@ -1,4 +1,4 @@
 RewriteEngine On
-RewriteBase /vuejs
+RewriteBase /TeamCrocket
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ index.php?request=$1 [QSA,L]
