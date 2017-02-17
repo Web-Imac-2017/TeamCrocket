@@ -7,7 +7,7 @@
 namespace App\Controller;
 
 use App\Model\User;
-use App\Model\Log;
+use App\Model\LogConnexion;
 use App\Model\Bucket\BucketFilter;
 
 class UserController extends BucketAbstractController
