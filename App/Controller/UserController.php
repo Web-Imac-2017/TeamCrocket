@@ -37,9 +37,26 @@ class UserController extends BucketAbstractController
         User::deleteById($id);
     }
 
-    public function done(int $id, bool $done = true){
-        $user = User::getUniqueById($id);
-        $user->setDone($done);
-        $user->save();
+    public function login(){
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+
+        if(!User::userExists($email)){
+            throw new \Exception(gettext("No account existing for the given email adress"));
+        }
+        if(!User::isVerified($email)){
+            throw new \Exception(gettext("Please verify your account"));
+        }
+
+        $id = User::login($email, $password);
+        if($id == 0){
+            throw new \Exception(gettext("Wrong credentials, login failed"));
+        }
+        $_SESSION['uid'] = $id;
+        return User::getUniqueById($id);
+    }
+
+    public function disconnect(){
+        $_SESSION['uid'] = 0;
     }
 }

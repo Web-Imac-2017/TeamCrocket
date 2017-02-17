@@ -292,7 +292,6 @@ class User extends Bucket\BucketAbstract
         return ((int)(DB::fetchUnique($sql, $data)['id']) > 0);
     }
 
-
     /**
     * Retourne l'ID du compte associé à une adresse email vérifiée (permet de savoir si le compte existe si il est > 0)
     * /!\ Ne permet pas de savoir si le compte est vérifié, juste si il existe
@@ -326,8 +325,8 @@ class User extends Bucket\BucketAbstract
 
         DB::exec("
             INSERT INTO ".DATABASE_CFG['prefix']."user_verification (user_id, token, date_exp)
-            VALUES(:id, :token, DATE_ADD(NOW(), INTERVAL 1 DAY))
-            ON DUPLICATE KEY UPDATE token = :token, date_exp = DATE_ADD(NOW(), INTERVAL 1 DAY)
+            VALUES(:id, :token, DATE_ADD(NOW(), INTERVAL 2 DAY))
+            ON DUPLICATE KEY UPDATE token = :token, date_exp = DATE_ADD(NOW(), INTERVAL 2 DAY)
         ", array(
             [":id", $this->id, \PDO::PARAM_INT],
             [":token", $token, \PDO::PARAM_STR]

@@ -36,7 +36,9 @@ if(preg_match('#api\/(.*)\/(.*)(?:\/(.*)\/?)?$#iU', $request, $matches)){
         header('Content-Type: application/json');
         $export = [];
         $export['success'] = $success;
-        $export['message'] = $message;
+        if($message != ''){
+            $export['message'] = $message;
+        }
         if($output != null){
             $export['output'] = $output;
         }
