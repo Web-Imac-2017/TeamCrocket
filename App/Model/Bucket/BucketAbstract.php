@@ -111,7 +111,6 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
 
             // on applique le filtre beforeSend (callback) si il existe à la valeur avant l'édition
             if($field->getBeforeSend() != NULL){
-                var_dump($field->getBeforeSend());
                 $value = call_user_func($field->getBeforeSend(), $this->$method());
             }
             else{
