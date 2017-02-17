@@ -39,8 +39,19 @@ class UserController extends BucketAbstractController
     }
 
     public function login(){
+        if(!isset($_SESSION['login_attempts'])){
+            $_SESSION['login_attempts'] = 0;
+        }
+
+        if($_SESSION['login_attempts'] > 10){
+            throw new \Exception("Too many login attempts");
+        }
+        $_SESSION['login_attempts']++;
+
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
+
+
 
         if(!User::userExists($email)){
             throw new \Exception(gettext("No account existing for the given email adress"));
@@ -55,6 +66,7 @@ class UserController extends BucketAbstractController
         }
 
         $_SESSION['uid'] = $id;
+        $_SESSION['login_attempts'] = 0;
 
         $user = User::getUniqueById($id);
         Log::register($user);
