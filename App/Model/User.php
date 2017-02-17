@@ -476,7 +476,8 @@ class User extends Bucket\BucketAbstract
     public function setCountry(string $country){
         $this->country = $country;
     }
-    public function setDateBirth(string $date = NULL){
+    public function setDateBirth(string $date = NULL, bool $check = false){
+        if($check && !testAge($date)) throw new \Exception(gettext("You must be at least 13 years old to sign up"));
         $this->date_birth = $date;
     }
     public function setVerified(int $verified){

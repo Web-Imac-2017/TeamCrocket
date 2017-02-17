@@ -17,7 +17,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
 
     protected function __construct($data = NULL){
         $this->id = 0;
-        $this->creator_id = 0;
+        $this->creator_id = $_SESSION['uid'];
         $this->active = 1;
 
         if(is_array($data)){

@@ -92,6 +92,15 @@ function testPassword(string $password) : bool{
 }
 
 /**
+* Retourne le code du pays selon le format ISO 3166-2
+* @param string $date
+* @return string Code pays formaté
+*/
+function testAge(string $date) : bool{
+    return (date('Y') - (int)substr($date, 0, 4) >= 13);
+}
+
+/**
 * Vérifie si le string est une empreinte sha1
 * @param string $str
 * @return boolean
@@ -117,6 +126,7 @@ function hashPassword(string $password) : string{
 function formatCountry(string $country) : string{
     return strtoupper(substr($country, 0, 3));
 }
+
 
 /**
 * Détermine si la liste d'argument n'est pas empty
