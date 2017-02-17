@@ -13,7 +13,7 @@ use \Imagine\Gd\Imagine;
 /*
 @table user
 @field nickname, string
-@field password, string, static::hashPassword
+@field password, string, hashPassword
 @field lastname, string
 @field firstname, string
 @field email, string
@@ -21,7 +21,7 @@ use \Imagine\Gd\Imagine;
 @field image, string
 @field description, string
 @field city, string
-@field country, string, static::formatCountry
+@field country, string, formatCountry
 @field latitude, float
 @field longitude, float
 @field date_birth, date
@@ -108,6 +108,10 @@ class User extends Bucket\BucketAbstract
     }
 
     protected function beforeUpdate(){
+        if($_SESSION['uid'] == 0){
+            throw new \Exception("You must sign in");
+        }
+
         // on gère l'édition du mot de passe
         $old_password = $_POST['user']['old_password'] ?? null;
         $new_password = $_POST['user']['new_password'] ?? null;
@@ -117,7 +121,7 @@ class User extends Bucket\BucketAbstract
             if($new_password != $confirm_password){
                 throw new \Exception(gettext("New and password confirmation does not match"));
             }
-            if($this->password != self::hashPassword($old_password)){
+            if($this->password != hashPassword($old_password)){
                 throw new \Exception(gettext("Wrong old password"));
             }
 
@@ -222,24 +226,6 @@ class User extends Bucket\BucketAbstract
     }
 
     /**
-    * Permet de crypter un mot de passe
-    * @param string $password Mot de passe en clair
-    * @return string Version hashé du mot de passe
-    */
-    public static function hashPassword(string $password) : string{
-        return (!self::is_sha1($password)) ? sha1('mjh7vLUZrR/' . $password) : $password;
-    }
-
-    /**
-    * Retourne le code du pays selon le format ISO 3166-2
-    * @param string $country
-    * @return string Code pays formaté
-    */
-    public static function formatCountry(string $country) : string{
-        return strtoupper(substr($country, 0, 3));
-    }
-
-    /**
     * Retourne une instance de la classe User à partir du mail
     * @param string $email
     * @return User
@@ -262,7 +248,7 @@ class User extends Bucket\BucketAbstract
         $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND password = :password AND verified = 1 AND active = 1 LIMIT 0, 1";
         $data = array(
             [":email", $email, \PDO::PARAM_STR],
-            [":password", self::hashPassword($password), \PDO::PARAM_STR]
+            [":password", hashPassword($password), \PDO::PARAM_STR]
         );
         return (int)(DB::fetchUnique($sql, $data)['id']);
     }
@@ -293,8 +279,7 @@ class User extends Bucket\BucketAbstract
     }
 
     /**
-    * Retourne l'ID du compte associé à une adresse email vérifiée (permet de savoir si le compte existe si il est > 0)
-    * /!\ Ne permet pas de savoir si le compte est vérifié, juste si il existe
+    * Permet de vérifier l'adresse email d'un utilisateur
     * @param string $token
     * @return void
     */
@@ -345,8 +330,8 @@ class User extends Bucket\BucketAbstract
     private function sendValidationMail(string $token){
         $mail = new \PHPMailer(true);
         $mail->CharSet = 'UTF-8';
-        $mail->setFrom(EMAIL_ACCOUNT);
-        $mail->AddReplyTo(NOREPLY_EMAIL_ACCOUNT);
+        $mail->setFrom(GLOBAL_CFG['email']);
+        $mail->AddReplyTo(GLOBAL_CFG['noreply']);
         $mail->addAddress($this->email);
 
         $mail->isHTML(true);
@@ -357,8 +342,8 @@ class User extends Bucket\BucketAbstract
             <body>
                 <table>
                     <tr><td>'.gettext("Verify your email adress").'</td></tr>
-                    <tr><td>'.gettext("To finish setting up your account, we just need to make sure this email adress is yours. Please follow the link bellow (link expires in 24h) :").'</td></tr>
-                    <tr><td><a href="http://'.LOCATION.'/user/verify/'.$this->email.'/'.$token.'">'.sprintf(gettext("Verify %s"), $this->email).'</a></td></tr>
+                    <tr><td>'.gettext("To finish setting up your account, we just need to make sure this email adress is yours. Please follow the link bellow (link expires in 48h) :").'</td></tr>
+                    <tr><td><a href="http://'.$_SERVER['HTTP_HOST'].'/'.GLOBAL_CFG['subdir'].'/api/user/verify/'.$this->email.'/'.$token.'">'.sprintf(gettext("Verify %s"), $this->email).'</a></td></tr>
                 </table>
             </body>
         </html>
@@ -388,7 +373,7 @@ class User extends Bucket\BucketAbstract
             [":token", $token, \PDO::PARAM_STR]
         ));
 
-        $this->sendRecoveryMail($token);
+        $this->sendResetMail($token);
     }
 
     /**
@@ -410,7 +395,7 @@ class User extends Bucket\BucketAbstract
             throw new \Exception(gettext("Invalid token"));
         }
 
-        $this->password = $password;
+        $this->setPassword($password, true);
         $this->save();
 
         DB::exec("DELETE FROM ". DATABASE_CFG['prefix'] ."user_reset_password WHERE user_id = :id", array( [":id", $this->id, \PDO::PARAM_INT] ));
@@ -423,11 +408,11 @@ class User extends Bucket\BucketAbstract
     * @param string $token
     * @return void
     */
-    private function sendRecoveryMail(string $token){
+    private function sendResetMail(string $token){
         $mail = new \PHPMailer(true);
         $mail->CharSet = 'UTF-8';
-        $mail->setFrom(EMAIL_ACCOUNT);
-        $mail->AddReplyTo(NOREPLY_EMAIL_ACCOUNT);
+        $mail->setFrom(GLOBAL_CFG['email']);
+        $mail->AddReplyTo(GLOBAL_CFG['noreply']);
         $mail->addAddress($this->email);
 
         $mail->isHTML(true);
@@ -438,7 +423,7 @@ class User extends Bucket\BucketAbstract
             <body>
                 <table>
                     <tr><td>'.gettext("Please visit the following page to reset your password (link expires in 24h) :").'</td></tr>
-                    <tr><td><a href="http://'.LOCATION.'/user/recover/'.$this->email.'/'.$token.'">Reset my password</a></td></tr>
+                    <tr><td><a href="http://'.$_SERVER['HTTP_HOST'].'/'.GLOBAL_CFG['subdir'].'/api/user/reset/'.$this->email.'/'.$token.'">Reset my password</a></td></tr>
                 </table>
             </body>
         </html>
@@ -451,22 +436,13 @@ class User extends Bucket\BucketAbstract
         $mail->send();
     }
 
-    /**
-    * Vérifie si le string est une empreinte sha1
-    * @param string $str
-    * @return boolean
-    */
-    public static function is_sha1(string $str) : bool{
-        return preg_match('/^[0-9a-f]{40}$/i', $str);
-    }
-
     // setters
     public function setNickname(string $nickname, bool $check = false){
-        if($check && !testUsername($nickname)) throw new Exception(gettext("Invalid nickname format"));
+        if($check && !testUsername($nickname)) throw new \Exception(gettext("Invalid nickname format"));
         else $this->nickname = $nickname;
     }
     public function setPassword(string $password, bool $check = false){
-        if($check && !testPassword($password)) throw new Exception(gettext("Invalid password format"));
+        if($check && !testPassword($password)) throw new \Exception(gettext("Invalid password format"));
         $this->password = $password;
     }
     public function setLastname(string $lastname){
@@ -476,7 +452,7 @@ class User extends Bucket\BucketAbstract
         $this->firstname = $firstname;
     }
     public function setEmail(string $email, bool $check = false){
-        if($check && !testMail($email)) throw new Exception(gettext("Invalid email format"));
+        if($check && !testMail($email)) throw new \Exception(gettext("Invalid email format"));
         else $this->email = $email;
     }
     public function setSex(string $sex){

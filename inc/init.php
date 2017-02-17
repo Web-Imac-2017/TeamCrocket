@@ -23,8 +23,11 @@ spl_autoload_register(function($class){
     }
 });
 
+
 require ROOT_INC."PHPMailer/PHPMailerAutoload.php";
 require ROOT_INC."Imagine/ImagineAutoload.php";
+require ROOT_INC . 'functions.php';
+
 
 if(!isset($_SESSION['uid'])){
     $_SESSION['uid'] = 0;

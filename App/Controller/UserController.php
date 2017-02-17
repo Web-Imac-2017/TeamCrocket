@@ -59,4 +59,33 @@ class UserController extends BucketAbstractController
     public function disconnect(){
         $_SESSION['uid'] = 0;
     }
+
+    public function verify(string $email, string $token){
+        $user = User::getUniqueByEmail($email);
+        if($user->getId() == 0){
+            throw new \Exception("No account existing for the given email adress");
+        }
+        $user->verifyAccount($token);
+    }
+
+    public function forgottenpassword(string $email){
+        $user = User::getUniqueByEmail($email);
+        if($user->getId() == 0){
+            throw new \Exception("No account existing for the given email adress");
+        }
+        $user->createRecoveryToken();
+    }
+
+    public function reset(string $email, string $token, string $new_password = ''){
+        $user = User::getUniqueByEmail($email);
+        if($user->getId() == 0){
+            throw new \Exception("No account existing for the given email adress");
+        }
+        $user->resetPassword($token, $new_password);
+    }
+
+    public function test(){
+        $user = User::getUniqueByEmail('jmetterrothan@gmail.com');
+        $user->createVerificationToken();
+    }
 }
