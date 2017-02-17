@@ -49,3 +49,6 @@ setlocale(LC_MESSAGES, $_SESSION['language']);
 bindtextdomain($domain, './locale');
 bind_textdomain_codeset($domain, 'UTF-8');
 textdomain($domain);
+
+
+$GLOBALS['_USER'] = App\Model\User::getUniqueById($_SESSION['uid']);

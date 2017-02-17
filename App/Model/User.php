@@ -55,20 +55,20 @@ class User extends Bucket\BucketAbstract
     private $verified;
 
     function __construct($data = NULL){
-        $nickname = "";
-        $password = "";
-        $lastname = "";
-        $firstname = "";
-        $email = "";
-        $sex = self::SEX_MALE;
-        $image = "";
-        $description = "";
-        $city = "";
-        $latitude = 0;
-        $longitude = 0;
-        $country = "FRA";
-        $date_birth;
-        $verified = 0;
+        $this->nickname = "";
+        $this->password = "";
+        $this->lastname = "";
+        $this->firstname = "";
+        $this->email = "";
+        $this->sex = self::SEX_MALE;
+        $this->image = "";
+        $this->description = "";
+        $this->city = "";
+        $this->latitude = 0;
+        $this->longitude = 0;
+        $this->country = "FRA";
+        $this->date_birth;
+        $this->verified = 0;
 
         parent::__construct($data);
     }
