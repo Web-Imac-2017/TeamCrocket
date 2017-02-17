@@ -245,7 +245,7 @@ class User extends Bucket\BucketAbstract
     * @return User
     */
     public static function getUniqueByEmail(string $email) : User{
-        $sql = "SELECT * FROM ".DB_PREFIX."user WHERE email = :email AND active = 1 LIMIT 0, 1";
+        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND active = 1 LIMIT 0, 1";
         $data = array( [":email", $email, \PDO::PARAM_STR] );
 
         return new User(DB::fetchUnique($sql, $data));
@@ -259,7 +259,7 @@ class User extends Bucket\BucketAbstract
     * @return int ID du compte correspondant à la combinaison email/mot de passe
     */
     public static function login(string $email, string $password) : int{
-        $sql = "SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND password = :password AND verified = 1 AND active = 1 LIMIT 0, 1";
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND password = :password AND verified = 1 AND active = 1 LIMIT 0, 1";
         $data = array(
             [":email", $email, \PDO::PARAM_STR],
             [":password", self::hashPassword($password), \PDO::PARAM_STR]
@@ -273,7 +273,7 @@ class User extends Bucket\BucketAbstract
     * @return bool
     */
     public static function isVerified(string $email) : bool{
-        $sql = "SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND verified = 1 AND active = 1 LIMIT 0, 1";
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND verified = 1 AND active = 1 LIMIT 0, 1";
         $data = array( [":email", $email, \PDO::PARAM_STR] );
 
         return ((int)(DB::fetchUnique($sql, $data)['id']) > 0);
@@ -286,7 +286,7 @@ class User extends Bucket\BucketAbstract
     * @return bool
     */
     public static function userExists(string $email) : int{
-        $sql = "SELECT id FROM ".DB_PREFIX."user WHERE email = :email AND active = 1 LIMIT 0, 1";
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND active = 1 LIMIT 0, 1";
         $data = array( [":email", $email, \PDO::PARAM_STR] );
 
         return ((int)(DB::fetchUnique($sql, $data)['id']) > 0);
@@ -300,7 +300,7 @@ class User extends Bucket\BucketAbstract
     * @return void
     */
     public function verifyAccount(string $token){
-        $sql = "SELECT token FROM ".DB_PREFIX."user_verification WHERE user_id = :id AND date_exp > NOW() LIMIT 0, 1";
+        $sql = "SELECT token FROM ".DATABASE_CFG['prefix']."user_verification WHERE user_id = :id AND date_exp > NOW() LIMIT 0, 1";
         $data = array( [":id", $this->id, \PDO::PARAM_INT] );
 
         $storedToken = DB::fetchUnique($sql, $data)['token'];
@@ -315,7 +315,7 @@ class User extends Bucket\BucketAbstract
         $this->verified = 1;
         $this->save();
 
-        DB::exec("DELETE FROM ". DB_PREFIX ."user_verification WHERE user_id = :id", array( [":id", $this->id, \PDO::PARAM_INT] ));
+        DB::exec("DELETE FROM ". DATABASE_CFG['prefix'] ."user_verification WHERE user_id = :id", array( [":id", $this->id, \PDO::PARAM_INT] ));
     }
 
     /**
@@ -325,7 +325,7 @@ class User extends Bucket\BucketAbstract
         $token = getToken(32);
 
         DB::exec("
-            INSERT INTO ".DB_PREFIX."user_verification (user_id, token, date_exp)
+            INSERT INTO ".DATABASE_CFG['prefix']."user_verification (user_id, token, date_exp)
             VALUES(:id, :token, DATE_ADD(NOW(), INTERVAL 1 DAY))
             ON DUPLICATE KEY UPDATE token = :token, date_exp = DATE_ADD(NOW(), INTERVAL 1 DAY)
         ", array(
@@ -381,7 +381,7 @@ class User extends Bucket\BucketAbstract
         $token = getToken(32);
 
         DB::exec("
-            INSERT INTO ".DB_PREFIX."user_reset_password (user_id, token, date_exp)
+            INSERT INTO ".DATABASE_CFG['prefix']."user_reset_password (user_id, token, date_exp)
             VALUES(:id, :token, DATE_ADD(NOW(), INTERVAL 1 DAY))
             ON DUPLICATE KEY UPDATE token = :token, date_exp = DATE_ADD(NOW(), INTERVAL 1 DAY)
         ", array(
@@ -399,7 +399,7 @@ class User extends Bucket\BucketAbstract
     * @return void
     */
     public function resetPassword(string $token, string $password){
-        $sql = "SELECT token FROM ".DB_PREFIX."user_reset_password WHERE user_id = :id AND date_exp > NOW() LIMIT 0, 1";
+        $sql = "SELECT token FROM ".DATABASE_CFG['prefix']."user_reset_password WHERE user_id = :id AND date_exp > NOW() LIMIT 0, 1";
         $data = array( [":id", $this->id, \PDO::PARAM_INT] );
 
         $storedToken = DB::fetchUnique($sql, $data)['token'];
@@ -414,7 +414,7 @@ class User extends Bucket\BucketAbstract
         $this->password = $password;
         $this->save();
 
-        DB::exec("DELETE FROM ". DB_PREFIX ."user_reset_password WHERE user_id = :id", array( [":id", $this->id, \PDO::PARAM_INT] ));
+        DB::exec("DELETE FROM ". DATABASE_CFG['prefix'] ."user_reset_password WHERE user_id = :id", array( [":id", $this->id, \PDO::PARAM_INT] ));
     }
 
 
