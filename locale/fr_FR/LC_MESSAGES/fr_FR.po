@@ -1,0 +1,118 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-02-17 12:47+0100\n"
+"PO-Revision-Date: 2017-02-17 12:48+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.11\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: script\n"
+
+#: App/Model/Bucket/BucketAbstract.php:69
+#: App/Model/Bucket/BucketAbstract.php:94
+msgid "Query failed"
+msgstr ""
+
+#: App/Model/Bucket/BucketParser.php:23
+#, php-format
+msgid "Could not find class '%s'"
+msgstr ""
+
+#: App/Model/User.php:100
+msgid "An account already exists with this email adress"
+msgstr ""
+
+#: App/Model/User.php:118
+msgid "New and password confirmation does not match"
+msgstr ""
+
+#: App/Model/User.php:121
+msgid "Wrong old password"
+msgstr ""
+
+#: App/Model/User.php:153
+msgid "Failed verifying captcha"
+msgstr ""
+
+#: App/Model/User.php:172
+msgid "Error"
+msgstr ""
+
+#: App/Model/User.php:175
+#, php-format
+msgid "Invalid image extension (only %s)"
+msgstr ""
+
+#: App/Model/User.php:178
+msgid "File is too large"
+msgstr ""
+
+#: App/Model/User.php:189
+msgid "Could not move image"
+msgstr ""
+
+#: App/Model/User.php:309
+msgid "Could not verify your account, no existing token"
+msgstr ""
+
+#: App/Model/User.php:312 App/Model/User.php:411
+msgid "Invalid token"
+msgstr ""
+
+#: App/Model/User.php:360 App/Model/User.php:370
+msgid "Verify your email adress"
+msgstr ""
+
+#: App/Model/User.php:361
+msgid ""
+"To finish setting up your account, we just need to make sure this email "
+"adress is yours. Please follow the link bellow (link expires in 24h) :"
+msgstr ""
+
+#: App/Model/User.php:362
+#, php-format
+msgid "Verify %s"
+msgstr ""
+
+#: App/Model/User.php:408
+msgid "Could not reset password, no existing token"
+msgstr ""
+
+#: App/Model/User.php:441
+msgid ""
+"Please visit the following page to reset your password (link expires in "
+"24h) :"
+msgstr ""
+
+#: App/Model/User.php:450
+msgid "Password reset request"
+msgstr ""
+
+#: App/Model/User.php:466
+msgid "Invalid nickname format"
+msgstr ""
+
+#: App/Model/User.php:470
+msgid "Invalid password format"
+msgstr ""
+
+#: App/Model/User.php:480
+msgid "Invalid email format"
+msgstr ""
+
+#: inc/api.php:22
+#, php-format
+msgid "Invalid controller '%s'"
+msgstr ""
+
+#: inc/api.php:25
+#, php-format
+msgid "Invalid task '%s'"
+msgstr ""

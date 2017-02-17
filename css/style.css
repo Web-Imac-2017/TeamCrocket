@@ -1,0 +1,82 @@
+html, body{
+    font-family:'Roboto', sans-serif;
+    font-size:14px;
+    background:#fff;
+}
+*, *:before, *:after{
+    box-sizing:border-box;
+}
+input[type="text"]{
+    height:4rem;
+    width:100%;
+    margin-bottom:1rem;
+    font-size:1.8rem;
+    line-height:4rem;
+    padding:0 1rem;
+    font-weight:300;
+    outline:none;
+    box-shadow:none;
+    border:1px solid rgba(0,0,0,.15);
+}
+input[type="text"]:focus{
+    border-color:#3498db;
+}
+.todolist h4{
+    line-height:2rem;
+    font-size:1.6rem;
+    margin-bottom:1rem;
+}
+.todolist{
+    width:500px;
+    margin:0 auto;
+    margin-top:4rem;
+}
+.todolist ol li{
+    padding:0 6.5rem 0 3rem;
+    line-height:3rem;
+    height:3rem;
+    overflow:hidden;
+    position:relative;
+    font-weight:300;
+    background:rgba(0,0,0,.025);
+    color:#3498db;
+    font-size:1.2rem;
+    margin-bottom:1rem;
+}
+.todolist ol li .index{
+    position:absolute;
+    left:0;
+    top:0;
+    display:block;
+    width:3rem;
+    height:3rem;
+    font-weight:700;
+    text-align:center;
+    color:#c0c0c0;
+}
+.todolist ol li .action{
+    position:absolute;
+    right:0;
+    top:0;
+    height:3rem;
+}
+.todolist ol li .btn{
+    float:left;
+    display:block;
+    width:3rem;
+    height:inherit;
+    cursor:pointer;
+    text-align:center;
+    color:#757575;
+}
+.todolist ol li .btn:hover{
+    opacity:0.9;
+}
+.todolist ol li .check{
+    background-color:#2EB249;
+    color:#fff;
+}
+.todolist ol li .remove{
+    background-color:#F64C3E;
+    color:#fff;
+}
