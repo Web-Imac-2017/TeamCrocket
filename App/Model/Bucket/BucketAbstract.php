@@ -12,12 +12,10 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     protected $id;
     protected $creation_date;
     protected $modification_date;
-    protected $creator_id;
     protected $active;
 
     protected function __construct($data = NULL){
         $this->id = 0;
-        $this->creator_id = $_SESSION['uid'];
         $this->active = 1;
 
         if(is_array($data)){
@@ -56,14 +54,12 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         $pdo = DB::getInstance()->getLink();
 
         // insertion de données
-        $query = "INSERT INTO " . DATABASE_CFG['prefix'] . $orm->getTable() . "(".join($orm->getMap(), ", ").", creator_id, creation_date) VALUES(".join(array_map(function($field){
+        $query = "INSERT INTO " . DATABASE_CFG['prefix'] . $orm->getTable() . "(".join($orm->getMap(), ", ").", creation_date) VALUES(".join(array_map(function($field){
             return ":".$field;
-        }, $orm->getMap()), ", ").", :creator_id, NOW());";
+        }, $orm->getMap()), ", ").", NOW());";
         $stmt = $pdo->prepare($query);
 
         $stmt = $this->bind($orm, $stmt);
-        $stmt->bindValue(':creator_id', $_SESSION['uid'], \PDO::PARAM_INT);
-
 
         if(!$stmt->execute()){
             throw new BucketException(gettext("Query failed"));
@@ -200,12 +196,13 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         $amount = (isset($options['amount'])) ? (int)$options['amount'] : -1;
         $page = (isset($options['page'])) ? (int)$options['page'] : -1;
         $order = (isset($options['order'])) ? 'ORDER BY ' . $options['order'] : '';
+        $filters = (isset($options['filter'])) ? $options['filter'] : [];
 
         if($page > 0 && $amount > 0){
             $start = ($page - 1) * $amount;
         }
 
-        $filter = implode(' AND ', array_map('static::makeFilter', $options['filter']));
+        $filter = implode(' AND ', array_map('static::makeFilter', $filters));
         $limit = ($start != -1 && $amount != -1) ? "LIMIT :start, :amount" : "";
 
 
@@ -272,9 +269,6 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     public function setModificationDate($date){
         $this->modification_date = $date;
     }
-    public function setCreatorId(int $id){
-        $this->creator_id = $id;
-    }
     public function setActive(int $active = 1){
         $this->active = $active;
     }
@@ -288,9 +282,6 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     }
     public function getModificationDate(){
         return $this->modification_date;
-    }
-    public function getCreatorId() : int{
-        return $this->creator_id;
     }
     public function getActive() : int{
         return $this->active;
