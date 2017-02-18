@@ -22,8 +22,8 @@ require(ROOT_INC . 'api.php');
         <div class="wrapper">
             <div class="row">
                 <div class="col-4">
-                    <form id="login-form" method="post" action="api/user/login">
-                        <h3>Welcome</h3>
+                    <?php if($_USER->getId() == 0): ?>
+                    <form id="login-form" method="post" action="api" data-ctrl="user" data-task="login">
                         <h4>Sign in</h4>
                         <div class="form-body">
                             <div class="form-group"><input type="email" class="form-element" name="email" placeholder="Email" required value="<?php if(isset($_GET['email'])) echo $_GET['email']; ?>"></div>
@@ -36,7 +36,7 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Sign in"></div>
                         </div>
                     </form>
-                    <form id="fp-form" method="post" action="api/user/forgottenpassword" class="mt-3">
+                    <form id="fp-form" method="post" action="api" data-ctrl="user" data-task="forgottenpassword" class="mt-3">
                         <h4>Forgotten password ?</h4>
                         <div class="form-body">
                             <div class="form-group"><input type="email" class="form-element" name="email" placeholder="Email" required></div>
@@ -45,7 +45,7 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Validate"></div>
                         </div>
                     </form>
-                    <form id="fp-form" method="post" action="api/user/reset" class="mt-3">
+                    <form id="fp-form" method="post" action="api" data-ctrl="user" data-task="reset" class="mt-3">
                         <h4>Reset password</h4>
                         <div class="form-body">
                             <input type="hidden" name="token" value="<?php echo $_GET['token'] ?? ''; ?>">
@@ -57,7 +57,7 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Validate"></div>
                         </div>
                     </form>
-                    <form id="login-form" method="post" action="api/user/edit" class="mt-3">
+                    <form id="login-form" method="post" action="api" data-ctrl="user" data-task="edit" class="mt-3">
                         <h4>Subscribe</h4>
                         <div class="form-body">
                             <input type="hidden" name="id" value="0">
@@ -72,12 +72,11 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Sign up"></div>
                         </div>
                     </form>
-                </div>
-                <div class="col-4">
-                    <form id="login-form" method="post" action="api/user/edit">
-                        <header>
-                            <h3>Profile</h3>
-                        </header>
+                    <?php else: ?>
+                    <form id="disconnect-form" method="post" action="api" data-ctrl="user" data-task="disconnect">
+                        <div class="form-group clearfix"><input type="submit" class="btn btn-red float-right" value="Disconnect"></div>
+                    </form>
+                    <form id="login-form" method="post" action="api" data-ctrl="user" data-task="edit">
                         <h4>General information</h4>
                         <div class="form-body">
                             <div id="profile_image" style="background-image:url(<?php echo $_USER->getImage(); ?>);"></div>
@@ -111,7 +110,7 @@ require(ROOT_INC . 'api.php');
                                     ?>
                                 </select>
                             </div>
-                            <div class="form-group"><textarea class="form-element" name="description" rows="6" placeholder="Description"><?php echo $_USER->getDescription(); ?></textarea></div>
+                            <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $_USER->getDescription(); ?></textarea></div>
                         </div>
                         <h4 class="mt-2">Security</h4>
                         <div class="form-body">
@@ -125,9 +124,7 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Save"></div>
                         </footer>
                     </form>
-                    <form id="disconnect-form" method="post" action="api/user/disconnect" class="mt-3">
-                        <div class="form-group clearfix"><input type="submit" class="float-right btn btn-red" value="Disconnect"></div>
-                    </form>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -136,7 +133,32 @@ require(ROOT_INC . 'api.php');
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script>
         var $profile_pic;
+
+        // fonctions de callback pour les requêtes Ajax appelée automatiquement
+        var callbacks = {};
+        // callbacks pour le controlleur de la classe User
+        callbacks.user = {
+            // tâche "login"
+            login : function(data){
+                if(!data.success){
+                    return;
+                }
+                setTimeout(function(){
+                    location.reload();
+                }, 200);
+            },
+            disconnect : function(data){
+                if(!data.success){
+                    return;
+                }
+                location.reload();
+            }
+        };
+
         $(function(){
+            /**
+            * Changement de photo de profil
+            */
             $profile_pic = $('#profile_image');
 
             $('#image_file').on('change input', function(e){
@@ -155,13 +177,21 @@ require(ROOT_INC . 'api.php');
                 $profile_pic.css('height', ($profile_pic.width())+'px');
             });
 
+            /**
+            * Gestion des formulaires en AJAX
+            */
             $('form').on('submit', function(e){
                 e.preventDefault();
+
                 var $form = $(this);
+                var ctrl = $form.attr('data-ctrl');
+                var task = $form.attr('data-task');
+                var action = $form.attr('action');
                 var data = new FormData($form[0]);
+
                 $.ajax({
                     method : $form.attr('method'),
-                    url : $form.attr('action'),
+                    url : action+'/'+ctrl+'/'+task,
                     data : data,
                     cache : false,
                     processData : false,
@@ -173,6 +203,11 @@ require(ROOT_INC . 'api.php');
                         }
                         else{
                             $form.find('.error-message').html(data.message).fadeIn(200);
+                        }
+
+                        var func = callbacks[ctrl][task];
+                        if(typeof func === 'function'){
+                            func(data);
                         }
                     }
                 });
