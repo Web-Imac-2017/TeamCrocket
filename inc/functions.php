@@ -79,7 +79,7 @@ function testMail(string $email) : bool{
 */
 function testUsername(string $username) : bool{
     // return true if username is valid
-    return (preg_match('#^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$#', $username, $match) == 1);
+    return (preg_match('#^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$#', $username, $match) == 1);
 }
 
 /**

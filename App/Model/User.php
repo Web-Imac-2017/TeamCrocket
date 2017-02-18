@@ -21,7 +21,7 @@ use \Imagine\Gd\Imagine;
 @field image, string
 @field description, string
 @field city, string
-@field country, string, formatCountry
+@field country_id, int
 @field latitude, float
 @field longitude, float
 @field date_birth, date
@@ -32,7 +32,7 @@ class User extends Bucket\BucketAbstract
 {
     // profile picture
     const PROFILE_PIC_EXTENSION = array('jpeg', 'jpg', 'png', 'gif');
-    const PROFILE_PIC_MAX_SIZE = 1048576 * 2; // 2mo
+    const PROFILE_PIC_MAX_SIZE = 1048576 * 4; // 4mo
     const PROFILE_PIC_MAX_WIDTH = 400;
     const PROFILE_PIC_MAX_HEIGHT = 400;
 
@@ -50,7 +50,7 @@ class User extends Bucket\BucketAbstract
     private $city;
     private $latitude;
     private $longitude;
-    private $country;
+    private $country_id;
     private $date_birth;
     private $verified;
 
@@ -66,7 +66,7 @@ class User extends Bucket\BucketAbstract
         $this->city = "";
         $this->latitude = 0;
         $this->longitude = 0;
-        $this->country = "FRA";
+        $this->country_id = 0;
         $this->date_birth;
         $this->verified = 0;
 
@@ -88,7 +88,7 @@ class User extends Bucket\BucketAbstract
                 'lat' => $this->latitude,
                 'lng' => $this->longitude
             ),
-            'country' => $this->country,
+            'country_id' => $this->country_id,
             'date_birth' => $this->date_birth,
             'creation_date' => $this->creation_date
         );
@@ -113,9 +113,9 @@ class User extends Bucket\BucketAbstract
         }
 
         // on gère l'édition du mot de passe
-        $old_password = $_POST['user']['old_password'] ?? null;
-        $new_password = $_POST['user']['new_password'] ?? null;
-        $confirm_password = $_POST['user']['confirm_password'] ?? null;
+        $old_password = $_POST['old_password'] ?? null;
+        $new_password = $_POST['new_password'] ?? null;
+        $confirm_password = $_POST['confirm_password'] ?? null;
 
         if($new_password){
             if($new_password != $confirm_password){
@@ -343,7 +343,7 @@ class User extends Bucket\BucketAbstract
                 <table>
                     <tr><td>'.gettext("Verify your email adress").'</td></tr>
                     <tr><td>'.gettext("To finish setting up your account, we just need to make sure this email adress is yours. Please follow the link bellow (link expires in 48h) :").'</td></tr>
-                    <tr><td><a href="http://'.$_SERVER['HTTP_HOST'].'/'.GLOBAL_CFG['subdir'].'/api/user/verify/'.$this->email.'/'.$token.'">'.sprintf(gettext("Verify %s"), $this->email).'</a></td></tr>
+                    <tr><td><a href="http://'.$_SERVER['HTTP_HOST'].'/'.GLOBAL_CFG['subdir'].'/index.php?task=verify&email='.$this->email.'&token='.$token.'">'.sprintf(gettext("Verify %s"), $this->email).'</a></td></tr>
                 </table>
             </body>
         </html>
@@ -423,7 +423,7 @@ class User extends Bucket\BucketAbstract
             <body>
                 <table>
                     <tr><td>'.gettext("Please visit the following page to reset your password (link expires in 24h) :").'</td></tr>
-                    <tr><td><a href="http://'.$_SERVER['HTTP_HOST'].'/'.GLOBAL_CFG['subdir'].'/api/user/reset/'.$this->email.'/'.$token.'">Reset my password</a></td></tr>
+                    <tr><td><a href="http://'.$_SERVER['HTTP_HOST'].'/'.GLOBAL_CFG['subdir'].'/index.php?task=reset&email='.$this->email.'&token='.$token.'">Reset my password</a></td></tr>
                 </table>
             </body>
         </html>
@@ -473,11 +473,11 @@ class User extends Bucket\BucketAbstract
     public function setLongitude(float $lng){
         $this->longitude = $lng;
     }
-    public function setCountry(string $country){
-        $this->country = $country;
+    public function setCountryId(string $country_id){
+        $this->country_id = $country_id;
     }
     public function setDateBirth(string $date = NULL, bool $check = false){
-        if($check && !testAge($date)) throw new \Exception(gettext("You must be at least 13 years old to sign up"));
+        if($check && !testAge($date)) throw new \Exception(gettext("You must be at least 13 years old"));
         $this->date_birth = $date;
     }
     public function setVerified(int $verified){
@@ -518,8 +518,11 @@ class User extends Bucket\BucketAbstract
     public function getLongitude() : float{
         return $this->longitude;
     }
-    public function getCountry() : string{
-        return $this->country;
+    public function getCountryId() : int{
+        return $this->country_id;
+    }
+    public function getCountry() : Country{
+        return Country::getUniqueById($this->country_id);
     }
     public function getDateBirth(){
         return $this->date_birth;

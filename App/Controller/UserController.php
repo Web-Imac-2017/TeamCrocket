@@ -51,6 +51,9 @@ class UserController extends BucketAbstractController
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
 
+        if(isset($_POST['token'])){
+            $this->verify($email, $_POST['token']);
+        }
 
 
         if(!User::userExists($email)){
@@ -85,24 +88,27 @@ class UserController extends BucketAbstractController
         $user->verifyAccount($token);
     }
 
-    public function forgottenpassword(string $email){
-        $user = User::getUniqueByEmail($email);
+    public function forgottenpassword(){
+        $user = User::getUniqueByEmail($_POST['email'] ?? '');
         if($user->getId() == 0){
             throw new \Exception("No account existing for the given email adress");
         }
         $user->createRecoveryToken();
     }
 
-    public function reset(string $email, string $token, string $new_password = ''){
+    public function reset(){
+        $email = $_POST['email'] ?? '';
+        $token = $_POST['token'] ?? '';
+        $password1 = $_POST['password1'] ?? '';
+        $password2 = $_POST['password2'] ?? '';
+        if($password1 !== $password2){
+            throw new Exception(gettext("Password confirmation does not match"));
+        }
+
         $user = User::getUniqueByEmail($email);
         if($user->getId() == 0){
-            throw new \Exception("No account existing for the given email adress");
+            throw new \Exception(gettext("No account existing for the given email adress"));
         }
-        $user->resetPassword($token, $new_password);
-    }
-
-    public function test(){
-        $user = User::getUniqueByEmail('jmetterrothan@gmail.com');
-        $user->createVerificationToken();
+        $user->resetPassword($token, $password1);
     }
 }
