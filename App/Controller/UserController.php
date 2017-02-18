@@ -12,6 +12,10 @@ use App\Model\Bucket\BucketFilter;
 
 class UserController extends BucketAbstractController
 {
+    /**
+    * Récupère la liste des utilisateurs
+    * @param int $page
+    */
     public function list($page = -1) : array{
         $filter = [];
 
@@ -24,7 +28,22 @@ class UserController extends BucketAbstractController
         return $data;
     }
 
-    public function edit(){
+    /**
+    * Récupère un utilisateur
+    * @param int $id ID de l'utilisateur
+    */
+    public function get(int $id = 0) : User{
+        $user = User::getUniqueById($id);
+        if($user->getId() == 0){
+            throw new \Exception(sprintf(gettext("Profile n°%s does not exist"), $id));
+        }
+        return $user;
+    }
+
+    /**
+    * Modifie ou créé un utilisateur
+    */
+    public function edit() : User{
         $id = (isset($_POST['id'])) ? (int)$_POST['id'] : 0;
 
         $user = User::getUniqueById($id);
@@ -34,10 +53,18 @@ class UserController extends BucketAbstractController
         return $user;
     }
 
+    /**
+    * Supprime un utilisateur
+    * @param int $id ID de l'utilisateur
+    */
     public function delete(int $id){
         User::deleteById($id);
     }
 
+    /**
+    * Connecte l'utilisateur
+    * Gère également la vérification du compte dans le cas où le token est fourni avec les informations d'authentification
+    */
     public function login(){
         if(!isset($_SESSION['login_attempts'])){
             $_SESSION['login_attempts'] = 0;
@@ -76,10 +103,18 @@ class UserController extends BucketAbstractController
         return $user;
     }
 
+    /**
+    * Déconnecte l'utilisateur
+    */
     public function disconnect(){
         $_SESSION['uid'] = 0;
     }
 
+    /**
+    * Vérifie le compte d'un utilisateur
+    * @param string $email
+    * @param string $token
+    */
     public function verify(string $email, string $token){
         $user = User::getUniqueByEmail($email);
         if($user->getId() == 0){
@@ -88,6 +123,9 @@ class UserController extends BucketAbstractController
         $user->verifyAccount($token);
     }
 
+    /**
+    * Créé un token de récupération du mot de passe et envoi le mail correspondant
+    */
     public function forgottenpassword(){
         $user = User::getUniqueByEmail($_POST['email'] ?? '');
         if($user->getId() == 0){
@@ -96,6 +134,9 @@ class UserController extends BucketAbstractController
         $user->createRecoveryToken();
     }
 
+    /**
+    * Change le mot de passe de l'utilisateur suite à une demande de récupération
+    */
     public function reset(){
         $email = $_POST['email'] ?? '';
         $token = $_POST['token'] ?? '';
