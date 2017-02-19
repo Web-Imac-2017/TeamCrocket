@@ -37,7 +37,7 @@ interface DBInterface
     * @param array $values
     * @return stdClass
     */
-    public static function fetchUniqueObject($class, string $sql, array $values = []){
+    public static function fetchUniqueObject($class, string $sql, array $values = []);
 
     /**
     * Retourne une liste d'objets
@@ -46,5 +46,5 @@ interface DBInterface
     * @param array $values
     * @return stdClass
     */
-    public static function fetchMultipleObject($class, string $sql, array $values = [])
+    public static function fetchMultipleObject($class, string $sql, array $values = []);
 }
