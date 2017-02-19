@@ -167,7 +167,7 @@ class User extends Bucket\BucketAbstract
         $upload = $_FILES['image_file'] ?? null;
 
         if(is_uploaded_file($upload['tmp_name'])){
-            $dir = ROOT_UPLOADS . "/users/" . $this->nickname . "/";
+            $dir = ROOT_UPLOADS . "users/" . $this->nickname . "/";
             $filename = $nom = md5(uniqid(rand(), true));
             $extension = @explode('/', $upload['type'])[1];
 
@@ -269,13 +269,26 @@ class User extends Bucket\BucketAbstract
     * Retourne l'ID du compte associé à une adresse email vérifiée (permet de savoir si le compte existe si il est > 0)
     * /!\ Ne permet pas de savoir si le compte est vérifié, juste si il existe
     * @param string $email
-    * @return bool
+    * @return int
     */
     public static function userExists(string $email) : int{
         $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND active = 1 LIMIT 0, 1";
         $data = array( [":email", $email, \PDO::PARAM_STR] );
 
         return ((int)(DB::fetchUnique($sql, $data)['id']) > 0);
+    }
+
+    /**
+    * Vérifie l'existence d'un ID de compte
+    * /!\ Ne permet pas de savoir si le compte est vérifié, juste si il existe
+    * @param int $id
+    * @return bool
+    */
+    public static function userExistsById(int $id) : bool{
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE id = :id AND active = 1 LIMIT 0, 1";
+        $data = array( [":id", $id, \PDO::PARAM_INT] );
+
+        return (DB::fetchUnique($sql, $data)['id'] > 0);
     }
 
     /**
