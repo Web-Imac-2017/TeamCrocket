@@ -255,6 +255,26 @@ INSERT INTO `ajkl7_country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`,
 (238, 'ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894, 260, NULL, NULL, 1),
 (239, 'ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716, 263, NULL, NULL, 1);
 
+CREATE TABLE `ajkl7_message` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `content` text NOT NULL,
+  `group_id` int(10) UNSIGNED NOT NULL,
+  `author_id` int(10) UNSIGNED NOT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ajkl7_message_group` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(32) NOT NULL,
+  `user_a_id` int(10) UNSIGNED NOT NULL,
+  `user_b_id` int(10) UNSIGNED NOT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `ajkl7_todo` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(32) NOT NULL,
@@ -310,6 +330,16 @@ ALTER TABLE `ajkl7_country`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`id`);
 
+ALTER TABLE `ajkl7_message`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ajkl7_message_ibfk_1` (`group_id`),
+  ADD KEY `author_id` (`author_id`);
+
+ALTER TABLE `ajkl7_message_group`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_a` (`user_a_id`),
+  ADD KEY `user_b` (`user_b_id`);
+
 ALTER TABLE `ajkl7_todo`
   ADD PRIMARY KEY (`id`),
   ADD KEY `creator_id` (`creator_id`);
@@ -332,10 +362,22 @@ ALTER TABLE `ajkl7_user_verification`
 
 ALTER TABLE `ajkl7_country`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
+ALTER TABLE `ajkl7_message`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+ALTER TABLE `ajkl7_message_group`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 ALTER TABLE `ajkl7_todo`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 ALTER TABLE `ajkl7_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+
+ALTER TABLE `ajkl7_message`
+  ADD CONSTRAINT `ajkl7_message_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `ajkl7_message_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_message_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `ajkl7_message_group`
+  ADD CONSTRAINT `ajkl7_message_group_ibfk_1` FOREIGN KEY (`user_a_id`) REFERENCES `ajkl7_user` (`id`),
+  ADD CONSTRAINT `ajkl7_message_group_ibfk_2` FOREIGN KEY (`user_b_id`) REFERENCES `ajkl7_user` (`id`);
 
 ALTER TABLE `ajkl7_todo`
   ADD CONSTRAINT `ajkl7_todo_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
