@@ -29,4 +29,22 @@ interface DBInterface
     * @return array|null Tableau de résultats de la requête
     */
     public static function fetchMultiple(string $sql, array $values = []);
+
+    /**
+    * Retourne un objet
+    * @param string $class
+    * @param string $sql
+    * @param array $values
+    * @return stdClass
+    */
+    public static function fetchUniqueObject($class, string $sql, array $values = []){
+
+    /**
+    * Retourne une liste d'objets
+    * @param string $class
+    * @param string $sql
+    * @param array $values
+    * @return stdClass
+    */
+    public static function fetchMultipleObject($class, string $sql, array $values = [])
 }

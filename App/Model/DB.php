@@ -52,6 +52,10 @@ class DB implements DBInterface
         return $result;
     }
 
+    final public static function fetchUniqueObject($class, string $sql, array $values = []){
+        return new $class(self::fetchUnique($sql, $values));
+    }
+
 
     final public static function fetchMultiple(string $sql, array $values = []){
         $pdo = self::getInstance()->getLink();
@@ -68,6 +72,25 @@ class DB implements DBInterface
         }
         $stmt->closeCursor();
         return $result;
+    }
+
+    final public static function fetchMultipleObject($class, string $sql, array $values = []){
+        $pdo = self::getInstance()->getLink();
+        $results = [];
+
+        $stmt = $pdo->prepare($sql);
+        foreach($values as $temp){
+            $stmt->bindValue($temp[0], $temp[1], $temp[2]);
+        }
+        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
+
+        if($stmt->execute()){
+            while($result = $stmt->fetch()){
+                $results[] = new $class($result);
+            }
+        }
+        $stmt->closeCursor();
+        return $results;
     }
 
     final public static function exec(string $sql, array $values = []){
