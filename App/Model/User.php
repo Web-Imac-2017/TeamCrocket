@@ -6,9 +6,9 @@
 
 namespace App\Model;
 
-use \Imagine\Image\Point;
-use \Imagine\Image\Box;
-use \Imagine\Gd\Imagine;
+use Imagine\Image\Point;
+use Imagine\Image\Box;
+use Imagine\Gd\Imagine;
 
 /*
 @table user
@@ -66,7 +66,7 @@ class User extends Bucket\BucketAbstract
         $this->city = "";
         $this->latitude = 0;
         $this->longitude = 0;
-        $this->country_id = 0;
+        $this->country_id = 73;
         $this->date_birth;
         $this->verified = 0;
 
@@ -108,10 +108,6 @@ class User extends Bucket\BucketAbstract
     }
 
     protected function beforeUpdate(){
-        if($_SESSION['uid'] == 0){
-            throw new \Exception("You must sign in");
-        }
-
         // on gère l'édition du mot de passe
         $old_password = $_POST['old_password'] ?? null;
         $new_password = $_POST['new_password'] ?? null;
@@ -245,7 +241,7 @@ class User extends Bucket\BucketAbstract
     * @return int ID du compte correspondant à la combinaison email/mot de passe
     */
     public static function login(string $email, string $password) : int{
-        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND password = :password AND verified = 1 AND active = 1 LIMIT 0, 1";
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND password = :password AND active = 1 LIMIT 0, 1";
         $data = array(
             [":email", $email, \PDO::PARAM_STR],
             [":password", hashPassword($password), \PDO::PARAM_STR]
