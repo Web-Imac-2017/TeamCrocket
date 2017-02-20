@@ -17,16 +17,19 @@ if(GLOBAL_CFG['debug']){
     error_reporting(E_ALL);
 }
 
-spl_autoload_register(function($class){
-    $path = ROOT . str_replace('\\', '/', $class).".php";
+spl_autoload_register(function($classname){
+    $path = ROOT . str_replace('\\', '/', $classname).".php";
+    $path_inc = ROOT_INC.str_replace('\\', '/', $classname).'.php';
+
     if(file_exists($path)){
         require $path;
     }
+    if(file_exists($path_inc)){
+        require $path_inc;
+    }
 });
 
-
 require ROOT_INC."PHPMailer/PHPMailerAutoload.php";
-require ROOT_INC."Imagine/ImagineAutoload.php";
 require ROOT_INC . 'functions.php';
 
 
