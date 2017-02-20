@@ -94,11 +94,24 @@ class User extends Bucket\BucketAbstract
         );
     }
 
+    public function getLatLong(){
+        $address = $this->city . ', '. $this->getCountry()->getNicename();
+        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($address).'&sensor=false');
+        $output = json_decode($geocode);
+
+        $this->latitude = $output->results[0]->geometry->location->lat;
+        $this->longitude = $output->results[0]->geometry->location->lng;
+    }
+
+
     protected function beforeInsert(){
         // on vérifie que l'utilisateur n'existe pas encore
         if(User::userExists($this->email)){
             throw new \Exception(gettext("An account already exists with this email adress"));
         }
+
+        // API GEOLOC
+        $this->getLatLong();
 
         // reCAPTCHA
         $this->handleCaptcha();
@@ -108,6 +121,9 @@ class User extends Bucket\BucketAbstract
     }
 
     protected function beforeUpdate(){
+        // API GEOLOC
+        $this->getLatLong();
+
         // on gère l'édition du mot de passe
         $old_password = $_POST['old_password'] ?? null;
         $new_password = $_POST['new_password'] ?? null;

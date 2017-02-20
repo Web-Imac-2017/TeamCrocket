@@ -4,6 +4,10 @@ define('ROOT_INC', ROOT.'inc/');
 
 require(ROOT_INC . 'init.php');
 require(ROOT_INC . 'api.php');
+
+$user = User::getUniqueById(125);
+$user->getLatLng();
+var_dump($user);
 ?>
 <!DOCTYPE html>
 <html>
