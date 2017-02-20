@@ -12,6 +12,10 @@ use App\Model\Bucket\BucketFilter;
 
 class UserController extends BucketAbstractController
 {
+    public function sync(){
+        return User::getUniqueById($_SESSION['uid']);
+    }
+
     /**
     * Récupère la liste des utilisateurs
     * @param int $page
@@ -78,16 +82,16 @@ class UserController extends BucketAbstractController
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        if(isset($_POST['token'])){
-            $this->verify($email, $_POST['token']);
-        }
-
-
         if(!User::userExists($email)){
             throw new \Exception(gettext("No account existing for the given email adress"));
         }
         if(!User::isVerified($email)){
-            throw new \Exception(gettext("Please verify your account"));
+            if(isset($_POST['token'])){
+                $this->verify($email, $_POST['token']);
+            }
+            else{
+                throw new \Exception(gettext("Please verify your account"));
+            }
         }
 
         $id = User::login($email, $password);
