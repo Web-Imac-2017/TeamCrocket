@@ -110,9 +110,6 @@ class User extends Bucket\BucketAbstract
             throw new \Exception(gettext("An account already exists with this email adress"));
         }
 
-        // API GEOLOC
-        $this->getLatLong();
-
         // reCAPTCHA
         $this->handleCaptcha();
 
