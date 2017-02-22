@@ -1,17 +1,25 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+CREATE DATABASE IF NOT EXISTS `teamcrocket` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `teamcrocket`;
 
 CREATE TABLE `ajkl7_animal` (
   `id` int(10) UNSIGNED NOT NULL,
   `owner_id` int(10) UNSIGNED NOT NULL,
   `species_id` int(10) UNSIGNED DEFAULT NULL,
   `name` varchar(32) NOT NULL,
+  `description` text NOT NULL,
   `weight` float DEFAULT NULL,
   `date_birth` date DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+CREATE TABLE `ajkl7_animal_gallery` (
+  `animal_id` int(10) UNSIGNED NOT NULL,
+  `image_id` int(10) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `ajkl7_country` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -267,6 +275,15 @@ INSERT INTO `ajkl7_country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`,
 (238, 'ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894, 260, NULL, NULL, 1),
 (239, 'ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716, 263, NULL, NULL, 1);
 
+CREATE TABLE `ajkl7_image` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(48) NOT NULL,
+  `creator_id` int(10) UNSIGNED NOT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `ajkl7_message` (
   `id` int(10) UNSIGNED NOT NULL,
   `content` text NOT NULL,
@@ -313,7 +330,7 @@ CREATE TABLE `ajkl7_user` (
   `firstname` varchar(32) NOT NULL,
   `email` varchar(128) NOT NULL,
   `sex` char(1) NOT NULL DEFAULT 'h' COMMENT 'h/f',
-  `image` varchar(255) NOT NULL,
+  `image_id` int(10) UNSIGNED DEFAULT NULL,
   `description` text NOT NULL,
   `city` varchar(32) NOT NULL,
   `latitude` float NOT NULL,
@@ -325,6 +342,9 @@ CREATE TABLE `ajkl7_user` (
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `creation_date`, `modification_date`, `active`) VALUES
+(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'h', 41, '', 'Noisiel', 48.8548, 2.6287, 73, '1993-05-09', 1, '2017-02-22 21:59:36', '2017-02-22 22:00:40', 1);
 
 CREATE TABLE `ajkl7_user_log_connexion` (
   `user_id` int(11) UNSIGNED NOT NULL,
@@ -351,9 +371,17 @@ ALTER TABLE `ajkl7_animal`
   ADD KEY `owner_id` (`owner_id`),
   ADD KEY `species_id` (`species_id`);
 
+ALTER TABLE `ajkl7_animal_gallery`
+  ADD KEY `ajkl7_animal_gallery_ibfk_1` (`animal_id`),
+  ADD KEY `image_id` (`image_id`);
+
 ALTER TABLE `ajkl7_country`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`id`);
+
+ALTER TABLE `ajkl7_image`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ajkl7_image_ibfk_1` (`creator_id`);
 
 ALTER TABLE `ajkl7_message`
   ADD PRIMARY KEY (`id`),
@@ -376,7 +404,8 @@ ALTER TABLE `ajkl7_user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
   ADD UNIQUE KEY `nickname` (`nickname`),
-  ADD KEY `country_id` (`country_id`);
+  ADD KEY `country_id` (`country_id`),
+  ADD KEY `image_id` (`image_id`);
 
 ALTER TABLE `ajkl7_user_log_connexion`
   ADD KEY `user_id` (`user_id`);
@@ -389,23 +418,32 @@ ALTER TABLE `ajkl7_user_verification`
 
 
 ALTER TABLE `ajkl7_animal`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_country`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
+ALTER TABLE `ajkl7_image`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 ALTER TABLE `ajkl7_message`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_message_group`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_species`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_todo`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
 
 ALTER TABLE `ajkl7_animal`
   ADD CONSTRAINT `ajkl7_animal_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_ibfk_2` FOREIGN KEY (`species_id`) REFERENCES `ajkl7_species` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
+
+ALTER TABLE `ajkl7_animal_gallery`
+  ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `ajkl7_image`
+  ADD CONSTRAINT `ajkl7_image_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_message`
   ADD CONSTRAINT `ajkl7_message_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `ajkl7_message_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -419,7 +457,8 @@ ALTER TABLE `ajkl7_todo`
   ADD CONSTRAINT `ajkl7_todo_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_user`
-  ADD CONSTRAINT `ajkl7_user_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `ajkl7_country` (`id`);
+  ADD CONSTRAINT `ajkl7_user_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `ajkl7_country` (`id`),
+  ADD CONSTRAINT `ajkl7_user_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_user_log_connexion`
   ADD CONSTRAINT `ajkl7_user_log_connexion_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;

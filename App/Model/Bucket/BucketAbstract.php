@@ -58,7 +58,6 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
             return ":".$field;
         }, $orm->getMap()), ", ").", NOW());";
         $stmt = $pdo->prepare($query);
-
         $stmt = $this->bind($orm, $stmt);
 
         if(!$stmt->execute()){
@@ -85,10 +84,10 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         $stmt = $this->bind($orm, $stmt);
         $stmt->bindValue('id', $this->getId(), \PDO::PARAM_INT);
 
-
         if(!$stmt->execute()){
             throw new BucketException(gettext("Query failed"));
         }
+
         $stmt->closeCursor();
     }
 
@@ -114,10 +113,10 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
             }
 
             if(method_exists($this, $method)){
-                $stmt->bindValue($field->getName(), $value, $field->getType());
+                $type = (is_null($value)) ? \PDO::PARAM_NULL : $field->getType();
+                $stmt->bindValue($field->getName(), $value, $type);
             }
         }
-
         return $stmt;
     }
 
