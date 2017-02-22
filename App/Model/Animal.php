@@ -58,6 +58,17 @@ class Animal extends Bucket\BucketAbstract
     protected function afterInsert(){}
     protected function afterUpdate(){}
 
+    /**
+    * Retourne la liste des images associées à l'animal
+    */
+    public function getImageList() : array{
+        $sql = "SELECT i.* FROM ".DATABASE_CFG['prefix']."image i INNER JOIN ".DATABASE_CFG['prefix']."animal_gallery g ON i.id = g.image_id WHERE g.animal_id = :id AND active = 1";
+        $data = array(
+            [":id", $this->getId(), \PDO::PARAM_INT]
+        );
+        return (array)DB::fetchMultipleObject("App\Model\Image", $sql, $data);
+    }
+
     //Getters
     public function getName() : string{
         return $this->name;
@@ -82,9 +93,8 @@ class Animal extends Bucket\BucketAbstract
     }
 
     // setters
-    public function setName(string $name, bool $check = false){
-        if($check && !testUsername($name)) $this->addError("name", gettext("Invalid format"));
-        else $this->name = $name;
+    public function setName(string $name){
+        $this->name = $name;
     }
     public function setSpeciesId(int $species){
         $this->species_id = $species;

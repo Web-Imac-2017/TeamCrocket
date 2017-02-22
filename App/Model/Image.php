@@ -70,7 +70,7 @@ class Image extends Bucket\BucketAbstract
     }
 
     /**
-    * Formate une image en photo de profil
+    * Formate une image en photo de profil (Limite de taille et recadrage)
     * /!\ Écrase l'ancienne image
     * @param int $maxWidth
     * @param int $maxHeight
