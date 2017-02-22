@@ -6,10 +6,6 @@
 
 namespace App\Model;
 
-use Imagine\Image\Point;
-use Imagine\Image\Box;
-use Imagine\Gd\Imagine;
-
 /*
 @table user
 @field nickname, string
@@ -18,7 +14,7 @@ use Imagine\Gd\Imagine;
 @field firstname, string
 @field email, string
 @field sex, string
-@field image, string
+@field image_id, int
 @field description, string
 @field city, string
 @field country_id, int
@@ -31,11 +27,6 @@ use Imagine\Gd\Imagine;
 class User extends Bucket\BucketAbstract
 {
     // profile picture
-    const PROFILE_PIC_EXTENSION = array('jpeg', 'jpg', 'png', 'gif');
-    const PROFILE_PIC_MAX_SIZE = 1048576 * 4; // 4mo
-    const PROFILE_PIC_MAX_WIDTH = 400;
-    const PROFILE_PIC_MAX_HEIGHT = 400;
-
     const SEX_MALE = 'h';
     const SEX_FEMALE = 'f';
 
@@ -45,7 +36,7 @@ class User extends Bucket\BucketAbstract
     private $firstname;
     private $email;
     private $sex;
-    private $image;
+    private $image_id;
     private $description;
     private $city;
     private $latitude;
@@ -61,7 +52,6 @@ class User extends Bucket\BucketAbstract
         $this->firstname = "";
         $this->email = "";
         $this->sex = self::SEX_MALE;
-        $this->image = "";
         $this->description = "";
         $this->city = "";
         $this->latitude = 0;
@@ -81,7 +71,7 @@ class User extends Bucket\BucketAbstract
             'firstname' => $this->firstname,
             'email' => $this->email,
             'sex' => $this->sex,
-            'image' => $this->image,
+            'image' => $this->getImage(),
             'description' => $this->description,
             'city' => $this->city,
             'position' => array(
@@ -185,64 +175,16 @@ class User extends Bucket\BucketAbstract
     * @return void
     */
     protected function handleProfilePic(){
-        // image de profil
-        $upload = $_FILES['image_file'] ?? null;
+        if(isset($_FILES['image_file'])){
+            $image = Image::upload($_FILES['image_file'], array(
+                'extensions' => array('jpeg', 'jpg', 'png', 'gif'),
+                'max_size' => 1048576 * 4
+            ));
 
-        if(is_uploaded_file($upload['tmp_name'])){
-            $dir = ROOT_UPLOADS . "users/" . $this->nickname . "/";
-            $filename = $nom = md5(uniqid(rand(), true));
-            $extension = @explode('/', $upload['type'])[1];
+            if($image->getId() > 0){
+                $image->toProfilePic(400, 400);
 
-            // vérifications de l'intégrité du fichier
-            if($_FILES['image_file']['error'] > 0){
-                throw new \Exception(gettext("Error") . " " . $_FILES['image_file']['error']);
-            }
-            if(!in_array($extension, self::PROFILE_PIC_EXTENSION)){
-                throw new \Exception(sprintf(gettext("Invalid image extension (only %s)"), implode(self::PROFILE_PIC_EXTENSION, ", ")));
-            }
-            if($upload['size'] > self::PROFILE_PIC_MAX_SIZE){
-                throw new \Exception(gettext("File is too large"));
-            }
-
-            // création du dossier de destination si il n'existe pas encore
-            if(!is_dir($dir)){
-                mkdir($dir, 0777, true);
-            }
-
-            // déplacement du fichier depuis le dossier tmp
-            $path = $dir . $filename . '.' . $extension;
-            if(!move_uploaded_file($upload['tmp_name'], $path)){
-                throw new \Exception(gettext("Could not move image"));
-            }
-            else{
-                // traitement sur le fichier
-                $imagine = new Imagine();
-                $image = $imagine->open($path);
-                list($width, $height) = getimagesize($path);
-
-                $cropSize = ($width > $height) ? $height : $width;
-                $cropPosX = $width / 2 - $cropSize / 2;
-                $cropPosY = $height / 2 - $cropSize / 2;
-
-                // on créé un beau carré
-                $image->crop(new Point($cropPosX, $cropPosY), new Box($cropSize, $cropSize));
-                // on redimensionne selon les tailles max
-                $image->resize(new Box(self::PROFILE_PIC_MAX_WIDTH, self::PROFILE_PIC_MAX_HEIGHT));
-
-                // options
-                $options = [];
-                if($extension == 'jpeg' || $extension == 'jpg'){
-                    $options['jpeg_quality'] = 70;
-                }
-                else if($extension == 'png'){
-                    $options['png_compression_level'] = 9;
-                }
-
-                // enregistrement
-                $image->save($path, $options);
-
-
-                $this->image = $path;
+                $this->setImageId($image->getId());
             }
         }
     }
@@ -493,8 +435,8 @@ class User extends Bucket\BucketAbstract
     public function setSex(string $sex){
         $this->sex = $sex;
     }
-    public function setImage(string $path){
-        $this->image = $path;
+    public function setImageId($id){
+        $this->image_id = $id;
     }
     public function setDescription(string $desc){
         $this->description = $desc;
@@ -538,8 +480,11 @@ class User extends Bucket\BucketAbstract
     public function getSex() : string{
         return $this->sex;
     }
-    public function getImage() : string{
-        return $this->image;
+    public function getImageId(){
+        return $this->image_id;
+    }
+    public function getImage() : Image{
+        return Image::getUniqueById((int)$this->image_id);
     }
     public function getDescription() : string{
         return $this->description;
