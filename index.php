@@ -5,6 +5,11 @@ define('ROOT_INC', ROOT.'inc/');
 require(ROOT_INC . 'init.php');
 require(ROOT_INC . 'api.php');
 
+/*$animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0);
+$species = App\Model\Species::getUniqueById($_GET['sid'] ?? 0);
+
+var_dump($animal, $animal->getSpecies());*/
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -77,7 +82,7 @@ require(ROOT_INC . 'api.php');
                     <form id="disconnect-form" method="post" action="api" data-ctrl="user" data-task="disconnect">
                         <div class="form-group clearfix"><input type="submit" class="btn btn-red float-right" value="Disconnect"></div>
                     </form>
-                    <form id="login-form" method="post" action="api" data-ctrl="user" data-task="edit">
+                    <form id="profile-form" method="post" action="api" data-ctrl="user" data-task="edit">
                         <h4>General information</h4>
                         <div class="form-body">
                             <div id="profile_image" style="background-image:url(<?php echo $_USER->getImage(); ?>);"></div>
@@ -125,6 +130,8 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Save"></div>
                         </footer>
                     </form>
+
+                    
                     <?php endif; ?>
                 </div>
             </div>
