@@ -94,15 +94,28 @@ class User extends Bucket\BucketAbstract
         );
     }
 
+    // geocoding
     public function getLatLong(){
         $address = $this->city . ', '. $this->getCountry()->getNicename();
         $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($address).'&sensor=false');
         $output = json_decode($geocode);
 
-        $this->latitude = $output->results[0]->geometry->location->lat;
-        $this->longitude = $output->results[0]->geometry->location->lng;
+        if($output->status == 'OK'){
+            $this->setLatitude($output->results[0]->geometry->location->lat);
+            $this->setLongitude($output->results[0]->geometry->location->lng);
+        }
     }
 
+    // reverse geocoding
+    public function getCityFromCoord(){
+        $geocode = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?latlng='.$this->getLatitude().','.$this->getLongitude().'&result_type=country|locality&key=AIzaSyCjXk_CjR3VFOABhIhnZwu6K21V7m_gJw0');
+        $output = json_decode($geocode);
+
+        if($output->status == 'OK'){
+            $this->setCity($output->results[0]->address_components[0]->long_name);
+            $this->setCountryId(Country::getCountryIdByISO($output->results[0]->address_components[3]->short_name));
+        }
+    }
 
     protected function beforeInsert(){
         // on vérifie que l'utilisateur n'existe pas encore

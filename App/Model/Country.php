@@ -47,6 +47,14 @@ class Country extends Bucket\BucketAbstract
         );
     }
 
+    public static function getCountryIdByISO(string $iso) : int{
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."country WHERE iso = :iso AND active = 1 LIMIT 0, 1";
+        $data = array(
+            [":iso", strtoupper(substr($iso, 0, 2)), \PDO::PARAM_STR]
+        );
+        return (int)(DB::fetchUnique($sql, $data)['id']);
+    }
+
     protected function beforeInsert(){
         if($_SESSION['uid'] == 0){
             throw new \Exception("You must sign in");
