@@ -1,6 +1,18 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+CREATE TABLE `ajkl7_animal` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `owner_id` int(10) UNSIGNED NOT NULL,
+  `species_id` int(10) UNSIGNED DEFAULT NULL,
+  `name` varchar(32) NOT NULL,
+  `weight` float DEFAULT NULL,
+  `date_birth` date DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
 CREATE TABLE `ajkl7_country` (
   `id` int(10) UNSIGNED NOT NULL,
   `iso` char(2) NOT NULL,
@@ -275,6 +287,14 @@ CREATE TABLE `ajkl7_message_group` (
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `ajkl7_species` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `ajkl7_todo` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(32) NOT NULL,
@@ -326,6 +346,11 @@ CREATE TABLE `ajkl7_user_verification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+ALTER TABLE `ajkl7_animal`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `owner_id` (`owner_id`),
+  ADD KEY `species_id` (`species_id`);
+
 ALTER TABLE `ajkl7_country`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`id`);
@@ -339,6 +364,9 @@ ALTER TABLE `ajkl7_message_group`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_a` (`user_a_id`),
   ADD KEY `user_b` (`user_b_id`);
+
+ALTER TABLE `ajkl7_species`
+  ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `ajkl7_todo`
   ADD PRIMARY KEY (`id`),
@@ -360,16 +388,24 @@ ALTER TABLE `ajkl7_user_verification`
   ADD UNIQUE KEY `user_id` (`user_id`);
 
 
+ALTER TABLE `ajkl7_animal`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 ALTER TABLE `ajkl7_country`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 ALTER TABLE `ajkl7_message`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
 ALTER TABLE `ajkl7_message_group`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+ALTER TABLE `ajkl7_species`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 ALTER TABLE `ajkl7_todo`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 ALTER TABLE `ajkl7_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
+
+ALTER TABLE `ajkl7_animal`
+  ADD CONSTRAINT `ajkl7_animal_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_animal_ibfk_2` FOREIGN KEY (`species_id`) REFERENCES `ajkl7_species` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_message`
   ADD CONSTRAINT `ajkl7_message_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `ajkl7_message_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
