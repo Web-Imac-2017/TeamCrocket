@@ -5,11 +5,8 @@ define('ROOT_INC', ROOT.'inc/');
 require(ROOT_INC . 'init.php');
 require(ROOT_INC . 'api.php');
 
-/*$animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0);
-$species = App\Model\Species::getUniqueById($_GET['sid'] ?? 0);
-
-var_dump($animal, $animal->getSpecies());*/
-
+#$animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0);
+#var_dump($animal->getImageList());
 ?>
 <!DOCTYPE html>
 <html>
@@ -127,8 +124,12 @@ var_dump($animal, $animal->getSpecies());*/
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Save"></div>
                         </footer>
                     </form>
-
-                    
+                    <?php endif; ?>
+                </div>
+                <div class="col-8">
+                    <?php if($_USER->getId()): ?>
+                    <h4>Position</h4>
+                    <div id="map" style="height:400px;"></div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -142,7 +143,21 @@ var_dump($animal, $animal->getSpecies());*/
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjXk_CjR3VFOABhIhnZwu6K21V7m_gJw0&callback=initMap"></script>
         <script>
+        function initMap() {
+        var position = { lat : <?php echo $_USER->getLatitude(); ?>, lng : <?php echo $_USER->getLongitude(); ?> };
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 14,
+          center: position,
+          scrollwheel: false
+        });
+        var marker = new google.maps.Marker({
+          position: position,
+          map: map
+        });
+      }
+
         var $profile_pic;
 
         // fonctions de callback pour les requêtes Ajax appelée automatiquement
