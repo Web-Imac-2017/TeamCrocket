@@ -107,6 +107,27 @@ class User extends Bucket\BucketAbstract
         }
     }
 
+    /**
+    * Retourne la liste des animaux pour l'utilisateur courant
+    * @param int $start
+    * @param int $amount
+    * @return array Tableau d'objets Animal
+    */
+    public function getAnimalList(int $start = -1, int $amount = -1) : array{
+        $limit = ($start != -1 && $amount != -1) ? "LIMIT :start, :amount" : "";
+        $data = [];
+        $data[] = [":id", $this->id, \PDO::PARAM_INT];
+
+        if($start != -1 && $amount != -1){
+            $data[] = [":start", $start, \PDO::PARAM_INT];
+            $data[] = [":amount", $amount, \PDO::PARAM_INT];
+        }
+
+        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal WHERE owner_id = :id AND active = 1 {$limit}";
+
+        return DB::fetchMultipleObject('App\Model\Animal', $sql, $data);
+    }
+
     protected function beforeInsert(){
         // on vérifie que l'utilisateur n'existe pas encore
         if(User::userExists($this->email)){

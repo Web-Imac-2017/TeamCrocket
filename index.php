@@ -127,35 +127,34 @@ require(ROOT_INC . 'api.php');
                     <?php endif; ?>
                 </div>
                 <div class="col-4">
-                    <?php if($_USER->getId() > 0): ?>
-                    <div class="form-group">
-                        <ul>
-                            <?php
-                            $profileList = $_USER->getAnimalList();
-                            foreach($profileList as $profile){
-                                echo "<li>{$profile->getName()}</li>";
-                            }
-                            ?>
-                        </ul>
-                    </div>
-                    <?php
+                    <?php if($_USER->getId() > 0):
+
                     $animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0);
                     ?>
 
                     <form id="profile-animal-form" method="post" action="api" data-ctrl="profile" data-task="edit">
+                        <h4>Profil animal</h4>
                         <div class="form-group">
                             <input type="hidden" name="id" value="<?php echo $animal->getId(); ?>">
-                            <div class="form-group"><input type="text" class="form-element" name="name" placeholder="Name" required value="<?php echo $animal->getName(); ?>"></div>
-
-                            <select name="species_id" class="form-element">
+                            <div class="form-group">
+                                <input type="file" class="form-element" name="image_file" accept="image/.png,.jpg,.jpeg,.gif">
+                            </div>
+                            <div class="form-group">
+                                <ul>
                                 <?php
-                                $species = App\Model\Species::getMultiple();
-                                foreach($species as $s){
-                                    $selected = ($s->getId() == $animal->getSpeciesId()) ? 'selected' : '';
-                                    echo "<option {$selected} value=\"{$s->getId()}\">{$s->getName()}</option>";
+                                $images = $animal->getImageList();
+                                foreach($images as $image){
+                                    echo '<li value="'.$image->getId().'">
+                                    <a target="_blank" href="'.$image->getPath().'">'.$image->getName().'</a>
+                                    <a class="float-right" href="api/profile/delete_image/'.$image->getId().'"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                    </li>';
                                 }
                                 ?>
-                            </select>
+                                </ul>
+                            </div>
+                            <div class="form-group"><input type="text" class="form-element" name="name" placeholder="Name" required value="<?php echo $animal->getName(); ?>"></div>
+                            <div class="form-group"><input type="date" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $_USER->getDateBirth(); ?>"></div>
+                            <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $animal->getDescription(); ?></textarea></div>
                         </div>
 
                         <footer>
@@ -183,6 +182,7 @@ require(ROOT_INC . 'api.php');
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script src="./script/fontawesome.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjXk_CjR3VFOABhIhnZwu6K21V7m_gJw0&callback=initMap"></script>
         <script>
         function initMap() {

@@ -7,6 +7,7 @@
 namespace App\Controller;
 
 use App\Model\Animal;
+use App\Model\Image;
 use App\Model\Bucket\BucketFilter;
 
 class ProfileController extends BucketAbstractController
@@ -59,5 +60,9 @@ class ProfileController extends BucketAbstractController
     */
     public function delete(int $id){
         Animal::deleteById($id);
+    }
+
+    public function delete_image(int $id){
+        Image::deleteById($id);
     }
 }
