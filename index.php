@@ -79,13 +79,10 @@ var_dump($animal, $animal->getSpecies());*/
                         </div>
                     </form>
                     <?php else: ?>
-                    <form id="disconnect-form" method="post" action="api" data-ctrl="user" data-task="disconnect">
-                        <div class="form-group clearfix"><input type="submit" class="btn btn-red float-right" value="Disconnect"></div>
-                    </form>
                     <form id="profile-form" method="post" action="api" data-ctrl="user" data-task="edit">
                         <h4>General information</h4>
                         <div class="form-body">
-                            <div id="profile_image" style="background-image:url(<?php echo $_USER->getImage(); ?>);"></div>
+                            <div id="profile_image" style="background-image:url(<?php echo $_USER->getImage()->getPath(); ?>);"></div>
                             <div class="form-group">
                                 <input id="image_file" type="file" class="form-element" name="image_file" accept="image/.png,.jpg,.jpeg,.gif">
                                 <label for="image_file">Change profile picture ...</label>
@@ -136,7 +133,13 @@ var_dump($animal, $animal->getSpecies());*/
                 </div>
             </div>
         </div>
-        <div class="user-info"><?php echo "[UID:{$_USER->getId()}] {$_USER->getNickname()}"; ?></div>
+        <div class="user-info">
+            <?php if($_USER->getId()): ?>
+            <form id="disconnect-form" method="post" action="api" data-ctrl="user" data-task="disconnect">
+                <div class="form-group clearfix"><input type="submit" class="btn btn-red float-right" value="Disconnect"></div>
+            </form>
+            <?php endif; ?>
+        </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script>
