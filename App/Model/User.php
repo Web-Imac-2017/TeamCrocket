@@ -202,7 +202,7 @@ class User extends Bucket\BucketAbstract
                 'max_size' => 1048576 * 4
             ));
 
-            if($image->getId() > 0){
+            if($image instanceof Image){
                 $image->toProfilePic(400, 400);
 
                 $this->setImageId($image->getId());

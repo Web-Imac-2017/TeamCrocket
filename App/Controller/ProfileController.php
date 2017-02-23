@@ -60,9 +60,19 @@ class ProfileController extends BucketAbstractController
     */
     public function delete(int $id){
         Animal::deleteById($id);
+        return $id;
+    }
+
+    public function upload(){
+        $animal = Animal::getUniqueById($_POST['id'] ?? 0);
+        if($animal->getOwnerId() != $_SESSION['uid']){
+            throw new \Exception(gettext("You cannot do this"));
+        }
+        return $animal->uploadImage();
     }
 
     public function delete_image(int $id){
         Image::deleteById($id);
+        return $id;
     }
 }

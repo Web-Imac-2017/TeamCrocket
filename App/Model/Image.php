@@ -34,13 +34,15 @@ class Image extends Bucket\BucketAbstract
     * @param array $options
     * @return Image
     */
-    public static function upload(array $file, $options = []) : Image{
+    public static function upload(array $file, $options = []){
         $options['extensions'] = $options['extensions'] ?? [];
         $options['max_size'] = $options['max_size'] ?? [];
 
-        $image = new Image();
+        $image = NULL;
 
         if(is_uploaded_file($file['tmp_name'])){
+            $image = new Image();
+
             $filename = md5(uniqid(rand(), true));
             $extension = @explode('/', $file['type'])[1];
 
@@ -107,6 +109,7 @@ class Image extends Bucket\BucketAbstract
     public function jsonSerialize(){
         return array(
             'id' => $this->id,
+            'name' => $this->name,
             'creator_id' => $this->creator_id,
             'path' => $this->getPath(),
             'creation_date' => $this->creation_date

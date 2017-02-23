@@ -28,7 +28,46 @@ a{
         color:#2574A9;
     }
 }
+.list{
+    margin-bottom:2rem;
+    li{
+        line-height:2rem;
+    }
+}
+a.btn{
+    display:block;
+    width:1.75rem;
+    height:1.75rem;
+    line-height:1.75rem;
+    font-size:1.2rem;
+    text-align:center;
+    position:relative;
+    padding:0;
+    margin:0;
 
+    i{
+        position:absolute;
+        left:0;
+        top:0;
+        width:1.75rem;
+        height:1.75rem;
+        line-height:1.75rem;
+    }
+}
+a.btn.btn-delete{
+    background-color:#D64541;
+    color:#fff;
+    &:hover{
+        background:darken(#D64541, 5%);
+    }
+}
+a.btn.btn-add{
+    background-color:#26A65B;
+    color:#fff;
+    &:hover{
+        background:darken(#26A65B, 5%);
+    }
+}
 .form-element{
     width:100%;
     display:block;
@@ -58,8 +97,16 @@ input[type=radio].form-element{
     width:2rem;
     float:left;
 }
-input[type=file]#image_file{
+.custom-file-input input[type=file]{
     display:none;
+}
+.custom-file-input{
+    position:relative;
+}
+.custom-file-input input[type=submit]{
+    position:absolute;
+    right:0;
+    top:0;
 }
 input[type=file].form-element + label{
     cursor:pointer;
@@ -175,6 +222,7 @@ h3{
     font-weight:900;
     margin-bottom:1.25rem;
     font-size:1.6rem;
+    line-height:2rem;
     border-bottom:1px solid #dadada;
     padding-bottom:1rem;
 }
@@ -182,6 +230,7 @@ h4{
     font-weight:bold;
     margin-bottom:0.75rem;
     font-size:1.2rem;
+    line-height:2rem;
     color:#505050;
 }
 

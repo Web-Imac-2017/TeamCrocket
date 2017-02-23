@@ -48,26 +48,24 @@ class Animal extends Bucket\BucketAbstract
             throw new \Exception("You must sign in");
         }
         $this->setOwnerId($_SESSION['uid']);
-
-        $this->checkImage();
     }
 
     protected function beforeUpdate(){
         if($_SESSION['uid'] == 0){
             throw new \Exception("You must sign in");
         }
-
-        $this->checkImage();
     }
 
-    private function checkImage(){
-        if(isset($_FILES['image_file'])){
+    public function uploadImage(){
+        $image = NULL;
+
+        if(isset($_FILES['image_file']) && is_uploaded_file($_FILES['image_file']['tmp_name'])){
             $image = Image::upload($_FILES['image_file'], array(
                 'extensions' => array('jpeg', 'jpg', 'png', 'gif'),
                 'max_size' => 1048576 * 4
             ));
 
-            if($image->getId() > 0){
+            if($image instanceof Image){
                 $sql = "INSERT IGNORE INTO ".DATABASE_CFG['prefix']."animal_gallery(animal_id, image_id) VALUES(:animal_id, :image_id)";
                 $values = array(
                     [':animal_id', $this->getId(), \PDO::PARAM_INT],
@@ -76,6 +74,11 @@ class Animal extends Bucket\BucketAbstract
                 DB::exec($sql, $values);
             }
         }
+        else{
+            throw new \Exception(gettext("No file"));
+        }
+
+        return $image;
     }
 
     protected function afterInsert(){}

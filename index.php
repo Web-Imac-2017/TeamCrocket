@@ -79,10 +79,10 @@ require(ROOT_INC . 'api.php');
                     <form id="profile-form" method="post" action="api" data-ctrl="user" data-task="edit">
                         <h4>General information</h4>
                         <div class="form-body">
-                            <div id="profile_image" style="background-image:url(<?php echo $_USER->getImage()->getPath(); ?>);"></div>
-                            <div class="form-group">
+                            <div id="profile_image" data-default-url="<?php echo $_USER->getImage()->getPath(); ?>" style="background-image:url(<?php echo $_USER->getImage()->getPath(); ?>);"></div>
+                            <div class="form-group custom-file-input">
                                 <input id="image_file" type="file" class="form-element" name="image_file" accept="image/.png,.jpg,.jpeg,.gif">
-                                <label for="image_file">Change profile picture ...</label>
+                                <label for="image_file" data-text="Change profile picture ...">Change profile picture ...</label>
                             </div>
                             <input type="hidden" name="id" value="<?php echo $_USER->getId(); ?>">
                             <div class="form-group"><input type="email" class="form-element" name="email" placeholder="Email" required value="<?php echo $_USER->getEmail(); ?>"></div>
@@ -124,38 +124,73 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Save"></div>
                         </footer>
                     </form>
+                    <h4>Position</h4>
+                    <div id="map" style="height:400px;"></div>
                     <?php endif; ?>
                 </div>
                 <div class="col-4">
-                    <?php if($_USER->getId() > 0):
-
-                    $animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0);
+                    <h4>My animals <a class="float-right btn btn-add" href="index.php?pid=0"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                    </h4>
+                    <?php if($_USER->getId() > 0): ?>
+                    <ul class="list" id="list-animal">
+                    <?php
+                    $profiles = $_USER->getAnimalList();
+                    foreach($profiles as $profile){
+                        echo '<li data-id="'.$profile->getId().'">
+                        <a href="index.php?pid='.$profile->getId().'">'.$profile->getName().'</a>
+                        <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="profile" data-task="delete" data-args="'.$profile->getId().'"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        </li>';
+                    }
                     ?>
+                    </ul>
+
+
+                    <?php $animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0); ?>
+                    <h4>Animal profile <?php echo $animal->getName(); ?></h4>
+
+                    <?php if($animal->getId() > 0): ?>
+                    <form id="profile-animal-form2" method="post" action="api" data-ctrl="profile" data-task="upload">
+                        <input type="hidden" name="id" value="<?php echo $animal->getId(); ?>">
+                        <div class="form-group custom-file-input">
+                            <input id="image_file2" type="file" class="form-element" name="image_file" accept="image/.png,.jpg,.jpeg,.gif">
+                            <label for="image_file2" data-text="Add an image ...">Add an image ...</label>
+                            <input type="submit" class="btn" value="Upload">
+                            <div class="message success-message mt-4">Image has been uploaded</div>
+                            <div class="message error-message mt-4"></div>
+                        </div>
+                        <div class="form-group">
+                            <ul class="list" id="list-animal-gallery">
+                            <?php
+                            $images = $animal->getImageList();
+                            foreach($images as $image){
+                                echo '<li data-id="'.$image->getId().'">
+                                <a target="_blank" href="'.$image->getPath().'">'.$image->getName().'</a>
+                                <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="profile" data-task="delete_image" data-args="'.$image->getId().'"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                </li>';
+                            }
+                            ?>
+                            </ul>
+                        </div>
+                    </form>
+                    <?php endif; ?>
 
                     <form id="profile-animal-form" method="post" action="api" data-ctrl="profile" data-task="edit">
-                        <h4>Profil animal</h4>
+                        <input type="hidden" name="id" value="<?php echo $animal->getId(); ?>">
+                        <div class="form-group"><input type="text" class="form-element" name="name" placeholder="Name" required value="<?php echo $animal->getName(); ?>"></div>
                         <div class="form-group">
-                            <input type="hidden" name="id" value="<?php echo $animal->getId(); ?>">
-                            <div class="form-group">
-                                <input type="file" class="form-element" name="image_file" accept="image/.png,.jpg,.jpeg,.gif">
-                            </div>
-                            <div class="form-group">
-                                <ul>
+                            <select name="species_id" class="form-element" required>
+                                <option></option>
                                 <?php
-                                $images = $animal->getImageList();
-                                foreach($images as $image){
-                                    echo '<li value="'.$image->getId().'">
-                                    <a target="_blank" href="'.$image->getPath().'">'.$image->getName().'</a>
-                                    <a class="float-right" href="api/profile/delete_image/'.$image->getId().'"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                    </li>';
+                                $species = App\Model\Species::getMultiple();
+                                foreach($species as $s){
+                                    $selected = ($s->getId() == $animal->getSpeciesId()) ? 'selected' : '';
+                                    echo "<option {$selected} value=\"{$s->getId()}\">{$s->getName()}</option>";
                                 }
                                 ?>
-                                </ul>
-                            </div>
-                            <div class="form-group"><input type="text" class="form-element" name="name" placeholder="Name" required value="<?php echo $animal->getName(); ?>"></div>
-                            <div class="form-group"><input type="date" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $_USER->getDateBirth(); ?>"></div>
-                            <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $animal->getDescription(); ?></textarea></div>
+                            </select>
                         </div>
+                        <div class="form-group"><input type="date" autocomplete="off" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $_USER->getDateBirth(); ?>"></div>
+                        <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $animal->getDescription(); ?></textarea></div>
 
                         <footer>
                             <div class="message success-message">Changes have been saved</div>
@@ -164,12 +199,6 @@ require(ROOT_INC . 'api.php');
                         </footer>
                     </form>
                     <?php endif;?>
-                </div>
-                <div class="col-8">
-                    <?php if($_USER->getId()): ?>
-                    <h4>Position</h4>
-                    <div id="map" style="height:400px;"></div>
-                    <?php endif; ?>
                 </div>
             </div>
         </div>
@@ -221,6 +250,25 @@ require(ROOT_INC . 'api.php');
             }
         };
 
+        callbacks.profile = {
+            upload : function(data){
+                $("#profile-animal-form2 .list").append('<li data-id="'+data.output.id+'">\
+                    <a target="_blank" href="'+data.output.path+'">'+data.output.name+'</a>\
+                    <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="profile" data-task="delete_image" data-args="'+data.output.id+'"><i class="fa fa-trash" aria-hidden="true"></i></a>\
+                </li>')
+            },
+            delete_image : function(data){
+                if(data.success){
+                    $('#list-animal-gallery li[data-id='+data.output+']').remove();
+                }
+            },
+            delete : function(data){
+                if(data.success){
+                    $('#list-animal li[data-id='+data.output+']').remove();
+                }
+            }
+        }
+
         $(function(){
             /**
             * Changement de photo de profil
@@ -230,6 +278,7 @@ require(ROOT_INC . 'api.php');
             $('#image_file').on('change input', function(e){
                 var file = $(this)[0].files[0];
                 if(file == null){
+                    $profile_pic.css('background-image', 'url('+$profile_pic.attr('data-default-url')+')');
                     return false;
                 }
 
@@ -239,6 +288,15 @@ require(ROOT_INC . 'api.php');
                 }
                 reader.readAsDataURL(file);
             });
+
+            $('.custom-file-input input[type=file]').on('change input', function(e){
+                var $parent = $(this).parent();
+                var $label = $parent.find('label');
+                var filename = ($(this)[0].files[0] != null) ? $(this)[0].files[0].name : $label.attr('data-text');
+
+                $label.text(filename);
+            });
+
             $(window).on('load resize', function(){
                 $profile_pic.css('height', ($profile_pic.width())+'px');
             });
@@ -271,6 +329,33 @@ require(ROOT_INC . 'api.php');
                             $form.find('.error-message').html(data.message).fadeIn(200);
                         }
 
+                        var func = callbacks[ctrl][task];
+                        if(typeof func === 'function'){
+                            func(data);
+                        }
+                    }
+                });
+            });
+
+            $('.exec').on('click', function(e){
+                e.preventDefault();
+
+                var $btn = $(this);
+                var ctrl = $btn.attr('data-ctrl');
+                var task = $btn.attr('data-task');
+
+                var args = $btn.attr('data-args');
+                var content = $btn.attr('data-content');
+                var data = (content != '' && content != null) ? JSON.parse(content) : [];
+                console.log(args, data);
+                $.ajax({
+                    method : 'post',
+                    url : 'api/'+ctrl+'/'+task+'/'+args,
+                    data : data,
+                    cache : false,
+                    processData : false,
+                    contentType : false,
+                    success : function(data){
                         var func = callbacks[ctrl][task];
                         if(typeof func === 'function'){
                             func(data);
