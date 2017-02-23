@@ -127,9 +127,47 @@ var_dump($animal, $animal->getSpecies());*/
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Save"></div>
                         </footer>
                     </form>
-
-                    
                     <?php endif; ?>
+                </div>
+                <div class="col-4">
+                    <?php if($_USER->getId() > 0): ?>
+                    <div class="form-group">
+                        <ul>
+                            <?php
+                            $profileList = $_USER->getAnimalList();
+                            foreach($profileList as $profile){
+                                echo "<li>{$profile->getName()}</li>";
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                    <?php
+                    $animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0);
+                    ?>
+
+                    <form id="profile-animal-form" method="post" action="api" data-ctrl="profile" data-task="edit">
+                        <div class="form-group">
+                            <input type="hidden" name="id" value="<?php echo $animal->getId(); ?>">
+                            <div class="form-group"><input type="text" class="form-element" name="name" placeholder="Name" required value="<?php echo $animal->getName(); ?>"></div>
+
+                            <select name="species_id" class="form-element">
+                                <?php
+                                $species = App\Model\Species::getMultiple();
+                                foreach($species as $s){
+                                    $selected = ($s->getId() == $animal->getSpeciesId()) ? 'selected' : '';
+                                    echo "<option {$selected} value=\"{$s->getId()}\">{$s->getName()}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <footer>
+                            <div class="message success-message">Changes have been saved</div>
+                            <div class="message error-message"></div>
+                            <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Save"></div>
+                        </footer>
+                    </form>
+                    <?php endif;?>
                 </div>
             </div>
         </div>
