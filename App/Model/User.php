@@ -107,6 +107,16 @@ class User extends Bucket\BucketAbstract
         }
     }
 
+    public function getListNearbyUser(int $distance){
+
+      $sql = "SELECT latitude, longitude, SELECT  SQRT(POW(111.2 * (latitude - [".$latitude."]), 2) +POW(111.2 * ([".$longitude".] - longitude)
+      * COS(latitude / 57.3), 2)) AS distance FROM ".DATABASE_CFG['prefix']."user HAVING distance <".$distance1." ORDER BY distance; ";
+      $data = array( [":email", $email, \PDO::PARAM_STR] );
+
+      return new User(DB::fetchUnique($sql, $data));
+
+    }
+
     protected function beforeInsert(){
         // on vérifie que l'utilisateur n'existe pas encore
         if(User::userExists($this->email)){
