@@ -87,7 +87,7 @@ class User extends Bucket\BucketAbstract
     // geocoding
     public function getLatLong(){
         $address = $this->city . ', '. $this->getCountry()->getNicename();
-        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($address).'&sensor=false');
+        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($address));
         $output = json_decode($geocode);
 
         if($output->status == 'OK'){
