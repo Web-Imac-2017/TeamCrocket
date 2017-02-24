@@ -105,6 +105,25 @@ class DB implements DBInterface
         $stmt->closeCursor();
     }
 
+    final public static function execMultiple(string $sql, array $values = []){
+        $pdo = self::getInstance()->getLink();
+
+        $stmt = $pdo->prepare($sql);
+        try{
+            $pdo->beginTransaction();
+            for($i = 0, $n = count($values); $i < $n; $i++){
+                foreach($values[$i] as $temp){
+                    $stmt->bindValue($temp[0], $temp[1], $temp[2]);
+                }
+                $stmt->execute();
+            }
+            $pdo->commit();
+
+        } catch(Exception $e){
+            $pdo->rollBack();
+            throw $e;
+        }
+    }
 
     public function getLink(){ return $this->pdo; }
 }

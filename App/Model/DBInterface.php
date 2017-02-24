@@ -47,4 +47,20 @@ interface DBInterface
     * @return stdClass
     */
     public static function fetchMultipleObject($class, string $sql, array $values = []);
+
+    /**
+    * Exécute une requête SQL avec un jeu de données
+    * @param string $sql
+    * @param array $values
+    * @return stdClass
+    */
+    public static function exec(string $sql, array $values = []);
+
+    /**
+    * Exécute la même requête plusieurs fois en changeant le jeu de données
+    * @param string $sql
+    * @param array $values
+    * @return stdClass
+    */
+    public static function execMultiple(string $sql, array $values = []);
 }

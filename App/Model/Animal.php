@@ -56,6 +56,29 @@ class Animal extends Bucket\BucketAbstract
         }
     }
 
+    private function saveCharacteristics(){
+        if(!isset($_POST['characteristic'])){
+            return;
+        }
+
+        $data = [];
+        $sql = "
+            INSERT INTO ".DATABASE_CFG['prefix']."animal_characteristic (animal_id, characteristic_id, value)
+            VALUES(:animal_id, :characteristic_id, :value)
+            ON DUPLICATE KEY UPDATE value = :value;
+        ";
+
+        foreach($_POST['characteristic'] as $key => $value){
+            $data[] = array(
+                [':animal_id', $this->getId(), \PDO::PARAM_INT],
+                [':characteristic_id', (int)$key, \PDO::PARAM_INT],
+                [':value', $value, \PDO::PARAM_STR]
+            );
+        }
+
+        DB::execMultiple($sql, $data);
+    }
+
     public function uploadImage(){
         $image = NULL;
 
@@ -81,8 +104,12 @@ class Animal extends Bucket\BucketAbstract
         return $image;
     }
 
-    protected function afterInsert(){}
-    protected function afterUpdate(){}
+    protected function afterInsert(){
+        $this->saveCharacteristics();
+    }
+    protected function afterUpdate(){
+        $this->saveCharacteristics();
+    }
 
     /**
     * Retourne la liste des images associées à l'animal
@@ -93,6 +120,13 @@ class Animal extends Bucket\BucketAbstract
             [":id", $this->getId(), \PDO::PARAM_INT]
         );
         return (array)DB::fetchMultipleObject("App\Model\Image", $sql, $data);
+    }
+
+    public function getCharacteristicList(){
+        $sql = "SELECT characteristic_id, name, value FROM ".DATABASE_CFG['prefix']."characteristic c INNER JOIN ".DATABASE_CFG['prefix']."animal_characteristic ac ON ac.characteristic_id = c.id WHERE animal_id = :id AND active = 1";
+        return DB::fetchMultipleObject('App\Model\Characteristic', $sql, array(
+            [':id', $this->getId(), \PDO::PARAM_INT]
+        ));
     }
 
     //Getters

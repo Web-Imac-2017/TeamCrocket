@@ -191,7 +191,17 @@ require(ROOT_INC . 'api.php');
                         </div>
                         <div class="form-group"><input type="date" autocomplete="off" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $_USER->getDateBirth(); ?>"></div>
                         <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $animal->getDescription(); ?></textarea></div>
-
+                        <h5>Characteristics</h5>
+                        <div class="form_group mb-2">
+                            <?php
+                            $species = App\Model\Species::getUniqueById($animal->getSpeciesId());
+                            $characteristicList = $species->getCharacteristicList($animal);
+                            foreach($characteristicList as $c){
+                                echo '<label for="c-'.$c->getId().'">'.$c->getName().'</label>';
+                                echo '<input id="c-'.$c->getId().'" type="text" name="characteristic['.$c->getId().']" class="form-element" placeholder="'.$c->getName().'" value="'.$c->getValue().'">';
+                            }
+                            ?>
+                        </div>
                         <footer>
                             <div class="message success-message">Changes have been saved</div>
                             <div class="message error-message"></div>

@@ -57,12 +57,16 @@ class ProfileController extends BucketAbstractController
     /**
     * Supprime un profil
     * @param int $id ID du profil
+    * @return int id supprimé
     */
     public function delete(int $id){
         Animal::deleteById($id);
         return $id;
     }
 
+    /**
+    * Upload une image pour un profil d'animal
+    */
     public function upload(){
         $animal = Animal::getUniqueById($_POST['id'] ?? 0);
         if($animal->getOwnerId() != $_SESSION['uid']){
@@ -71,6 +75,11 @@ class ProfileController extends BucketAbstractController
         return $animal->uploadImage();
     }
 
+    /**
+    * Supprime une image d'un profil d'animal
+    * @param int $id ID de l'image à supprimer
+    * @return int id supprimé
+    */
     public function delete_image(int $id){
         Image::deleteById($id);
         return $id;
