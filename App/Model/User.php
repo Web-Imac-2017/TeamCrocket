@@ -87,7 +87,7 @@ class User extends Bucket\BucketAbstract
     // geocoding
     public function getLatLong(){
         $address = $this->city . ', '. $this->getCountry()->getNicename();
-        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($address).'&sensor=false');
+        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($address));
         $output = json_decode($geocode);
 
         if($output->status == 'OK'){
@@ -126,6 +126,16 @@ class User extends Bucket\BucketAbstract
         $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal WHERE creator_id = :id AND active = 1 {$limit}";
 
         return DB::fetchMultipleObject('App\Model\Animal', $sql, $data);
+    }
+
+    public function getListNearbyUser(int $distance){
+
+      $sql = "SELECT latitude, longitude, SELECT  SQRT(POW(111.2 * (latitude - [".$latitude."]), 2) +POW(111.2 * ([".$longitude".] - longitude)
+      * COS(latitude / 57.3), 2)) AS distance FROM ".DATABASE_CFG['prefix']."user HAVING distance <".$distance1." ORDER BY distance; ";
+      $data = array( [":email", $email, \PDO::PARAM_STR] );
+
+      return new User(DB::fetchUnique($sql, $data));
+
     }
 
     protected function beforeInsert(){
