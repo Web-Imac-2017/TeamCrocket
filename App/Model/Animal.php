@@ -9,6 +9,7 @@ namespace App\Model;
 
 /*
 @table animal
+@group animal_profile
 @field name, string
 @field species_id, int
 @field creator_id, int
@@ -43,9 +44,18 @@ class Animal extends Bucket\BucketAbstract
         );
     }
 
-    protected function beforeInsert(){}
+    protected function beforeInsert(){
+        $this->setCreatorId($_SESSION['uid']);
+    }
 
     protected function beforeUpdate(){}
+
+    protected function afterInsert(){
+        $this->saveCharacteristics();
+    }
+    protected function afterUpdate(){
+        $this->saveCharacteristics();
+    }
 
     private function saveCharacteristics(){
         if(!isset($_POST['characteristic'])){
@@ -95,13 +105,6 @@ class Animal extends Bucket\BucketAbstract
         }
 
         return $image;
-    }
-
-    protected function afterInsert(){
-        $this->saveCharacteristics();
-    }
-    protected function afterUpdate(){
-        $this->saveCharacteristics();
     }
 
     /**

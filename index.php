@@ -4,6 +4,7 @@ define('ROOT_INC', ROOT.'inc/');
 
 require(ROOT_INC . 'init.php');
 require(ROOT_INC . 'api.php');
+
 ?>
 <!DOCTYPE html>
 <html>

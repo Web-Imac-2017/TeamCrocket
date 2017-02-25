@@ -69,7 +69,7 @@ class ProfileController extends BucketAbstractController
     */
     public function upload(){
         $animal = Animal::getUniqueById($_POST['id'] ?? 0);
-        if($animal->getOwnerId() != $_SESSION['uid']){
+        if($animal->getCreatorId() != $_SESSION['uid']){
             throw new \Exception(gettext("You cannot do this"));
         }
         return $animal->uploadImage();

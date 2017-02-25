@@ -9,6 +9,7 @@ namespace App\Model;
 
 /*
 @table species
+@group animal_profile
 @field name, string
 */
 

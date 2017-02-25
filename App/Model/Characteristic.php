@@ -8,6 +8,7 @@ namespace App\Model;
 
 /*
 @table characteristic
+@group animal_profile
 @field name, string
 @field value, string
 @field common, bool

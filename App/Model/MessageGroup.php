@@ -8,6 +8,7 @@ namespace App\Model;
 
 /*
 @table message_group
+@group messenger
 @field title, string
 @field user_a_id, int
 @field user_b_id, int

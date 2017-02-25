@@ -8,11 +8,13 @@ namespace App\Model\Bucket;
 
 class BucketClass
 {
-    private $table;
-    private $map;
+    private $table; // nom de la table
+    private $group; // groupe de permissions
+    private $map; // map de la table
 
-    public function __construct(string $table, array $map = []){
+    public function __construct(string $table, string $group, array $map = []){
         $this->table = $table;
+        $this->group = $group;
         $this->map = $map;
     }
 
@@ -21,5 +23,8 @@ class BucketClass
     }
     public function getTable() : string{
         return $this->table;
+    }
+    public function getGroup() : string{
+        return $this->group;
     }
 }

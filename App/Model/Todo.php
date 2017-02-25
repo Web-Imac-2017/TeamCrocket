@@ -8,6 +8,7 @@ namespace App\Model;
 
 /*
 @table todo
+@group todo
 @field name, string
 @field creator_id, int
 @field done, bool

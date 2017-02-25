@@ -8,6 +8,7 @@ namespace App\Model;
 
 /*
 @table country
+@group parameter
 @field iso, string
 @field name, string
 @field nicename, string

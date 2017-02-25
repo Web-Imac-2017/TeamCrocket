@@ -5,7 +5,7 @@ USE `teamcrocket`;
 
 CREATE TABLE `ajkl7_animal` (
   `id` int(10) UNSIGNED NOT NULL,
-  `owner_id` int(10) UNSIGNED NOT NULL,
+  `creator_id` int(10) UNSIGNED NOT NULL,
   `species_id` int(10) UNSIGNED DEFAULT NULL,
   `name` varchar(32) NOT NULL,
   `description` text NOT NULL,
@@ -29,6 +29,9 @@ CREATE TABLE `ajkl7_animal_gallery` (
 CREATE TABLE `ajkl7_characteristic` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(32) NOT NULL,
+  `common` tinyint(1) NOT NULL DEFAULT '0',
+  `required` tinyint(1) NOT NULL DEFAULT '0',
+  `type` tinyint(1) NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
@@ -301,7 +304,7 @@ CREATE TABLE `ajkl7_message` (
   `id` int(10) UNSIGNED NOT NULL,
   `content` text NOT NULL,
   `group_id` int(10) UNSIGNED NOT NULL,
-  `author_id` int(10) UNSIGNED NOT NULL,
+  `creator_id` int(10) UNSIGNED NOT NULL,
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
@@ -316,6 +319,19 @@ CREATE TABLE `ajkl7_message_group` (
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `ajkl7_permission_group` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(16) NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+INSERT INTO `ajkl7_permission_group` (`id`, `name`, `active`) VALUES
+(1, 'animal_profile', 1),
+(2, 'messenger', 1),
+(3, 'todo', 1),
+(4, 'user_profile', 1),
+(5, 'image', 1);
 
 CREATE TABLE `ajkl7_species` (
   `id` int(11) UNSIGNED NOT NULL,
@@ -362,7 +378,7 @@ CREATE TABLE `ajkl7_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `creation_date`, `modification_date`, `active`) VALUES
-(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'h', 41, '', 'Strasbourg', 48.5734, 7.75211, 73, '1993-05-09', 1, '2017-02-22 21:59:36', '2017-02-23 22:55:15', 1),
+(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'h', 41, '<br/>', 'Strasbourg', 48.5915, 7.77545, 74, '1993-05-09', 1, '2017-02-22 21:59:36', '2017-02-25 18:46:49', 1),
 (136, 'admin', '2b0e40226cc683007daa315654ab9df4295adbb5', '', '', 'contact@metter.fr', 'h', NULL, '', 'Paris', 48.8566, 2.35222, 73, '1993-01-01', 1, '2017-02-24 19:07:26', '2017-02-24 19:09:33', 1);
 
 CREATE TABLE `ajkl7_user_log_connexion` (
@@ -370,6 +386,16 @@ CREATE TABLE `ajkl7_user_log_connexion` (
   `ip_adress` varchar(48) NOT NULL,
   `user_agent` varchar(32) NOT NULL,
   `last_connexion_date` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+CREATE TABLE `ajkl7_user_permission` (
+  `group_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `r` tinyint(1) NOT NULL DEFAULT '0',
+  `c` tinyint(1) NOT NULL DEFAULT '0',
+  `u` tinyint(1) NOT NULL DEFAULT '0',
+  `d` tinyint(1) NOT NULL DEFAULT '0',
+  `s` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 CREATE TABLE `ajkl7_user_reset_password` (
@@ -387,12 +413,12 @@ CREATE TABLE `ajkl7_user_verification` (
 
 ALTER TABLE `ajkl7_animal`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `owner_id` (`owner_id`),
+  ADD KEY `owner_id` (`creator_id`),
   ADD KEY `species_id` (`species_id`);
 
 ALTER TABLE `ajkl7_animal_characteristic`
   ADD UNIQUE KEY `animal_id` (`animal_id`,`characteristic_id`),
-  ADD KEY `id_characteristic` (`characteristic_id`);
+  ADD KEY `ajkl7_animal_characteristic_ibfk_2` (`characteristic_id`);
 
 ALTER TABLE `ajkl7_animal_gallery`
   ADD KEY `ajkl7_animal_gallery_ibfk_1` (`animal_id`),
@@ -412,12 +438,15 @@ ALTER TABLE `ajkl7_image`
 ALTER TABLE `ajkl7_message`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ajkl7_message_ibfk_1` (`group_id`),
-  ADD KEY `author_id` (`author_id`);
+  ADD KEY `author_id` (`creator_id`);
 
 ALTER TABLE `ajkl7_message_group`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_a` (`user_a_id`),
   ADD KEY `user_b` (`user_b_id`);
+
+ALTER TABLE `ajkl7_permission_group`
+  ADD PRIMARY KEY (`id`);
 
 ALTER TABLE `ajkl7_species`
   ADD PRIMARY KEY (`id`);
@@ -440,6 +469,10 @@ ALTER TABLE `ajkl7_user`
 ALTER TABLE `ajkl7_user_log_connexion`
   ADD KEY `user_id` (`user_id`);
 
+ALTER TABLE `ajkl7_user_permission`
+  ADD UNIQUE KEY `module_id` (`group_id`,`user_id`),
+  ADD KEY `user_id` (`user_id`);
+
 ALTER TABLE `ajkl7_user_reset_password`
   ADD UNIQUE KEY `user_id` (`user_id`);
 
@@ -448,17 +481,19 @@ ALTER TABLE `ajkl7_user_verification`
 
 
 ALTER TABLE `ajkl7_animal`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 ALTER TABLE `ajkl7_characteristic`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 ALTER TABLE `ajkl7_country`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 ALTER TABLE `ajkl7_image`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 ALTER TABLE `ajkl7_message`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_message_group`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `ajkl7_permission_group`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 ALTER TABLE `ajkl7_species`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 ALTER TABLE `ajkl7_todo`
@@ -467,12 +502,12 @@ ALTER TABLE `ajkl7_user`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
 
 ALTER TABLE `ajkl7_animal`
-  ADD CONSTRAINT `ajkl7_animal_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_animal_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_ibfk_2` FOREIGN KEY (`species_id`) REFERENCES `ajkl7_species` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_animal_characteristic`
-  ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`),
-  ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_2` FOREIGN KEY (`characteristic_id`) REFERENCES `ajkl7_characteristic` (`id`);
+  ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_2` FOREIGN KEY (`characteristic_id`) REFERENCES `ajkl7_characteristic` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_animal_gallery`
   ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -483,7 +518,7 @@ ALTER TABLE `ajkl7_image`
 
 ALTER TABLE `ajkl7_message`
   ADD CONSTRAINT `ajkl7_message_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `ajkl7_message_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `ajkl7_message_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `ajkl7_message_ibfk_2` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_message_group`
   ADD CONSTRAINT `ajkl7_message_group_ibfk_1` FOREIGN KEY (`user_a_id`) REFERENCES `ajkl7_user` (`id`),
@@ -502,6 +537,10 @@ ALTER TABLE `ajkl7_user`
 
 ALTER TABLE `ajkl7_user_log_connexion`
   ADD CONSTRAINT `ajkl7_user_log_connexion_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `ajkl7_user_permission`
+  ADD CONSTRAINT `ajkl7_user_permission_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `ajkl7_permission_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_user_permission_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_user_reset_password`
   ADD CONSTRAINT `uid_urp_fk` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;

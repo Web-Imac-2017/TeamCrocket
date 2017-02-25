@@ -8,6 +8,7 @@ namespace App\Model;
 
 /*
 @table user
+@group user_profile
 @field nickname, string
 @field password, string, hashPassword
 @field lastname, string
@@ -30,6 +31,12 @@ class User extends Bucket\BucketAbstract
     const SEX_MALE = 'h';
     const SEX_FEMALE = 'f';
 
+    const PERMISSION_READ = 'read';
+    const PERMISSION_CREATE = 'create';
+    const PERMISSION_UPDATE = 'update';
+    const PERMISSION_DELETE = 'delete';
+    const PERMISSION_SUPERADMIN = 'superadmin';
+
     private $nickname;
     private $password;
     private $lastname;
@@ -44,6 +51,8 @@ class User extends Bucket\BucketAbstract
     private $country_id;
     private $date_birth;
     private $verified;
+
+    private static $permission = [];
 
     function __construct($data = NULL){
         $this->nickname = "";
@@ -107,6 +116,102 @@ class User extends Bucket\BucketAbstract
         }
     }
 
+
+    /**
+    * Détermine si l'utilisateur a la permission d'effectuer une action
+    * @param string $group Groupe de permission
+    * @param string $type Type de permission
+    * @return bool
+    */
+    public function hasPermission(string $group, string $type) : bool{
+        $list = $this->getPermissionList(false);
+        if(!isset($list[$group])){
+            return false;
+        }
+        if(!isset($list[$group][$type])){
+            return false;
+        }
+        return (bool)$list[$group][$type];
+    }
+
+    public static function getPermissionGroupIdByName(string $name) : int{
+        return (int)(DB::fetchUnique(
+            "SELECT id FROM ".DATABASE_CFG['prefix']."permission_group WHERE name = :name AND active = 1",
+            array( [':name', $name, \PDO::PARAM_STR] )
+        )['id']);
+    }
+
+
+    public static function isPermissionGroup(int $id) : bool{
+        if($id == 0){
+            return false;
+        }
+        return ((int)(DB::fetchUnique(
+            "SELECT id FROM ".DATABASE_CFG['prefix']."permission_group WHERE id = :id",
+            array( [':id', $id, \PDO::PARAM_INT] )
+        )['id']) > 0);
+    }
+
+
+    public function changePermission($group, string $type, bool $permission){
+        $pname = substr($type, 0, 1);
+        $group_id = is_int($group) ? $group : self::getPermissionGroupIdByName($group);
+
+        // on vérifie que le groupe de permission existe
+        if(!self::isPermissionGroup($group_id)){
+            throw new \Exception(gettext("Undefined permission group"));
+        }
+
+        $sql = "
+            INSERT INTO ".DATABASE_CFG['prefix']."user_permission (group_id, user_id, ".$pname.")
+            VALUES(:group_id, :user_id, :permission)
+            ON DUPLICATE KEY UPDATE ".$pname." = :permission;
+        ";
+
+        $data = array(
+            [':group_id', $group_id, \PDO::PARAM_INT],
+            [':user_id', $this->id, \PDO::PARAM_INT],
+            [':permission', (int)$permission, \PDO::PARAM_INT]
+        );
+
+        DB::exec($sql, $data);
+    }
+
+    /**
+    * Récupère la liste des permissions
+    * @param bool $cache Force la récupération depuis la base ou le cache
+    * @return array
+    */
+    public function getPermissionList(bool $cache = true){
+        if(!$cache || !isset(self::$permission[$this->getId()])){
+            $sql = "
+            SELECT m.name,
+            	IFNULL((SELECT p.r FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"read\",
+                IFNULL((SELECT p.c FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"create\",
+                IFNULL((SELECT p.u FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"update\",
+                IFNULL((SELECT p.d FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"delete\",
+                IFNULL((SELECT p.s FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"superadmin\"
+            FROM ".DATABASE_CFG['prefix']."permission_group m
+            WHERE m.active = 1;
+            ";
+
+            $data = DB::fetchMultiple($sql, array(
+                [':user_id', $this->id, \PDO::PARAM_INT]
+            ));
+
+            $temp = [];
+            for($i = 0, $n = count($data); $i < $n; $i++){
+                $index = $data[$i]['name'];
+                array_shift($data[$i]);
+                $temp[$index] = array_map('boolval', $data[$i]);
+            }
+
+            self::$permission[$this->getId()] = $temp;
+        }
+
+        return self::$permission[$this->getId()];
+    }
+
     /**
     * Retourne la liste des animaux pour l'utilisateur courant
     * @param int $start
@@ -127,6 +232,7 @@ class User extends Bucket\BucketAbstract
 
         return DB::fetchMultipleObject('App\Model\Animal', $sql, $data);
     }
+
 
     /**
     * Retourne la liste des utilisateurs à X km à la ronde

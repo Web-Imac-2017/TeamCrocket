@@ -12,6 +12,7 @@ use Imagine\Gd\Imagine;
 
 /*
 @table image
+@group image
 @field name, string
 @field creator_id, int
 */
@@ -61,7 +62,7 @@ class Image extends Bucket\BucketAbstract
 
             $path = $image->getPath();
 
-            if(!is_dir($path) || !move_uploaded_file($file['tmp_name'], $path)){
+            if(!move_uploaded_file($file['tmp_name'], $path)){
                 throw new \Exception(gettext("Could not move image"));
             }
 

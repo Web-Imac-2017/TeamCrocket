@@ -6,6 +6,7 @@
 namespace App\Model\Bucket;
 
 use \App\Model\DB;
+use \App\Model\User;
 
 abstract class BucketAbstract implements BucketInterface, \JsonSerializable
 {
@@ -50,8 +51,14 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     * @return void
     */
     private function insert(){
+        global $_USER;
+
         $orm = BucketParser::parse(get_called_class());
         $pdo = DB::getInstance()->getLink();
+
+        if(!$_USER->hasPermission($orm->getGroup(), User::PERMISSION_CREATE)){
+            throw new BucketException(sprintf(gettext("Insufficient permission [%s][%s]"), $orm->getGroup(), User::PERMISSION_CREATE));
+        }
 
         // insertion de données
         $query = "INSERT INTO " . DATABASE_CFG['prefix'] . $orm->getTable() . "(".join($orm->getMap(), ", ").", creation_date) VALUES(".join(array_map(function($field){
@@ -72,8 +79,15 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     * @return void
     */
     private function update(){
+        global $_USER;
+
         $orm = BucketParser::parse(get_called_class());
         $pdo = DB::getInstance()->getLink();
+
+        // on vérifie les permissions
+        if(!$this->isAuthor() && !$_USER->hasPermission($orm->getGroup(), User::PERMISSION_UPDATE)){
+            throw new BucketException(sprintf(gettext("Insufficient permission [%s][%s]"), $orm->getGroup(), User::PERMISSION_UPDATE));
+        }
 
         // mise à jour de données
         $query = "UPDATE " . DATABASE_CFG['prefix'] . $orm->getTable() . " SET ".join(array_map(function($field){
@@ -121,7 +135,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     }
 
     public function save(){
-        $this->checkPermission();
+        global $_USER;
 
         if($this->isNew()){
             $this->beforeInsert();
@@ -135,23 +149,25 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         }
     }
 
-    public function checkPermission(){
+    public function isAuthor() : bool{
         // vérifie les permissions pour les classes possédant un champs creator_id
         $getCreator = self::getKeyGetter('creator_id');
 
         if(method_exists($this, $getCreator)){
             // on vérifie que l'utilisateur est connecté
             if($_SESSION['uid'] == 0){
-                throw new \Exception(gettext("You must sign in"));
+                return false;
             }
 
             if(!$this->isNew()){
                 // on vérifie que le créateur est bien l'utilisateur connecté
                 if($this->$getCreator() != $_SESSION['uid']){
-                    throw new \Exception(gettext("Insufficient permission"));
+                    return false;
                 }
             }
         }
+
+        return true;
     }
 
     public function isNew() : bool{
@@ -266,14 +282,21 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     }
 
     final public static function deleteById(int $id, string $options = ""){
-        $item = self::getUniqueById($id);
-        if($item->getId() == 0){
-            throw new \Exception(gettext("Not found"));
-        }
-        $item->checkPermission();
+        global $_USER;
 
         $orm = BucketParser::parse(get_called_class());
         $pdo = DB::getInstance()->getLink();
+        $item = self::getUniqueById($id);
+
+        // on vérifie si l'objet existe
+        if($item->getId() == 0){
+            throw new \Exception(gettext("Not found"));
+        }
+
+        // on vérifie les permissions
+        if(!$item->isAuthor() && !$_USER->hasPermission($orm->getGroup(), User::PERMISSION_DELETE)){
+            throw new BucketException(sprintf(gettext("Insufficient permission [%s][%s]"), $orm->getGroup(), User::PERMISSION_DELETE));
+        }
 
         $stmt = $pdo->prepare("DELETE FROM " . DATABASE_CFG['prefix'] . $orm->getTable() . " WHERE id = :id " . $options);
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);

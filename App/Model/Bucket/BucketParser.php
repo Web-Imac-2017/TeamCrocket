@@ -26,6 +26,7 @@ class BucketParser
         $handle = fopen($path, 'r');
         if($handle){
             $table = "";
+            $group = "";
             $map = [];
 
             // on parcourt chaque ligne du fichier
@@ -43,6 +44,10 @@ class BucketParser
                 switch($type){
                     case 'table' :
                         $table = $value;
+                        break;
+
+                    case 'group' :
+                        $group = $value;
                         break;
 
                     case 'field' :
@@ -71,7 +76,7 @@ class BucketParser
                 }
             }
 
-            self::$list[$class] = new BucketClass($table, $map);
+            self::$list[$class] = new BucketClass($table, $group, $map);
             fclose($handle);
 
             return self::$list[$class];
