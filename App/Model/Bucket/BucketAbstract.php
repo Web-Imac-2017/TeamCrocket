@@ -121,6 +121,8 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     }
 
     public function save(){
+        $this->checkPermission();
+
         if($this->isNew()){
             $this->beforeInsert();
             $this->insert();
@@ -133,6 +135,24 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         }
     }
 
+    public function checkPermission(){
+        // vérifie les permissions pour les classes possédant un champs creator_id
+        $getCreator = self::getKeyGetter('creator_id');
+
+        if(method_exists($this, $getCreator)){
+            // on vérifie que l'utilisateur est connecté
+            if($_SESSION['uid'] == 0){
+                throw new \Exception(gettext("You must sign in"));
+            }
+
+            if(!$this->isNew()){
+                // on vérifie que le créateur est bien l'utilisateur connecté
+                if($this->$getCreator() != $_SESSION['uid']){
+                    throw new \Exception(gettext("Insufficient permission"));
+                }
+            }
+        }
+    }
 
     public function isNew() : bool{
         return (!$this->id);
@@ -188,7 +208,6 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
 
     final public static function getMultiple(array $options = []) : array{
         $results = [];
-
 
         // traitement des options
         $start = (isset($options['start'])) ? (int)$options['start'] : -1;
@@ -247,6 +266,12 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     }
 
     final public static function deleteById(int $id, string $options = ""){
+        $item = self::getUniqueById($id);
+        if($item->getId() == 0){
+            throw new \Exception(gettext("Not found"));
+        }
+        $item->checkPermission();
+
         $orm = BucketParser::parse(get_called_class());
         $pdo = DB::getInstance()->getLink();
 

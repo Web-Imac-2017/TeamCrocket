@@ -59,11 +59,13 @@ class Animal extends Bucket\BucketAbstract
             ON DUPLICATE KEY UPDATE value = :value;
         ";
 
-        foreach($_POST['characteristic'] as $key => $value){
+        $list = Characteristic::getList($this);
+        foreach($list as $c){
+            $value = $_POST['characteristic'][$c->getId()] ?? '';
             $data[] = array(
                 [':animal_id', $this->getId(), \PDO::PARAM_INT],
-                [':characteristic_id', (int)$key, \PDO::PARAM_INT],
-                [':value', $value, \PDO::PARAM_STR]
+                [':characteristic_id', $c->getId(), \PDO::PARAM_INT],
+                [':value', $c->formatValue($value), \PDO::PARAM_STR]
             );
         }
 
@@ -111,13 +113,6 @@ class Animal extends Bucket\BucketAbstract
             [":id", $this->getId(), \PDO::PARAM_INT]
         );
         return (array)DB::fetchMultipleObject("App\Model\Image", $sql, $data);
-    }
-
-    public function getCharacteristicList(){
-        $sql = "SELECT characteristic_id, name, value FROM ".DATABASE_CFG['prefix']."characteristic c INNER JOIN ".DATABASE_CFG['prefix']."animal_characteristic ac ON ac.characteristic_id = c.id WHERE animal_id = :id AND active = 1";
-        return DB::fetchMultipleObject('App\Model\Characteristic', $sql, array(
-            [':id', $this->getId(), \PDO::PARAM_INT]
-        ));
     }
 
     //Getters

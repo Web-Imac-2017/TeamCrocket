@@ -31,8 +31,9 @@ require(ROOT_INC . 'api.php');
                         <div class="form-body">
                             <div class="form-group"><input type="email" class="form-element" name="email" placeholder="Email" required value="<?php if(isset($_GET['email'])) echo $_GET['email']; ?>"></div>
                             <div class="form-group"><input type="password" class="form-element" name="password" placeholder="Password" required></div>
-                            <?php if(isset($_GET['token'])): ?>
-                            <div class="form-group"><input type="text" name="token" readonly value="<?php echo $_GET['token']; ?>" required></div>
+                            <?php if(isset($_GET['task']) && $_GET['task'] == 'verify' && isset($_GET['token'])): ?>
+                            <input type="hidden" name="token" readonly value="<?php echo $_GET['token']; ?>">
+                            <div>Please sign in to validate your account</div>
                             <?php endif; ?>
                             <div class="message success-message">Connected</div>
                             <div class="message error-message"></div>
@@ -48,6 +49,7 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Validate"></div>
                         </div>
                     </form>
+                    <?php if(isset($_GET['task']) && $_GET['task'] == 'reset'): ?>
                     <form id="fp-form" method="post" action="api" data-ctrl="user" data-task="reset" class="mt-3">
                         <h4>Reset password</h4>
                         <div class="form-body">
@@ -60,6 +62,7 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Validate"></div>
                         </div>
                     </form>
+                    <?php endif; ?>
                     <form id="login-form" method="post" action="api" data-ctrl="user" data-task="edit" class="mt-3">
                         <h4>Subscribe</h4>
                         <div class="form-body">
@@ -181,7 +184,7 @@ require(ROOT_INC . 'api.php');
                             <select name="species_id" class="form-element" required>
                                 <option></option>
                                 <?php
-                                $species = App\Model\Species::getMultiple();
+                                $species = App\Model\Species::getMultiple([ 'order' => 'name ASC' ]);
                                 foreach($species as $s){
                                     $selected = ($s->getId() == $animal->getSpeciesId()) ? 'selected' : '';
                                     echo "<option {$selected} value=\"{$s->getId()}\">{$s->getName()}</option>";
@@ -195,10 +198,28 @@ require(ROOT_INC . 'api.php');
                         <div class="form_group mb-2">
                             <?php
                             $species = App\Model\Species::getUniqueById($animal->getSpeciesId());
-                            $characteristicList = $species->getCharacteristicList($animal);
+                            $characteristicList = App\Model\Characteristic::getList($animal);
+
                             foreach($characteristicList as $c){
+                                $required = ($c->getRequired()) ? 'required' : '';
+
+                                switch($c->getType()){
+                                    case App\Model\Characteristic::TYPE_INT :
+                                        $type = 'number';
+                                        $number_param = 'min="0" max="" step="1"';
+                                        break;
+                                    case App\Model\Characteristic::TYPE_FLOAT :
+                                        $type = 'number';
+                                        $number_param = 'min="0" max="" step="0.1"';
+                                        break;
+                                    default :
+                                        $type = 'text';
+                                        $number_param = '';
+                                }
+
+
                                 echo '<label for="c-'.$c->getId().'">'.$c->getName().'</label>';
-                                echo '<input id="c-'.$c->getId().'" type="text" name="characteristic['.$c->getId().']" class="form-element" placeholder="'.$c->getName().'" value="'.$c->getValue().'">';
+                                echo '<input id="c-'.$c->getId().'" type="'.$type.'" '.$number_param.' '.$required.' name="characteristic['.$c->getId().']" class="form-element" placeholder="'.$c->getName().'" value="'.$c->getValue().'">';
                             }
                             ?>
                         </div>

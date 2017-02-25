@@ -42,20 +42,6 @@ class Species extends Bucket\BucketAbstract
     protected function afterInsert(){}
     protected function afterUpdate(){}
 
-
-    public function getCharacteristicList(Animal $animal){
-        $sql = "
-            SELECT DISTINCT c.id, c.name, ac.value FROM ".DATABASE_CFG['prefix']."characteristic c
-            LEFT JOIN ".DATABASE_CFG['prefix']."animal_characteristic ac ON c.id = ac.characteristic_id
-            RIGHT JOIN ".DATABASE_CFG['prefix']."species_characteristic sc ON c.id = sc.characteristic_id
-            WHERE species_id = :id AND (animal_id = :animal_id OR animal_id IS NULL) AND active = 1
-        ";
-        return DB::fetchMultipleObject('App\Model\Characteristic', $sql, array(
-            [':id', $this->getId(), \PDO::PARAM_INT],
-            [':animal_id', $animal->getId(), \PDO::PARAM_INT]
-        ));
-    }
-
     //Getters
     public function getName() : string{
         return $this->name;

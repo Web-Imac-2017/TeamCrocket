@@ -61,7 +61,7 @@ class Image extends Bucket\BucketAbstract
 
             $path = $image->getPath();
 
-            if(!move_uploaded_file($file['tmp_name'], $path)){
+            if(!is_dir($path) || !move_uploaded_file($file['tmp_name'], $path)){
                 throw new \Exception(gettext("Could not move image"));
             }
 
