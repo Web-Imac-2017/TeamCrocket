@@ -128,15 +128,28 @@ class User extends Bucket\BucketAbstract
         return DB::fetchMultipleObject('App\Model\Animal', $sql, $data);
     }
 
+    /**
+    * Retourne la liste des utilisateurs à X km à la ronde
+    * @param int $distance
+    * @return array
+    */
     public function getListNearbyUser(int $distance){
+        $sql = "
+            SELECT u.*, SQRT( POW(111.2 * (u.latitude - :latitude), 2) + POW(111.2 * (:longitude - u.longitude) * COS(u.latitude / 57.3), 2) ) AS distance
+            FROM ".DATABASE_CFG['prefix']."user u
+            WHERE u.id != :id
+            HAVING distance < :distance
+            ORDER BY distance;
+        ";
 
-      $sql = "SELECT latitude, longitude, SELECT  SQRT(POW(111.2 * (latitude - [".$latitude."]), 2) +POW(111.2 * ([".$longitude".] - longitude)
-      * COS(latitude / 57.3), 2)) AS distance FROM ".DATABASE_CFG['prefix']."user HAVING distance <".$distance1." ORDER BY distance; ";
-      $data = array( [":email", $email, \PDO::PARAM_STR] );
-
-      return new User(DB::fetchUnique($sql, $data));
-
+        return DB::fetchMultipleObject('App\Model\User', $sql, array(
+            [":id", $this->id, \PDO::PARAM_INT],
+            [":latitude", $this->latitude, \PDO::PARAM_STR],
+            [":longitude", $this->longitude, \PDO::PARAM_STR],
+            [":distance", $distance, \PDO::PARAM_INT]
+        ));
     }
+
 
     protected function beforeInsert(){
         // on vérifie que l'utilisateur n'existe pas encore

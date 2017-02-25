@@ -4,9 +4,6 @@ define('ROOT_INC', ROOT.'inc/');
 
 require(ROOT_INC . 'init.php');
 require(ROOT_INC . 'api.php');
-
-#$animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0);
-#var_dump($animal->getImageList());
 ?>
 <!DOCTYPE html>
 <html>
