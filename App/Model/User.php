@@ -460,7 +460,7 @@ class User extends Bucket\BucketAbstract
         }
 
         $this->verified = 1;
-        $this->save();
+        $this->save(true);
 
         DB::exec("DELETE FROM ". DATABASE_CFG['prefix'] ."user_verification WHERE user_id = :id", array( [":id", $this->id, \PDO::PARAM_INT] ));
     }
@@ -559,7 +559,7 @@ class User extends Bucket\BucketAbstract
         }
 
         $this->setPassword($password, true);
-        $this->save();
+        $this->save(true);
 
         DB::exec("DELETE FROM ". DATABASE_CFG['prefix'] ."user_reset_password WHERE user_id = :id", array( [":id", $this->id, \PDO::PARAM_INT] ));
     }

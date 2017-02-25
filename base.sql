@@ -377,10 +377,6 @@ CREATE TABLE `ajkl7_user` (
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `creation_date`, `modification_date`, `active`) VALUES
-(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'h', 41, '<br/>', 'Strasbourg', 48.5915, 7.77545, 74, '1993-05-09', 1, '2017-02-22 21:59:36', '2017-02-25 18:46:49', 1),
-(136, 'admin', '2b0e40226cc683007daa315654ab9df4295adbb5', '', '', 'contact@metter.fr', 'h', NULL, '', 'Paris', 48.8566, 2.35222, 73, '1993-01-01', 1, '2017-02-24 19:07:26', '2017-02-24 19:09:33', 1);
-
 CREATE TABLE `ajkl7_user_log_connexion` (
   `user_id` int(11) UNSIGNED NOT NULL,
   `ip_adress` varchar(48) NOT NULL,
@@ -547,3 +543,8 @@ ALTER TABLE `ajkl7_user_reset_password`
 
 ALTER TABLE `ajkl7_user_verification`
   ADD CONSTRAINT `uid_fk` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+
+INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `creation_date`, `modification_date`, `active`) VALUES
+(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'h', NULL, '<br/>', 'Strasbourg', 48.5915, 7.77545, 74, '1993-05-09', 1, '2017-02-22 21:59:36', '2017-02-25 18:46:49', 1),
+(136, 'admin', '2b0e40226cc683007daa315654ab9df4295adbb5', '', '', 'contact@metter.fr', 'h', NULL, '', 'Paris', 48.8566, 2.35222, 73, '1993-01-01', 1, '2017-02-24 19:07:26', '2017-02-24 19:09:33', 1);
