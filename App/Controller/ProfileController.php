@@ -18,7 +18,7 @@ class ProfileController extends BucketAbstractController
     */
     public function list($page = -1) : array{
         $filter = [];
-        $filter[] = new BucketFilter('owner_id', $_SESSION['uid'], \PDO::PARAM_INT);
+        $filter[] = new BucketFilter('creator_id', $_SESSION['uid'], \PDO::PARAM_INT);
 
         $data = Animal::getMultiple(array(
             'page' => (int)$page,

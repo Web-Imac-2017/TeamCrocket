@@ -50,6 +50,10 @@ class UserController extends BucketAbstractController
     public function edit() : User{
         $id = (isset($_POST['id'])) ? (int)$_POST['id'] : 0;
 
+        if($id > 0 && $id != $_SESSION['uid']){
+            throw new \Exception(gettext("Insufficient permission"));
+        }
+
         $user = User::getUniqueById($id);
         $user->hydrate($_POST, true);
         $user->save();

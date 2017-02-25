@@ -37,17 +37,9 @@ class Todo extends Bucket\BucketAbstract
         );
     }
 
-    protected function beforeInsert(){
-        if($_SESSION['uid'] == 0){
-            throw new \Exception("You must sign in");
-        }
-    }
+    protected function beforeInsert(){}
 
-    protected function beforeUpdate(){
-        if($_SESSION['uid'] == 0){
-            throw new \Exception("You must sign in");
-        }
-    }
+    protected function beforeUpdate(){}
 
     protected function afterInsert(){}
 

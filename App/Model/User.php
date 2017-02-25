@@ -123,7 +123,7 @@ class User extends Bucket\BucketAbstract
             $data[] = [":amount", $amount, \PDO::PARAM_INT];
         }
 
-        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal WHERE owner_id = :id AND active = 1 {$limit}";
+        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal WHERE creator_id = :id AND active = 1 {$limit}";
 
         return DB::fetchMultipleObject('App\Model\Animal', $sql, $data);
     }
@@ -142,9 +142,6 @@ class User extends Bucket\BucketAbstract
     }
 
     protected function beforeUpdate(){
-        // API GEOLOC
-        $this->getLatLong();
-
         // on gère l'édition du mot de passe
         $old_password = $_POST['old_password'] ?? null;
         $new_password = $_POST['new_password'] ?? null;
@@ -162,6 +159,8 @@ class User extends Bucket\BucketAbstract
             $this->setPassword($new_password, true);
         }
 
+        // API GEOLOC
+        $this->getLatLong();
 
         // photo de profil
         $this->handleProfilePic();

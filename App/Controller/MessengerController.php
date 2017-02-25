@@ -18,7 +18,7 @@ class MessengerController
     public function send() : Message{
         $message = new Message();
         $message->hydrate($_POST, true);
-        $message->setAuthorId($_SESSION['uid']);
+        $message->setCreatorId($_SESSION['uid']);
         $message->save();
 
         return $message;

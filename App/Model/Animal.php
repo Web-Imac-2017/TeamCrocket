@@ -11,7 +11,7 @@ namespace App\Model;
 @table animal
 @field name, string
 @field species_id, int
-@field owner_id, int
+@field creator_id, int
 @field date_birth, date
 @field description, string
 */
@@ -20,14 +20,14 @@ class Animal extends Bucket\BucketAbstract
 {
     private $name;
     private $species_id;
-    private $owner_id;
+    private $creator_id;
     private $date_birth;
     private $description;
 
     function __construct($data = NULL){
         $this->name = '';
         $this->species_id = 0;
-        $this->owner_id = 0;
+        $this->creator_id = 0;
         $this->description = "";
 
         parent::__construct($data);
@@ -36,25 +36,16 @@ class Animal extends Bucket\BucketAbstract
     public function jsonSerialize(){
         return array(
             'id' => $this->id,
-            'owner_id' => $this->owner_id,
+            'creator_id' => $this->creator_id,
             'species_id' => $this->species_id,
             'description' => $this->description,
             'creation_date' => $this->creation_date
         );
     }
 
-    protected function beforeInsert(){
-        if($_SESSION['uid'] == 0){
-            throw new \Exception("You must sign in");
-        }
-        $this->setOwnerId($_SESSION['uid']);
-    }
+    protected function beforeInsert(){}
 
-    protected function beforeUpdate(){
-        if($_SESSION['uid'] == 0){
-            throw new \Exception("You must sign in");
-        }
-    }
+    protected function beforeUpdate(){}
 
     private function saveCharacteristics(){
         if(!isset($_POST['characteristic'])){
@@ -136,8 +127,8 @@ class Animal extends Bucket\BucketAbstract
     public function getSpeciesId() : int{
         return $this->species_id;
     }
-    public function getOwnerId() : int{
-        return $this->owner_id;
+    public function getCreatorId() : int{
+        return $this->creator_id;
     }
     public function getDateBirth(){
         return $this->date_birth;
@@ -149,7 +140,7 @@ class Animal extends Bucket\BucketAbstract
         return Species::getUniqueById($this->species_id);
     }
     public function getUser() : User{
-        return User::getUniqueById($this->owner_id);
+        return User::getUniqueById($this->creator_id);
     }
 
     // setters
@@ -159,8 +150,8 @@ class Animal extends Bucket\BucketAbstract
     public function setSpeciesId(int $species){
         $this->species_id = $species;
     }
-    public function setOwnerId(int $proprio){
-        $this->owner_id = $proprio;
+    public function setCreatorId(int $proprio){
+        $this->creator_id = $proprio;
     }
     public function setDescription(string $descr){
         $this->description = $descr;
