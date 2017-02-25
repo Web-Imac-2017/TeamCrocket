@@ -56,7 +56,7 @@ class UserController extends BucketAbstractController
 
         $user = User::getUniqueById($id);
         $user->hydrate($_POST, true);
-        $user->save();
+        $user->save($id == 0);
 
         return $user;
     }

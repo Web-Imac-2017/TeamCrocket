@@ -50,14 +50,16 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     * Construit une requête SQL d'insertion de l'objet courant et l'exécute
     * @return void
     */
-    private function insert(){
+    private function insert(bool $bypass = false){
         global $_USER;
 
         $orm = BucketParser::parse(get_called_class());
         $pdo = DB::getInstance()->getLink();
 
-        if(!$_USER->hasPermission($orm->getGroup(), User::PERMISSION_CREATE)){
-            throw new BucketException(sprintf(gettext("Insufficient permission [%s][%s]"), $orm->getGroup(), User::PERMISSION_CREATE));
+        if(!$bypass){
+            if(!$_USER->hasPermission($orm->getGroup(), User::PERMISSION_CREATE)){
+                throw new BucketException(sprintf(gettext("Insufficient permission [%s][%s]"), $orm->getGroup(), User::PERMISSION_CREATE));
+            }
         }
 
         // insertion de données
@@ -78,15 +80,17 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     * Construit une requête SQL de mise à jour de l'objet courant et l'exécute
     * @return void
     */
-    private function update(){
+    private function update(bool $bypass = false){
         global $_USER;
 
         $orm = BucketParser::parse(get_called_class());
         $pdo = DB::getInstance()->getLink();
 
-        // on vérifie les permissions
-        if(!$this->isAuthor() && !$_USER->hasPermission($orm->getGroup(), User::PERMISSION_UPDATE)){
-            throw new BucketException(sprintf(gettext("Insufficient permission [%s][%s]"), $orm->getGroup(), User::PERMISSION_UPDATE));
+        if(!$bypass){
+            // on vérifie les permissions
+            if(!$this->isAuthor() && !$_USER->hasPermission($orm->getGroup(), User::PERMISSION_UPDATE)){
+                throw new BucketException(sprintf(gettext("Insufficient permission [%s][%s]"), $orm->getGroup(), User::PERMISSION_UPDATE));
+            }
         }
 
         // mise à jour de données
@@ -134,17 +138,17 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         return $stmt;
     }
 
-    public function save(){
+    public function save(bool $bypass = false){
         global $_USER;
 
         if($this->isNew()){
             $this->beforeInsert();
-            $this->insert();
+            $this->insert($bypass);
             $this->afterInsert();
         }
         else{
             $this->beforeUpdate();
-            $this->update();
+            $this->update($bypass);
             $this->afterUpdate();
         }
     }

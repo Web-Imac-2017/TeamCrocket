@@ -134,6 +134,11 @@ class User extends Bucket\BucketAbstract
         return (bool)$list[$group][$type];
     }
 
+    /**
+    * Récupère une permission
+    * @param string $name
+    * @return int
+    */
     public static function getPermissionGroupIdByName(string $name) : int{
         return (int)(DB::fetchUnique(
             "SELECT id FROM ".DATABASE_CFG['prefix']."permission_group WHERE name = :name AND active = 1",
@@ -141,7 +146,11 @@ class User extends Bucket\BucketAbstract
         )['id']);
     }
 
-
+    /**
+    * Vérifie si un groupe de permission existe
+    * @param int $id
+    * @return bool
+    */
     public static function isPermissionGroup(int $id) : bool{
         if($id == 0){
             return false;
@@ -153,7 +162,13 @@ class User extends Bucket\BucketAbstract
     }
 
 
-    public function changePermission($group, string $type, bool $permission){
+    /**
+    * Permet de changer une permission
+    * @param int|string $group
+    * @param string $type
+    * @param bool $permission
+    */
+    public function definePermission($group, string $type, bool $permission){
         $pname = substr($type, 0, 1);
         $group_id = is_int($group) ? $group : self::getPermissionGroupIdByName($group);
 
@@ -175,6 +190,18 @@ class User extends Bucket\BucketAbstract
         );
 
         DB::exec($sql, $data);
+    }
+
+
+    /**
+    * Permet de changer plusieurs permissions
+    * @param int|string $group
+    * @param array $data
+    */
+    public function defineMultiplePermission($group, array $data = []){
+        foreach($data as $key => $value){
+            $this->definePermission($group, $key, $value);
+        }
     }
 
     /**
@@ -295,8 +322,18 @@ class User extends Bucket\BucketAbstract
         $this->handleProfilePic();
     }
 
+
     protected function afterInsert(){
         $this->createVerificationToken();
+
+        $this->defineMultiplePermission('animal_profile', array(
+            'read' => true,
+            'create' => true
+        ));
+        $this->defineMultiplePermission('image', array(
+            'read' => true,
+            'create' => true
+        ));
     }
 
     protected function afterUpdate(){}
