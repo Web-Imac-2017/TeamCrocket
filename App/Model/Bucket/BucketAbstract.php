@@ -35,6 +35,8 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     }
 
     public function hydrate(array $data = [], bool $check = false){
+        global $_USER;
+
         $class = get_called_class();
         $orm = BucketParser::parse($class);
 
@@ -62,10 +64,20 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
             }
         }
 
+        // retire de la liste les champs protégés
+        $temp = $orm->getMap();
+        $map = [];
+        for($i = 0, $n = count($temp); $i < $n; $i++){
+            if($temp[$i]->getAccessLevel() === BucketField::ACCESS_LEVEL_ADMIN && !$_USER->isAdmin($orm->getGroup())){
+                continue;
+            }
+            $map[] = $temp[$i];
+        }
+
         // insertion de données
         $query = "INSERT INTO " . DATABASE_CFG['prefix'] . $orm->getTable() . "(".join($orm->getMap(), ", ").", creation_date) VALUES(".join(array_map(function($field){
             return ":".$field;
-        }, $orm->getMap()), ", ").", NOW());";
+        }, $map), ", ").", NOW());";
         $stmt = $pdo->prepare($query);
         $stmt = $this->bind($orm, $stmt);
 
@@ -82,7 +94,6 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     */
     private function update(bool $bypass = false){
         global $_USER;
-
         $orm = BucketParser::parse(get_called_class());
         $pdo = DB::getInstance()->getLink();
 
@@ -93,13 +104,23 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
             }
         }
 
+        // retire de la liste les champs protégés
+        $temp = $orm->getMap();
+        $map = [];
+        for($i = 0, $n = count($temp); $i < $n; $i++){
+            if($temp[$i]->getAccessLevel() === BucketField::ACCESS_LEVEL_ADMIN && !$_USER->isAdmin($orm->getGroup())){
+                continue;
+            }
+            $map[] = $temp[$i];
+        }
+
         // mise à jour de données
         $query = "UPDATE " . DATABASE_CFG['prefix'] . $orm->getTable() . " SET ".join(array_map(function($field){
             return $field . " = :". $field;
-        }, $orm->getMap()), ", ").", modification_date = NOW() WHERE id = :id;";
+        }, $map), ", ").", modification_date = NOW() WHERE id = :id;";
         $stmt = $pdo->prepare($query);
 
-        $stmt = $this->bind($orm, $stmt);
+        $stmt = $this->bind($map, $stmt);
         $stmt->bindValue('id', $this->getId(), \PDO::PARAM_INT);
 
         if(!$stmt->execute()){
@@ -111,24 +132,15 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
 
     /**
     * Lie les valeurs de la table à l'objet Bucket
-    * @param BucketClass $orm
+    * @param array $map
     * @param PDOStatement $stmt
     */
-    private function bind(BucketClass $orm, \PDOStatement $stmt) : \PDOStatement{
-        $map = $orm->getMap();
-
+    private function bind(array $map, \PDOStatement $stmt) : \PDOStatement{
         for($i = 0, $n = count($map); $i < $n; $i++){
             $field = $map[$i];
 
             $method = self::getKeyGetter($field->getName());
-
-            // on applique le filtre beforeSend (callback) si il existe à la valeur avant l'édition
-            if($field->getBeforeSend() != NULL){
-                $value = call_user_func($field->getBeforeSend(), $this->$method());
-            }
-            else{
-                $value = $this->$method();
-            }
+            $value = $this->$method();
 
             if(method_exists($this, $method)){
                 $type = (is_null($value)) ? \PDO::PARAM_NULL : $field->getType();
@@ -202,6 +214,25 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     */
     abstract protected function afterUpdate();
 
+    /**
+    * Fonction de filtrage par défaut à écraser si on veut affiner l'algo
+    */
+    public static function filter(array $map = []) : array{
+        $data = [];
+        $limit = "";
+
+        $class = get_called_class();
+        $orm = BucketParser::parse($class);
+
+        if(isset($map['start']) && isset($map['amount']) && $map['start'] != -1 && $map['amount'] != -1){
+            $data[] = [':start', (int)$map['start'], \PDO::PARAM_INT];
+            $data[] = [':amount', (int)$map['amount'], \PDO::PARAM_INT];
+            $limit = "LIMIT :start, :amount";
+        }
+
+        $sql = "SELECT * FROM ".DATABASE_CFG['prefix'].$orm->getTable()." WHERE active = 1 " . $limit.";";
+        return DB::fetchMultipleObject($class, $sql, $data);
+    }
 
 
     final public static function getUniqueById(int $id){
@@ -226,64 +257,6 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         return new $class($result);
     }
 
-    final public static function getMultiple(array $options = []) : array{
-        $results = [];
-
-        // traitement des options
-        $start = (isset($options['start'])) ? (int)$options['start'] : -1;
-        $amount = (isset($options['amount'])) ? (int)$options['amount'] : -1;
-        $page = (isset($options['page'])) ? (int)$options['page'] : -1;
-        $order = (isset($options['order'])) ? 'ORDER BY ' . $options['order'] : '';
-        $filters = (isset($options['filter'])) ? $options['filter'] : [];
-
-        if($page > 0 && $amount > 0){
-            $start = ($page - 1) * $amount;
-        }
-
-        $filter = implode(' AND ', array_map('static::makeFilter', $filters));
-        $limit = ($start != -1 && $amount != -1) ? "LIMIT :start, :amount" : "";
-
-
-
-        // traitement requête
-        $class = get_called_class();
-        $orm = BucketParser::parse($class);
-        $pdo = DB::getInstance()->getLink();
-
-        $stmt = $pdo->prepare("SELECT * FROM " . DATABASE_CFG['prefix'] . $orm->getTable() . " WHERE active = 1 " . ($filter != '' ? ' AND ' : '') . $filter . " " . $order . " " . $limit);
-        $stmt->setFetchMode(\PDO::FETCH_ASSOC);
-
-        if($start != -1 && $amount != -1){
-            $stmt->bindValue(':start', $start, \PDO::PARAM_INT);
-            $stmt->bindValue(':amount', $amount, \PDO::PARAM_INT);
-        }
-
-        if(isset($options['filter'])){
-            foreach($options['filter'] as $filter){
-                $stmt->bindValue(':'.$filter->getName(), $filter->getValue(), $filter->getType());
-            }
-        }
-
-        if($stmt->execute()){
-            while($result = $stmt->fetch()){
-                $results[] = new $class($result);
-            }
-        }
-        $stmt->closeCursor();
-        return $results;
-    }
-
-    /**
-    * Retourne le filtre formaté pour la requête SQL permettant de récupérer la liste des éléments de la base
-    * @param array $filters Tableau d'objets BucketFilter
-    * @return string
-    */
-    protected static function makeFilter(BucketFilter $filter) : string{
-        switch($filter){
-            default :
-                return $filter->getName() . " = :" . $filter->getName();
-        }
-    }
 
     final public static function deleteById(int $id, string $options = ""){
         global $_USER;

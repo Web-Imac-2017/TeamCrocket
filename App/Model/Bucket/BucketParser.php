@@ -52,9 +52,10 @@ class BucketParser
 
                     case 'field' :
                         $temp = array_map('trim', explode(',', $value));
+
                         //Ordre des valeurs : <name>, <type>
                         $name = $temp[0];
-                        $beforeSend = (isset($temp[2])) ? $temp[2] : NULL;
+                        $access_level = (isset($temp[2])) ? (int)$temp[2] : BucketField::ACCESS_LEVEL_USER;
 
                         switch($temp[1]){
                             case "int" :
@@ -71,7 +72,7 @@ class BucketParser
                                 $type = \PDO::PARAM_NULL;
                         }
 
-                        $map[] = new BucketField($name, $type, $beforeSend);
+                        $map[] = new BucketField($name, $type, $access_level);
                         break;
                 }
             }

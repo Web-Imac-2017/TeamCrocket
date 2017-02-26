@@ -27,4 +27,13 @@ class BucketClass
     public function getGroup() : string{
         return $this->group;
     }
+
+    public function selectField(string $name){
+        for($i = 0, $n = count($this->map); $i < $n; $i++){
+            if($this->map[$i] == $name){
+                return $this->map[$i];
+            }
+        }
+        return NULL;
+    }
 }
