@@ -13,7 +13,7 @@ abstract class BucketAbstractController
     * @param int $page
     * @return array
     */
-    public abstract function list($page = -1) : array;
+    public abstract function list() : array;
 
     /**
     * Update / Insert un élément

@@ -35,17 +35,12 @@ interface BucketInterface
     public static function getUniqueById(int $id);
 
     /**
-    * Retourne plusieurs objets
-    * @param array $options
-    * - int page
-    * - int start
-    * - int amount
-    * - array<BucketFilter> filter
-    * - string order
+    * Retourne plusieurs objets filtrés suivant les paramètres dans $map
+    * @param array $map
     * @return array Liste d'instances de la classe fille
     * @throws PDOException
     */
-    public static function getMultiple(array $options = []) : array;
+    public static function filter(array $map = []) : array;
 
     /**
     * Supprime un élément de la base de donnée en fonction de son ID

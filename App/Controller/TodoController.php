@@ -7,25 +7,11 @@
 namespace App\Controller;
 
 use App\Model\Todo;
-use App\Model\Bucket\BucketFilter;
 
 class TodoController extends BucketAbstractController
 {
-    public function list($page = -1) : array{
-        $filter = [];
-
-        $filter[] = new BucketFilter('creator_id', $_SESSION['uid'], \PDO::PARAM_INT);
-        if(isset($_POST['name']) && $_POST['name'] != ''){
-            $filter[] = new BucketFilter('name', $_POST['name'], \PDO::PARAM_STR, function($string){ return $string . "%";});
-        }
-
-        $data = Todo::getMultiple(array(
-            'page' => (int)$page,
-            'amount' => 10,
-            'filter' => $filter,
-            'order' => 'creation_date DESC'
-        ));
-        return $data;
+    public function list() : array{
+        return Todo::filter($_POST);
     }
 
     public function edit(){

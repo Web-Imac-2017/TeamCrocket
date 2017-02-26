@@ -8,25 +8,23 @@ namespace App\Controller;
 
 use App\Model\Animal;
 use App\Model\Image;
-use App\Model\Bucket\BucketFilter;
 
 class ProfileController extends BucketAbstractController
 {
-    /**
-    * Récupère la liste des profils
-    * @param int $page
-    */
-    public function list($page = -1) : array{
-        $filter = [];
-        $filter[] = new BucketFilter('creator_id', $_SESSION['uid'], \PDO::PARAM_INT);
+    public function list() : array{
+        return Animal::filter($_POST);
+    }
 
-        $data = Animal::getMultiple(array(
-            'page' => (int)$page,
-            'amount' => 10,
-            'filter' => $filter,
-            'order' => 'creation_date DESC'
-        ));
-        return $data;
+    /**
+    * Récupère les commentaires associés à un profil
+    * @param int $id ID du profil
+    */
+    public function comments(int $id = 0): array{
+        $animal = Animal::getUniqueById($id);
+        if($animal->getId() == 0){
+            throw new \Exception(sprintf(gettext("Profile n°%s does not exist"), $id));
+        }
+        return $animal->getComments();
     }
 
     /**

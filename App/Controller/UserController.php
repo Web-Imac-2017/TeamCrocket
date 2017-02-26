@@ -8,7 +8,6 @@ namespace App\Controller;
 
 use App\Model\User;
 use App\Model\LogConnexion;
-use App\Model\Bucket\BucketFilter;
 
 class UserController extends BucketAbstractController
 {
@@ -16,20 +15,8 @@ class UserController extends BucketAbstractController
         return User::getUniqueById($_SESSION['uid']);
     }
 
-    /**
-    * Récupère la liste des utilisateurs
-    * @param int $page
-    */
-    public function list($page = -1) : array{
-        $filter = [];
-
-        $data = User::getMultiple(array(
-            'page' => (int)$page,
-            'amount' => 10,
-            'filter' => $filter,
-            'order' => 'creation_date DESC'
-        ));
-        return $data;
+    public function list() : array{
+        return User::filter($_POST);
     }
 
     /**
@@ -49,10 +36,6 @@ class UserController extends BucketAbstractController
     */
     public function edit() : User{
         $id = (isset($_POST['id'])) ? (int)$_POST['id'] : 0;
-
-        if($id > 0 && $id != $_SESSION['uid']){
-            throw new \Exception(gettext("Insufficient permission"));
-        }
 
         $user = User::getUniqueById($id);
         $user->hydrate($_POST, true);

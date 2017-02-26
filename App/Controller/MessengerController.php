@@ -12,6 +12,10 @@ use App\Model\MessageGroup;
 
 class MessengerController
 {
+    public function list() : array{
+        return Message::filter($_POST);
+    }
+
     /**
     * Ajouter / Modifie un message
     */
