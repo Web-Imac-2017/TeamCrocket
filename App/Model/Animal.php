@@ -11,25 +11,35 @@ namespace App\Model;
 @table animal
 @group animal_profile
 @field name, string
+@field sex, string
 @field species_id, int
 @field creator_id, int
 @field date_birth, date
 @field description, string
+@field banned, int, 1
 */
 
 class Animal extends Bucket\BucketAbstract
 {
+    const SEX_MALE = 'm';
+    const SEX_FEMALE = 'f';
+    const SEX_HERMAPHRODITE = 'f';
+
     private $name;
+    private $sex;
     private $species_id;
     private $creator_id;
     private $date_birth;
     private $description;
+    private $banned;
 
     function __construct($data = NULL){
         $this->name = '';
+        $this->sex = self::SEX_MALE;
         $this->species_id = 0;
         $this->creator_id = 0;
         $this->description = "";
+        $this->banned = 0;
 
         parent::__construct($data);
     }
@@ -37,6 +47,8 @@ class Animal extends Bucket\BucketAbstract
     public function jsonSerialize(){
         return array(
             'id' => $this->id,
+            'name' => $this->name,
+            'sex' => $this->sex,
             'creator_id' => $this->creator_id,
             'species_id' => $this->species_id,
             'description' => $this->description,
@@ -133,6 +145,9 @@ class Animal extends Bucket\BucketAbstract
     public function getName() : string{
         return $this->name;
     }
+    public function getSex() : string{
+        return $this->sex;
+    }
     public function getSpeciesId() : int{
         return $this->species_id;
     }
@@ -151,10 +166,16 @@ class Animal extends Bucket\BucketAbstract
     public function getUser() : User{
         return User::getUniqueById($this->creator_id);
     }
+    public function getBanned() : int{
+        return $this->banned;
+    }
 
     // setters
     public function setName(string $name){
         $this->name = $name;
+    }
+    public function setSex(string $sex){
+        $this->sex = $sex;
     }
     public function setSpeciesId(int $species){
         $this->species_id = $species;
@@ -167,5 +188,8 @@ class Animal extends Bucket\BucketAbstract
     }
     public function setDateBirth(string $date = NULL){
         $this->date_birth = $date;
+    }
+    public function setBanned(int $banned){
+        $this->banned = $banned;
     }
 }

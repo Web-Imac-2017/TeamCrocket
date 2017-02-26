@@ -9,8 +9,8 @@ namespace App\Model;
 /*
 @table user
 @group user_profile
-@field nickname, string
-@field password, string, hashPassword
+@field nickname, string, 1
+@field password, string
 @field lastname, string
 @field firstname, string
 @field email, string
@@ -22,20 +22,21 @@ namespace App\Model;
 @field latitude, float
 @field longitude, float
 @field date_birth, date
-@field verified, int
+@field verified, int, 1
+@field banned, int, 1
 */
 
 class User extends Bucket\BucketAbstract
 {
     // profile picture
-    const SEX_MALE = 'h';
+    const SEX_MALE = 'm';
     const SEX_FEMALE = 'f';
 
     const PERMISSION_READ = 'read';
     const PERMISSION_CREATE = 'create';
     const PERMISSION_UPDATE = 'update';
     const PERMISSION_DELETE = 'delete';
-    const PERMISSION_SUPERADMIN = 'superadmin';
+    const PERMISSION_ADMIN = 'admin';
 
     private $nickname;
     private $password;
@@ -51,6 +52,7 @@ class User extends Bucket\BucketAbstract
     private $country_id;
     private $date_birth;
     private $verified;
+    private $banned;
 
     private static $permission = [];
 
@@ -68,6 +70,7 @@ class User extends Bucket\BucketAbstract
         $this->country_id = 73;
         $this->date_birth;
         $this->verified = 0;
+        $this->banned = 0;
 
         parent::__construct($data);
     }
@@ -217,7 +220,7 @@ class User extends Bucket\BucketAbstract
                 IFNULL((SELECT p.c FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"create\",
                 IFNULL((SELECT p.u FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"update\",
                 IFNULL((SELECT p.d FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"delete\",
-                IFNULL((SELECT p.s FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"superadmin\"
+                IFNULL((SELECT p.a FROM ".DATABASE_CFG['prefix']."user_permission p WHERE p.user_id = :user_id AND p.group_id = m.id), 0) as \"admin\"
             FROM ".DATABASE_CFG['prefix']."permission_group m
             WHERE m.active = 1;
             ";
@@ -237,6 +240,13 @@ class User extends Bucket\BucketAbstract
         }
 
         return self::$permission[$this->getId()];
+    }
+
+    public function isAdmin(string $group){
+        if(isset(self::$permission[$this->getId()][$group])){
+            return self::$permission[$this->getId()][$group]['admin'];
+        }
+        return false;
     }
 
     /**
@@ -290,6 +300,8 @@ class User extends Bucket\BucketAbstract
             throw new \Exception(gettext("An account already exists with this email adress"));
         }
 
+        $this->password = hashPassword($this->password);
+
         // reCAPTCHA
         $this->handleCaptcha();
 
@@ -315,6 +327,8 @@ class User extends Bucket\BucketAbstract
             $this->setPassword($new_password, true);
         }
 
+        $this->password = hashPassword($this->password);
+
         // API GEOLOC
         $this->getLatLong();
 
@@ -326,6 +340,7 @@ class User extends Bucket\BucketAbstract
     protected function afterInsert(){
         $this->createVerificationToken();
 
+        // ajout des permissions basiques
         $this->defineMultiplePermission('animal_profile', array(
             'read' => true,
             'create' => true
@@ -646,6 +661,9 @@ class User extends Bucket\BucketAbstract
     public function setVerified(int $verified){
         $this->verified = $verified;
     }
+    public function setBanned(int $banned){
+        $this->banned = $banned;
+    }
 
     // getters
     public function getNickname() : string{
@@ -695,5 +713,8 @@ class User extends Bucket\BucketAbstract
     }
     public function getVerified() : int{
         return $this->verified;
+    }
+    public function getBanned() : int{
+        return $this->banned;
     }
 }
