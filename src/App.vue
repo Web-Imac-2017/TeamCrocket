@@ -16,11 +16,16 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+    <footer-component></footer-component>
   </div>
 </template>
 
 <script>
+import FooterComponent from "./Footer.vue"
 export default {
+components: {
+  FooterComponent
+},
   name: 'app',
   data () {
     return {
