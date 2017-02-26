@@ -9,7 +9,7 @@ namespace App\Model;
 /*
 @table user
 @group user_profile
-@field nickname, string, 1
+@field nickname, string
 @field password, string
 @field lastname, string
 @field firstname, string
