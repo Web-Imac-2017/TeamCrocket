@@ -8,18 +8,57 @@ CREATE TABLE `ajkl7_animal` (
   `creator_id` int(10) UNSIGNED NOT NULL,
   `species_id` int(10) UNSIGNED DEFAULT NULL,
   `name` varchar(32) NOT NULL,
+  `sex` char(1) NOT NULL DEFAULT 'm',
   `description` text NOT NULL,
   `date_birth` date DEFAULT NULL,
+  `banned` tinyint(1) NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+INSERT INTO `ajkl7_animal` (`id`, `creator_id`, `species_id`, `name`, `sex`, `description`, `date_birth`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
+(17, 135, 6, 'Tigrou', 'm', '', '1993-05-10', 0, '2017-02-25 23:59:53', '2017-02-26 04:54:29', 1),
+(18, 135, 7, 'Bérénice', 'm', '', '1993-05-10', 0, '2017-02-26 00:03:10', '2017-02-26 04:59:23', 1),
+(19, 135, 8, 'Maurice', 'm', '', '1993-05-09', 0, '2017-02-26 00:21:18', '2017-02-26 00:21:32', 1);
 
 CREATE TABLE `ajkl7_animal_characteristic` (
   `animal_id` int(10) UNSIGNED NOT NULL,
   `characteristic_id` int(10) UNSIGNED NOT NULL,
   `value` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+INSERT INTO `ajkl7_animal_characteristic` (`animal_id`, `characteristic_id`, `value`) VALUES
+(17, 4, '40'),
+(17, 5, '3'),
+(17, 8, 'Joueur'),
+(17, 9, 'Croquettes'),
+(17, 11, ''),
+(17, 12, ''),
+(18, 4, '200'),
+(18, 5, '500'),
+(18, 8, ''),
+(18, 9, 'Foin, herbe, granulés'),
+(18, 11, ''),
+(18, 12, ''),
+(19, 4, '170'),
+(19, 5, '478'),
+(19, 7, 'Brune'),
+(19, 8, 'Gentil'),
+(19, 9, 'Foin, carottes');
+
+CREATE TABLE `ajkl7_animal_comment` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `animal_id` int(10) UNSIGNED NOT NULL,
+  `creator_id` int(10) UNSIGNED NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `ajkl7_animal_comment` (`id`, `animal_id`, `creator_id`, `content`, `creation_date`, `modification_date`, `active`) VALUES
+(4, 17, 135, 'yo', '2017-02-26 02:28:12', NULL, 1);
 
 CREATE TABLE `ajkl7_animal_gallery` (
   `animal_id` int(10) UNSIGNED NOT NULL,
@@ -36,6 +75,17 @@ CREATE TABLE `ajkl7_characteristic` (
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `ajkl7_characteristic` (`id`, `name`, `common`, `required`, `type`, `creation_date`, `modification_date`, `active`) VALUES
+(4, 'Taille (cm)', 1, 0, 1, '2017-02-25 00:00:00', NULL, 1),
+(5, 'Poids (kg)', 1, 0, 2, '2017-02-25 00:00:00', NULL, 1),
+(6, 'Pelage', 0, 0, 0, '2017-02-25 00:00:00', NULL, 1),
+(7, 'Robe', 0, 0, 0, '2017-02-25 00:00:00', NULL, 1),
+(8, 'Caractère', 1, 0, 0, '2017-02-25 00:00:00', NULL, 1),
+(9, 'Nourriture préférée', 1, 0, 0, '2017-02-25 00:00:00', NULL, 1),
+(10, 'Jouet préféré', 0, 0, 0, '2017-02-26 00:00:00', NULL, 1),
+(11, 'J\'aime', 1, 0, 0, '2017-02-26 00:00:00', NULL, 1),
+(12, 'J\'aime pas', 1, 0, 0, '2017-02-26 00:00:00', NULL, 1);
 
 CREATE TABLE `ajkl7_country` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -341,10 +391,27 @@ CREATE TABLE `ajkl7_species` (
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `ajkl7_species` (`id`, `name`, `creation_date`, `modification_date`, `active`) VALUES
+(6, 'Chat', '2017-02-25 00:00:00', NULL, 1),
+(7, 'Vache', '2017-02-25 00:00:00', NULL, 1),
+(8, 'Cheval', '2017-02-25 00:00:00', NULL, 1),
+(9, 'Chien', '2017-02-25 00:00:00', NULL, 1),
+(10, 'Serpent', '2017-02-26 00:00:00', NULL, 1),
+(11, 'Insecte', '2017-02-26 00:00:00', NULL, 1),
+(12, 'Arthropode', '2017-02-26 00:00:00', NULL, 1),
+(13, 'Lézard', '2017-02-26 00:00:00', NULL, 1),
+(14, 'Tortue', '2017-02-26 00:00:00', NULL, 1),
+(15, 'Poisson', '2017-02-26 00:00:00', NULL, 1),
+(16, 'Rongeur', '2017-02-26 00:00:00', NULL, 1),
+(17, 'Autre', '2017-02-26 00:00:00', NULL, 1);
+
 CREATE TABLE `ajkl7_species_characteristic` (
   `species_id` int(10) UNSIGNED NOT NULL,
   `characteristic_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `ajkl7_species_characteristic` (`species_id`, `characteristic_id`) VALUES
+(8, 7);
 
 CREATE TABLE `ajkl7_todo` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -367,15 +434,20 @@ CREATE TABLE `ajkl7_user` (
   `image_id` int(10) UNSIGNED DEFAULT NULL,
   `description` text NOT NULL,
   `city` varchar(32) NOT NULL,
-  `latitude` float NOT NULL,
-  `longitude` float NOT NULL,
+  `latitude` float(9,6) NOT NULL,
+  `longitude` float(9,6) NOT NULL,
   `country_id` int(10) UNSIGNED NOT NULL,
   `date_birth` date DEFAULT NULL,
   `verified` tinyint(1) NOT NULL DEFAULT '0',
+  `banned` tinyint(1) NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
+(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'f', NULL, '<br/>222', 'Strasbourg', 48.573406, 7.752111, 73, '1993-05-10', 1, 0, '2017-02-22 21:59:36', '2017-02-26 04:57:51', 1),
+(136, 'admin', '2b0e40226cc683007daa315654ab9df4295adbb5', '', '', 'contact@metter.fr', 'm', NULL, '', 'Paris', 48.856602, 2.352220, 73, '1993-01-01', 1, 0, '2017-02-24 19:07:26', '2017-02-24 19:09:33', 1);
 
 CREATE TABLE `ajkl7_user_log_connexion` (
   `user_id` int(11) UNSIGNED NOT NULL,
@@ -384,6 +456,11 @@ CREATE TABLE `ajkl7_user_log_connexion` (
   `last_connexion_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
+INSERT INTO `ajkl7_user_log_connexion` (`user_id`, `ip_adress`, `user_agent`, `last_connexion_date`) VALUES
+(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00');
+
 CREATE TABLE `ajkl7_user_permission` (
   `group_id` int(10) UNSIGNED NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -391,8 +468,13 @@ CREATE TABLE `ajkl7_user_permission` (
   `c` tinyint(1) NOT NULL DEFAULT '0',
   `u` tinyint(1) NOT NULL DEFAULT '0',
   `d` tinyint(1) NOT NULL DEFAULT '0',
-  `s` tinyint(1) NOT NULL DEFAULT '0'
+  `a` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+INSERT INTO `ajkl7_user_permission` (`group_id`, `user_id`, `r`, `c`, `u`, `d`, `a`) VALUES
+(1, 135, 1, 1, 0, 0, 0),
+(4, 135, 0, 0, 0, 0, 1),
+(5, 135, 1, 1, 0, 0, 0);
 
 CREATE TABLE `ajkl7_user_reset_password` (
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -415,6 +497,11 @@ ALTER TABLE `ajkl7_animal`
 ALTER TABLE `ajkl7_animal_characteristic`
   ADD UNIQUE KEY `animal_id` (`animal_id`,`characteristic_id`),
   ADD KEY `ajkl7_animal_characteristic_ibfk_2` (`characteristic_id`);
+
+ALTER TABLE `ajkl7_animal_comment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ajkl7_animal_comment_ibfk_1` (`animal_id`),
+  ADD KEY `user_id` (`creator_id`);
 
 ALTER TABLE `ajkl7_animal_gallery`
   ADD KEY `ajkl7_animal_gallery_ibfk_1` (`animal_id`),
@@ -477,13 +564,15 @@ ALTER TABLE `ajkl7_user_verification`
 
 
 ALTER TABLE `ajkl7_animal`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+ALTER TABLE `ajkl7_animal_comment`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 ALTER TABLE `ajkl7_characteristic`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 ALTER TABLE `ajkl7_country`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
 ALTER TABLE `ajkl7_image`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_message`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_message_group`
@@ -491,7 +580,7 @@ ALTER TABLE `ajkl7_message_group`
 ALTER TABLE `ajkl7_permission_group`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 ALTER TABLE `ajkl7_species`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 ALTER TABLE `ajkl7_todo`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_user`
@@ -504,6 +593,10 @@ ALTER TABLE `ajkl7_animal`
 ALTER TABLE `ajkl7_animal_characteristic`
   ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_2` FOREIGN KEY (`characteristic_id`) REFERENCES `ajkl7_characteristic` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+ALTER TABLE `ajkl7_animal_comment`
+  ADD CONSTRAINT `ajkl7_animal_comment_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_animal_comment_ibfk_2` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 ALTER TABLE `ajkl7_animal_gallery`
   ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
@@ -543,8 +636,3 @@ ALTER TABLE `ajkl7_user_reset_password`
 
 ALTER TABLE `ajkl7_user_verification`
   ADD CONSTRAINT `uid_fk` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
-
-
-INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `creation_date`, `modification_date`, `active`) VALUES
-(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'h', NULL, '<br/>', 'Strasbourg', 48.5915, 7.77545, 74, '1993-05-09', 1, '2017-02-22 21:59:36', '2017-02-25 18:46:49', 1),
-(136, 'admin', '2b0e40226cc683007daa315654ab9df4295adbb5', '', '', 'contact@metter.fr', 'h', NULL, '', 'Paris', 48.8566, 2.35222, 73, '1993-01-01', 1, '2017-02-24 19:07:26', '2017-02-24 19:09:33', 1);
