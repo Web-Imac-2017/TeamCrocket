@@ -269,9 +269,11 @@ require(ROOT_INC . 'api.php');
                             <div class="comment-inner">
                                 <h5><?php echo $author->getNickname(); ?></h5>
                                 <p><?php echo $comment->getContent(); ?></p>
+                                <?php if($_SESSION['uid'] == $author->getId()): ?>
                                 <ul class="comment-options">
                                     <li><a class="btn btn-delete exec" data-method="post" data-ctrl="comment" data-task="delete" data-args="<?php echo $comment->getId(); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
                                 </ul>
+                                <?php endif; ?>
                                 <div class="comment-date"><?php echo $author->getCreationDate(); ?></div>
                             </div>
                         </div>
@@ -352,7 +354,8 @@ require(ROOT_INC . 'api.php');
 
         callbacks.comment = {
             edit : function(data){
-                $('#profile-animal-form3 input[name=content]').val('');
+                $('#profile-animal-form3').find('*[name="content"]').val('');
+
                 $('#comments').prepend('<div class="comment" data-id="'+data.output.id+'">\
                     <img alt="" src="'+data.output.creator.image.path+'">\
                     <div class="comment-inner">\
@@ -416,6 +419,8 @@ require(ROOT_INC . 'api.php');
                 var action = $form.attr('action');
                 var data = new FormData($form[0]);
 
+                $form.prop('disabled', true);
+
                 $.ajax({
                     method : $form.attr('method'),
                     url : action+'/'+ctrl+'/'+task,
@@ -424,6 +429,8 @@ require(ROOT_INC . 'api.php');
                     processData : false,
                     contentType : false,
                     success : function(data){
+                        $form.prop('disabled', false);
+
                         $form.find('.message').css('display', 'none');
                         if(data.success){
                             $form.find('.success-message').fadeIn(200);
