@@ -134,7 +134,7 @@ class Animal extends Bucket\BucketAbstract
     * Retourne la liste des commentaires associées à l'animal
     */
     public function getComments() : array{
-        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal_comment WHERE animal_id = :id AND active = 1";
+        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal_comment WHERE animal_id = :id AND active = 1 ORDER BY creation_date DESC";
         $data = array(
             [":id", $this->getId(), \PDO::PARAM_INT]
         );

@@ -34,7 +34,7 @@ class Comment extends Bucket\BucketAbstract
             'content' => $this->content,
             'animal_id' => $this->animal_id,
             'creator' => $this->getCreator(),
-            'creation_date' => $this->creation_date,
+            'creation_date' => (!empty($this->creation_date)) ? $this->creation_date : gettext('now'),
             'modification_date' => $this->modification_date,
             'is_author' => ($_SESSION['uid'] == $this->creator_id)
         );

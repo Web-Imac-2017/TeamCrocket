@@ -247,7 +247,7 @@ require(ROOT_INC . 'api.php');
                     $comments = $animal->getComments();
                     ?>
                     <h4 class="mt-2">Comments</h4>
-                    <form id="profile-animal-form3" method="post" action="api" data-ctrl="comment" data-task="edit">
+                    <form id="profile-animal-form3" method="post" action="api" data-ctrl="comment" data-task="edit" class="mb-3">
                         <input type="hidden" name="id" value="0">
                         <input type="hidden" name="animal_id" value="<?php echo $animal->getId(); ?>">
                         <div class="form-group">
@@ -259,11 +259,26 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Send"></div>
                         </footer>
                     </form>
-                    <?php foreach($comments as $comment): ?>
-                    <div class="comment">
-                        <?php echo $comment->getContent(); ?>
+                    <div id="comments">
+                        <?php
+                        foreach($comments as $comment){
+                        $author = $comment->getCreator();
+                        ?>
+                        <div class="comment" data-id="<?php echo $comment->getId(); ?>">
+                            <img alt="" src="<?php echo $author->getImage()->getPath(); ?>">
+                            <div class="comment-inner">
+                                <h5><?php echo $author->getNickname(); ?></h5>
+                                <p><?php echo $comment->getContent(); ?></p>
+                                <ul class="comment-options">
+                                    <li><a class="btn btn-delete exec" data-method="post" data-ctrl="comment" data-task="delete" data-args="<?php echo $comment->getId(); ?>"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+                                </ul>
+                                <div class="comment-date"><?php echo $author->getCreationDate(); ?></div>
+                            </div>
+                        </div>
+                        <?php
+                        }
+                        ?>
                     </div>
-                    <?php endforeach; ?>
                     <?php endif;?>
                 </div>
             </div>
@@ -335,6 +350,28 @@ require(ROOT_INC . 'api.php');
             }
         }
 
+        callbacks.comment = {
+            edit : function(data){
+                $('#profile-animal-form3 input[name=content]').val('');
+                $('#comments').prepend('<div class="comment" data-id="'+data.output.id+'">\
+                    <img alt="" src="'+data.output.creator.image.path+'">\
+                    <div class="comment-inner">\
+                        <h5>'+data.output.creator.nickname+'</h5>\
+                        <p>'+data.output.content+'</p>\
+                        <ul class="comment-options">\
+                            <li><a class="btn btn-delete exec" data-method="post" data-ctrl="comment" data-task="delete" data-args="'+data.output.id+'"><i class="fa fa-trash" aria-hidden="true"></i></a></li>\
+                        </ul>\
+                        <div class="comment-date">'+data.output.creation_date+'</div>\
+                    </div>\
+                </div>');
+            },
+            delete : function(data){
+                if(data.success){
+                    $('.comment[data-id='+data.output+']').remove();
+                }
+            }
+        };
+
         $(function(){
             /**
             * Changement de photo de profil
@@ -403,7 +440,7 @@ require(ROOT_INC . 'api.php');
                 });
             });
 
-            $('.exec').on('click', function(e){
+            $('body').on('click', '.exec', function(e){
                 e.preventDefault();
 
                 var $btn = $(this);

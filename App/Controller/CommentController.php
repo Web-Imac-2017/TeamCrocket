@@ -45,5 +45,6 @@ class CommentController extends BucketAbstractController
     */
     public function delete(int $id){
         Comment::deleteById($id);
+        return $id;
     }
 }
