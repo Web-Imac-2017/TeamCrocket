@@ -1,4 +1,5 @@
-
 uploads/*
 config/*
 .DS_Store
+
+!uploads/users/0/*

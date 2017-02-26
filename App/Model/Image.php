@@ -23,7 +23,7 @@ class Image extends Bucket\BucketAbstract
     private $creator_id;
 
     function __construct($data = NULL){
-        $this->name = '';
+        $this->name = 'default_avatar.png';
         $this->creator_id = 0;
 
         parent::__construct($data);
