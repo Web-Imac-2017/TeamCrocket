@@ -1,7 +1,26 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:8889
+-- Generation Time: Feb 26, 2017 at 10:01 PM
+-- Server version: 5.6.35
+-- PHP Version: 7.1.1
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+--
+-- Database: `teamcrocket`
+--
 CREATE DATABASE IF NOT EXISTS `teamcrocket` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `teamcrocket`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_animal`
+--
 
 CREATE TABLE `ajkl7_animal` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -17,16 +36,30 @@ CREATE TABLE `ajkl7_animal` (
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
+--
+-- Dumping data for table `ajkl7_animal`
+--
+
 INSERT INTO `ajkl7_animal` (`id`, `creator_id`, `species_id`, `name`, `sex`, `description`, `date_birth`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
 (17, 135, 6, 'Tigrou', 'm', '', '1993-05-10', 0, '2017-02-25 23:59:53', '2017-02-26 04:54:29', 1),
 (18, 135, 7, 'Bérénice', 'm', '', '1993-05-10', 0, '2017-02-26 00:03:10', '2017-02-26 04:59:23', 1),
 (19, 135, 8, 'Maurice', 'm', '', '1993-05-09', 0, '2017-02-26 00:21:18', '2017-02-26 00:21:32', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_animal_characteristic`
+--
 
 CREATE TABLE `ajkl7_animal_characteristic` (
   `animal_id` int(10) UNSIGNED NOT NULL,
   `characteristic_id` int(10) UNSIGNED NOT NULL,
   `value` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `ajkl7_animal_characteristic`
+--
 
 INSERT INTO `ajkl7_animal_characteristic` (`animal_id`, `characteristic_id`, `value`) VALUES
 (17, 4, '40'),
@@ -47,6 +80,12 @@ INSERT INTO `ajkl7_animal_characteristic` (`animal_id`, `characteristic_id`, `va
 (19, 8, 'Gentil'),
 (19, 9, 'Foin, carottes');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_animal_comment`
+--
+
 CREATE TABLE `ajkl7_animal_comment` (
   `id` int(10) UNSIGNED NOT NULL,
   `animal_id` int(10) UNSIGNED NOT NULL,
@@ -57,13 +96,33 @@ CREATE TABLE `ajkl7_animal_comment` (
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ajkl7_animal_comment`
+--
+
 INSERT INTO `ajkl7_animal_comment` (`id`, `animal_id`, `creator_id`, `content`, `creation_date`, `modification_date`, `active`) VALUES
-(4, 17, 135, 'yo', '2017-02-26 02:28:12', NULL, 1);
+(5, 19, 135, 'dd\r\n', '2017-02-26 14:33:41', NULL, 1),
+(11, 17, 135, 'co mment-datecom ment-d atec omme nt-dateco mme nt-dateco mment-datec omm ent-da tec omment-date comment-datec omment-dateco  mment-datecomme nt-datec omm ent-d atecomme nt-datecomment-date', '2017-02-26 15:21:38', NULL, 1),
+(16, 17, 135, 'yolallalaa', '2017-02-26 15:41:47', NULL, 1),
+(18, 17, 135, 'dddd', '2017-02-26 15:43:12', NULL, 1),
+(21, 17, 136, 'c\'est un chat adorable ! ', '2017-02-26 15:57:19', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_animal_gallery`
+--
 
 CREATE TABLE `ajkl7_animal_gallery` (
   `animal_id` int(10) UNSIGNED NOT NULL,
   `image_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_characteristic`
+--
 
 CREATE TABLE `ajkl7_characteristic` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -76,6 +135,10 @@ CREATE TABLE `ajkl7_characteristic` (
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ajkl7_characteristic`
+--
+
 INSERT INTO `ajkl7_characteristic` (`id`, `name`, `common`, `required`, `type`, `creation_date`, `modification_date`, `active`) VALUES
 (4, 'Taille (cm)', 1, 0, 1, '2017-02-25 00:00:00', NULL, 1),
 (5, 'Poids (kg)', 1, 0, 2, '2017-02-25 00:00:00', NULL, 1),
@@ -86,6 +149,12 @@ INSERT INTO `ajkl7_characteristic` (`id`, `name`, `common`, `required`, `type`, 
 (10, 'Jouet préféré', 0, 0, 0, '2017-02-26 00:00:00', NULL, 1),
 (11, 'J\'aime', 1, 0, 0, '2017-02-26 00:00:00', NULL, 1),
 (12, 'J\'aime pas', 1, 0, 0, '2017-02-26 00:00:00', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_country`
+--
 
 CREATE TABLE `ajkl7_country` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -99,6 +168,10 @@ CREATE TABLE `ajkl7_country` (
   `creation_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+--
+-- Dumping data for table `ajkl7_country`
+--
 
 INSERT INTO `ajkl7_country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`, `phonecode`, `modification_date`, `creation_date`, `active`) VALUES
 (1, 'AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4, 93, NULL, NULL, 1),
@@ -341,6 +414,12 @@ INSERT INTO `ajkl7_country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`,
 (238, 'ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894, 260, NULL, NULL, 1),
 (239, 'ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716, 263, NULL, NULL, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_image`
+--
+
 CREATE TABLE `ajkl7_image` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(48) NOT NULL,
@@ -349,6 +428,12 @@ CREATE TABLE `ajkl7_image` (
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_message`
+--
 
 CREATE TABLE `ajkl7_message` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -360,6 +445,12 @@ CREATE TABLE `ajkl7_message` (
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_message_group`
+--
+
 CREATE TABLE `ajkl7_message_group` (
   `id` int(10) UNSIGNED NOT NULL,
   `title` varchar(32) NOT NULL,
@@ -370,11 +461,21 @@ CREATE TABLE `ajkl7_message_group` (
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_permission_group`
+--
+
 CREATE TABLE `ajkl7_permission_group` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(16) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `ajkl7_permission_group`
+--
 
 INSERT INTO `ajkl7_permission_group` (`id`, `name`, `active`) VALUES
 (1, 'animal_profile', 1),
@@ -383,6 +484,12 @@ INSERT INTO `ajkl7_permission_group` (`id`, `name`, `active`) VALUES
 (4, 'user_profile', 1),
 (5, 'image', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_species`
+--
+
 CREATE TABLE `ajkl7_species` (
   `id` int(11) UNSIGNED NOT NULL,
   `name` varchar(32) NOT NULL,
@@ -390,6 +497,10 @@ CREATE TABLE `ajkl7_species` (
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ajkl7_species`
+--
 
 INSERT INTO `ajkl7_species` (`id`, `name`, `creation_date`, `modification_date`, `active`) VALUES
 (6, 'Chat', '2017-02-25 00:00:00', NULL, 1),
@@ -405,13 +516,29 @@ INSERT INTO `ajkl7_species` (`id`, `name`, `creation_date`, `modification_date`,
 (16, 'Rongeur', '2017-02-26 00:00:00', NULL, 1),
 (17, 'Autre', '2017-02-26 00:00:00', NULL, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_species_characteristic`
+--
+
 CREATE TABLE `ajkl7_species_characteristic` (
   `species_id` int(10) UNSIGNED NOT NULL,
   `characteristic_id` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ajkl7_species_characteristic`
+--
+
 INSERT INTO `ajkl7_species_characteristic` (`species_id`, `characteristic_id`) VALUES
 (8, 7);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_todo`
+--
 
 CREATE TABLE `ajkl7_todo` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -422,6 +549,12 @@ CREATE TABLE `ajkl7_todo` (
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_user`
+--
 
 CREATE TABLE `ajkl7_user` (
   `id` int(10) UNSIGNED NOT NULL,
@@ -445,9 +578,19 @@ CREATE TABLE `ajkl7_user` (
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `ajkl7_user`
+--
+
 INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
 (135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'f', NULL, '<br/>222', 'Strasbourg', 48.573406, 7.752111, 73, '1993-05-10', 1, 0, '2017-02-22 21:59:36', '2017-02-26 04:57:51', 1),
 (136, 'admin', '2b0e40226cc683007daa315654ab9df4295adbb5', '', '', 'contact@metter.fr', 'm', NULL, '', 'Paris', 48.856602, 2.352220, 73, '1993-01-01', 1, 0, '2017-02-24 19:07:26', '2017-02-24 19:09:33', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_user_log_connexion`
+--
 
 CREATE TABLE `ajkl7_user_log_connexion` (
   `user_id` int(11) UNSIGNED NOT NULL,
@@ -456,10 +599,22 @@ CREATE TABLE `ajkl7_user_log_connexion` (
   `last_connexion_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
+--
+-- Dumping data for table `ajkl7_user_log_connexion`
+--
+
 INSERT INTO `ajkl7_user_log_connexion` (`user_id`, `ip_adress`, `user_agent`, `last_connexion_date`) VALUES
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(136, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_user_permission`
+--
 
 CREATE TABLE `ajkl7_user_permission` (
   `group_id` int(10) UNSIGNED NOT NULL,
@@ -471,10 +626,20 @@ CREATE TABLE `ajkl7_user_permission` (
   `a` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
+--
+-- Dumping data for table `ajkl7_user_permission`
+--
+
 INSERT INTO `ajkl7_user_permission` (`group_id`, `user_id`, `r`, `c`, `u`, `d`, `a`) VALUES
 (1, 135, 1, 1, 0, 0, 0),
 (4, 135, 0, 0, 0, 0, 1),
 (5, 135, 1, 1, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_user_reset_password`
+--
 
 CREATE TABLE `ajkl7_user_reset_password` (
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -482,66 +647,117 @@ CREATE TABLE `ajkl7_user_reset_password` (
   `date_exp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_user_verification`
+--
+
 CREATE TABLE `ajkl7_user_verification` (
   `user_id` int(10) UNSIGNED NOT NULL,
   `token` varchar(32) NOT NULL,
   `date_exp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Indexes for dumped tables
+--
 
+--
+-- Indexes for table `ajkl7_animal`
+--
 ALTER TABLE `ajkl7_animal`
   ADD PRIMARY KEY (`id`),
   ADD KEY `owner_id` (`creator_id`),
   ADD KEY `species_id` (`species_id`);
 
+--
+-- Indexes for table `ajkl7_animal_characteristic`
+--
 ALTER TABLE `ajkl7_animal_characteristic`
   ADD UNIQUE KEY `animal_id` (`animal_id`,`characteristic_id`),
   ADD KEY `ajkl7_animal_characteristic_ibfk_2` (`characteristic_id`);
 
+--
+-- Indexes for table `ajkl7_animal_comment`
+--
 ALTER TABLE `ajkl7_animal_comment`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ajkl7_animal_comment_ibfk_1` (`animal_id`),
   ADD KEY `user_id` (`creator_id`);
 
+--
+-- Indexes for table `ajkl7_animal_gallery`
+--
 ALTER TABLE `ajkl7_animal_gallery`
   ADD KEY `ajkl7_animal_gallery_ibfk_1` (`animal_id`),
   ADD KEY `image_id` (`image_id`);
 
+--
+-- Indexes for table `ajkl7_characteristic`
+--
 ALTER TABLE `ajkl7_characteristic`
   ADD PRIMARY KEY (`id`);
 
+--
+-- Indexes for table `ajkl7_country`
+--
 ALTER TABLE `ajkl7_country`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`id`);
 
+--
+-- Indexes for table `ajkl7_image`
+--
 ALTER TABLE `ajkl7_image`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ajkl7_image_ibfk_1` (`creator_id`);
 
+--
+-- Indexes for table `ajkl7_message`
+--
 ALTER TABLE `ajkl7_message`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ajkl7_message_ibfk_1` (`group_id`),
   ADD KEY `author_id` (`creator_id`);
 
+--
+-- Indexes for table `ajkl7_message_group`
+--
 ALTER TABLE `ajkl7_message_group`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_a` (`user_a_id`),
   ADD KEY `user_b` (`user_b_id`);
 
+--
+-- Indexes for table `ajkl7_permission_group`
+--
 ALTER TABLE `ajkl7_permission_group`
   ADD PRIMARY KEY (`id`);
 
+--
+-- Indexes for table `ajkl7_species`
+--
 ALTER TABLE `ajkl7_species`
   ADD PRIMARY KEY (`id`);
 
+--
+-- Indexes for table `ajkl7_species_characteristic`
+--
 ALTER TABLE `ajkl7_species_characteristic`
   ADD KEY `species_id` (`species_id`),
   ADD KEY `characteristic_id` (`characteristic_id`);
 
+--
+-- Indexes for table `ajkl7_todo`
+--
 ALTER TABLE `ajkl7_todo`
   ADD PRIMARY KEY (`id`),
   ADD KEY `creator_id` (`creator_id`);
 
+--
+-- Indexes for table `ajkl7_user`
+--
 ALTER TABLE `ajkl7_user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
@@ -549,90 +765,183 @@ ALTER TABLE `ajkl7_user`
   ADD KEY `country_id` (`country_id`),
   ADD KEY `image_id` (`image_id`);
 
+--
+-- Indexes for table `ajkl7_user_log_connexion`
+--
 ALTER TABLE `ajkl7_user_log_connexion`
   ADD KEY `user_id` (`user_id`);
 
+--
+-- Indexes for table `ajkl7_user_permission`
+--
 ALTER TABLE `ajkl7_user_permission`
   ADD UNIQUE KEY `module_id` (`group_id`,`user_id`),
   ADD KEY `user_id` (`user_id`);
 
+--
+-- Indexes for table `ajkl7_user_reset_password`
+--
 ALTER TABLE `ajkl7_user_reset_password`
   ADD UNIQUE KEY `user_id` (`user_id`);
 
+--
+-- Indexes for table `ajkl7_user_verification`
+--
 ALTER TABLE `ajkl7_user_verification`
   ADD UNIQUE KEY `user_id` (`user_id`);
 
+--
+-- AUTO_INCREMENT for dumped tables
+--
 
+--
+-- AUTO_INCREMENT for table `ajkl7_animal`
+--
 ALTER TABLE `ajkl7_animal`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT for table `ajkl7_animal_comment`
+--
 ALTER TABLE `ajkl7_animal_comment`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+--
+-- AUTO_INCREMENT for table `ajkl7_characteristic`
+--
 ALTER TABLE `ajkl7_characteristic`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `ajkl7_country`
+--
 ALTER TABLE `ajkl7_country`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
+--
+-- AUTO_INCREMENT for table `ajkl7_image`
+--
 ALTER TABLE `ajkl7_image`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ajkl7_message`
+--
 ALTER TABLE `ajkl7_message`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ajkl7_message_group`
+--
 ALTER TABLE `ajkl7_message_group`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ajkl7_permission_group`
+--
 ALTER TABLE `ajkl7_permission_group`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `ajkl7_species`
+--
 ALTER TABLE `ajkl7_species`
   MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- AUTO_INCREMENT for table `ajkl7_todo`
+--
 ALTER TABLE `ajkl7_todo`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ajkl7_user`
+--
 ALTER TABLE `ajkl7_user`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+--
+-- Constraints for dumped tables
+--
 
+--
+-- Constraints for table `ajkl7_animal`
+--
 ALTER TABLE `ajkl7_animal`
   ADD CONSTRAINT `ajkl7_animal_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_ibfk_2` FOREIGN KEY (`species_id`) REFERENCES `ajkl7_species` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_animal_characteristic`
+--
 ALTER TABLE `ajkl7_animal_characteristic`
   ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_2` FOREIGN KEY (`characteristic_id`) REFERENCES `ajkl7_characteristic` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_animal_comment`
+--
 ALTER TABLE `ajkl7_animal_comment`
   ADD CONSTRAINT `ajkl7_animal_comment_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_comment_ibfk_2` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_animal_gallery`
+--
 ALTER TABLE `ajkl7_animal_gallery`
   ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_image`
+--
 ALTER TABLE `ajkl7_image`
   ADD CONSTRAINT `ajkl7_image_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_message`
+--
 ALTER TABLE `ajkl7_message`
   ADD CONSTRAINT `ajkl7_message_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `ajkl7_message_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_message_ibfk_2` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_message_group`
+--
 ALTER TABLE `ajkl7_message_group`
   ADD CONSTRAINT `ajkl7_message_group_ibfk_1` FOREIGN KEY (`user_a_id`) REFERENCES `ajkl7_user` (`id`),
   ADD CONSTRAINT `ajkl7_message_group_ibfk_2` FOREIGN KEY (`user_b_id`) REFERENCES `ajkl7_user` (`id`);
 
+--
+-- Constraints for table `ajkl7_species_characteristic`
+--
 ALTER TABLE `ajkl7_species_characteristic`
   ADD CONSTRAINT `ajkl7_species_characteristic_ibfk_1` FOREIGN KEY (`species_id`) REFERENCES `ajkl7_species` (`id`),
   ADD CONSTRAINT `ajkl7_species_characteristic_ibfk_2` FOREIGN KEY (`characteristic_id`) REFERENCES `ajkl7_characteristic` (`id`);
 
+--
+-- Constraints for table `ajkl7_todo`
+--
 ALTER TABLE `ajkl7_todo`
   ADD CONSTRAINT `ajkl7_todo_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_user`
+--
 ALTER TABLE `ajkl7_user`
   ADD CONSTRAINT `ajkl7_user_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `ajkl7_country` (`id`),
   ADD CONSTRAINT `ajkl7_user_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_user_log_connexion`
+--
 ALTER TABLE `ajkl7_user_log_connexion`
   ADD CONSTRAINT `ajkl7_user_log_connexion_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_user_permission`
+--
 ALTER TABLE `ajkl7_user_permission`
   ADD CONSTRAINT `ajkl7_user_permission_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `ajkl7_permission_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_user_permission_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_user_reset_password`
+--
 ALTER TABLE `ajkl7_user_reset_password`
   ADD CONSTRAINT `uid_urp_fk` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
+--
+-- Constraints for table `ajkl7_user_verification`
+--
 ALTER TABLE `ajkl7_user_verification`
   ADD CONSTRAINT `uid_fk` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
