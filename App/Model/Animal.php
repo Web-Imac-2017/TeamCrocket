@@ -118,6 +118,17 @@ class Animal extends Bucket\BucketAbstract
         return (array)DB::fetchMultipleObject("App\Model\Image", $sql, $data);
     }
 
+    /**
+    * Retourne la liste des commentaires associées à l'animal
+    */
+    public function getComments() : array{
+        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal_comment WHERE animal_id = :id AND active = 1";
+        $data = array(
+            [":id", $this->getId(), \PDO::PARAM_INT]
+        );
+        return (array)DB::fetchMultipleObject("App\Model\Comment", $sql, $data);
+    }
+
     //Getters
     public function getName() : string{
         return $this->name;

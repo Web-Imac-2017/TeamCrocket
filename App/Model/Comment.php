@@ -1,28 +1,28 @@
 <?php
 /**
-* Message
+* Comment
 * @author METTER-ROTHAN Jérémie
 */
 
 namespace App\Model;
 
 /*
-@table message
-@group messenger
-@field content, string
-@field group_id, int
+@table animal_comment
+@group animal_profile
+@field animal_id, int
 @field creator_id, int
+@field content, string
 */
 
-class Message extends Bucket\BucketAbstract
+class Comment extends Bucket\BucketAbstract
 {
     private $content;
-    private $group_id;
+    private $animal_id;
     private $creator_id;
 
     function __construct($data = NULL){
         $this->content = '';
-        $this->group_id = 0;
+        $this->animal_id = 0;
         $this->creator_id = 0;
 
         parent::__construct($data);
@@ -32,7 +32,7 @@ class Message extends Bucket\BucketAbstract
         return array(
             'id' => $this->id,
             'content' => $this->content,
-            'group_id' => $this->group_id,
+            'animal_id' => $this->animal_id,
             'creator' => $this->getCreator(),
             'creation_date' => $this->creation_date,
             'modification_date' => $this->modification_date,
@@ -40,7 +40,9 @@ class Message extends Bucket\BucketAbstract
         );
     }
 
-    protected function beforeInsert(){}
+    protected function beforeInsert(){
+        $this->setCreatorId($_SESSION['uid']);
+    }
 
     protected function beforeUpdate(){}
 
@@ -52,8 +54,8 @@ class Message extends Bucket\BucketAbstract
     public function setContent(string $content){
         $this->content = $content;
     }
-    public function setGroupId(int $id){
-        $this->group_id = $id;
+    public function setAnimalId(int $id){
+        $this->animal_id = $id;
     }
     public function setCreatorId(int $id){
         $this->creator_id = $id;
@@ -62,8 +64,8 @@ class Message extends Bucket\BucketAbstract
     public function getContent() : string{
         return $this->content;
     }
-    public function getGroupId() : int{
-        return $this->group_id;
+    public function getAnimalId() : int{
+        return $this->animal_id;
     }
     public function getCreatorId() : int{
         return $this->creator_id;

@@ -90,20 +90,20 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group"><input type="text" class="form-element" name="nickname" placeholder="Nickname" required value="<?php echo $_USER->getNickname(); ?>" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés"></div>
                             <div class="form-group"><input type="date" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $_USER->getDateBirth(); ?>"></div>
                             <div class="form-group row nopadding clearfix">
-                                <div class="col-6">
-                                    <input id="sex-h" class="form-element" type="radio" name="sex" value="h" <?php if($_USER->getSex() != 'f') echo 'checked'; ?>>
-                                    <label for="sex-h">Homme</label>
+                                <div class="col-4">
+                                    <input id="sex-m" class="form-element" type="radio" name="sex" value="m" <?php if($_USER->getSex() == 'm') echo 'checked'; ?>>
+                                    <label for="sex-m">Male</label>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     <input id="sex-f" class="form-element" type="radio" name="sex" value="f" <?php if($_USER->getSex() == 'f') echo 'checked'; ?>>
-                                    <label for="sex-f">Femme</label>
+                                    <label for="sex-f">Female</label>
                                 </div>
                             </div>
                             <div class="form-group"><input type="text" class="form-element" name="city" placeholder="City" required value="<?php echo $_USER->getCity(); ?>"></div>
                             <div class="form-group">
                                 <select name="country_id" class="form-element">
                                     <?php
-                                    $countries = App\Model\Country::getMultiple();
+                                    $countries = App\Model\Country::filter();
                                     foreach($countries as $country){
                                         $selected = ($country->getId() == $_USER->getCountryId()) ? 'selected' : '';
                                         echo "<option {$selected} value=\"{$country->getId()}\">{$country->getNicename()}</option>";
@@ -178,11 +178,27 @@ require(ROOT_INC . 'api.php');
                     <form id="profile-animal-form" method="post" action="api" data-ctrl="profile" data-task="edit">
                         <input type="hidden" name="id" value="<?php echo $animal->getId(); ?>">
                         <div class="form-group"><input type="text" class="form-element" name="name" placeholder="Name" required value="<?php echo $animal->getName(); ?>"></div>
+                        <div class="form-group row nopadding clearfix">
+                            <div class="form-group row nopadding clearfix">
+                                <div class="col-3">
+                                    <input id="sex-m-2" class="form-element" type="radio" name="sex" value="m" <?php if($animal->getSex() == 'm') echo 'checked'; ?>>
+                                    <label for="sex-m-2">Male</label>
+                                </div>
+                                <div class="col-3">
+                                    <input id="sex-f-2" class="form-element" type="radio" name="sex" value="f" <?php if($animal->getSex() == 'f') echo 'checked'; ?>>
+                                    <label for="sex-f-2">Female</label>
+                                </div>
+                                <div class="col-6">
+                                    <input id="sex-h-2" class="form-element" type="radio" name="sex" value="h" <?php if($animal->getSex() == 'h') echo 'checked'; ?>>
+                                    <label for="sex-h-2">Hermaphrodite</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <select name="species_id" class="form-element" required>
                                 <option></option>
                                 <?php
-                                $species = App\Model\Species::getMultiple([ 'order' => 'name ASC' ]);
+                                $species = App\Model\Species::filter();
                                 foreach($species as $s){
                                     $selected = ($s->getId() == $animal->getSpeciesId()) ? 'selected' : '';
                                     echo "<option {$selected} value=\"{$s->getId()}\">{$s->getName()}</option>";
@@ -227,6 +243,27 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Save"></div>
                         </footer>
                     </form>
+                    <?php
+                    $comments = $animal->getComments();
+                    ?>
+                    <h4 class="mt-2">Comments</h4>
+                    <form id="profile-animal-form3" method="post" action="api" data-ctrl="comment" data-task="edit">
+                        <input type="hidden" name="id" value="0">
+                        <input type="hidden" name="animal_id" value="<?php echo $animal->getId(); ?>">
+                        <div class="form-group">
+                            <textarea class="form-element" name="content" placeholder="Commentaire" required></textarea>
+                        </div>
+                        <footer>
+                            <div class="message success-message">Changes have been saved</div>
+                            <div class="message error-message"></div>
+                            <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Send"></div>
+                        </footer>
+                    </form>
+                    <?php foreach($comments as $comment): ?>
+                    <div class="comment">
+                        <?php echo $comment->getContent(); ?>
+                    </div>
+                    <?php endforeach; ?>
                     <?php endif;?>
                 </div>
             </div>
