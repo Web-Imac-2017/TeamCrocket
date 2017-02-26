@@ -243,6 +243,7 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Save"></div>
                         </footer>
                     </form>
+                    <?php if($animal->getId()): ?>
                     <?php
                     $comments = $animal->getComments();
                     ?>
@@ -281,6 +282,7 @@ require(ROOT_INC . 'api.php');
                         }
                         ?>
                     </div>
+                    <?php endif;?>
                     <?php endif;?>
                 </div>
             </div>

@@ -75,7 +75,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         }
 
         // insertion de données
-        $query = "INSERT INTO " . DATABASE_CFG['prefix'] . $orm->getTable() . "(".join($orm->getMap(), ", ").", creation_date) VALUES(".join(array_map(function($field){
+        $query = "INSERT INTO " . DATABASE_CFG['prefix'] . $orm->getTable() . "(".join($map, ", ").", creation_date) VALUES(".join(array_map(function($field){
             return ":".$field;
         }, $map), ", ").", NOW());";
         $stmt = $pdo->prepare($query);
