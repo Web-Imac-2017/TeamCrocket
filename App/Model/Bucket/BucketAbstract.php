@@ -79,7 +79,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
             return ":".$field;
         }, $map), ", ").", NOW());";
         $stmt = $pdo->prepare($query);
-        $stmt = $this->bind($orm, $stmt);
+        $stmt = $this->bind($map, $stmt);
 
         if(!$stmt->execute()){
             throw new BucketException(gettext("Query failed"));
