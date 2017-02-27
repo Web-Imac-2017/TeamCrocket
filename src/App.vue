@@ -1,4 +1,5 @@
 <template>
+
   <body>
   <mainComponent>
   
@@ -8,10 +9,9 @@
 <script>
 
 import FooterComponent from "./Footer.vue"
-
 export default {
 components: {
-  MainComponent, FooterComponent
+  FooterComponent
 },
   name: 'app',
   data () {
