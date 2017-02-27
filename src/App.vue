@@ -1,17 +1,20 @@
 <template>
 
   <body>
-  <mainComponent>
-  
-  </mainComponent>
-
+  <main-component></main-component>
+  <footer-component></footer-component>
   </body>
+
+</template>
 <script>
 
 import FooterComponent from "./Footer.vue"
+import MainComponent from "./Main.vue"
+
 export default {
 components: {
-  FooterComponent
+  FooterComponent,
+  MainComponent
 },
   name: 'app',
   data () {

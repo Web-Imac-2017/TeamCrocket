@@ -14,7 +14,6 @@
 </script>
 
 <style lang="less">
-@val : 15px; /* less example */
 
 #footer {
   position:fixed;
@@ -26,7 +25,6 @@
 li {
   display: inline-block;
   margin: 0 10px;
-  margin-left: @val; /* less example */
 }
 
 
