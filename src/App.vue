@@ -5,12 +5,9 @@
   </mainComponent>
 
   </body>
-  
-</template>
-
 <script>
+
 import FooterComponent from "./Footer.vue"
-import MainComponent from "./Main.vue"
 
 export default {
 components: {
