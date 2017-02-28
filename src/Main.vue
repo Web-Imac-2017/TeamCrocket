@@ -36,7 +36,7 @@ body {
 #logo{
   display: block;
   margin: auto;
-  margin-top:150px;
+  margin-top:5%;
 }
 
 #text-intro{
