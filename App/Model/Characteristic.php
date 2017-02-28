@@ -72,11 +72,12 @@ class Characteristic extends Bucket\BucketAbstract
     public static function getList(Animal $animal){
         $sql = "
             SELECT DISTINCT c.id, c.name, common, required, type,
-                (SELECT value FROM ".DATABASE_CFG['prefix']."animal_characteristic ac WHERE ac.characteristic_id = c.id AND animal_id = :animal_id) as \"value\"
+                (SELECT value FROM ".DATABASE_CFG['prefix']."animal_characteristic ac WHERE ac.characteristic_id = c.id AND animal_id = :animal_id) as \"value\",
+                (SELECT COALESCE(custom_order, 0) FROM ".DATABASE_CFG['prefix']."species_characteristic_order sco WHERE sco.characteristic_id = c.id AND species_id = :id) as \"custom_order\"
             FROM ".DATABASE_CFG['prefix']."characteristic c
             LEFT JOIN ".DATABASE_CFG['prefix']."species_characteristic sc ON c.id = sc.characteristic_id
             WHERE ((species_id = :id AND common = 0) OR common = 1) AND active = 1
-            ORDER BY c.name
+            ORDER BY custom_order ASC, common DESC, c.name ASC
         ";
 
         return DB::fetchMultipleObject('App\Model\Characteristic', $sql, array(
