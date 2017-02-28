@@ -1,10 +1,10 @@
 <template>
 
-  <body>
+  <div id="app">
   <menu-component></menu-component>
   <main-component></main-component>
   <footer-component></footer-component>
-  </body>
+  </div>
 
 </template>
 <script>
