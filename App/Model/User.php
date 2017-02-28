@@ -96,6 +96,52 @@ class User extends Bucket\BucketAbstract
         );
     }
 
+
+    public static function filter(array $map = []) : array{
+        global $_USER;
+        $data = [];
+        $class = get_called_class();
+        $orm = Bucket\BucketParser::parse($class);
+
+        $sqlHead = "SELECT u.*";
+        $sqlFrom = "FROM ".DATABASE_CFG['prefix']."user u";
+        $sqlJoin = "";
+        $sqlCondition = "WHERE u.active = 1 AND u.id != :user_id";
+        $sqlLimit = "";
+        $sqlOrder = "ORDER BY creation_date DESC, modification_date DESC";
+        $sqlHaving = "";
+
+        $data[] = [':user_id', $_USER->getId(), \PDO::PARAM_INT];
+
+        /**
+        * LIMIT
+        */
+        if(isset($map['start']) && isset($map['amount']) && $map['start'] != -1 && $map['amount'] != -1){
+            $data[] = [':start', (int)$map['start'], \PDO::PARAM_INT];
+            $data[] = [':amount', (int)$map['amount'], \PDO::PARAM_INT];
+            $sqlLimit .= " LIMIT :start, :amount";
+        }
+
+        /**
+        * NAME
+        */
+        if(isset($map['name']) && $map['name'] != ''){
+            $data[] = [':name', $map['name'] . "%", \PDO::PARAM_STR];
+            $sqlCondition .= " AND name LIKE :name";
+        }
+
+        /**
+        * SEX
+        */
+        if(isset($map['sex']) && $map['sex'] != ''){
+            $data[] = [':sex', $map['sex'], \PDO::PARAM_STR];
+            $sqlCondition .= " AND u.sex = :sex";
+        }
+
+        $sql = $sqlHead . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving. " " . $sqlLimit . " " . $sqlOrder;
+        return DB::fetchMultipleObject($class, $sql, $data);
+    }
+
     // geocoding
     public function getLatLong(){
         $address = $this->city . ', '. $this->getCountry()->getNicename();
@@ -241,6 +287,7 @@ class User extends Bucket\BucketAbstract
 
         return self::$permission[$this->getId()];
     }
+
 
     public function isAdmin(string $group){
         if(isset(self::$permission[$this->getId()][$group])){

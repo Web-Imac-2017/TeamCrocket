@@ -62,7 +62,7 @@ class Animal extends Bucket\BucketAbstract
         $class = get_called_class();
         $orm = Bucket\BucketParser::parse($class);
 
-        $sqlBody = "SELECT a.*";
+        $sqlHead = "SELECT a.*";
         $sqlFrom = "FROM ".DATABASE_CFG['prefix']."animal a";
         $sqlJoin = "INNER JOIN ".DATABASE_CFG['prefix']."user u ON a.creator_id = u.id";
         $sqlCondition = "WHERE a.active = 1 AND u.id != :user_id";
@@ -122,8 +122,7 @@ class Animal extends Bucket\BucketAbstract
             $sqlCondition .= " AND a.sex = :sex";
         }
 
-        $sql = $sqlBody . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving. " " . $sqlLimit . " " . $sqlOrder;
-        //print_r($sql);
+        $sql = $sqlHead . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving. " " . $sqlLimit . " " . $sqlOrder;
         return DB::fetchMultipleObject($class, $sql, $data);
     }
 

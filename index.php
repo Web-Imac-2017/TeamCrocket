@@ -346,22 +346,42 @@ require(ROOT_INC . 'api.php');
                                 <label for="sex-h-3">Other</label>
                             </div>
                         </div>
+                        <footer>
+                            <div class="message error-message"></div>
+                            <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Filter"></div>
+                        </footer>
+                    </form>
+                    <div id="animal_list" class="mb-4">
+
+                    </div>
+
+
+                    <h4>Find an animal owner</h4>
+                    <form id="profile-animal-form5" method="post" action="api" data-ctrl="user" data-task="list" class="mb-3">
                         <div class="form-group">
-                            <!--
-                            <label id="form-amount">Nombre d'éléments</label>
-                            <select for="form-amount" name="amount" class="form-element">
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="40">40</option>
-                            </select>
-                            -->
+                            <label for="form-owner-name">Owner name</label>
+                            <input id="form-owner-name" class="form-element" name="nickname" type="text" value="" placeholder="Owner name">
+                        </div>
+                        <div class="form-group row nopadding clearfix">
+                            <div class="col-4">
+                                <input id="sex-a-4" class="form-element" checked type="radio" name="sex" value="">
+                                <label for="sex-a-4">All</label>
+                            </div>
+                            <div class="col-4">
+                                <input id="sex-m-4" class="form-element" type="radio" name="sex" value="m">
+                                <label for="sex-m-4">Male</label>
+                            </div>
+                            <div class="col-4">
+                                <input id="sex-f-4" class="form-element" type="radio" name="sex" value="f">
+                                <label for="sex-f-4">Female</label>
+                            </div>
                         </div>
                         <footer>
                             <div class="message error-message"></div>
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Filter"></div>
                         </footer>
                     </form>
-                    <div id="animal_list">
+                    <div id="owner_list">
 
                     </div>
                 </div>
