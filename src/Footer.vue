@@ -1,11 +1,11 @@
 <template>
-  <div id="footer">
+  <footer>
     <p>© Meowtic - 2017</p>
     <ul>
       <li>Mentions légales</li>
       <li>Charte de confiance</li>
     </ul>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -14,12 +14,15 @@
 </script>
 
 <style lang="less">
+@blue : #212D48;
 
-#footer {
-  position:fixed;
-  left:0px;
-  bottom:10px;
+footer {
+  left:0;
+  bottom:0;
   width:100%;
+  min-height:100%;
+  background-color:@blue;
+  color:white;
 }
 
 li {
