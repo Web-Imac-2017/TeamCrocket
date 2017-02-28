@@ -8,10 +8,10 @@
         LE SITE DE RENCONTRE POUR VOTRE ANIMAL DE COMPAGNIE
       </div>
      
-      <p>"NE SOYEZ PLUS UN LOUP SOLITAIRE"</p>
+      <p class="p_2">"NE SOYEZ PLUS UN LOUP SOLITAIRE"</p>
 
-      <button type="button" class="button_connexion">SE CONNECTER</button>
-      <button type="button" class="button_inscription">S'INSCRIRE</button>
+      <button type="button" id="button_connexion" class="button_style">SE CONNECTER</button>
+      <button type="button" id="button_inscription" class="button_style">S'INSCRIRE</button>
 
   </body>
 </template>
@@ -54,7 +54,7 @@ body {
 
 }
 
-p{
+.p_2{
   text-align:center;
   font-family: 'Moon';
   font-weight : lighter;
@@ -62,16 +62,16 @@ p{
   letter-spacing: 0.2em;
 }
 
-.button_connexion{
+#button_connexion{
   margin-top:55px;
 }
 
 
-.button_inscription{
+#button_inscription{
     margin-top:45px;
 }
 
-button{
+.button_style{
    width:300px;
   /*border-radius: 6px;*/
    letter-spacing: 0.2em;
@@ -89,8 +89,8 @@ button{
 
 }
 
-button:hover,
-button:active {
+.button_style:hover,
+.button_style:active {
   letter-spacing: 5px;
   transition: all 580ms ease-in-out;
   /*border: 1px solid rgba(#fff, 0);*/
