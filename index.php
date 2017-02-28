@@ -127,6 +127,22 @@ require(ROOT_INC . 'api.php');
                     </form>
                     <h4>Position</h4>
                     <div id="map" style="height:400px;"></div>
+                    <script>
+                    function initMap() {
+                        var position = { lat : <?php echo $_USER->getLatitude(); ?>, lng : <?php echo $_USER->getLongitude(); ?> };
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                            zoom: 14,
+                            center: position,
+                            scrollwheel: false
+                        });
+                        var marker = new google.maps.Marker({
+                            position: position,
+                            map: map
+                        });
+                    }
+                    </script>
+                    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjXk_CjR3VFOABhIhnZwu6K21V7m_gJw0&callback=initMap"></script>
+
                     <?php endif; ?>
                 </div>
                 <div class="col-4">
@@ -297,20 +313,10 @@ require(ROOT_INC . 'api.php');
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script src="./script/fontawesome.js"></script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjXk_CjR3VFOABhIhnZwu6K21V7m_gJw0&callback=initMap"></script>
         <script>
-        function initMap() {
-        var position = { lat : <?php echo $_USER->getLatitude(); ?>, lng : <?php echo $_USER->getLongitude(); ?> };
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 14,
-          center: position,
-          scrollwheel: false
+        $('input[name=maxdistance]').on('input change', function(e){
+            $('#maxdistance-value').html($(this).val() + ' km');
         });
-        var marker = new google.maps.Marker({
-          position: position,
-          map: map
-        });
-      }
 
         var $profile_pic;
 
