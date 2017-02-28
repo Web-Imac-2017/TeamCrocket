@@ -41,6 +41,7 @@ header{
   top:0;
   left:0;
   background-color:@blue;
+  z-index:99;
 }
 .part_left{
   float:left;
