@@ -1,10 +1,6 @@
 <template>
   <footer>
-    <p>© Meowtic - 2017</p>
-    <ul>
-      <li>Mentions légales</li>
-      <li>Charte de confiance</li>
-    </ul>
+    ©Meowtic, 2017 - Mentions légales - Charte de confiance
   </footer>
 </template>
 
@@ -17,18 +13,16 @@
 @blue :  #212D48;
 
 footer {
+  text-align:center;
   left:0;
   bottom:0;
-  width:100%;
+  padding:10px;
+  margin-top:50px;
   min-height:100%;
   background-color:@blue;
   color:white;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
 
 
 </style>
