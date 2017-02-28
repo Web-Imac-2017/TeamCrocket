@@ -422,6 +422,20 @@ require(ROOT_INC . 'api.php');
                     return;
                 }
                 location.reload();
+            },
+            list : function(data){
+                var list = data.output || [];
+                var $list = $('#owner_list');
+                $list.html('');
+                $.each(list, function(i, item){
+                    $list.append('<div class="owner" data-id="'+item.id+'">\
+                        <h5 class="owner-name">'+item.nickname+'</h5>\
+                        <div class="owner-details">\
+                            <span class="details-km"></span>\
+                            <span class="details-cdate">'+item.creation_date+'</span>\
+                        </div>\
+                    </div>');
+                });
             }
         };
 
