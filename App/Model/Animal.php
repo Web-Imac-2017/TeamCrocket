@@ -56,6 +56,77 @@ class Animal extends Bucket\BucketAbstract
         );
     }
 
+    public static function filter(array $map = []) : array{
+        global $_USER;
+        $data = [];
+        $class = get_called_class();
+        $orm = Bucket\BucketParser::parse($class);
+
+        $sqlBody = "SELECT a.*";
+        $sqlFrom = "FROM ".DATABASE_CFG['prefix']."animal a";
+        $sqlJoin = "INNER JOIN ".DATABASE_CFG['prefix']."user u ON a.creator_id = u.id";
+        $sqlCondition = "WHERE a.active = 1 AND u.id != :user_id";
+        $sqlLimit = "";
+        $sqlOrder = "ORDER BY creation_date DESC, modification_date DESC";
+        $sqlHaving = "";
+
+        $data[] = [':user_id', $_USER->getId(), \PDO::PARAM_INT];
+
+        /**
+        * DISTANCE ou CITY NAME
+        */
+        if(isset($map['maxdistance']) && $map['maxdistance'] > 0){
+            $sqlBody .= ", SQRT( POW(111.2 * (u.latitude - :latitude), 2) + POW(111.2 * (:longitude - u.longitude) * COS(u.latitude / 57.3), 2) ) AS distance";
+            $sqlHaving .= "HAVING distance < :distance";
+            $sqlOrder = "ORDER BY distance, creation_date DESC, modification_date DESC";
+
+            $data[] = [":latitude", $_USER->getLatitude(), \PDO::PARAM_STR];
+            $data[] = [":longitude", $_USER->getLongitude(), \PDO::PARAM_STR];
+            $data[] = [":distance", (int)$map['maxdistance'], \PDO::PARAM_INT];
+        }
+        else if(isset($map['city']) && $map['city'] != ''){
+            $data[] = [':city', $map['city'] . "%", \PDO::PARAM_STR];
+            $sqlCondition .= " AND city LIKE :city";
+        }
+
+        /**
+        * LIMIT
+        */
+        if(isset($map['start']) && isset($map['amount']) && $map['start'] != -1 && $map['amount'] != -1){
+            $data[] = [':start', (int)$map['start'], \PDO::PARAM_INT];
+            $data[] = [':amount', (int)$map['amount'], \PDO::PARAM_INT];
+            $sqlLimit .= " LIMIT :start, :amount";
+        }
+
+        /**
+        * NAME
+        */
+        if(isset($map['name']) && $map['name'] != ''){
+            $data[] = [':name', $map['name'] . "%", \PDO::PARAM_STR];
+            $sqlCondition .= " AND name LIKE :name";
+        }
+
+        /**
+        * SPECIES
+        */
+        if(isset($map['species_id']) && $map['species_id'] != 0){
+            $data[] = [':species_id', (int)$map['species_id'], \PDO::PARAM_INT];
+            $sqlCondition .= " AND species_id = :species_id";
+        }
+
+        /**
+        * SEX
+        */
+        if(isset($map['sex']) && $map['sex'] != ''){
+            $data[] = [':sex', $map['sex'], \PDO::PARAM_STR];
+            $sqlCondition .= " AND a.sex = :sex";
+        }
+
+        $sql = $sqlBody . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving. " " . $sqlLimit . " " . $sqlOrder;
+        //print_r($sql);
+        return DB::fetchMultipleObject($class, $sql, $data);
+    }
+
     protected function beforeInsert(){
         $this->setCreatorId($_SESSION['uid']);
     }

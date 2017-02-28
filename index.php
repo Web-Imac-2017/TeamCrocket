@@ -271,7 +271,7 @@ require(ROOT_INC . 'api.php');
                             <textarea class="form-element" name="content" placeholder="Commentaire" required></textarea>
                         </div>
                         <footer>
-                            <div class="message success-message">Changes have been saved</div>
+                            <div class="message success-message">Comment added</div>
                             <div class="message error-message"></div>
                             <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Send"></div>
                         </footer>
@@ -300,6 +300,70 @@ require(ROOT_INC . 'api.php');
                     </div>
                     <?php endif;?>
                     <?php endif;?>
+                </div>
+                <div class="col-4">
+                    <h4>Find an animal</h4>
+                    <form id="profile-animal-form4" method="post" action="api" data-ctrl="profile" data-task="list" class="mb-3">
+                        <div class="form-group">
+                            <label for="form-maxdistance">Distance maximale <span id="maxdistance-value"></span></label>
+                            <input id="form-maxdistance" class="form-element" name="maxdistance" type="range" min="0" step="5" value="0">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="form-city">City</label>
+                            <input id="form-city" class="form-element" name="city" type="text" value="" placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <label for="form-animal-name">Animal name</label>
+                            <input id="form-animal-name" class="form-element" name="name" type="text" value="" placeholder="Animal name">
+                        </div>
+                        <div class="form-group">
+                            <label for="form-species">Species</label>
+                            <select id="form-species" name="species_id" class="form-element">
+                                <option></option>
+                                <?php
+                                $species = App\Model\Species::filter();
+                                foreach($species as $s){
+                                    echo "<option value=\"{$s->getId()}\">{$s->getName()}</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group row nopadding clearfix">
+                            <div class="col-3">
+                                <input id="sex-a-3" class="form-element" checked type="radio" name="sex" value="">
+                                <label for="sex-a-3">All</label>
+                            </div>
+                            <div class="col-3">
+                                <input id="sex-m-3" class="form-element" type="radio" name="sex" value="m">
+                                <label for="sex-m-3">Male</label>
+                            </div>
+                            <div class="col-3">
+                                <input id="sex-f-3" class="form-element" type="radio" name="sex" value="f">
+                                <label for="sex-f-3">Female</label>
+                            </div>
+                            <div class="col-3">
+                                <input id="sex-h-3" class="form-element" type="radio" name="sex" value="h">
+                                <label for="sex-h-3">Other</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!--
+                            <label id="form-amount">Nombre d'éléments</label>
+                            <select for="form-amount" name="amount" class="form-element">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="40">40</option>
+                            </select>
+                            -->
+                        </div>
+                        <footer>
+                            <div class="message error-message"></div>
+                            <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Filter"></div>
+                        </footer>
+                    </form>
+                    <div id="animal_list">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -357,6 +421,20 @@ require(ROOT_INC . 'api.php');
                 if(data.success){
                     $('#list-animal li[data-id='+data.output+']').remove();
                 }
+            },
+            list : function(data){
+                var list = data.output || [];
+                var $list = $('#animal_list');
+                $list.html('');
+                $.each(list, function(i, item){
+                    $list.append('<div class="animal" data-id="'+item.id+'">\
+                        <h5 class="animal-name">'+item.name+'</h5>\
+                        <div class="animal-details">\
+                            <span class="details-km"></span>\
+                            <span class="details-cdate">'+item.creation_date+'</span>\
+                        </div>\
+                    </div>');
+                });
             }
         }
 
