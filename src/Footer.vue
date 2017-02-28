@@ -14,7 +14,7 @@
 </script>
 
 <style lang="less">
-@blue : #212D48;
+@blue :  #212D48;
 
 footer {
   left:0;

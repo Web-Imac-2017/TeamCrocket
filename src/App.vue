@@ -1,17 +1,17 @@
 <template>
 
-  <body>
+  <div id="app">
   <menu-component></menu-component>
   <main-component></main-component>
   <footer-component></footer-component>
-  </body>
+  </div>
 
 </template>
 <script>
 
 import FooterComponent from "./Footer.vue"
-import MainComponent from "./Menu.vue"
-import MenuComponent from "./Main.vue"
+import MenuComponent from "./Menu.vue"
+import MainComponent from "./Main.vue"
 
 export default {
 components: {
