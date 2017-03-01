@@ -80,7 +80,7 @@ require(ROOT_INC . 'api.php');
                     <form id="profile-form" method="post" action="api" data-ctrl="user" data-task="edit">
                         <h4>General information</h4>
                         <div class="form-body">
-                            <div id="profile_image" data-default-url="<?php echo $_USER->getImage()->getPath(); ?>" style="background-image:url(<?php echo $_USER->getImage()->getPath(); ?>);"></div>
+                            <div id="profile_image" data-default-url="<?php echo ($_USER->getImage() != NULL) ? $_USER->getImage()->getPath() : ""; ?>" style="background-image:url(<?php echo ($_USER->getImage() != NULL) ? $_USER->getImage()->getPath() : ""; ?>);"></div>
                             <div class="form-group custom-file-input">
                                 <input id="image_file" type="file" class="form-element" name="image_file" accept="image/.png,.jpg,.jpeg,.gif">
                                 <label for="image_file" data-text="Change profile picture ...">Change profile picture ...</label>
@@ -146,22 +146,7 @@ require(ROOT_INC . 'api.php');
                     <?php endif; ?>
                 </div>
                 <div class="col-4">
-                    <h4>My animals <a class="float-right btn btn-add" href="index.php?pid=0"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                    </h4>
                     <?php if($_USER->getId() > 0): ?>
-                    <ul class="list" id="list-animal">
-                    <?php
-                    $profiles = $_USER->getAnimalList();
-                    foreach($profiles as $profile){
-                        echo '<li data-id="'.$profile->getId().'">
-                        <a href="index.php?pid='.$profile->getId().'">'.$profile->getName().'</a>
-                        <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="profile" data-task="delete" data-args="'.$profile->getId().'"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                        </li>';
-                    }
-                    ?>
-                    </ul>
-
-
                     <?php $animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0); ?>
                     <h4>Animal profile <?php echo $animal->getName(); ?></h4>
 
@@ -210,6 +195,7 @@ require(ROOT_INC . 'api.php');
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <select name="species_id" class="form-element" required>
                                 <option></option>
@@ -224,6 +210,22 @@ require(ROOT_INC . 'api.php');
                         </div>
                         <div class="form-group"><input type="date" autocomplete="off" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $_USER->getDateBirth(); ?>"></div>
                         <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $animal->getDescription(); ?></textarea></div>
+
+                        <h5 class="mt-3">Cover</h5>
+                        <div class="form-group custom-file-input">
+                            <input id="cover_file" type="file" class="form-element" name="cover_file" accept="image/.png,.jpg,.jpeg">
+                            <label for="cover_file" data-text="Change cover picture ...">Select cover picture ...</label>
+                        </div>
+
+                        <?php
+                        $cover = $animal->getCover();
+                        if($cover instanceof App\Model\Image){
+                            echo '<div class="cover mb-3">';
+                                echo '<img src="'.$cover->getPath().'" alt="'.$cover->getName().'">';
+                            echo '</div>';
+                        }
+                        ?>
+
                         <h5>Characteristics</h5>
                         <div class="form_group mb-2">
                             <?php
@@ -302,6 +304,19 @@ require(ROOT_INC . 'api.php');
                     <?php endif;?>
                 </div>
                 <div class="col-4">
+                    <?php if($_USER->getId()): ?>
+                    <h4>My animals <a class="float-right btn btn-add" href="index.php?pid=0"><i class="fa fa-plus" aria-hidden="true"></i></a></h4>
+                    <ul class="list mb-3" id="list-animal">
+                    <?php
+                    $profiles = $_USER->getAnimalList();
+                    foreach($profiles as $profile){
+                        echo '<li data-id="'.$profile->getId().'">
+                        <a href="index.php?pid='.$profile->getId().'">'.$profile->getName().'</a>
+                        <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="profile" data-task="delete" data-args="'.$profile->getId().'"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        </li>';
+                    }
+                    ?>
+                    </ul>
                     <h4>Find an animal</h4>
                     <form id="profile-animal-form4" method="post" action="api" data-ctrl="profile" data-task="list" class="mb-3">
                         <div class="form-group">
@@ -384,6 +399,7 @@ require(ROOT_INC . 'api.php');
                     <div id="owner_list">
 
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
