@@ -51,6 +51,7 @@ class Animal extends Bucket\BucketAbstract
             'id' => $this->id,
             'name' => $this->name,
             'sex' => $this->sex,
+            'date_birth' => $this->date_birth,
             'cover' => $this->getCover(),
             'creator_id' => $this->creator_id,
             'species_id' => $this->species_id,

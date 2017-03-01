@@ -208,7 +208,7 @@ require(ROOT_INC . 'api.php');
                                 ?>
                             </select>
                         </div>
-                        <div class="form-group"><input type="date" autocomplete="off" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $_USER->getDateBirth(); ?>"></div>
+                        <div class="form-group"><input type="date" autocomplete="off" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $animal->getDateBirth(); ?>"></div>
                         <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $animal->getDescription(); ?></textarea></div>
 
                         <h5 class="mt-3">Cover</h5>
