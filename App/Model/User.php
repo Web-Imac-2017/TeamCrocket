@@ -63,7 +63,6 @@ class User extends Bucket\BucketAbstract
         $this->firstname = "";
         $this->email = "";
         $this->sex = self::SEX_MALE;
-        $this->image_id = 0;
         $this->description = "";
         $this->city = "";
         $this->latitude = 0;
@@ -432,7 +431,7 @@ class User extends Bucket\BucketAbstract
 
             if($image instanceof Image){
                 Image::remove($this->getImage());
-                
+
                 $image->toProfilePic(400, 400);
                 $this->setImageId($image->getId());
             }
