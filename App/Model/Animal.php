@@ -13,6 +13,7 @@ namespace App\Model;
 @field name, string
 @field sex, string
 @field species_id, int
+@field cover_id, int
 @field creator_id, int
 @field date_birth, date
 @field description, string
@@ -28,6 +29,7 @@ class Animal extends Bucket\BucketAbstract
     private $name;
     private $sex;
     private $species_id;
+    private $cover_id;
     private $creator_id;
     private $date_birth;
     private $description;
@@ -37,6 +39,7 @@ class Animal extends Bucket\BucketAbstract
         $this->name = '';
         $this->sex = self::SEX_MALE;
         $this->species_id = 0;
+        $this->cover_id = 0;
         $this->creator_id = 0;
         $this->description = "";
         $this->banned = 0;
@@ -49,6 +52,7 @@ class Animal extends Bucket\BucketAbstract
             'id' => $this->id,
             'name' => $this->name,
             'sex' => $this->sex,
+            'cover' => $this->getCover(),
             'creator_id' => $this->creator_id,
             'species_id' => $this->species_id,
             'description' => $this->description,
@@ -76,7 +80,7 @@ class Animal extends Bucket\BucketAbstract
         * DISTANCE ou CITY NAME
         */
         if(isset($map['maxdistance']) && $map['maxdistance'] > 0){
-            $sqlBody .= ", SQRT( POW(111.2 * (u.latitude - :latitude), 2) + POW(111.2 * (:longitude - u.longitude) * COS(u.latitude / 57.3), 2) ) AS distance";
+            $sqlHead .= ", SQRT( POW(111.2 * (u.latitude - :latitude), 2) + POW(111.2 * (:longitude - u.longitude) * COS(u.latitude / 57.3), 2) ) AS distance";
             $sqlHaving .= "HAVING distance < :distance";
             $sqlOrder = "ORDER BY distance, creation_date DESC, modification_date DESC";
 
@@ -122,15 +126,19 @@ class Animal extends Bucket\BucketAbstract
             $sqlCondition .= " AND a.sex = :sex";
         }
 
+
+
         $sql = $sqlHead . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving. " " . $sqlLimit . " " . $sqlOrder;
         return DB::fetchMultipleObject($class, $sql, $data);
     }
 
     protected function beforeInsert(){
+        $this->uploadCover();
         $this->setCreatorId($_SESSION['uid']);
     }
-
-    protected function beforeUpdate(){}
+    protected function beforeUpdate(){
+        $this->uploadCover();
+    }
 
     protected function afterInsert(){
         $this->saveCharacteristics();
@@ -189,6 +197,27 @@ class Animal extends Bucket\BucketAbstract
         return $image;
     }
 
+    public function uploadCover(){
+        $image = NULL;
+
+        if(isset($_FILES['cover_file']) && is_uploaded_file($_FILES['cover_file']['tmp_name'])){
+            $image = Image::upload($_FILES['cover_file'], array(
+                'extensions' => array('jpeg', 'jpg', 'png'),
+                'max_size' => 1048576 * 8
+            ));
+
+            if($image instanceof Image){
+                // on supprime l'ancienne image de couverture
+                Image::remove($this->getCover());
+
+                // on enregistre la nouvelle image de couverture
+                $this->setCoverId($image->getId());
+            }
+        }
+
+        return $image;
+    }
+
     /**
     * Retourne la liste des images associées à l'animal
     */
@@ -221,6 +250,9 @@ class Animal extends Bucket\BucketAbstract
     public function getSpeciesId() : int{
         return $this->species_id;
     }
+    public function getCoverId(){
+        return $this->cover_id;
+    }
     public function getCreatorId() : int{
         return $this->creator_id;
     }
@@ -236,6 +268,9 @@ class Animal extends Bucket\BucketAbstract
     public function getUser() : User{
         return User::getUniqueById($this->creator_id);
     }
+    public function getCover(){
+        return ($this->cover_id > 0) ? Image::getUniqueById($this->cover_id) : NULL;
+    }
     public function getBanned() : int{
         return $this->banned;
     }
@@ -249,6 +284,9 @@ class Animal extends Bucket\BucketAbstract
     }
     public function setSpeciesId(int $species){
         $this->species_id = $species;
+    }
+    public function setCoverId($cover){
+        $this->cover_id = $cover;
     }
     public function setCreatorId(int $proprio){
         $this->creator_id = $proprio;
