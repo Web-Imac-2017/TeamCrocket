@@ -72,6 +72,15 @@ class Image extends Bucket\BucketAbstract
         return $image;
     }
 
+    public static function remove($image){
+        if($image instanceof Image){
+            if(file_exists($image->getPath())){
+                unlink($image->getPath());
+            }
+            Image::deleteById($image->getId());
+        }
+    }
+
     /**
     * Formate une image en photo de profil (Limite de taille et recadrage)
     * /!\ Écrase l'ancienne image

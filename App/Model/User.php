@@ -63,6 +63,7 @@ class User extends Bucket\BucketAbstract
         $this->firstname = "";
         $this->email = "";
         $this->sex = self::SEX_MALE;
+        $this->image_id = 0;
         $this->description = "";
         $this->city = "";
         $this->latitude = 0;
@@ -430,8 +431,9 @@ class User extends Bucket\BucketAbstract
             ));
 
             if($image instanceof Image){
+                Image::remove($this->getImage());
+                
                 $image->toProfilePic(400, 400);
-
                 $this->setImageId($image->getId());
             }
         }
@@ -734,8 +736,8 @@ class User extends Bucket\BucketAbstract
     public function getImageId(){
         return $this->image_id;
     }
-    public function getImage() : Image{
-        return Image::getUniqueById((int)$this->image_id);
+    public function getImage(){
+        return ($this->image_id > 0) ? Image::getUniqueById($this->image_id) : NULL;
     }
     public function getDescription() : string{
         return $this->description;

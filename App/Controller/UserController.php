@@ -11,10 +11,6 @@ use App\Model\LogConnexion;
 
 class UserController extends BucketAbstractController
 {
-    public function sync(){
-        return User::getUniqueById($_SESSION['uid']);
-    }
-
     public function list() : array{
         return User::filter($_POST);
     }
@@ -24,9 +20,13 @@ class UserController extends BucketAbstractController
     * @param int $id ID de l'utilisateur
     */
     public function get(int $id = 0) : User{
+        if($_SESSION['uid'] == 0){
+            throw new \Exception("You must sign in");
+        }
+
         $user = User::getUniqueById($id);
         if($user->getId() == 0){
-            throw new \Exception(sprintf(gettext("Profile n°%s does not exist"), $id));
+            throw new \Exception(sprintf(gettext("User profile n°%s does not exist"), $id));
         }
         return $user;
     }
