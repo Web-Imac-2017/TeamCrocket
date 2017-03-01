@@ -17,6 +17,7 @@ namespace App\Model;
 @field date_birth, date
 @field description, string
 @field banned, int, 1
+@field dirty, bool
 */
 
 class Animal extends Bucket\BucketAbstract
@@ -32,6 +33,7 @@ class Animal extends Bucket\BucketAbstract
     private $date_birth;
     private $description;
     private $banned;
+    private $dirty;
 
     function __construct($data = NULL){
         $this->name = '';
@@ -40,6 +42,7 @@ class Animal extends Bucket\BucketAbstract
         $this->creator_id = 0;
         $this->description = "";
         $this->banned = 0;
+        $this->dirty = 0;
 
         parent::__construct($data);
     }
@@ -64,9 +67,22 @@ class Animal extends Bucket\BucketAbstract
 
     protected function afterInsert(){
         $this->saveCharacteristics();
+        $this->markDirty(0);
     }
     protected function afterUpdate(){
         $this->saveCharacteristics();
+        $this->markDirty(0);
+    }
+
+    public function markDirty(bool $dirty = false){
+        $date = ($dirty == 1) ? "date_last_moderation = NOW(), " : "";
+        $sql = "UPDATE ".DATABASE_CFG['prefix']."animal SET {$date} dirty = :dirty WHERE id = :id";
+        $values = array(
+            [':id', $this->getId(), \PDO::PARAM_INT],
+            [':dirty', $dirty, \PDO::PARAM_BOOL]
+        );
+
+        DB::exec($sql, $values);
     }
 
     private function saveCharacteristics(){
@@ -130,6 +146,12 @@ class Animal extends Bucket\BucketAbstract
         return (array)DB::fetchMultipleObject("App\Model\Image", $sql, $data);
     }
 
+    public static function getDirtyList() : array{
+        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal WHERE dirty = 0 AND active = 1";
+        $data = [];
+        return (array)DB::fetchMultipleObject("App\Model\Animal", $sql, $data);
+    }
+
     /**
     * Retourne la liste des commentaires associées à l'animal
     */
@@ -169,6 +191,12 @@ class Animal extends Bucket\BucketAbstract
     public function getBanned() : int{
         return $this->banned;
     }
+    public function getDateLastModeration(){
+        return $this->date_last_moderation;
+    }
+    public function getDirty() : bool{
+        return $this->dirty;
+    }
 
     // setters
     public function setName(string $name){
@@ -191,5 +219,8 @@ class Animal extends Bucket\BucketAbstract
     }
     public function setBanned(int $banned){
         $this->banned = $banned;
+    }
+    public function setDateLastModeration(string $date = NULL){
+        $this->date_last_moderation = $date;
     }
 }
