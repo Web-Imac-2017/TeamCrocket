@@ -43,11 +43,9 @@ class Comment extends Bucket\BucketAbstract
     protected function beforeInsert(){
         $this->setCreatorId($_SESSION['uid']);
     }
-
     protected function beforeUpdate(){}
 
     protected function afterInsert(){}
-
     protected function afterUpdate(){}
 
 

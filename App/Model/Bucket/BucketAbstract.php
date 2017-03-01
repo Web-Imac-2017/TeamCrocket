@@ -94,6 +94,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     */
     private function update(bool $bypass = false){
         global $_USER;
+
         $orm = BucketParser::parse(get_called_class());
         $pdo = DB::getInstance()->getLink();
 

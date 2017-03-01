@@ -39,11 +39,9 @@ class Todo extends Bucket\BucketAbstract
     }
 
     protected function beforeInsert(){}
-
     protected function beforeUpdate(){}
 
     protected function afterInsert(){}
-
     protected function afterUpdate(){}
 
 
