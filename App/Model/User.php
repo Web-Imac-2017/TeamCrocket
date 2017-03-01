@@ -125,9 +125,9 @@ class User extends Bucket\BucketAbstract
         /**
         * NAME
         */
-        if(isset($map['name']) && $map['name'] != ''){
-            $data[] = [':name', $map['name'] . "%", \PDO::PARAM_STR];
-            $sqlCondition .= " AND name LIKE :name";
+        if(isset($map['nickname']) && $map['nickname'] != ''){
+            $data[] = [':nickname', $map['nickname'] . "%", \PDO::PARAM_STR];
+            $sqlCondition .= " AND nickname LIKE :nickname";
         }
 
         /**
