@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Feb 28, 2017 at 10:58 PM
+-- Generation Time: Mar 01, 2017 at 01:22 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -24,6 +24,7 @@ CREATE TABLE `ajkl7_animal` (
   `id` int(10) UNSIGNED NOT NULL,
   `creator_id` int(10) UNSIGNED NOT NULL,
   `species_id` int(10) UNSIGNED DEFAULT NULL,
+  `cover_id` int(10) UNSIGNED DEFAULT NULL,
   `name` varchar(32) NOT NULL,
   `sex` char(1) NOT NULL DEFAULT 'm',
   `description` text NOT NULL,
@@ -38,11 +39,11 @@ CREATE TABLE `ajkl7_animal` (
 -- Dumping data for table `ajkl7_animal`
 --
 
-INSERT INTO `ajkl7_animal` (`id`, `creator_id`, `species_id`, `name`, `sex`, `description`, `date_birth`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
-(17, 138, 6, 'Tigrou', 'm', '', '1993-05-10', 0, '2017-02-25 23:59:53', '2017-02-26 04:54:29', 1),
-(18, 138, 7, 'Bérénice', 'm', '', '1993-05-10', 0, '2017-02-26 00:03:10', '2017-02-26 04:59:23', 1),
-(19, 138, 8, 'Maurice', 'm', '', '1993-05-10', 0, '2017-02-26 00:21:18', '2017-02-27 13:18:58', 1),
-(20, 135, 8, 'Cédric', 'f', 'Cédric aime les billes', '1993-05-10', 0, '2017-02-28 14:15:18', '2017-02-28 18:43:12', 1);
+INSERT INTO `ajkl7_animal` (`id`, `creator_id`, `species_id`, `cover_id`, `name`, `sex`, `description`, `date_birth`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
+(17, 138, 6, NULL, 'Tigrou', 'm', '', '1993-05-10', 0, '2017-02-25 23:59:53', '2017-02-26 04:54:29', 1),
+(18, 138, 7, NULL, 'Bérénice', 'm', '', '1993-05-10', 0, '2017-02-26 00:03:10', '2017-02-26 04:59:23', 1),
+(19, 138, 8, NULL, 'Maurice', 'm', '', '1993-05-10', 0, '2017-02-26 00:21:18', '2017-02-27 13:18:58', 1),
+(20, 135, 8, NULL, 'Cédric', 'f', 'Cédric aime les billes', '1993-05-10', 0, '2017-02-28 14:15:18', '2017-03-01 00:51:33', 1);
 
 -- --------------------------------------------------------
 
@@ -113,7 +114,6 @@ INSERT INTO `ajkl7_animal_comment` (`id`, `animal_id`, `creator_id`, `content`, 
 (11, 17, 135, 'co mment-datecom ment-d atec omme nt-dateco mme nt-dateco mment-datec omm ent-da tec omment-date comment-datec omment-dateco  mment-datecomme nt-datec omm ent-d atecomme nt-datecomment-date', '2017-02-26 15:21:38', NULL, 1),
 (16, 17, 135, 'yolallalaa', '2017-02-26 15:41:47', NULL, 1),
 (18, 17, 135, 'dddd', '2017-02-26 15:43:12', NULL, 1),
-(21, 17, 136, 'c\'est un chat adorable ! ', '2017-02-26 15:57:19', NULL, 1),
 (24, 17, 135, 'ma couille', '2017-02-27 13:16:05', NULL, 1),
 (25, 20, 135, 'dd', '2017-02-28 14:15:32', NULL, 1);
 
@@ -444,7 +444,7 @@ CREATE TABLE `ajkl7_image` (
 --
 
 INSERT INTO `ajkl7_image` (`id`, `name`, `creator_id`, `creation_date`, `modification_date`, `active`) VALUES
-(2, '9ac2dcb34c0bd23c55a172197c161c7e.jpeg', 135, '2017-02-28 14:16:16', NULL, 1);
+(20, '0f6d07fb0e1e5dade308949d1e052a34.jpeg', 135, '2017-03-01 12:13:08', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -499,7 +499,8 @@ INSERT INTO `ajkl7_permission_group` (`id`, `name`, `active`) VALUES
 (2, 'messenger', 1),
 (3, 'todo', 1),
 (4, 'user_profile', 1),
-(5, 'image', 1);
+(5, 'image', 1),
+(6, 'parameter', 1);
 
 -- --------------------------------------------------------
 
@@ -612,8 +613,7 @@ CREATE TABLE `ajkl7_user` (
 --
 
 INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
-(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'f', 2, '<br/>222', 'Noisiel', 48.854778, 2.628701, 73, '1993-05-10', 1, 0, '2017-02-22 21:59:36', '2017-02-28 15:29:34', 1),
-(136, 'admin', '2b0e40226cc683007daa315654ab9df4295adbb5', '', '', 'contact@metter.fr', 'm', NULL, '', 'Paris', 48.856602, 2.352220, 73, '1993-01-01', 1, 0, '2017-02-24 19:07:26', '2017-02-24 19:09:33', 1),
+(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'f', 20, '<br/>222', 'Noisiel', 48.854778, 2.628701, 73, '1993-05-10', 1, 0, '2017-02-22 21:59:36', '2017-03-01 12:13:09', 1),
 (138, 'cedric', '119cadc86474d2208af1cdc8fcd8dcb310993c98', '', '', 'porcher.cedric27@gmail.com', 'm', NULL, '', 'Noisiel', 48.854778, 2.628701, 73, '1996-02-08', 0, 0, '2017-02-26 22:35:55', NULL, 1);
 
 -- --------------------------------------------------------
@@ -637,7 +637,8 @@ INSERT INTO `ajkl7_user_log_connexion` (`user_id`, `ip_adress`, `user_agent`, `l
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(136, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
@@ -653,7 +654,7 @@ INSERT INTO `ajkl7_user_log_connexion` (`user_id`, `ip_adress`, `user_agent`, `l
 
 CREATE TABLE `ajkl7_user_permission` (
   `group_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(10) UNSIGNED DEFAULT NULL,
   `r` tinyint(1) NOT NULL DEFAULT '0',
   `c` tinyint(1) NOT NULL DEFAULT '0',
   `u` tinyint(1) NOT NULL DEFAULT '0',
@@ -670,7 +671,8 @@ INSERT INTO `ajkl7_user_permission` (`group_id`, `user_id`, `r`, `c`, `u`, `d`, 
 (1, 138, 1, 1, 0, 0, 0),
 (4, 135, 0, 0, 0, 0, 1),
 (5, 135, 1, 1, 0, 0, 0),
-(5, 138, 1, 1, 0, 0, 0);
+(5, 138, 1, 1, 0, 0, 0),
+(6, 138, 1, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -713,7 +715,8 @@ INSERT INTO `ajkl7_user_verification` (`user_id`, `token`, `date_exp`) VALUES
 ALTER TABLE `ajkl7_animal`
   ADD PRIMARY KEY (`id`),
   ADD KEY `owner_id` (`creator_id`),
-  ADD KEY `species_id` (`species_id`);
+  ADD KEY `species_id` (`species_id`),
+  ADD KEY `cover_id` (`cover_id`);
 
 --
 -- Indexes for table `ajkl7_animal_characteristic`
@@ -842,7 +845,7 @@ ALTER TABLE `ajkl7_user_verification`
 -- AUTO_INCREMENT for table `ajkl7_animal`
 --
 ALTER TABLE `ajkl7_animal`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 --
 -- AUTO_INCREMENT for table `ajkl7_animal_comment`
 --
@@ -852,7 +855,7 @@ ALTER TABLE `ajkl7_animal_comment`
 -- AUTO_INCREMENT for table `ajkl7_characteristic`
 --
 ALTER TABLE `ajkl7_characteristic`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `ajkl7_country`
 --
@@ -862,7 +865,7 @@ ALTER TABLE `ajkl7_country`
 -- AUTO_INCREMENT for table `ajkl7_image`
 --
 ALTER TABLE `ajkl7_image`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `ajkl7_message`
 --
@@ -877,7 +880,7 @@ ALTER TABLE `ajkl7_message_group`
 -- AUTO_INCREMENT for table `ajkl7_permission_group`
 --
 ALTER TABLE `ajkl7_permission_group`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `ajkl7_species`
 --
@@ -902,7 +905,8 @@ ALTER TABLE `ajkl7_user`
 --
 ALTER TABLE `ajkl7_animal`
   ADD CONSTRAINT `ajkl7_animal_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  ADD CONSTRAINT `ajkl7_animal_ibfk_2` FOREIGN KEY (`species_id`) REFERENCES `ajkl7_species` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
+  ADD CONSTRAINT `ajkl7_animal_ibfk_2` FOREIGN KEY (`species_id`) REFERENCES `ajkl7_species` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_animal_ibfk_3` FOREIGN KEY (`cover_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `ajkl7_animal_characteristic`
@@ -963,7 +967,7 @@ ALTER TABLE `ajkl7_todo`
 --
 ALTER TABLE `ajkl7_user`
   ADD CONSTRAINT `ajkl7_user_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `ajkl7_country` (`id`),
-  ADD CONSTRAINT `ajkl7_user_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+  ADD CONSTRAINT `ajkl7_user_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `ajkl7_user_log_connexion`
