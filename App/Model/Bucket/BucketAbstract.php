@@ -144,7 +144,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
             $value = $this->$method();
 
             if(method_exists($this, $method)){
-                $type = (is_null($value)) ? \PDO::PARAM_NULL : $field->getType();
+                $type = ($value == NULL) ? \PDO::PARAM_NULL : $field->getType();
                 $stmt->bindValue($field->getName(), $value, $type);
             }
         }

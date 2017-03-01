@@ -39,7 +39,6 @@ class Animal extends Bucket\BucketAbstract
         $this->name = '';
         $this->sex = self::SEX_MALE;
         $this->species_id = 0;
-        $this->cover_id = 0;
         $this->creator_id = 0;
         $this->description = "";
         $this->banned = 0;
@@ -62,6 +61,7 @@ class Animal extends Bucket\BucketAbstract
 
     public static function filter(array $map = []) : array{
         global $_USER;
+
         $data = [];
         $class = get_called_class();
         $orm = Bucket\BucketParser::parse($class);
