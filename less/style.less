@@ -299,10 +299,11 @@ h5{
     .animal-name{
         margin:0;
         line-height:2rem;
-        font-size:1.2rem;
+        font-size:1rem;
     }
     .animal-details{
         width:100%;
+        margin-left:60px;
 
         .details-cdate{
             margin-top:0.5rem;
@@ -310,6 +311,31 @@ h5{
             color:#c0c0c0;
             text-align:right;
         }
+        .details-species{
+            color:#dadada;
+            font-weight:400;
+
+            &:before{
+                content:' - ';
+                padding-left:0.5rem;
+            }
+        }
+    }
+    .animal-pic{
+        width:50px;
+        height:50px;
+        background:#dadada;
+        overflow:hidden;
+        float:left;
+
+        background-size:cover;
+        background-position:center;
+    }
+
+    &:after{
+        content:'';
+        clear:both;
+        display:block;
     }
 }
 
@@ -321,10 +347,11 @@ h5{
     .owner-name{
         margin:0;
         line-height:2rem;
-        font-size:1.2rem;
+        font-size:1rem;
     }
     .owner-details{
         width:100%;
+        margin-left:60px;
 
         .details-cdate{
             margin-top:0.5rem;
@@ -332,5 +359,21 @@ h5{
             color:#c0c0c0;
             text-align:right;
         }
+    }
+    .owner-pic{
+        width:50px;
+        height:50px;
+        background:#dadada;
+        overflow:hidden;
+        float:left;
+
+        background-size:cover;
+        background-position:center;
+    }
+
+    &:after{
+        content:'';
+        clear:both;
+        display:block;
     }
 }

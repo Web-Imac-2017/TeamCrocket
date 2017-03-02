@@ -321,7 +321,7 @@ require(ROOT_INC . 'api.php');
                     <form id="profile-animal-form4" method="post" action="api" data-ctrl="profile" data-task="list" class="mb-3">
                         <div class="form-group">
                             <label for="form-maxdistance">Distance maximale <span id="maxdistance-value"></span></label>
-                            <input id="form-maxdistance" class="form-element" name="maxdistance" type="range" min="0" step="5" value="0">
+                            <input id="form-maxdistance" class="form-element" name="maxdistance" type="range" min="0" step="5" value="0" max="1000">
                         </div>
                         <div class="form-group mb-2">
                             <label for="form-city">City</label>
@@ -444,9 +444,11 @@ require(ROOT_INC . 'api.php');
                 var $list = $('#owner_list');
                 $list.html('');
                 $.each(list, function(i, item){
+                    var pic = (item.image != null) ? 'background-image:url('+item.image.path+')' : '';
                     $list.append('<div class="owner" data-id="'+item.id+'">\
-                        <h5 class="owner-name">'+item.nickname+'</h5>\
+                        <div class="owner-pic" style="'+pic+'"></div>\
                         <div class="owner-details">\
+                            <h5 class="owner-name">'+item.nickname+'</h5>\
                             <span class="details-km"></span>\
                             <span class="details-cdate">'+item.creation_date+'</span>\
                         </div>\
@@ -477,9 +479,11 @@ require(ROOT_INC . 'api.php');
                 var $list = $('#animal_list');
                 $list.html('');
                 $.each(list, function(i, item){
+                    var pic = (item.cover != null) ? 'background-image:url('+item.cover.path+')' : '';
                     $list.append('<div class="animal" data-id="'+item.id+'">\
-                        <h5 class="animal-name">'+item.name+'</h5>\
+                        <div class="animal-pic" style="'+pic+'"></div>\
                         <div class="animal-details">\
+                            <h5 class="animal-name">'+item.name + ' <span class="details-species">' + item.species.name +'</span></h5>\
                             <span class="details-km"></span>\
                             <span class="details-cdate">'+item.creation_date+'</span>\
                         </div>\
@@ -491,7 +495,6 @@ require(ROOT_INC . 'api.php');
         callbacks.comment = {
             edit : function(data){
                 $('#profile-animal-form3').find('*[name="content"]').val('');
-
                 $('#comments').prepend('<div class="comment" data-id="'+data.output.id+'">\
                     <img alt="" src="'+data.output.creator.image.path+'">\
                     <div class="comment-inner">\
