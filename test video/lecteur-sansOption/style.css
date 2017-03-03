@@ -1,0 +1,19 @@
+body {
+	font-size: 62.5%;
+	padding: 0;
+	margin: 0;
+}
+
+#lecteur {
+	border-radius: 5px;
+	padding: 40px 0 0 0;
+
+	width: 100%;
+	text-align: center;
+}
+
+.video {
+	position: relative;
+	margin: 0px auto;
+}
+
