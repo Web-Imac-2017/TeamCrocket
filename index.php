@@ -4,6 +4,7 @@ define('ROOT_INC', ROOT.'inc/');
 
 require(ROOT_INC . 'init.php');
 require(ROOT_INC . 'api.php');
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -342,6 +343,16 @@ require(ROOT_INC . 'api.php');
                         <div class="form-group mb-2">
                             <label for="form-city">City</label>
                             <input id="form-city" class="form-element" name="city" type="text" value="" placeholder="City">
+                        </div>
+                        <div class="row nopadding">
+                            <div class=col-6 "form-group">
+                                <label for="form-age">Age min</label>
+                                <input id="form-age" class="form-element" name="age_min" type="number" min="0" step="1" value="0">
+                            </div>
+                            <div class="col-6 form-group">
+                                <label for="form-age">Age max</label>
+                                <input id="form-age" class="form-element" name="age_max" type="number" min="0" step="1" value="0">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="form-animal-name">Animal name</label>
