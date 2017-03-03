@@ -18,7 +18,8 @@ function dateToAge(string $date) : int{
         $year = date('Y', $time);
 
         $age = date('Y') - $year;
-        if(date('j') < $day || date('n') < $month){
+        $currMonth = date('n');
+        if($currMonth < $month || ($currMonth == $month && $day < date('j'))){
             $age--;
         }
     }
