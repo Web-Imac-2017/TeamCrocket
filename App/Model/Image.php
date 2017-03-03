@@ -14,12 +14,14 @@ use Imagine\Gd\Imagine;
 @table image
 @group image
 @field name, string
+@field extension, string
 @field creator_id, int
 */
 
 class Image extends Bucket\BucketAbstract
 {
     private $name;
+    private $extension;
     private $creator_id;
 
     function __construct($data = NULL){
@@ -57,7 +59,8 @@ class Image extends Bucket\BucketAbstract
                 throw new \Exception(gettext("File is too large"));
             }
 
-            $image->setName($filename . '.' . $extension);
+            $image->setName($filename);
+            $image->setExtension($extension);
             $image->setCreatorId($_SESSION['uid']);
 
             $path = $image->getPath();
@@ -74,8 +77,14 @@ class Image extends Bucket\BucketAbstract
 
     public static function remove($image){
         if($image instanceof Image){
-            if(file_exists($image->getPath())){
-                unlink($image->getPath());
+            $path = $image->getPath();
+            $thumbPath = $image->getThumbPath();
+
+            if(file_exists($thumbPath)){
+                unlink($thumbPath);
+            }
+            if(file_exists($path)){
+                unlink($path);
             }
             Image::deleteById($image->getId());
         }
@@ -116,12 +125,45 @@ class Image extends Bucket\BucketAbstract
         $image->save($path, $options);
     }
 
+    /**
+    * Créé une maniature de l'image
+    * @param int $size Largeur max de l'image
+    */
+    public function createThumbnail(int $size){
+        $path = $this->getPath();
+        $info = pathinfo($path);
+
+        $thumbPath = $info['dirname'] . "/" . $info['filename'] . '_thumb.' . $info['extension'];
+
+        $imagine = new Imagine();
+        $image = $imagine->open($path);
+        list($width, $height) = getimagesize($path);
+
+        $newWidth = $size;
+        $newHeight = $height * $newWidth / $width;
+
+        $image->resize(new Box($newWidth, $newHeight));
+
+        // options
+        $options = [];
+        if($info['extension'] == 'jpeg' || $info['extension'] == 'jpg'){
+            $options['jpeg_quality'] = 70;
+        }
+        else if($info['extension'] == 'png'){
+            $options['png_compression_level'] = 9;
+        }
+
+        $image->save($thumbPath, $options);
+    }
+
     public function jsonSerialize(){
         return array(
             'id' => $this->id,
             'name' => $this->name,
+            'extension' => $this->extension,
             'creator_id' => $this->creator_id,
             'path' => $this->getPath(),
+            'thumb_path' => $this->getThumbPath(),
             'creation_date' => $this->creation_date
         );
     }
@@ -138,12 +180,18 @@ class Image extends Bucket\BucketAbstract
     public function setName(string $name){
         $this->name = $name;
     }
+    public function setExtension(string $extension){
+        $this->extension = $extension;
+    }
     public function setCreatorId(int $id){
         $this->creator_id = $id;
     }
 
     public function getName() : string{
         return $this->name;
+    }
+    public function getExtension() : string{
+        return $this->extension;
     }
     public function getCreatorId() : int{
         return $this->creator_id;
@@ -158,6 +206,15 @@ class Image extends Bucket\BucketAbstract
             mkdir($dir, 0777, true);
         }
 
-        return $dir . $this->name;
+        return $dir . $this->name . '.' . $this->extension;
+    }
+
+    public function getThumbPath() : string{
+        $dir = ROOT_UPLOADS . "users/" . $this->creator_id . "/";
+        if($this->creator_id > 0 && !is_dir($dir)){
+            mkdir($dir, 0777, true);
+        }
+
+        return $dir . $this->name . '_thumb.' . $this->extension;
     }
 }

@@ -4,7 +4,6 @@ define('ROOT_INC', ROOT.'inc/');
 
 require(ROOT_INC . 'init.php');
 require(ROOT_INC . 'api.php');
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -69,6 +68,8 @@ require(ROOT_INC . 'api.php');
                             <div class="form-group"><input type="text" class="form-element" name="nickname" placeholder="Nickname" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés"></div>
                             <div class="form-group"><input type="password" class="form-element" name="password" placeholder="Password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" title="Min 8 caractères, obligatoirement composé d'au minimum 1 lettre minuscule/majuscule, un chiffre et un caractère spécial"></div>
                             <div class="form-group"><input type="date" class="form-element" name="date_birth" placeholder="Birth date" required></div>
+                            <div class="form-group"><input type="text" class="form-element" name="city" placeholder="City" required></div>
+
                             <div class="form-group"><input type="file" class="form-element" name="image_file" accept="image/.png,.jpg,.jpeg,.gif"></div>
                             <div class="g-recaptcha form-group" data-sitekey="6LcIPBUUAAAAAL7aFlWT0BNXe6nNKbRUTvQNrhXg"></div>
                             <div class="message success-message">Subscribed, check your mails to verify your email adress</div>
@@ -299,7 +300,7 @@ require(ROOT_INC . 'api.php');
                         $author = $comment->getCreator();
                         ?>
                         <div class="comment" data-id="<?php echo $comment->getId(); ?>">
-                            <img alt="" src="<?php echo $author->getImage()->getPath(); ?>">
+                            <img alt="" src="<?php echo $author->getImage()->getThumbPath(); ?>">
                             <div class="comment-inner">
                                 <h5><?php echo $author->getNickname(); ?></h5>
                                 <p><?php echo $comment->getContent(); ?></p>
@@ -459,7 +460,7 @@ require(ROOT_INC . 'api.php');
                 var $list = $('#owner_list');
                 $list.html('');
                 $.each(list, function(i, item){
-                    var pic = (item.image != null) ? 'background-image:url('+item.image.path+')' : '';
+                    var pic = (item.image != null) ? 'background-image:url('+item.image.thumb_path+')' : '';
                     $list.append('<div class="owner" data-id="'+item.id+'">\
                         <div class="owner-pic" style="'+pic+'"></div>\
                         <div class="owner-details">\
@@ -475,7 +476,7 @@ require(ROOT_INC . 'api.php');
         callbacks.profile = {
             upload : function(data){
                 $("#profile-animal-form2 .list").append('<li data-id="'+data.output.id+'">\
-                    <a target="_blank" href="'+data.output.path+'">'+data.output.name+'</a>\
+                    <a target="_blank" href="'+data.output.thumb_path+'">'+data.output.name+'</a>\
                     <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="profile" data-task="delete_image" data-args="'+data.output.id+'"><i class="fa fa-trash" aria-hidden="true"></i></a>\
                 </li>')
             },
@@ -494,7 +495,7 @@ require(ROOT_INC . 'api.php');
                 var $list = $('#animal_list');
                 $list.html('');
                 $.each(list, function(i, item){
-                    var pic = (item.cover != null) ? 'background-image:url('+item.cover.path+')' : '';
+                    var pic = (item.cover != null) ? 'background-image:url('+item.cover.thumb_path+')' : '';
                     $list.append('<div class="animal" data-id="'+item.id+'">\
                         <div class="animal-pic" style="'+pic+'"></div>\
                         <div class="animal-details">\
@@ -511,7 +512,7 @@ require(ROOT_INC . 'api.php');
             edit : function(data){
                 $('#profile-animal-form3').find('*[name="content"]').val('');
                 $('#comments').prepend('<div class="comment" data-id="'+data.output.id+'">\
-                    <img alt="" src="'+data.output.creator.image.path+'">\
+                    <img alt="" src="'+data.output.creator.image.thumb_path+'">\
                     <div class="comment-inner">\
                         <h5>'+data.output.creator.nickname+'</h5>\
                         <p>'+data.output.content+'</p>\

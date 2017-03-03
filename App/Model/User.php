@@ -96,7 +96,14 @@ class User extends Bucket\BucketAbstract
         );
     }
 
-
+    /**
+    * Filtres disponibles
+    *
+    * - nickname
+    * - start
+    * - amount
+    * - sex
+    */
     public static function filter(array $map = []) : array{
         global $_USER;
         $data = [];
@@ -433,6 +440,7 @@ class User extends Bucket\BucketAbstract
                 Image::remove($this->getImage());
 
                 $image->toProfilePic(400, 400);
+                $image->createThumbnail(150);
                 $this->setImageId($image->getId());
             }
         }

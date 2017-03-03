@@ -63,6 +63,17 @@ class Animal extends Bucket\BucketAbstract
         );
     }
 
+    /**
+    * Filtres disponibles
+    *
+    * - maxdistance
+    * - city
+    * - start
+    * - amount
+    * - name
+    * - species_id
+    * - sex
+    */
     public static function filter(array $map = []) : array{
         global $_USER;
 
@@ -188,6 +199,7 @@ class Animal extends Bucket\BucketAbstract
             ));
 
             if($image instanceof Image){
+                $image->createThumbnail(300);
 
                 $sql = "INSERT IGNORE INTO ".DATABASE_CFG['prefix']."animal_gallery(animal_id, image_id) VALUES(:animal_id, :image_id)";
                 $values = array(
@@ -219,6 +231,7 @@ class Animal extends Bucket\BucketAbstract
                 Image::remove($this->getProfileImage());
 
                 $image->toProfilePic(400, 400);
+                $image->createThumbnail(150);
                 $this->setProfileImageId($image->getId());
             }
         }
@@ -236,6 +249,7 @@ class Animal extends Bucket\BucketAbstract
             if($image instanceof Image){
                 // on supprime l'ancienne image de couverture
                 Image::remove($this->getCoverImage());
+                $image->createThumbnail(300);
                 // on enregistre la nouvelle image de couverture
                 $this->setCoverImageId($image->getId());
             }
