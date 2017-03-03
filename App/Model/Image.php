@@ -147,10 +147,10 @@ class Image extends Bucket\BucketAbstract
         // options
         $options = [];
         if($info['extension'] == 'jpeg' || $info['extension'] == 'jpg'){
-            $options['jpeg_quality'] = 70;
+            $options['jpeg_quality'] = 60;
         }
         else if($info['extension'] == 'png'){
-            $options['png_compression_level'] = 9;
+            $options['png_compression_level'] = 7;
         }
 
         $image->save($thumbPath, $options);
