@@ -92,6 +92,7 @@ class User extends Bucket\BucketAbstract
             ),
             'country_id' => $this->country_id,
             'date_birth' => $this->date_birth,
+            'age' => $this->getAge(),
             'creation_date' => $this->creation_date
         );
     }
@@ -766,6 +767,9 @@ class User extends Bucket\BucketAbstract
     }
     public function getDateBirth(){
         return $this->date_birth;
+    }
+    public function getAge() : int{
+        return dateToAge($this->getDateBirth());
     }
     public function getVerified() : int{
         return $this->verified;

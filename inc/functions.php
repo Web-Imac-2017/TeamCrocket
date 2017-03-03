@@ -4,6 +4,26 @@
 * @author METTER-ROTHAN Jérémie
 */
 
+/**
+* Retourne l'âge à partir d'une date
+* @param string $date
+* @return int
+*/
+function dateToAge(string $date) : int{
+    $age = 0;
+    $time = strtotime($date);
+    if($time !== false){
+        $day = date('j', $time);
+        $month = date('n', $time);
+        $year = date('Y', $time);
+
+        $age = date('Y') - $year;
+        if(date('j') < $day || date('n') < $month){
+            $age--;
+        }
+    }
+    return $age;
+}
 
 /**
 * Envoi une requête POST

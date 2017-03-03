@@ -54,6 +54,7 @@ class Animal extends Bucket\BucketAbstract
             'name' => $this->name,
             'sex' => $this->sex,
             'date_birth' => $this->date_birth,
+            'age' => $this->getAge(),
             'cover_image' => $this->getCoverImage(),
             'profile_image' => $this->getProfileImage(),
             'creator_id' => $this->creator_id,
@@ -301,6 +302,9 @@ class Animal extends Bucket\BucketAbstract
     }
     public function getDateBirth(){
         return $this->date_birth;
+    }
+    public function getAge() : int{
+        return dateToAge($this->getDateBirth());
     }
     public function getDescription() : string{
         return $this->description;
