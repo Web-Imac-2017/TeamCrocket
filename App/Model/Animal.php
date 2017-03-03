@@ -13,7 +13,8 @@ namespace App\Model;
 @field name, string
 @field sex, string
 @field species_id, int
-@field cover_id, int
+@field cover_image_id, int
+@field profile_image_id, int
 @field creator_id, int
 @field date_birth, date
 @field description, string
@@ -29,7 +30,8 @@ class Animal extends Bucket\BucketAbstract
     private $name;
     private $sex;
     private $species_id;
-    private $cover_id;
+    private $cover_image_id;
+    private $profile_image_id;
     private $creator_id;
     private $date_birth;
     private $description;
@@ -52,7 +54,8 @@ class Animal extends Bucket\BucketAbstract
             'name' => $this->name,
             'sex' => $this->sex,
             'date_birth' => $this->date_birth,
-            'cover' => $this->getCover(),
+            'cover_image' => $this->getCoverImage(),
+            'profile_image' => $this->getProfileImage(),
             'creator_id' => $this->creator_id,
             'species' => $this->getSpecies(),
             'description' => $this->description,
@@ -134,11 +137,13 @@ class Animal extends Bucket\BucketAbstract
     }
 
     protected function beforeInsert(){
-        $this->uploadCover();
+        $this->uploadCoverImage();
+        $this->uploadProfileImage();
         $this->setCreatorId($_SESSION['uid']);
     }
     protected function beforeUpdate(){
-        $this->uploadCover();
+        $this->uploadCoverImage();
+        $this->uploadProfileImage();
     }
 
     protected function afterInsert(){
@@ -183,6 +188,7 @@ class Animal extends Bucket\BucketAbstract
             ));
 
             if($image instanceof Image){
+
                 $sql = "INSERT IGNORE INTO ".DATABASE_CFG['prefix']."animal_gallery(animal_id, image_id) VALUES(:animal_id, :image_id)";
                 $values = array(
                     [':animal_id', $this->getId(), \PDO::PARAM_INT],
@@ -198,7 +204,27 @@ class Animal extends Bucket\BucketAbstract
         return $image;
     }
 
-    public function uploadCover(){
+    /**
+    * Permet de gérer l'envoi et le traitement de la photo de profil
+    * @return void
+    */
+    protected function uploadProfileImage(){
+        if(isset($_FILES['profile_file'])){
+            $image = Image::upload($_FILES['profile_file'], array(
+                'extensions' => array('jpeg', 'jpg', 'png', 'gif'),
+                'max_size' => 1048576 * 4
+            ));
+
+            if($image instanceof Image){
+                Image::remove($this->getProfileImage());
+
+                $image->toProfilePic(400, 400);
+                $this->setProfileImageId($image->getId());
+            }
+        }
+    }
+
+    protected function uploadCoverImage(){
         $image = NULL;
 
         if(isset($_FILES['cover_file']) && is_uploaded_file($_FILES['cover_file']['tmp_name'])){
@@ -209,10 +235,9 @@ class Animal extends Bucket\BucketAbstract
 
             if($image instanceof Image){
                 // on supprime l'ancienne image de couverture
-                Image::remove($this->getCover());
-
+                Image::remove($this->getCoverImage());
                 // on enregistre la nouvelle image de couverture
-                $this->setCoverId($image->getId());
+                $this->setCoverImageId($image->getId());
             }
         }
 
@@ -251,8 +276,11 @@ class Animal extends Bucket\BucketAbstract
     public function getSpeciesId() : int{
         return $this->species_id;
     }
-    public function getCoverId(){
-        return $this->cover_id;
+    public function getCoverImageId(){
+        return $this->cover_image_id;
+    }
+    public function getProfileImageId(){
+        return $this->profile_image_id;
     }
     public function getCreatorId() : int{
         return $this->creator_id;
@@ -269,8 +297,11 @@ class Animal extends Bucket\BucketAbstract
     public function getUser() : User{
         return User::getUniqueById($this->creator_id);
     }
-    public function getCover(){
-        return ($this->cover_id > 0) ? Image::getUniqueById($this->cover_id) : NULL;
+    public function getCoverImage(){
+        return ($this->cover_image_id > 0) ? Image::getUniqueById($this->cover_image_id) : NULL;
+    }
+    public function getProfileImage(){
+        return ($this->profile_image_id > 0) ? Image::getUniqueById($this->profile_image_id) : NULL;
     }
     public function getBanned() : int{
         return $this->banned;
@@ -286,8 +317,11 @@ class Animal extends Bucket\BucketAbstract
     public function setSpeciesId(int $species){
         $this->species_id = $species;
     }
-    public function setCoverId($cover){
-        $this->cover_id = $cover;
+    public function setCoverImageId($id){
+        $this->cover_image_id = $id;
+    }
+    public function setProfileImageId($id){
+        $this->profile_image_id = $id;
     }
     public function setCreatorId(int $proprio){
         $this->creator_id = $proprio;

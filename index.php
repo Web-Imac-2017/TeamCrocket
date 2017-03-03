@@ -211,22 +211,37 @@ require(ROOT_INC . 'api.php');
                         <div class="form-group"><input type="date" autocomplete="off" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $animal->getDateBirth(); ?>"></div>
                         <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $animal->getDescription(); ?></textarea></div>
 
-                        <h5 class="mt-3">Cover</h5>
+                        <h5 class="mt-3">Profile image</h5>
+                        <div class="form-group custom-file-input">
+                            <input id="profile_file" type="file" class="form-element" name="profile_file" accept="image/.png,.jpg,.jpeg">
+                            <label for="profile_file" data-text="Change profile picture ...">Select profile picture ...</label>
+                        </div>
+
+                        <?php
+                        $profile_img = $animal->getProfileImage();
+                        if($profile_img instanceof App\Model\Image){
+                            echo '<div class="cover mb-3">';
+                                echo '<img src="'.$profile_img->getPath().'" alt="'.$profile_img->getName().'">';
+                            echo '</div>';
+                        }
+                        ?>
+
+                        <h5 class="mt-3">Cover image</h5>
                         <div class="form-group custom-file-input">
                             <input id="cover_file" type="file" class="form-element" name="cover_file" accept="image/.png,.jpg,.jpeg">
                             <label for="cover_file" data-text="Change cover picture ...">Select cover picture ...</label>
                         </div>
 
                         <?php
-                        $cover = $animal->getCover();
-                        if($cover instanceof App\Model\Image){
+                        $cover_img = $animal->getCoverImage();
+                        if($cover_img instanceof App\Model\Image){
                             echo '<div class="cover mb-3">';
-                                echo '<img src="'.$cover->getPath().'" alt="'.$cover->getName().'">';
+                                echo '<img src="'.$cover_img->getPath().'" alt="'.$cover_img->getName().'">';
                             echo '</div>';
                         }
                         ?>
 
-                        <h5>Characteristics</h5>
+                        <h5 class="mt-3">Characteristics</h5>
                         <div class="form_group mb-2">
                             <?php
                             $species = App\Model\Species::getUniqueById($animal->getSpeciesId());
