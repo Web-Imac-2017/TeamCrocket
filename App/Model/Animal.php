@@ -108,6 +108,15 @@ class Animal extends Bucket\BucketAbstract
             $sqlCondition .= " AND city LIKE :city";
         }
 
+          /**
+        * Age
+        */
+        if(isset($map['date_birth']) && $map['date_birth'] != ''){
+          bday=$map[date_birth];
+          SELECT DATEDIFF(hour,$bday,GETDATE())/8766 AS age
+          //$data[] = [':date_birth', $map['date_birth'], \PDO::PARAM_STR];
+          $sqlCondition .= " AND ".$age"< :ageMin ,".$age"> :ageMax";
+        }
         /**
         * LIMIT
         */

@@ -137,6 +137,33 @@ class User extends Bucket\BucketAbstract
             $sqlCondition .= " AND nickname LIKE :nickname";
         }
 
+          /**
+        * Age
+        */
+        if(isset($map['date_birth']) && $map['date_birth'] != ''){
+          bday=$map[date_birth];
+          SELECT DATEDIFF(hour,$bday,GETDATE())/8766 AS age
+          //$data[] = [':date_birth', $map['date_birth'], \PDO::PARAM_STR];
+          $sqlCondition .= " AND ".$age"< :ageMin ,".$age"> :ageMax";
+        }
+        
+        /**
+        * DISTANCE ou CITY NAME
+        */
+        if(isset($map['maxdistance']) && $map['maxdistance'] > 0){
+            $sqlHead .= ", SQRT( POW(111.2 * (u.latitude - :latitude), 2) + POW(111.2 * (:longitude - u.longitude) * COS(u.latitude / 57.3), 2) ) AS distance";
+            $sqlHaving .= "HAVING distance < :distance";
+            $sqlOrder = "ORDER BY distance, creation_date DESC, modification_date DESC";
+
+            $data[] = [":latitude", $_USER->getLatitude(), \PDO::PARAM_STR];
+            $data[] = [":longitude", $_USER->getLongitude(), \PDO::PARAM_STR];
+            $data[] = [":distance", (int)$map['maxdistance'], \PDO::PARAM_INT];
+        }
+        else if(isset($map['city']) && $map['city'] != ''){
+            $data[] = [':city', $map['city'] . "%", \PDO::PARAM_STR];
+            $sqlCondition .= " AND city LIKE :city";
+        }
+
         /**
         * SEX
         */
