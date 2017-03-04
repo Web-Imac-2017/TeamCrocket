@@ -1,9 +1,8 @@
 <?php
-define('ROOT', './'); //dirname(realpath(__FILE__)).
+define('ROOT', './');
 define('ROOT_INC', ROOT.'inc/');
 
 require(ROOT_INC . 'init.php');
-require(ROOT_INC . 'api.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -45,7 +44,7 @@ require(ROOT_INC . 'api.php');
 
         // fonctions de callback pour les requêtes Ajax appelée automatiquement
         var callbacks = callbacks || {};
-        
+
         // callbacks pour le controlleur de la classe User
         callbacks.user = {
             // tâche "login"
