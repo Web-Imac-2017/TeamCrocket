@@ -109,7 +109,7 @@ class UserController extends BucketAbstractController
     public function verify(string $email, string $token){
         $user = User::getUniqueByEmail($email);
         if($user->getId() == 0){
-            throw new \Exception("No account existing for the given email adress");
+            throw new \Exception(gettext("No account existing for the given email adress"));
         }
         $user->verifyAccount($token);
     }
@@ -120,7 +120,7 @@ class UserController extends BucketAbstractController
     public function forgottenpassword(){
         $user = User::getUniqueByEmail($_POST['email'] ?? '');
         if($user->getId() == 0){
-            throw new \Exception("No account existing for the given email adress");
+            throw new \Exception(gettext("No account existing for the given email adress"));
         }
         $user->createRecoveryToken();
     }
