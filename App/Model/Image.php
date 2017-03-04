@@ -25,7 +25,7 @@ class Image extends Bucket\BucketAbstract
     private $creator_id;
 
     function __construct($data = NULL){
-        $this->name = 'default_avatar.png';
+        $this->name = '';
         $this->creator_id = 0;
 
         parent::__construct($data);
@@ -201,7 +201,7 @@ class Image extends Bucket\BucketAbstract
     }
 
     public function getPath() : string{
-        $dir = ROOT_UPLOADS . "users/" . $this->creator_id . "/";
+        $dir = "http://" . GLOBAL_CFG['files'] . "/users/" . $this->creator_id . "/";
         if($this->creator_id > 0 && !is_dir($dir)){
             mkdir($dir, 0777, true);
         }
@@ -210,7 +210,7 @@ class Image extends Bucket\BucketAbstract
     }
 
     public function getThumbPath() : string{
-        $dir = ROOT_UPLOADS . "users/" . $this->creator_id . "/";
+        $dir = "http://" . GLOBAL_CFG['files'] . "/users/" . $this->creator_id . "/";
         if($this->creator_id > 0 && !is_dir($dir)){
             mkdir($dir, 0777, true);
         }

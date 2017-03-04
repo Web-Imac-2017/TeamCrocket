@@ -4,7 +4,6 @@ session_start();
 define('ROOT_APP', ROOT.'App/');
 define('ROOT_MODEL', ROOT_APP.'Model/');
 define('ROOT_CONTROLLER', ROOT_APP.'Controller/');
-define('ROOT_UPLOADS', ROOT.'uploads/');
 
 // On charge le fichier de configuration
 $config = parse_ini_file(ROOT.'/config/config.ini', true);

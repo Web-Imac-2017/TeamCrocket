@@ -578,7 +578,7 @@ class User extends Bucket\BucketAbstract
                 <table>
                     <tr><td>'.gettext("Verify your email adress").'</td></tr>
                     <tr><td>'.gettext("To finish setting up your account, we just need to make sure this email adress is yours. Please follow the link bellow (link expires in 48h) :").'</td></tr>
-                    <tr><td><a href="https://'.GLOBAL_CFG['host'].'/verify/'.$this->email.'/'.$token.'">'.sprintf(gettext("Verify %s"), $this->email).'</a></td></tr>
+                    <tr><td><a href="https://'.GLOBAL_CFG['www'].'/verify/'.$this->email.'/'.$token.'">'.sprintf(gettext("Verify %s"), $this->email).'</a></td></tr>
                 </table>
             </body>
         </html>
@@ -658,7 +658,7 @@ class User extends Bucket\BucketAbstract
             <body>
                 <table>
                     <tr><td>'.gettext("Please visit the following page to reset your password (link expires in 24h) :").'</td></tr>
-                    <tr><td><a href="https://'.GLOBAL_CFG['host'].'/reset/'.$this->email.'/'.$token.'">Reset my password</a></td></tr>
+                    <tr><td><a href="https://'.GLOBAL_CFG['www'].'/reset/'.$this->email.'/'.$token.'">Reset my password</a></td></tr>
                 </table>
             </body>
         </html>
