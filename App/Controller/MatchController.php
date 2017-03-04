@@ -31,6 +31,11 @@ class MatchController
 
     /**
     * Permet de sauvegarder le choix de l'utilisateur vis à vis du "prétendant"
+    * Retourne true/false si le choix engendre un match
+    * @param int $aID
+    * @param int $bID
+    * @param bool $interested
+    * @return bool
     */
     public function swipe(int $aID, int $bID, bool $interested){
         global $_USER;
@@ -51,6 +56,7 @@ class MatchController
     /**
     * Retourne la liste des matchs pour un animal
     * @param int $animal_id
+    * @return array
     */
     public function list(int $animal_id){
         global $_USER;
@@ -64,6 +70,12 @@ class MatchController
         return Match::getMatchList($animal);
     }
 
+    /**
+    * Permet de déterminer si deux animaux ont match
+    * @param int $aID
+    * @param int $bID
+    * @return bool
+    */
     public function status(int $aID, int $bID){
         global $_USER;
 

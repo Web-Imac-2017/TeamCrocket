@@ -31,7 +31,14 @@ class Match
     * @return bool
     */
     public static function isMatch(Animal $a, Animal $b) : bool{
-        $sql = "SELECT COUNT(*) as \"total\" FROM ".DATABASE_CFG['prefix']."animal_match WHERE animal_a_id = :aid AND animal_b_id = :bid AND interested = 1 AND (SELECT sub.interested FROM ".DATABASE_CFG['prefix']."animal_match sub WHERE sub.animal_b_id = :aid AND sub.animal_a_id = :bid) = 1";
+        $sql = "
+            SELECT COUNT(*) as \"total\"
+            FROM ".DATABASE_CFG['prefix']."animal_match
+            WHERE animal_a_id = :aid AND animal_b_id = :bid AND interested = 1 AND (
+                SELECT sub.interested
+                FROM ".DATABASE_CFG['prefix']."animal_match sub
+                WHERE sub.animal_b_id = :aid AND sub.animal_a_id = :bid
+            ) = 1";
         $data = array(
             [":aid", $a->getId(), \PDO::PARAM_INT],
             [":bid", $b->getId(), \PDO::PARAM_INT]
@@ -98,8 +105,16 @@ class Match
         $sql = "
             SELECT a.* FROM ".DATABASE_CFG['prefix']."animal a
             WHERE a.id IN
-                (SELECT animal_b_id FROM ".DATABASE_CFG['prefix']."animal_match am1 WHERE animal_a_id = :aid AND am1.interested = 1 AND
-                    (SELECT am2.animal_a_id FROM ".DATABASE_CFG['prefix']."animal_match am2 WHERE am2.animal_a_id = am1.animal_b_id AND am2.animal_b_id = :aid AND am2.interested = 1 LIMIT 0, 1)
+                (
+                    SELECT animal_b_id
+                    FROM ".DATABASE_CFG['prefix']."animal_match am1
+                    WHERE animal_a_id = :aid AND am1.interested = 1 AND
+                    (
+                        SELECT am2.animal_a_id
+                        FROM ".DATABASE_CFG['prefix']."animal_match am2
+                        WHERE am2.animal_a_id = am1.animal_b_id AND am2.animal_b_id = :aid AND am2.interested = 1
+                        LIMIT 0, 1
+                    )
                 >= 1)
             AND a.id != :aid
         ";
