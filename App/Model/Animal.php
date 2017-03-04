@@ -85,7 +85,7 @@ class Animal extends Bucket\BucketAbstract
         $sqlHead = "SELECT a.*";
         $sqlFrom = "FROM ".DATABASE_CFG['prefix']."animal a";
         $sqlJoin = "INNER JOIN ".DATABASE_CFG['prefix']."user u ON a.creator_id = u.id";
-        $sqlCondition = "WHERE a.active = 1 AND u.id != :user_id";
+        $sqlCondition = "WHERE a.active = 1 AND a.banned == 0 AND u.id != :user_id";
         $sqlLimit = "";
         $sqlOrder = "ORDER BY creation_date DESC, modification_date DESC";
         $sqlHaving = "";
@@ -304,7 +304,7 @@ class Animal extends Bucket\BucketAbstract
         return $this->date_birth;
     }
     public function getAge() : int{
-        return dateToAge($this->getDateBirth());
+        return dateToAge((string)$this->getDateBirth());
     }
     public function getDescription() : string{
         return $this->description;

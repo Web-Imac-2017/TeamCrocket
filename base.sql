@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Mar 03, 2017 at 06:50 PM
+-- Generation Time: Mar 04, 2017 at 02:29 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -166,6 +166,34 @@ INSERT INTO `ajkl7_animal_gallery` (`animal_id`, `image_id`) VALUES
 (27, 35),
 (31, 38),
 (31, 39);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ajkl7_animal_match`
+--
+
+CREATE TABLE `ajkl7_animal_match` (
+  `animal_a_id` int(10) UNSIGNED NOT NULL,
+  `animal_b_id` int(10) UNSIGNED NOT NULL,
+  `interested` tinyint(1) NOT NULL,
+  `date_swipe` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+
+--
+-- Dumping data for table `ajkl7_animal_match`
+--
+
+INSERT INTO `ajkl7_animal_match` (`animal_a_id`, `animal_b_id`, `interested`, `date_swipe`) VALUES
+(22, 28, 1, '2017-03-04 00:14:49'),
+(22, 31, 1, '2017-03-04 00:14:49'),
+(24, 31, 1, '2017-03-04 01:59:35'),
+(26, 31, 1, '2017-03-04 01:58:49'),
+(30, 31, 1, '2017-03-04 00:20:26'),
+(31, 22, 1, '2017-03-04 00:14:49'),
+(31, 28, 0, '2017-03-04 01:49:54'),
+(31, 29, 0, '2017-03-04 00:14:49'),
+(31, 30, 1, '2017-03-04 00:20:15');
 
 -- --------------------------------------------------------
 
@@ -673,8 +701,8 @@ CREATE TABLE `ajkl7_user` (
 
 INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
 (135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'm', 44, '<br/>222', 'Noisiel', 48.854778, 2.628701, 73, '1993-05-10', 1, 0, '2017-02-22 21:59:36', '2017-03-03 18:48:33', 1),
-(140, 'Davis', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'porcher.cedric27@gmail.com', 'm', 21, '', 'Lyon', 0.000000, 0.000000, 73, '2000-03-16', 1, 0, '2017-03-01 15:01:35', '2017-03-01 15:03:01', 1),
-(141, 'OLIVIER', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'olivier@faugere.com', 'm', NULL, '', '', 0.000000, 0.000000, 73, '1996-04-10', 1, 0, '2017-03-01 16:41:16', NULL, 1);
+(140, 'Davis', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'porcher.cedric27@gmail.com', 'm', 21, '', 'Marne-La-Vallée', 48.859276, 2.598505, 73, '2000-03-16', 1, 0, '2017-03-01 15:01:35', '2017-03-01 15:03:01', 1),
+(141, 'OLIVIER', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'olivier@faugere.com', 'm', NULL, '', 'Noisiel', 48.854778, 2.628701, 73, '1996-04-10', 1, 0, '2017-03-01 16:41:16', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -813,6 +841,13 @@ ALTER TABLE `ajkl7_animal_comment`
 ALTER TABLE `ajkl7_animal_gallery`
   ADD KEY `ajkl7_animal_gallery_ibfk_1` (`animal_id`),
   ADD KEY `image_id` (`image_id`);
+
+--
+-- Indexes for table `ajkl7_animal_match`
+--
+ALTER TABLE `ajkl7_animal_match`
+  ADD UNIQUE KEY `user_id` (`animal_a_id`,`animal_b_id`),
+  ADD KEY `user_prop_id` (`animal_b_id`);
 
 --
 -- Indexes for table `ajkl7_characteristic`
@@ -1003,6 +1038,13 @@ ALTER TABLE `ajkl7_animal_comment`
 ALTER TABLE `ajkl7_animal_gallery`
   ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `ajkl7_animal_match`
+--
+ALTER TABLE `ajkl7_animal_match`
+  ADD CONSTRAINT `ajkl7_animal_match_ibfk_1` FOREIGN KEY (`animal_a_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_animal_match_ibfk_2` FOREIGN KEY (`animal_b_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `ajkl7_image`

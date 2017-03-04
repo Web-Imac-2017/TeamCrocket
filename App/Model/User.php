@@ -769,7 +769,7 @@ class User extends Bucket\BucketAbstract
         return $this->date_birth;
     }
     public function getAge() : int{
-        return dateToAge($this->getDateBirth());
+        return dateToAge((string)$this->getDateBirth());
     }
     public function getVerified() : int{
         return $this->verified;
