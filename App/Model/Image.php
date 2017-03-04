@@ -63,7 +63,8 @@ class Image extends Bucket\BucketAbstract
             $image->setExtension($extension);
             $image->setCreatorId($_SESSION['uid']);
 
-            $path = $image->getPath();
+            $path = $image->getLocalPath();
+
 
             if(!move_uploaded_file($file['tmp_name'], $path)){
                 throw new \Exception(gettext("Could not move image"));
@@ -77,8 +78,8 @@ class Image extends Bucket\BucketAbstract
 
     public static function remove($image){
         if($image instanceof Image){
-            $path = $image->getPath();
-            $thumbPath = $image->getThumbPath();
+            $path = $image->getLocalPath();
+            $thumbPath = $image->getLocalThumbpath();
 
             if(file_exists($thumbPath)){
                 unlink($thumbPath);
@@ -97,7 +98,7 @@ class Image extends Bucket\BucketAbstract
     * @param int $maxHeight
     */
     public function toProfilePic(int $maxWidth, int $maxHeight){
-        $path = $this->getPath();
+        $path = $this->getLocalPath();
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
         $imagine = new Imagine();
@@ -130,7 +131,7 @@ class Image extends Bucket\BucketAbstract
     * @param int $size Largeur max de l'image
     */
     public function createThumbnail(int $size){
-        $path = $this->getPath();
+        $path = $this->getLocalPath();
         $info = pathinfo($path);
 
         $thumbPath = $info['dirname'] . "/" . $info['filename'] . '_thumb.' . $info['extension'];
@@ -202,19 +203,24 @@ class Image extends Bucket\BucketAbstract
 
     public function getPath() : string{
         $dir = "http://" . GLOBAL_CFG['files'] . "/users/" . $this->creator_id . "/";
-        if($this->creator_id > 0 && !is_dir($dir)){
-            mkdir($dir, 0777, true);
-        }
-
         return $dir . $this->name . '.' . $this->extension;
     }
 
     public function getThumbPath() : string{
         $dir = "http://" . GLOBAL_CFG['files'] . "/users/" . $this->creator_id . "/";
-        if($this->creator_id > 0 && !is_dir($dir)){
+        return $dir . $this->name . '_thumb.' . $this->extension;
+    }
+
+    public function getLocalPath() : string{
+        $dir = GLOBAL_CFG['files_sv_root'] . '/users/' . $this->creator_id . '/';
+        if(!is_dir($dir)){
             mkdir($dir, 0777, true);
         }
+        return $dir . $this->name . '.' . $this->extension;
+    }
 
+    public function getLocalThumbPath() : string{
+        $dir = GLOBAL_CFG['files_sv_root'] . '/users/' . $this->creator_id . '/';
         return $dir . $this->name . '_thumb.' . $this->extension;
     }
 }
