@@ -17,8 +17,12 @@
                 <h5><?php echo $a->getName() . ', ' . $a->getSpecies()->getName() . ', ' . $a->getAge(); ?> ans</h5>
                 <div class="profile-data float-right">
                     <ul class="info-list">
+                        <?php if($a->getInfoLike() != ''): ?>
                         <li class="info info-like"><span>Aime :</span> <?php echo $a->getInfoLike(); ?></li>
+                        <?php endif; ?>
+                        <?php if($a->getInfoDislike() != ''): ?>
                         <li class="info info-dislike"><span>Aime pas :</span> <?php echo $a->getInfoDislike(); ?></li>
+                        <?php endif; ?>
                     </ul>
                     <p class="mt-2"><?php echo $a->getDescription(); ?></p>
                 </div>
@@ -42,11 +46,15 @@
                         <div class="feedback-bg"></div>
                     </div>
                 </div>
-                <h5><?php echo $b->getName() . ', ' . $a->getSpecies()->getName() . ', ' . $b->getAge(); ?> ans</h5>
+                <h5><?php echo $b->getName() . ', ' . $b->getSpecies()->getName() . ', ' . $b->getAge(); ?> ans</h5>
                 <div class="profile-data clearfix">
                     <ul class="info-list">
+                        <?php if($b->getInfoLike() != ''): ?>
                         <li class="info info-like"><span>Aime :</span> <?php echo $b->getInfoLike(); ?></li>
+                        <?php endif; ?>
+                        <?php if($b->getInfoDislike() != ''): ?>
                         <li class="info info-dislike"><span>Aime pas :</span> <?php echo $b->getInfoDislike(); ?></li>
+                        <?php endif; ?>
                     </ul>
                     <p class="mt-2"><?php echo $b->getDescription(); ?></p>
                 </div>
@@ -86,7 +94,7 @@
     </div>
 <?php endif; ?>
 <div class="row">
-    <div class="col-12">
+    <div class="col-12 mt-2">
         <a href="index.php">Retour</a>
     </div>
 </div>
