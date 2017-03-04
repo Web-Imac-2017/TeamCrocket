@@ -26,7 +26,7 @@ class UserController extends BucketAbstractController
 
         $user = User::getUniqueById($id);
         if($user->getId() == 0){
-            throw new \Exception(sprintf(gettext("User profile n°%s does not exist"), $id));
+            throw new \Exception(sprintf(gettext("User profile %s does not exist"), 'n°'.$id));
         }
         return $user;
     }

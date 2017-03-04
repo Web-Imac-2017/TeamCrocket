@@ -22,7 +22,7 @@ class ProfileController extends BucketAbstractController
     public function comments(int $id = 0): array{
         $animal = Animal::getUniqueById($id);
         if($animal->getId() == 0){
-            throw new \Exception(sprintf(gettext("Profile n°%s does not exist"), $id));
+            throw new \Exception(sprintf(gettext("Profile %s does not exist"), 'n°'.$id));
         }
         return $animal->getComments();
     }
@@ -34,7 +34,7 @@ class ProfileController extends BucketAbstractController
     public function get(int $id = 0) : Animal{
         $animal = Animal::getUniqueById($id);
         if($animal->getId() == 0){
-            throw new \Exception(sprintf(gettext("Profile n°%s does not exist"), $id));
+            throw new \Exception(sprintf(gettext("Profile %s does not exist"), 'n°'.$id));
         }
         return $animal;
     }

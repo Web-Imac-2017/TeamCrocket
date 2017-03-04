@@ -21,7 +21,7 @@ class CommentController extends BucketAbstractController
     public function get(int $id = 0) : Comment{
         $comment = Comment::getUniqueById($id);
         if($comment->getId() == 0){
-            throw new \Exception(sprintf(gettext("Comment n°%s does not exist"), $id));
+            throw new \Exception(sprintf(gettext("Comment %s does not exist"), 'n°'.$id));
         }
         return $comment;
     }
