@@ -171,7 +171,7 @@ class Animal extends Bucket\BucketAbstract
 
 
         $sqlCondition = (count($sqlCondition) > 0) ? "WHERE " . join(' AND ', $sqlCondition) : "";
-        $sqlHaving = (count($sqlHaving) > 0) ? "HAVING " . join(', ', $sqlHaving) : "";
+        $sqlHaving = (count($sqlHaving) > 0) ? "HAVING " . join(' AND ', $sqlHaving) : "";
 
         $sql = $sqlHead . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving. " " . $sqlLimit . " " . $sqlOrder;
         //print_r($sql);
