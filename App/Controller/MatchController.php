@@ -50,7 +50,7 @@ class MatchController
             throw new \Exception(gettext("You must be the owner"));
         }
 
-        return Match::swipe($a, $b, $interested);
+        return array('match' => Match::swipe($a, $b, $interested), 'interested' => $interested);
     }
 
     /**

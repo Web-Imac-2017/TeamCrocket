@@ -12,9 +12,9 @@ class Match
     */
     public static function swipe(Animal $a, Animal $b, bool $interested) : bool{
         DB::exec("
-            INSERT INTO ".DATABASE_CFG['prefix']."animal_match (animal_a_id, animal_b_id, interested)
-            VALUES(:animal_a_id, :animal_b_id, :interested)
-            ON DUPLICATE KEY UPDATE interested = :interested
+            INSERT INTO ".DATABASE_CFG['prefix']."animal_match (animal_a_id, animal_b_id, interested, date_swipe)
+            VALUES(:animal_a_id, :animal_b_id, :interested, NOW())
+            ON DUPLICATE KEY UPDATE interested = :interested, date_swipe = NOW()
         ", array(
             [":animal_a_id", $a->getId(), \PDO::PARAM_INT],
             [":animal_b_id", $b->getId(), \PDO::PARAM_INT],
@@ -67,6 +67,8 @@ class Match
             $data[] = [':species_id', $options['species_id'], \PDO::PARAM_INT];
         }
 
+        $distance = (isset($options['maxdistance']) && $options['maxdistance'] != 0) ? $options['maxdistance'] : 150;
+
 
         $sql = "
             SELECT a.*, TRUNCATE(SQRT( POW(111.2 * (au.latitude - cu.latitude), 2) + POW(111.2 * (cu.longitude - au.longitude) * COS(au.latitude / 57.3), 2) ), 2) AS distance, IFNULL(am.interested, 0) amb_interest
@@ -81,13 +83,14 @@ class Match
             AND a.id NOT IN
                 (SELECT animal_b_id FROM ".DATABASE_CFG['prefix']."animal_match WHERE animal_a_id = :aid)
             ".$sqlCondition."
-            HAVING distance < 150
+            HAVING distance < :distance
             ORDER BY amb_interest DESC, RAND()
             LIMIT 0, 1
         ";
 
         $data[] = [":aid", $animal->getId(), \PDO::PARAM_INT];
         $data[] = [":uid", $_SESSION['uid'], \PDO::PARAM_INT];
+        $data[] = [":distance", $distance, \PDO::PARAM_INT];
 
 
         $animal = DB::fetchUniqueObject("App\Model\Animal", $sql, $data);

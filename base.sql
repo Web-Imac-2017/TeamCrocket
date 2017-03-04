@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Mar 04, 2017 at 02:29 AM
+-- Generation Time: Mar 04, 2017 at 02:53 PM
 -- Server version: 5.6.35
 -- PHP Version: 7.1.1
 
@@ -29,6 +29,8 @@ CREATE TABLE `ajkl7_animal` (
   `name` varchar(32) NOT NULL,
   `sex` char(1) NOT NULL DEFAULT 'm',
   `description` text NOT NULL,
+  `info_like` varchar(64) NOT NULL,
+  `info_dislike` varchar(64) NOT NULL,
   `date_birth` date DEFAULT NULL,
   `banned` tinyint(1) NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
@@ -40,15 +42,16 @@ CREATE TABLE `ajkl7_animal` (
 -- Dumping data for table `ajkl7_animal`
 --
 
-INSERT INTO `ajkl7_animal` (`id`, `creator_id`, `species_id`, `cover_image_id`, `profile_image_id`, `name`, `sex`, `description`, `date_birth`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
-(22, 140, 9, 22, NULL, 'Totor', 'f', 'Chien allemand.', '0000-00-00', 0, '2017-03-01 15:05:07', '2017-03-01 15:11:11', 1),
-(24, 140, 7, 24, NULL, 'Didier', 'h', 'Avec les gros sabots. Si on voit les marques, ou si on voit les logos de l\'entreprise, pas de soucis !', '0000-00-00', 0, '2017-03-01 15:14:12', '2017-03-01 15:18:51', 1),
-(26, 140, 6, 25, NULL, 'Sully', 'f', '', '2017-01-01', 0, '2017-03-01 16:35:07', NULL, 1),
-(27, 135, 9, 43, 42, 'Rex', 'm', '', '2016-03-01', 0, '2017-03-01 16:35:43', '2017-03-03 12:37:37', 1),
-(28, 140, 13, 29, NULL, 'Lézio', 'm', 'Mort de rire', '2015-06-12', 0, '2017-03-01 16:36:44', NULL, 1),
-(29, 140, 14, 31, NULL, 'Mado', 'f', '', '2014-02-02', 0, '2017-03-01 16:38:46', NULL, 1),
-(30, 141, 11, 33, NULL, 'Pouik', 'm', '', '1996-08-10', 0, '2017-03-01 16:42:27', '2017-03-01 16:44:50', 1),
-(31, 135, 6, 37, NULL, 'Tigrou', 'm', 'Chat adopté', '2008-05-09', 0, '2017-03-02 10:51:31', '2017-03-02 10:52:10', 1);
+INSERT INTO `ajkl7_animal` (`id`, `creator_id`, `species_id`, `cover_image_id`, `profile_image_id`, `name`, `sex`, `description`, `info_like`, `info_dislike`, `date_birth`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
+(22, 140, 9, 22, NULL, 'Totor', 'f', 'Chien allemand.', '', '', '2013-03-07', 0, '2017-03-01 15:05:07', '2017-03-01 15:11:11', 1),
+(24, 140, 7, 24, NULL, 'Didier', 'h', 'Avec les gros sabots. Si on voit les marques, ou si on voit les logos de l\'entreprise, pas de soucis !', '', '', '2010-03-07', 0, '2017-03-01 15:14:12', '2017-03-01 15:18:51', 1),
+(26, 140, 6, 25, NULL, 'Sully', 'f', '', '', '', '2017-01-01', 0, '2017-03-01 16:35:07', NULL, 1),
+(27, 135, 9, 43, 42, 'Rex', 'm', '', '', '', '2016-03-01', 0, '2017-03-01 16:35:43', '2017-03-03 12:37:37', 1),
+(28, 140, 13, 29, NULL, 'Lézio', 'm', 'Mort de rire', '', '', '2015-06-12', 0, '2017-03-01 16:36:44', NULL, 1),
+(29, 140, 14, 31, NULL, 'Mado', 'f', '', '', '', '2014-02-02', 0, '2017-03-01 16:38:46', NULL, 1),
+(30, 141, 11, 33, NULL, 'Pouik', 'm', '', '', '', '1996-08-10', 0, '2017-03-01 16:42:27', '2017-03-01 16:44:50', 1),
+(31, 135, 6, 37, NULL, 'Tigrou', 'm', 'Chat adopté', '', '', '2008-05-09', 0, '2017-03-02 10:51:31', '2017-03-02 10:52:10', 1),
+(32, 142, 9, NULL, 45, 'Michou', 'm', '', 'Les croquettes', 'L\'herbe', '2014-05-09', 0, '2017-03-04 13:20:01', '2017-03-04 14:34:48', 1);
 
 -- --------------------------------------------------------
 
@@ -71,50 +74,38 @@ INSERT INTO `ajkl7_animal_characteristic` (`animal_id`, `characteristic_id`, `va
 (22, 5, '0'),
 (22, 8, 'ééééé\\\\\\\\\\\\|@'),
 (22, 9, ''),
-(22, 11, 'l\'esqf'),
-(22, 12, ''),
 (24, 4, '0'),
 (24, 5, '0'),
 (24, 8, 'Grognon'),
 (24, 9, ''),
-(24, 11, ''),
-(24, 12, ''),
 (26, 4, '0'),
 (26, 5, '0'),
 (26, 8, ''),
 (26, 9, ''),
-(26, 11, ''),
-(26, 12, ''),
 (27, 4, '0'),
 (27, 5, '0'),
 (27, 8, 'Timide'),
 (27, 9, ''),
-(27, 11, ''),
-(27, 12, ''),
 (28, 4, '0'),
 (28, 5, '0'),
 (28, 8, ''),
 (28, 9, ''),
-(28, 11, ''),
-(28, 12, ''),
 (29, 4, '0'),
 (29, 5, '0'),
 (29, 8, ''),
 (29, 9, ''),
-(29, 11, ''),
-(29, 12, ''),
 (30, 4, '0'),
 (30, 5, '0'),
 (30, 8, ''),
 (30, 9, ''),
-(30, 11, ''),
-(30, 12, ''),
 (31, 4, '40'),
 (31, 5, '2'),
 (31, 8, 'Joueur'),
 (31, 9, ''),
-(31, 11, 'Les écureuils'),
-(31, 12, '');
+(32, 4, '0'),
+(32, 5, '0'),
+(32, 8, 'Joueur'),
+(32, 9, '');
 
 -- --------------------------------------------------------
 
@@ -177,7 +168,7 @@ CREATE TABLE `ajkl7_animal_match` (
   `animal_a_id` int(10) UNSIGNED NOT NULL,
   `animal_b_id` int(10) UNSIGNED NOT NULL,
   `interested` tinyint(1) NOT NULL,
-  `date_swipe` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `date_swipe` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
@@ -189,11 +180,20 @@ INSERT INTO `ajkl7_animal_match` (`animal_a_id`, `animal_b_id`, `interested`, `d
 (22, 31, 1, '2017-03-04 00:14:49'),
 (24, 31, 1, '2017-03-04 01:59:35'),
 (26, 31, 1, '2017-03-04 01:58:49'),
+(28, 32, 1, '2017-03-04 14:10:14'),
 (30, 31, 1, '2017-03-04 00:20:26'),
 (31, 22, 1, '2017-03-04 00:14:49'),
 (31, 28, 0, '2017-03-04 01:49:54'),
 (31, 29, 0, '2017-03-04 00:14:49'),
-(31, 30, 1, '2017-03-04 00:20:15');
+(31, 30, 1, '2017-03-04 00:20:15'),
+(32, 22, 1, '2017-03-04 14:51:03'),
+(32, 24, 1, '2017-03-04 14:47:12'),
+(32, 26, 1, '2017-03-04 14:47:19'),
+(32, 27, 1, '2017-03-04 14:51:06'),
+(32, 28, 1, '2017-03-04 14:31:24'),
+(32, 29, 0, '2017-03-04 14:37:09'),
+(32, 30, 0, '2017-03-04 14:47:16'),
+(32, 31, 1, '2017-03-04 14:51:10');
 
 -- --------------------------------------------------------
 
@@ -223,9 +223,7 @@ INSERT INTO `ajkl7_characteristic` (`id`, `name`, `common`, `required`, `type`, 
 (7, 'Robe', 0, 0, 0, '2017-02-25 00:00:00', NULL, 1),
 (8, 'Caractère', 1, 0, 0, '2017-02-25 00:00:00', NULL, 1),
 (9, 'Nourriture préférée', 1, 0, 0, '2017-02-25 00:00:00', NULL, 1),
-(10, 'Jouet préféré', 0, 0, 0, '2017-02-26 00:00:00', NULL, 1),
-(11, 'J\'aime', 1, 0, 0, '2017-02-26 00:00:00', NULL, 1),
-(12, 'J\'aime pas', 1, 0, 0, '2017-02-26 00:00:00', NULL, 1);
+(10, 'Jouet préféré', 0, 0, 0, '2017-02-26 00:00:00', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -531,7 +529,8 @@ INSERT INTO `ajkl7_image` (`id`, `name`, `extension`, `creator_id`, `creation_da
 (39, '240c3177428111c64d03bdb3caf5f8c7', 'jpeg', 135, '2017-03-02 13:11:28', NULL, 1),
 (42, '64cb4e82a7fc645c888b88d505911c42', 'jpeg', 135, '2017-03-03 12:37:03', NULL, 1),
 (43, '048b00a15beebc169692ef5feba7cbbb', 'jpeg', 135, '2017-03-03 12:37:37', NULL, 1),
-(44, 'd4da9cc348c31259f89259722ec6019e', 'jpeg', 135, '2017-03-03 18:48:33', NULL, 1);
+(44, 'd4da9cc348c31259f89259722ec6019e', 'jpeg', 135, '2017-03-03 18:48:33', NULL, 1),
+(45, '356135ef7dd2db73028f58d4c530e6b0', 'jpeg', 142, '2017-03-04 13:20:01', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -702,7 +701,8 @@ CREATE TABLE `ajkl7_user` (
 INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
 (135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'm', 44, '<br/>222', 'Noisiel', 48.854778, 2.628701, 73, '1993-05-10', 1, 0, '2017-02-22 21:59:36', '2017-03-03 18:48:33', 1),
 (140, 'Davis', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'porcher.cedric27@gmail.com', 'm', 21, '', 'Marne-La-Vallée', 48.859276, 2.598505, 73, '2000-03-16', 1, 0, '2017-03-01 15:01:35', '2017-03-01 15:03:01', 1),
-(141, 'OLIVIER', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'olivier@faugere.com', 'm', NULL, '', 'Noisiel', 48.854778, 2.628701, 73, '1996-04-10', 1, 0, '2017-03-01 16:41:16', NULL, 1);
+(141, 'OLIVIER', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'olivier@faugere.com', 'm', NULL, '', 'Noisiel', 48.854778, 2.628701, 73, '1996-04-10', 1, 0, '2017-03-01 16:41:16', NULL, 1),
+(142, 'metterrothan2', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan2@gmail.com', 'm', NULL, '', 'Noisiel', 48.854778, 2.628701, 73, '1993-05-10', 1, 0, '2017-02-22 21:59:36', '2017-03-03 18:48:33', 1);
 
 -- --------------------------------------------------------
 
@@ -744,7 +744,8 @@ INSERT INTO `ajkl7_user_log_connexion` (`user_id`, `ip_adress`, `user_agent`, `l
 (135, '193.50.159.52', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
 (135, '37.163.118.194', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00');
+(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(142, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -773,7 +774,9 @@ INSERT INTO `ajkl7_user_permission` (`group_id`, `user_id`, `r`, `c`, `u`, `d`, 
 (1, 140, 1, 1, 0, 0, 0),
 (5, 140, 1, 1, 0, 0, 0),
 (1, 141, 1, 1, 0, 0, 0),
-(5, 141, 1, 1, 0, 0, 0);
+(5, 141, 1, 1, 0, 0, 0),
+(1, 142, 1, 1, 0, 0, 0),
+(5, 142, 1, 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -954,7 +957,7 @@ ALTER TABLE `ajkl7_user_verification`
 -- AUTO_INCREMENT for table `ajkl7_animal`
 --
 ALTER TABLE `ajkl7_animal`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `ajkl7_animal_comment`
 --
@@ -974,7 +977,7 @@ ALTER TABLE `ajkl7_country`
 -- AUTO_INCREMENT for table `ajkl7_image`
 --
 ALTER TABLE `ajkl7_image`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT for table `ajkl7_message`
 --
@@ -1004,7 +1007,7 @@ ALTER TABLE `ajkl7_todo`
 -- AUTO_INCREMENT for table `ajkl7_user`
 --
 ALTER TABLE `ajkl7_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
 --
 -- Constraints for dumped tables
 --
