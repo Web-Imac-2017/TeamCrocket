@@ -82,13 +82,15 @@ class Animal extends Bucket\BucketAbstract
         $class = get_called_class();
         $orm = Bucket\BucketParser::parse($class);
 
-        $sqlHead = "SELECT a.*";
+        $sqlCondition = [];
+        $sqlHaving = [];
+
+        $sqlHead = "SELECT a.*, FLOOR(DATEDIFF(CURDATE(), a.date_birth) / 365.2422) as age";
         $sqlFrom = "FROM ".DATABASE_CFG['prefix']."animal a";
         $sqlJoin = "INNER JOIN ".DATABASE_CFG['prefix']."user u ON a.creator_id = u.id";
-        $sqlCondition = "WHERE a.active = 1 AND a.banned == 0 AND u.id != :user_id";
+        $sqlCondition[] = "a.active = 1 AND a.banned = 0 AND u.id != :user_id";
         $sqlLimit = "";
         $sqlOrder = "ORDER BY creation_date DESC, modification_date DESC";
-        $sqlHaving = "";
 
         $data[] = [':user_id', $_USER->getId(), \PDO::PARAM_INT];
 
@@ -97,7 +99,7 @@ class Animal extends Bucket\BucketAbstract
         */
         if(isset($map['maxdistance']) && $map['maxdistance'] > 0){
             $sqlHead .= ", SQRT( POW(111.2 * (u.latitude - :latitude), 2) + POW(111.2 * (:longitude - u.longitude) * COS(u.latitude / 57.3), 2) ) AS distance";
-            $sqlHaving .= "HAVING distance < :distance";
+            $sqlHaving[] = "distance < :distance";
             $sqlOrder = "ORDER BY distance, creation_date DESC, modification_date DESC";
 
             $data[] = [":latitude", $_USER->getLatitude(), \PDO::PARAM_STR];
@@ -106,7 +108,7 @@ class Animal extends Bucket\BucketAbstract
         }
         else if(isset($map['city']) && $map['city'] != ''){
             $data[] = [':city', $map['city'] . "%", \PDO::PARAM_STR];
-            $sqlCondition .= " AND city LIKE :city";
+            $sqlCondition[] = "city LIKE :city";
         }
 
         /**
@@ -119,11 +121,36 @@ class Animal extends Bucket\BucketAbstract
         }
 
         /**
+        * AGE
+        */
+        if(isset($map['age_min']) && isset($map['age_max'])){
+            $min = (int)$map['age_min'];
+            $max = (int)$map['age_max'];
+
+            if($min > 0 && $max > 0){
+                // on compare entre le MIN et le MAX
+                $data[] = [':age_min', $min, \PDO::PARAM_INT];
+                $data[] = [':age_max', $max, \PDO::PARAM_INT];
+                $sqlHaving[] = "(age >= :age_min AND age <= :age_max)";
+            }
+            else if($min == 0 && $max > 0){
+                // on compare X plus grand que MAX
+                $data[] = [':age', $max, \PDO::PARAM_INT];
+                $sqlHaving[] = "age <= :age";
+            }
+            else{
+                // on compare X plus petit que MIN
+                $data[] = [':age', $min, \PDO::PARAM_INT];
+                $sqlHaving[] = "age >= :age";
+            }
+        }
+
+        /**
         * NAME
         */
         if(isset($map['name']) && $map['name'] != ''){
             $data[] = [':name', $map['name'] . "%", \PDO::PARAM_STR];
-            $sqlCondition .= " AND name LIKE :name";
+            $sqlCondition[] = "name LIKE :name";
         }
 
         /**
@@ -131,7 +158,7 @@ class Animal extends Bucket\BucketAbstract
         */
         if(isset($map['species_id']) && $map['species_id'] != 0){
             $data[] = [':species_id', (int)$map['species_id'], \PDO::PARAM_INT];
-            $sqlCondition .= " AND species_id = :species_id";
+            $sqlCondition[] = "species_id = :species_id";
         }
 
         /**
@@ -139,12 +166,15 @@ class Animal extends Bucket\BucketAbstract
         */
         if(isset($map['sex']) && $map['sex'] != ''){
             $data[] = [':sex', $map['sex'], \PDO::PARAM_STR];
-            $sqlCondition .= " AND a.sex = :sex";
+            $sqlCondition[] = "a.sex = :sex";
         }
 
 
+        $sqlCondition = (count($sqlCondition) > 0) ? "WHERE " . join(' AND ', $sqlCondition) : "";
+        $sqlHaving = (count($sqlHaving) > 0) ? "HAVING " . join(', ', $sqlHaving) : "";
 
         $sql = $sqlHead . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving. " " . $sqlLimit . " " . $sqlOrder;
+        //print_r($sql);
         return DB::fetchMultipleObject($class, $sql, $data);
     }
 
