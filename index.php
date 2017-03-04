@@ -1,8 +1,12 @@
 <?php
-define('ROOT', './');
-define('ROOT_INC', ROOT.'inc/');
+if(!defined('ROOT')){
+    define('ROOT', './');
+}
+if(!defined('ROOT_INC')){
+    define('ROOT_INC', ROOT.'inc/');
+}
 
-require(ROOT_INC . 'init.php');
+require_once(ROOT_INC . 'init.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,8 +28,8 @@ require(ROOT_INC . 'init.php');
         <div class="wrapper">
             <?php
                 $page = $_GET['page'] ?? '';
-                if($page == 'match') include 'match.php';
-                else include 'user.php';
+                if($page == 'match') include ROOT . 'match.php';
+                else include ROOT . 'user.php';
             ?>
         </div>
         <div class="user-info">

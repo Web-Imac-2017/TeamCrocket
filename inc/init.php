@@ -36,7 +36,7 @@ if(!isset($_SESSION['uid'])){
     $_SESSION['uid'] = 0;
 }
 if(!isset($_SESSION['language'])){
-    $_SESSION['language'] = 'en_US';
+    $_SESSION['language'] = 'fr_FR';
 }
 
 
