@@ -12,6 +12,8 @@ namespace App\Model;
 @group animal_profile
 @field name, string
 @field sex, string
+@field info_like, string
+@field info_dislike, string
 @field species_id, int
 @field cover_image_id, int
 @field profile_image_id, int
@@ -29,6 +31,8 @@ class Animal extends Bucket\BucketAbstract
 
     private $name;
     private $sex;
+    private $info_like;
+    private $info_dislike;
     private $species_id;
     private $cover_image_id;
     private $profile_image_id;
@@ -40,6 +44,8 @@ class Animal extends Bucket\BucketAbstract
     function __construct($data = NULL){
         $this->name = '';
         $this->sex = self::SEX_MALE;
+        $this->info_like = '';
+        $this->info_dislike = '';
         $this->species_id = 0;
         $this->creator_id = 0;
         $this->description = "";
@@ -53,6 +59,8 @@ class Animal extends Bucket\BucketAbstract
             'id' => $this->id,
             'name' => $this->name,
             'sex' => $this->sex,
+            'like' => $this->info_like,
+            'dislike' => $this->info_dislike,
             'date_birth' => $this->date_birth,
             'age' => $this->getAge(),
             'cover_image' => $this->getCoverImage(),
@@ -318,6 +326,12 @@ class Animal extends Bucket\BucketAbstract
     public function getSex() : string{
         return $this->sex;
     }
+    public function getInfoLike() : string{
+        return $this->info_like;
+    }
+    public function getInfoDislike() : string{
+        return $this->info_dislike;
+    }
     public function getSpeciesId() : int{
         return $this->species_id;
     }
@@ -361,6 +375,12 @@ class Animal extends Bucket\BucketAbstract
     }
     public function setSex(string $sex){
         $this->sex = $sex;
+    }
+    public function setInfoLike(string $like){
+        $this->info_like = $like;
+    }
+    public function setInfoDislike(string $dislike){
+        $this->info_dislike = $dislike;
     }
     public function setSpeciesId(int $species){
         $this->species_id = $species;
