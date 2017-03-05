@@ -39,12 +39,9 @@ class Country extends Bucket\BucketAbstract
 
     public function jsonSerialize(){
         return array(
+            'id' => $this->id,
             'iso' => $this->iso,
-            'name' => $this->name,
-            'nicename' => $this->nicename,
-            'iso3' => $this->iso3,
-            'numcode' => $this->numcode,
-            'phonecode' => $this->phonecode
+            'name' => $this->nicename
         );
     }
 

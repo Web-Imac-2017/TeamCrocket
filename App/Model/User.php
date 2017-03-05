@@ -90,7 +90,7 @@ class User extends Bucket\BucketAbstract
                 'lat' => $this->latitude,
                 'lng' => $this->longitude
             ),
-            'country_id' => $this->country_id,
+            'country_id' => $this->getCountry(),
             'date_birth' => $this->date_birth,
             'age' => $this->getAge(),
             'creation_date' => $this->creation_date
