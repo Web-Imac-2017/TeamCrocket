@@ -44,7 +44,8 @@ class Characteristic extends Bucket\BucketAbstract
             'value' => $this->value,
             'common' => $this->common,
             'required' => $this->required,
-            'type' => $this->type
+            'type' => $this->getTypeName(),
+            'step' => $this->getStep()
         );
     }
 
@@ -121,5 +122,31 @@ class Characteristic extends Bucket\BucketAbstract
     }
     public function getType() : int{
         return $this->type;
+    }
+    public function getTypeName() : string{
+        switch($this->type){
+            case self::TYPE_INT :
+            case self::TYPE_FLOAT :
+                return 'number';
+                break;
+
+            default :
+                return 'text';
+        }
+    }
+
+    public function getStep() : string{
+        switch($this->type){
+            case self::TYPE_INT :
+                return '1';
+                break;
+
+            case self::TYPE_FLOAT :
+                return '0.1';
+                break;
+
+            default :
+                return '';
+        }
     }
 }

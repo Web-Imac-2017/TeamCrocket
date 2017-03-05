@@ -55,13 +55,17 @@ class Animal extends Bucket\BucketAbstract
     }
 
     public function jsonSerialize(){
+        $creator = $this->getUser();
+
         return array(
             'id' => $this->id,
             'name' => $this->name,
             'sex' => $this->sex,
             'like' => $this->info_like,
+            'city' => $creator->getCity(),
             'dislike' => $this->info_dislike,
             'date_birth' => $this->date_birth,
+            'characteristics' => $this->getCharacteristics(),
             'age' => $this->getAge(),
             'cover_image' => $this->getCoverImage(),
             'profile_image' => $this->getProfileImage(),
@@ -87,28 +91,55 @@ class Animal extends Bucket\BucketAbstract
         global $_USER;
 
         $data = [];
+
+        $currentPage = (int)($map['page'] ?? 0);
+        $amountPerPage = 5;
+        $maxPage = 0;
+        $total = 0;
+
         $class = get_called_class();
         $orm = Bucket\BucketParser::parse($class);
 
         $sqlCondition = [];
         $sqlHaving = [];
 
-        $sqlHead = "SELECT a.*, FLOOR(DATEDIFF(CURDATE(), a.date_birth) / 365.2422) as age";
+        $sqlHeadCount = "SELECT COUNT(a.id) as total, FLOOR(DATEDIFF(CURDATE(), a.date_birth) / 365.2422) as age";
+        $sqlHeadList = "SELECT a.*, FLOOR(DATEDIFF(CURDATE(), a.date_birth) / 365.2422) as age";
         $sqlFrom = "FROM ".DATABASE_CFG['prefix']."animal a";
         $sqlJoin = "INNER JOIN ".DATABASE_CFG['prefix']."user u ON a.creator_id = u.id";
         $sqlCondition[] = "a.active = 1 AND a.banned = 0 AND u.id != :user_id";
         $sqlLimit = "";
-        $sqlOrder = "ORDER BY creation_date DESC, modification_date DESC";
+        $sqlOrder = "ORDER BY a.creation_date DESC, a.modification_date DESC";
 
         $data[] = [':user_id', $_USER->getId(), \PDO::PARAM_INT];
+
+        /**
+        *
+        * CALCUL DU TOTAL
+        *
+        */
+        $sqlConditionTemp = (count($sqlCondition) > 0) ? "WHERE " . join(' AND ', $sqlCondition) : "";
+        $sqlHavingTemp = (count($sqlHaving) > 0) ? "HAVING " . join(' AND ', $sqlHaving) : "";
+
+        $sqlCount = $sqlHeadCount . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlConditionTemp . " " . $sqlHavingTemp;
+        $total = (int)DB::fetchUnique($sqlCount, $data)['total'];
+
+
+
+        /**
+        *
+        * LIST FILTRÉE
+        *
+        */
 
         /**
         * DISTANCE ou CITY NAME
         */
         if(isset($map['maxdistance']) && $map['maxdistance'] > 0){
-            $sqlHead .= ", SQRT( POW(111.2 * (u.latitude - :latitude), 2) + POW(111.2 * (:longitude - u.longitude) * COS(u.latitude / 57.3), 2) ) AS distance";
+            $sqlHeadList .= ", SQRT( POW(111.2 * (u.latitude - :latitude), 2) + POW(111.2 * (:longitude - u.longitude) * COS(u.latitude / 57.3), 2) ) AS distance";
+
             $sqlHaving[] = "distance < :distance";
-            $sqlOrder = "ORDER BY distance, creation_date DESC, modification_date DESC";
+            $sqlOrder = "ORDER BY distance, a.creation_date DESC, a.modification_date DESC";
 
             $data[] = [":latitude", $_USER->getLatitude(), \PDO::PARAM_STR];
             $data[] = [":longitude", $_USER->getLongitude(), \PDO::PARAM_STR];
@@ -120,12 +151,11 @@ class Animal extends Bucket\BucketAbstract
         }
 
         /**
-        * LIMIT
+        * SEX
         */
-        if(isset($map['start']) && isset($map['amount']) && $map['start'] != -1 && $map['amount'] != -1){
-            $data[] = [':start', (int)$map['start'], \PDO::PARAM_INT];
-            $data[] = [':amount', (int)$map['amount'], \PDO::PARAM_INT];
-            $sqlLimit .= " LIMIT :start, :amount";
+        if(isset($map['sex']) && $map['sex'] != ''){
+            $data[] = [':sex', $map['sex'], \PDO::PARAM_STR];
+            $sqlCondition[] = "a.sex = :sex";
         }
 
         /**
@@ -170,20 +200,45 @@ class Animal extends Bucket\BucketAbstract
         }
 
         /**
-        * SEX
+        * LIMIT
         */
-        if(isset($map['sex']) && $map['sex'] != ''){
-            $data[] = [':sex', $map['sex'], \PDO::PARAM_STR];
-            $sqlCondition[] = "a.sex = :sex";
+        if($total == 0){
+            $currentPage = 0;
+        }
+        if($currentPage > 0){
+            $maxPage = ceil($total / $amountPerPage);
+
+            if($currentPage > $maxPage){
+                $currentPage = $maxPage;
+            }
+
+            $start = ($currentPage - 1) * $amountPerPage;
+
+            $data[] = [':start', $start, \PDO::PARAM_INT];
+            $data[] = [':amount', $amountPerPage, \PDO::PARAM_INT];
+            $sqlLimit .= " LIMIT :start, :amount";
         }
 
 
-        $sqlCondition = (count($sqlCondition) > 0) ? "WHERE " . join(' AND ', $sqlCondition) : "";
-        $sqlHaving = (count($sqlHaving) > 0) ? "HAVING " . join(' AND ', $sqlHaving) : "";
+        $sqlConditionTemp = (count($sqlCondition) > 0) ? "WHERE " . join(' AND ', $sqlCondition) : "";
+        $sqlHavingTemp = (count($sqlHaving) > 0) ? "HAVING " . join(' AND ', $sqlHaving) : "";
 
-        $sql = $sqlHead . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving. " " . $sqlLimit . " " . $sqlOrder;
-        //print_r($sql);
-        return DB::fetchMultipleObject($class, $sql, $data);
+        $sqlList = $sqlHeadList . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlConditionTemp . " " . $sqlHavingTemp . " " . $sqlOrder . " " . $sqlLimit;
+        $list = DB::fetchMultipleObject($class, $sqlList, $data);
+
+
+
+        $output = [];
+
+        if($currentPage != 0){
+            $output['current_page'] = $currentPage;
+            $output['page_count'] = $maxPage;
+            $output['page_amount'] = $amountPerPage;
+        }
+        $output['item_total'] = $total;
+        $output['data'] = $list;
+
+        return $output;
     }
 
     protected function beforeInsert(){
@@ -308,16 +363,6 @@ class Animal extends Bucket\BucketAbstract
         return (array)DB::fetchMultipleObject("App\Model\Image", $sql, $data);
     }
 
-    /**
-    * Retourne la liste des commentaires associées à l'animal
-    */
-    public function getComments() : array{
-        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal_comment WHERE animal_id = :id AND active = 1 ORDER BY creation_date DESC";
-        $data = array(
-            [":id", $this->getId(), \PDO::PARAM_INT]
-        );
-        return (array)DB::fetchMultipleObject("App\Model\Comment", $sql, $data);
-    }
 
     //Getters
     public function getName() : string{
@@ -364,6 +409,9 @@ class Animal extends Bucket\BucketAbstract
     }
     public function getProfileImage(){
         return ($this->profile_image_id > 0) ? Image::getUniqueById($this->profile_image_id) : NULL;
+    }
+    public function getCharacteristics(){
+        return Characteristic::getList($this);
     }
     public function getBanned() : int{
         return $this->banned;

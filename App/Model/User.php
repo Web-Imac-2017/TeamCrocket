@@ -107,28 +107,44 @@ class User extends Bucket\BucketAbstract
     */
     public static function filter(array $map = []) : array{
         global $_USER;
+
         $data = [];
+
+        $currentPage = (int)($map['page'] ?? 0);
+        $amountPerPage = 5;
+        $maxPage = 0;
+        $total = 0;
+
         $class = get_called_class();
         $orm = Bucket\BucketParser::parse($class);
 
-        $sqlHead = "SELECT u.*";
+        $sqlHeadList = "SELECT u.*";
+        $sqlHeadCount = "SELECT COUNT(u.id) as total";
+
         $sqlFrom = "FROM ".DATABASE_CFG['prefix']."user u";
         $sqlJoin = "";
         $sqlCondition = "WHERE u.active = 1 AND u.id != :user_id";
         $sqlLimit = "";
-        $sqlOrder = "ORDER BY creation_date DESC, modification_date DESC";
+        $sqlOrder = "ORDER BY u.creation_date DESC, u.modification_date DESC";
         $sqlHaving = "";
 
         $data[] = [':user_id', $_USER->getId(), \PDO::PARAM_INT];
 
         /**
-        * LIMIT
+        *
+        * CALCUL DU TOTAL
+        *
         */
-        if(isset($map['start']) && isset($map['amount']) && $map['start'] != -1 && $map['amount'] != -1){
-            $data[] = [':start', (int)$map['start'], \PDO::PARAM_INT];
-            $data[] = [':amount', (int)$map['amount'], \PDO::PARAM_INT];
-            $sqlLimit .= " LIMIT :start, :amount";
-        }
+
+        $sqlCount = $sqlHeadCount . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving;
+        $total = (int)DB::fetchUnique($sqlCount, $data)['total'];
+
+
+        /**
+        *
+        * LISTE FILTRÉE
+        *
+        */
 
         /**
         * NAME
@@ -146,8 +162,43 @@ class User extends Bucket\BucketAbstract
             $sqlCondition .= " AND u.sex = :sex";
         }
 
-        $sql = $sqlHead . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving. " " . $sqlLimit . " " . $sqlOrder;
-        return DB::fetchMultipleObject($class, $sql, $data);
+        /**
+        * LIMIT
+        */
+        if($total == 0){
+            $currentPage = 0;
+        }
+        if($currentPage > 0){
+            $maxPage = ceil($total / $amountPerPage);
+
+            if($currentPage > $maxPage){
+                $currentPage = $maxPage;
+            }
+
+            $start = ($currentPage - 1) * $amountPerPage;
+
+            $data[] = [':start', $start, \PDO::PARAM_INT];
+            $data[] = [':amount', $amountPerPage, \PDO::PARAM_INT];
+            $sqlLimit .= " LIMIT :start, :amount";
+        }
+
+
+        $sqlList = $sqlHeadList . " " . $sqlFrom . " " . $sqlJoin . " " . $sqlCondition . " " . $sqlHaving . " " . $sqlOrder . " " . $sqlLimit;
+        $list = DB::fetchMultipleObject($class, $sqlList, $data);
+
+
+
+        $output = [];
+
+        if($currentPage != 0){
+            $output['current_page'] = $currentPage;
+            $output['page_count'] = $maxPage;
+            $output['page_amount'] = $amountPerPage;
+        }
+        $output['item_total'] = $total;
+        $output['data'] = $list;
+
+        return $output;
     }
 
     // geocoding
@@ -396,14 +447,9 @@ class User extends Bucket\BucketAbstract
         $this->createVerificationToken();
 
         // ajout des permissions basiques
-        $this->defineMultiplePermission('animal_profile', array(
-            'read' => true,
-            'create' => true
-        ));
-        $this->defineMultiplePermission('image', array(
-            'read' => true,
-            'create' => true
-        ));
+        $this->defineMultiplePermission('animal_profile', array('read' => true, 'create' => true));
+        $this->defineMultiplePermission('image', array('read' => true, 'create' => true));
+        $this->defineMultiplePermission('messenger', array('read' => true, 'create' => true));
     }
 
     protected function afterUpdate(){}

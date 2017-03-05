@@ -7,24 +7,22 @@
 namespace App\Controller;
 
 use App\Model\Animal;
+use App\Model\Species;
 use App\Model\Image;
+use App\Model\Characteristic;
 
 class ProfileController extends BucketAbstractController
 {
-    public function list() : array{
-        return Animal::filter($_POST);
+    public function list_species() : array{
+        return Species::filter($_POST);
     }
 
-    /**
-    * Récupère les commentaires associés à un profil
-    * @param int $id ID du profil
-    */
-    public function comments(int $id = 0): array{
-        $animal = Animal::getUniqueById($id);
-        if($animal->getId() == 0){
-            throw new \Exception(sprintf(gettext("Profile %s does not exist"), 'n°'.$id));
-        }
-        return $animal->getComments();
+    public function list_characteristics() : array{
+
+    }
+
+    public function list() : array{
+        return Animal::filter($_POST);
     }
 
     /**
@@ -55,11 +53,9 @@ class ProfileController extends BucketAbstractController
     /**
     * Supprime un profil
     * @param int $id ID du profil
-    * @return int id supprimé
     */
     public function delete(int $id){
         Animal::deleteById($id);
-        return $id;
     }
 
     /**
@@ -76,10 +72,8 @@ class ProfileController extends BucketAbstractController
     /**
     * Supprime une image d'un profil d'animal
     * @param int $id ID de l'image à supprimer
-    * @return int id supprimé
     */
     public function delete_image(int $id){
         Image::deleteById($id);
-        return $id;
     }
 }

@@ -10,7 +10,10 @@ use App\Model\Comment;
 
 class CommentController extends BucketAbstractController
 {
-    public function list() : array{
+    /**
+    * Récupère les commentaires associés à un profil
+    */
+    public function list(): array{
         return Comment::filter($_POST);
     }
 
@@ -41,10 +44,8 @@ class CommentController extends BucketAbstractController
 
     /**
     * Supprime un commentaire
-    * @param int $id ID du commentaire
     */
     public function delete(int $id){
         Comment::deleteById($id);
-        return $id;
     }
 }

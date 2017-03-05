@@ -8,11 +8,16 @@ namespace App\Controller;
 
 use App\Model\User;
 use App\Model\LogConnexion;
+use App\Model\Country;
 
 class UserController extends BucketAbstractController
 {
     public function list() : array{
         return User::filter($_POST);
+    }
+
+    public function list_countries() : array{
+        return Country::filter($_POST);
     }
 
     /**

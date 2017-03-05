@@ -10,16 +10,26 @@ use App\Model\User;
 use App\Model\Message;
 use App\Model\MessageGroup;
 
-class MessengerController
+class MessengerController extends BucketAbstractController
 {
     public function list() : array{
-        return Message::filter($_POST);
+        $group_id = (int)($_POST['group_id'] ?? 0);
+        $last_update = (int)($_POST['last_update'] ?? 0);
+
+        $group = MessageGroup::getUniqueById($group_id);
+        if($group->getId() == 0){
+            throw new \Exception(gettext("Unknown message group"));
+        }
+        if(!$group->isMember($_USER)){
+            throw new \Exception(gettext("You don't belong to this group"));
+        }
+        return $group->getList($last_update);
     }
 
     /**
     * Ajouter / Modifie un message
     */
-    public function send() : Message{
+    public function edit() : Message{
         $message = new Message();
         $message->hydrate($_POST, true);
         $message->setCreatorId($_SESSION['uid']);
@@ -32,7 +42,7 @@ class MessengerController
     * Charge une conversation, si elle n'existe pas encore, on la crée
     */
     public function load() : MessageGroup{
-        $friend_uid = (int)$_POST['friend_uid'];
+        $friend_uid = (int)($_POST['friend_uid'] ?? 0);
         if(!User::userExistsById($friend_uid)){
             throw new \Exception(gettext("Unknown friend uid"));
         }
@@ -46,14 +56,19 @@ class MessengerController
         return $group;
     }
 
-    public function fetch() : array{
-        $group_id = (int)$_POST['group_id'] ?? 0;
-        $last_update = (int)$_POST['last_update'] ?? 0;
+    /**
+    * Supprime un message
+    */
+    public function delete(int $id){
+        Message::deleteById($id);
+    }
 
-        $group = MessageGroup::getUniqueById($group_id);
-        if($group->getId() == 0){
-            throw new \Exception(gettext("Unknown message group"));
+    public function get(int $id = 0){
+        $message = Message::getUniqueById($id);
+
+        if($message->getId() == 0){
+            throw new \Exception(sprintf(gettext("Message %s does not exist"), 'n°'.$id));
         }
-        return $group->getList($last_update);
+        return $message;
     }
 }
