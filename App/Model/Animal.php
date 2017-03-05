@@ -263,17 +263,6 @@ class Animal extends Bucket\BucketAbstract
         $this->markDirty(0);
     }
 
-    public function markDirty(bool $dirty = false){
-        $date = ($dirty == 1) ? "date_last_moderation = NOW(), " : "";
-        $sql = "UPDATE ".DATABASE_CFG['prefix']."animal SET {$date} dirty = :dirty WHERE id = :id";
-        $values = array(
-            [':id', $this->getId(), \PDO::PARAM_INT],
-            [':dirty', $dirty, \PDO::PARAM_BOOL]
-        );
-
-        DB::exec($sql, $values);
-    }
-
     private function saveCharacteristics(){
         if(!isset($_POST['characteristic'])){
             return;
@@ -378,13 +367,6 @@ class Animal extends Bucket\BucketAbstract
         );
         return (array)DB::fetchMultipleObject("App\Model\Image", $sql, $data);
     }
-
-    public static function getDirtyList() : array{
-        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal WHERE dirty = 0 AND active = 1";
-        $data = [];
-        return (array)DB::fetchMultipleObject("App\Model\Animal", $sql, $data);
-    }
-
 
     //Getters
     public function getName() : string{

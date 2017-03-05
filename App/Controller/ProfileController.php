@@ -60,19 +60,22 @@ class ProfileController extends BucketAbstractController
 
     /**
     * Supprime un profil modéré
+    * @param string $table nom de la table
     * @param int $id ID du profil
+    * @param bool $dirty ID du profil
     * @return int id supprimé
     */
     public function markdirty(int $animal_id, int $dirty){
         $animal = Animal::getUniqueById($animal_id);
+
         if($animal->getId() == 0){
-            throw new \Exception(sprintf(gettext("Profile n°%s does not exist"), $animal_id));
+            throw new \Exception(sprintf(gettext("This picture n°%s does not exist"), $animal_id));
         }
         $animal->markDirty($dirty);
 
         return array(
             'dirty' => $dirty,
-            'animal_id' => $animal->getId()
+            'id' => $animal->getId()
         );
     }
 

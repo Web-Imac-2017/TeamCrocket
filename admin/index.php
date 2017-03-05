@@ -1,10 +1,12 @@
 <?php
-define('ROOT', '../'); //dirname(realpath(__FILE__)).
-define('ROOT_INC', ROOT.'inc/');
+if(!defined('ROOT')){
+    define('ROOT', '../');
+}
+if(!defined('ROOT_INC')){
+    define('ROOT_INC', ROOT.'inc/');
+}
 
-require(ROOT_INC . 'init.php');
-require(ROOT_INC . 'api.php');
-
+require_once(ROOT_INC . 'init.php');
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,19 +26,46 @@ require(ROOT_INC . 'api.php');
             <div class="row">
                 <div class="col-4">
                     <h4>Dirty profils</h4>
-                    <form id="dirty-profil-form" method="post" action="api" data-ctrl="profile" data-task="upload">
+                    <form id="dirty-profil-form" method="post" action="api" data-ctrl="profile" data-task="#">
                         <div class="form-group">
                             <ul class="list" id="list-dirty-profil">
-                            <?php
-                            $dirtyList = App\Model\Animal::getDirtyList();
+                                <?php
+                                $dirtyList = App\Model\Animal::getDirtyList();
 
-                            foreach($dirtyList as $dirty){
-                                echo '<li class="animal" data-id="'.$dirty->getId().'">
-                                <a href="?pid='.$dirty->getId().'" target="_blank">'.$dirty->getName().'</a>
-                                <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="profile" data-task="markdirty" data-args="'.$dirty->getId().'/1"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                                </li>';
-                            }
-                            ?>
+                                foreach($dirtyList as $dirty){
+                                    echo '<li class="animal" data-id="'.$dirty->getId().'">
+                                    <a href="?pid='.$dirty->getId().'" target="_blank">'.$dirty->getName().'</a>
+                                    <a class="btn btn-success exec float-right" data-method="post" data-ctrl="profile" data-task="markdirty" data-args="'.$dirty->getId().'/1"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                    </li>';
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <h4>Dirty profils pictures</h4>
+                    <form id="dirty-profil-picture-form" method="post" action="api" data-ctrl="profile" data-task="#">
+                        <div class="form-group">
+                            <ul class="list" id="list-dirty-profil-pictures">
+                                <?php
+                                $dirtyListPictures = App\Model\Image::getDirtyList();
+
+                                foreach($dirtyListPictures as $image){
+                                    echo '<li class="animal-picture" data-id="'.$image->getId().'">
+
+                                    <a href="'.$image->getPath().'" target="_blank">
+                                        <div class="image-preview" style="background-image:url(\''.$image->getPath().'\')"></div>
+                                    </a>
+
+                                    <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="image" data-task="markdirty" data-args="'.$image->getId().'/2"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                    <a class="btn btn-success exec float-right" data-method="post" data-ctrl="image" data-task="markdirty" data-args="'.$image->getId().'/1"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                    </li>';
+                                }
+                                ?>
                             </ul>
                         </div>
                     </form>
@@ -54,10 +83,18 @@ require(ROOT_INC . 'api.php');
                     console.log(data);
                     if(data.success){
                         var dirty = data.output.dirty;
-                        var id = data.output.animal_id;
-
+                        var id = data.output.id;
                         if(dirty == 1) $('.animal[data-id='+id+']').remove();
-                        
+                    }
+                }
+            },
+            image : {
+                markdirty : function(data){
+                    console.log(data);
+                    if(data.success){
+                        var dirty = data.output.dirty;
+                        var id = data.output.id;
+                        if(dirty == 1 || dirty == 2) $('.animal-picture[data-id='+id+']').remove();
                     }
                 }
             }
