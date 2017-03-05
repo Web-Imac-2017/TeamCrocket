@@ -385,6 +385,7 @@ class Animal extends Bucket\BucketAbstract
         return (array)DB::fetchMultipleObject("App\Model\Animal", $sql, $data);
     }
 
+
     //Getters
     public function getName() : string{
         return $this->name;
