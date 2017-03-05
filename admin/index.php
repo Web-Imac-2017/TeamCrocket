@@ -34,7 +34,7 @@ require_once(ROOT_INC . 'init.php');
 
                                 foreach($dirtyList as $dirty){
                                     echo '<li class="animal" data-id="'.$dirty->getId().'">
-                                    <a href="?pid='.$dirty->getId().'" target="_blank">'.$dirty->getName().'</a>
+                                    <a href="../index.php?pid='.$dirty->getId().'" target="_blank">'.$dirty->getName().'</a>
                                     <a class="btn btn-success exec float-right" data-method="post" data-ctrl="profile" data-task="markdirty" data-args="'.$dirty->getId().'/1"><i class="fa fa-check" aria-hidden="true"></i></a>
                                     </li>';
                                 }
