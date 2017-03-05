@@ -21,7 +21,7 @@ class UserController extends BucketAbstractController
     */
     public function get(int $id = 0) : User{
         if($_SESSION['uid'] == 0){
-            throw new \Exception("You must sign in");
+            throw new \Exception(gettext("You must sign in"));
         }
 
         $user = User::getUniqueById($id);
@@ -62,7 +62,10 @@ class UserController extends BucketAbstractController
         }
 
         if($_SESSION['login_attempts'] > 10){
-            throw new \Exception("Too many login attempts");
+            /*
+            * TODO Réactiver la limite
+            */
+            #throw new \Exception(gettext("Too many login attempts"));
         }
         $_SESSION['login_attempts']++;
 
@@ -117,8 +120,8 @@ class UserController extends BucketAbstractController
     /**
     * Créé un token de récupération du mot de passe et envoi le mail correspondant
     */
-    public function forgottenpassword(){
-        $user = User::getUniqueByEmail($_POST['email'] ?? '');
+    public function forgottenpassword(string $email){
+        $user = User::getUniqueByEmail($email);
         if($user->getId() == 0){
             throw new \Exception(gettext("No account existing for the given email adress"));
         }

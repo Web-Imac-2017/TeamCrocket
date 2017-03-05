@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-03-04 20:55+0100\n"
-"PO-Revision-Date: 2017-03-04 20:56+0100\n"
+"POT-Creation-Date: 2017-03-05 13:09+0100\n"
+"PO-Revision-Date: 2017-03-05 13:10+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -53,25 +53,29 @@ msgstr "Le profil %s n’existe pas"
 msgid "You cannot do this"
 msgstr "Vous ne pouvez pas effectuer cette action"
 
+#: App/Controller/UserController.php:24
+msgid "You must sign in"
+msgstr "Vous devez être connecté"
+
 #: App/Controller/UserController.php:29
 #, php-format
 msgid "User profile %s does not exist"
 msgstr "L’utilisateur %s n’existe pas"
 
-#: App/Controller/UserController.php:73 App/Controller/UserController.php:112
-#: App/Controller/UserController.php:123 App/Controller/UserController.php:142
+#: App/Controller/UserController.php:76 App/Controller/UserController.php:115
+#: App/Controller/UserController.php:126 App/Controller/UserController.php:145
 msgid "No account existing for the given email adress"
 msgstr "Aucun compte lié à l’adresse email donnée"
 
-#: App/Controller/UserController.php:80
+#: App/Controller/UserController.php:83
 msgid "Please verify your account"
 msgstr "Veuillez vérifier votre adresse email"
 
-#: App/Controller/UserController.php:86
+#: App/Controller/UserController.php:89
 msgid "Wrong credentials, login failed"
 msgstr "Mauvais identifiants, échec de la connexion"
 
-#: App/Controller/UserController.php:137
+#: App/Controller/UserController.php:140
 msgid "Password confirmation does not match"
 msgstr "La confirmation du mot de passe ne correspond pas"
 
@@ -117,7 +121,7 @@ msgstr "Format de l’image %s invalide (uniquement %s) "
 msgid "File is too large"
 msgstr "Fichier trop volumineux"
 
-#: App/Model/Image.php:69
+#: App/Model/Image.php:70
 msgid "Could not move image"
 msgstr "Impossible de transférer l’image"
 
@@ -203,12 +207,12 @@ msgstr "Format de l’adresse email invalide"
 msgid "You must be at least 13 years old"
 msgstr "Vous devez être au minimum âgé de 13 ans"
 
-#: api.php:24
+#: api.php:29
 #, php-format
 msgid "Invalid controller '%s'"
 msgstr "Contrôleur invalide ‘%s’"
 
-#: api.php:27
+#: api.php:32
 #, php-format
 msgid "Invalid task '%s'"
 msgstr "Tâche invalide ‘%s’"
