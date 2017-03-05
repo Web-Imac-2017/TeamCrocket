@@ -97,7 +97,7 @@ class UserController extends BucketAbstractController
     /**
     * Déconnecte l'utilisateur
     */
-    public function disconnect(){
+    public function logout(){
         $_SESSION['uid'] = 0;
     }
 

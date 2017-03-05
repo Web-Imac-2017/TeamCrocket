@@ -37,7 +37,7 @@ if(!isset($_SESSION['uid'])){
 }
 if(!isset($_SESSION['language'])){
     // récupère la langue du navigateur
-    $locale = locale_accept_from_http($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+    $locale = locale_accept_from_http($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en');
     #$locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
     switch($locale){
         case 'fr' : $lang = 'fr_FR'; break;
