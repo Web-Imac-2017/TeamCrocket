@@ -261,7 +261,7 @@
         </form>
         <?php if($animal->getId()): ?>
         <?php
-        $comments = $animal->getComments();
+        $comments = App\Model\Comment::filter(array('animal_id' => $animal->getId()));
         ?>
         <h4 class="mt-2">Comments</h4>
         <form id="profile-animal-form3" method="post" action="api" data-ctrl="comment" data-task="edit" class="mb-3">
@@ -278,7 +278,7 @@
         </form>
         <div id="comments">
             <?php
-            foreach($comments as $comment){
+            foreach($comments['data'] as $comment){
             $author = $comment->getCreator();
             ?>
             <div class="comment" data-id="<?php echo $comment->getId(); ?>">

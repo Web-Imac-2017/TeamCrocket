@@ -70,13 +70,13 @@ require_once(ROOT_INC . 'init.php');
                 var list = data.output || [];
                 var $list = $('#owner_list');
                 $list.html('');
-                $.each(list, function(i, item){
+                $.each(list.data, function(i, item){
                     var pic = (item.image != null) ? 'background-image:url('+item.image.thumb_path+')' : '';
                     $list.append('<div class="owner" data-id="'+item.id+'">\
                         <div class="owner-pic" style="'+pic+'"></div>\
                         <div class="owner-details">\
                             <h5 class="owner-name">'+item.nickname+'</h5>\
-                            <span class="details-km"></span>\
+                            <span class="details-like"><b>Habite :</b> '+item.city+'</span>\
                             <span class="details-cdate">'+item.creation_date+'</span>\
                         </div>\
                     </div>');
@@ -105,13 +105,15 @@ require_once(ROOT_INC . 'init.php');
                 var list = data.output || [];
                 var $list = $('#animal_list');
                 $list.html('');
-                $.each(list, function(i, item){
-                    var pic = (item.cover != null) ? 'background-image:url('+item.cover.thumb_path+')' : '';
+                $.each(list.data, function(i, item){
+                    var icon = (item.sex == 'm') ? "fa-mars" : "fa-venus";
+                    var pic = (item.profile_image != null) ? 'background-image:url('+item.profile_image.thumb_path+')' : '';
                     $list.append('<div class="animal" data-id="'+item.id+'">\
                         <div class="animal-pic" style="'+pic+'"></div>\
                         <div class="animal-details">\
-                            <h5 class="animal-name">'+item.name + ' <span class="details-species">' + item.species.name +'</span></h5>\
-                            <span class="details-km"></span>\
+                            <h5 class="animal-name">'+item.name + '<span class="details-species"> <i class="fa ' + icon + '"></i> ' + item.species.name +', '+ item.age +' ans</span></h5>\
+                            <span class="details-like"><b>Aime :</b> '+item.like+'</span>\
+                            <span class="details-like"><b>Habite :</b> '+item.city+'</span>\
                             <span class="details-cdate">'+item.creation_date+'</span>\
                         </div>\
                     </div>');

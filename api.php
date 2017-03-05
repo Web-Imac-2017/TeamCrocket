@@ -19,7 +19,7 @@ $controller = NULL;
 $task = NULL;
 $args = [];
 
-array_shift($matches);
+@array_shift($matches);
 @list($controller, $task, $args) = $matches;
 
 try{

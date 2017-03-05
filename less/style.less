@@ -296,32 +296,35 @@ h5{
 
 
 .animal{
-    margin-bottom:1rem;
+    margin-bottom:1.5rem;
     position:relative;
 
     .animal-name{
         margin:0;
-        line-height:2rem;
+        line-height:1.6rem;
         font-size:1rem;
     }
     .animal-details{
-        width:100%;
+        width:calc('100% - 60px');
         margin-left:60px;
 
         .details-cdate{
+            display:block;
             margin-top:0.5rem;
-            font-size:0.8rem;
+            font-size:0.7rem;
             color:#c0c0c0;
             text-align:right;
         }
         .details-species{
-            color:#dadada;
+            color:#757575;
             font-weight:400;
-
-            &:before{
-                content:' - ';
-                padding-left:0.5rem;
-            }
+            margin-bottom:0.5rem;
+        }
+        .details-like{
+            color:#c0c0c0;
+            font-weight:400;
+            line-height:1.4rem;
+            display:block;
         }
     }
     .animal-pic{
@@ -353,14 +356,20 @@ h5{
         font-size:1rem;
     }
     .owner-details{
-        width:100%;
+        width:calc(~'100% - 60px');
         margin-left:60px;
-
+        .details-like{
+            color:#c0c0c0;
+            font-weight:400;
+            line-height:1.4rem;
+            display:block;
+        }
         .details-cdate{
             margin-top:0.5rem;
             font-size:0.8rem;
             color:#c0c0c0;
             text-align:right;
+            display:block;
         }
     }
     .owner-pic{
