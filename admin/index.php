@@ -46,32 +46,37 @@ require_once(ROOT_INC . 'init.php');
             </div>
 
             <div class="row">
-                <div class="col-4">
+                <div class="col-12">
                     <h4>Dirty profils pictures</h4>
                     <form id="dirty-profil-picture-form" method="post" action="api" data-ctrl="profile" data-task="#">
                         <div class="form-group">
-                            <ul class="list" id="list-dirty-profil-pictures">
                                 <?php
                                 $dirtyListPictures = App\Model\Image::getDirtyList();
-
-                                foreach($dirtyListPictures as $image){
-                                    echo '<li class="animal-picture" data-id="'.$image->getId().'">
-
-                                    <a href="'.$image->getPath().'" target="_blank">
-                                        <div class="image-preview" style="background-image:url(\''.$image->getPath().'\')"></div>
-                                    </a>
-
-                                    <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="image" data-task="markdirty" data-args="'.$image->getId().'/2"><i class="fa fa-times" aria-hidden="true"></i></a>
-                                    <a class="btn btn-success exec float-right" data-method="post" data-ctrl="image" data-task="markdirty" data-args="'.$image->getId().'/1"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                    </li>';
-                                }
                                 ?>
-                            </ul>
+
+                                <div class="row">
+                                    <?php
+                                    foreach($dirtyListPictures as $image){
+                                        echo '<div class="col-3 animal-picture" data-id="'.$image->getId().'">
+                                                <a href="'.$image->getPath().'" target="_blank">
+                                                    <div class="image-preview" style="background-image:url(\''.$image->getPath().'\')"></div>
+                                                </a>
+
+                                                <div class="button-dirty">
+                                                    <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="image" data-task="markdirty" data-args="'.$image->getId().'/2"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                    <a class="btn btn-success exec float-right" data-method="post" data-ctrl="image" data-task="markdirty" data-args="'.$image->getId().'/1"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                </div>
+                                            </div>';
+                                    }
+                                    ?>
+                                </div>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+
+
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
