@@ -13,6 +13,9 @@
                 <?php $image = $a->getProfileImage(); if($image != NULL): ?>
                     <img src="<?php echo $image->getPath(); ?>">
                 <?php endif; ?>
+                <?php $image = $a->getUser()->getImage(); if($image != NULL): ?>
+                    <img class="owner-pic" src="<?php echo $image->getPath(); ?>">
+                <?php endif; ?>
                 </div>
                 <h5><?php echo $a->getName() . ', ' . $a->getSpecies()->getName() . ', ' . $a->getAge(); ?> ans</h5>
                 <div class="profile-data float-right">
@@ -36,6 +39,9 @@
                 <div class="profile-pic">
                     <?php $image = $b->getProfileImage(); if($image != NULL): ?>
                         <img src="<?php echo $image->getPath(); ?>">
+                    <?php endif; ?>
+                    <?php $image = $b->getUser()->getImage(); if($image != NULL): ?>
+                        <img class="owner-pic" src="<?php echo $image->getPath(); ?>">
                     <?php endif; ?>
                     <div class="feedback feedback-yes">
                         <i class="fa fa-heart"></i>

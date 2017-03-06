@@ -34,8 +34,8 @@ require_once(ROOT_INC . 'init.php');
         </div>
         <div class="user-info">
             <?php if($_USER->getId()): ?>
-            <form id="disconnect-form" method="post" action="api" data-ctrl="user" data-task="disconnect">
-                <div class="form-group clearfix"><input type="submit" class="btn btn-red float-right" value="Disconnect"></div>
+            <form id="disconnect-form" method="post" action="api" data-ctrl="user" data-task="logout">
+                <div class="form-group clearfix"><input type="submit" class="btn btn-red float-right" value="Logout"></div>
             </form>
             <?php endif; ?>
         </div>
@@ -60,7 +60,7 @@ require_once(ROOT_INC . 'init.php');
                     location.reload();
                 }, 200);
             },
-            disconnect : function(data){
+            logout : function(data){
                 if(!data.success){
                     return;
                 }
@@ -144,6 +144,16 @@ require_once(ROOT_INC . 'init.php');
         };
 
         $(function(){
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function(position){
+                    $('#profile-form').find('*[name=latitude]').val(position.coords.latitude);
+                    $('#profile-form').find('*[name=longitude]').val(position.coords.longitude);
+
+                    $('#sub-form').find('*[name=latitude]').val(position.coords.latitude);
+                    $('#sub-form').find('*[name=longitude]').val(position.coords.longitude);
+                });
+            }
+
             /**
             * Changement de photo de profil
             */
@@ -215,7 +225,9 @@ require_once(ROOT_INC . 'init.php');
                 });
             });
 
-            $('body').on('click', '.exec', function(e){
+            $('body').on('click', '.exec', exec);
+
+            function exec(e){
                 e.preventDefault();
 
                 var $btn = $(this);
@@ -240,10 +252,6 @@ require_once(ROOT_INC . 'init.php');
                         }
                     }
                 });
-            });
-
-            function exec(){
-
             }
         });
         </script>

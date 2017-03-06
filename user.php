@@ -38,7 +38,7 @@
             </div>
         </form>
         <?php endif; ?>
-        <form id="login-form" method="post" action="api" data-ctrl="user" data-task="edit" class="mt-3">
+        <form id="sub-form" method="post" action="api" data-ctrl="user" data-task="edit" class="mt-3">
             <h4>Subscribe</h4>
             <div class="form-body">
                 <input type="hidden" name="id" value="0">
@@ -46,13 +46,16 @@
                 <div class="form-group"><input type="text" class="form-element" name="nickname" placeholder="Nickname" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés"></div>
                 <div class="form-group"><input type="password" class="form-element" name="password" placeholder="Password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" title="Min 8 caractères, obligatoirement composé d'au minimum 1 lettre minuscule/majuscule, un chiffre et un caractère spécial"></div>
                 <div class="form-group"><input type="date" class="form-element" name="date_birth" placeholder="Birth date" required></div>
-                <div class="form-group"><input type="text" class="form-element" name="city" placeholder="City" required></div>
 
                 <div class="form-group"><input type="file" class="form-element" name="image_file" accept="image/.png,.jpg,.jpeg,.gif"></div>
                 <div class="g-recaptcha form-group" data-sitekey="6LcIPBUUAAAAAL7aFlWT0BNXe6nNKbRUTvQNrhXg"></div>
                 <div class="message success-message">Subscribed, check your mails to verify your email adress</div>
                 <div class="message error-message"></div>
-                <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Sign up"></div>
+                <div class="form-group clearfix">
+                    <input type="hidden" name="latitude" value="">
+                    <input type="hidden" name="longitude" value="">
+                    <input type="submit" class="btn float-right" value="Sign up">
+                </div>
             </div>
         </form>
         <?php else: ?>
@@ -78,6 +81,7 @@
                         <label for="sex-f">Female</label>
                     </div>
                 </div>
+                <!--
                 <div class="form-group"><input type="text" class="form-element" name="city" placeholder="City" required value="<?php echo $_USER->getCity(); ?>"></div>
                 <div class="form-group">
                     <select name="country_id" class="form-element">
@@ -90,6 +94,7 @@
                         ?>
                     </select>
                 </div>
+                -->
                 <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $_USER->getDescription(); ?></textarea></div>
             </div>
             <h4 class="mt-2">Security</h4>
@@ -101,7 +106,11 @@
             <footer>
                 <div class="message success-message">Changes have been saved</div>
                 <div class="message error-message"></div>
-                <div class="form-group clearfix"><input type="submit" class="btn float-right" value="Save"></div>
+                <div class="form-group clearfix">
+                    <input type="hidden" name="latitude" value="">
+                    <input type="hidden" name="longitude" value="">
+                    <input type="submit" class="btn float-right" value="Save">
+                </div>
             </footer>
         </form>
         <h4>Position</h4>
