@@ -65,8 +65,8 @@ class User extends Bucket\BucketAbstract
         $this->sex = self::SEX_MALE;
         $this->description = "";
         $this->city = "";
-        $this->latitude = 0;
-        $this->longitude = 0;
+        $this->latitude = NULL;
+        $this->longitude = NULL;
         $this->country_id = 73;
         $this->date_birth;
         $this->verified = 0;
@@ -413,6 +413,9 @@ class User extends Bucket\BucketAbstract
 
         // photo de profil
         $this->handleProfilePic();
+
+        // geoloc
+        $this->getCityFromCoord();
     }
 
     protected function beforeUpdate(){
@@ -436,10 +439,13 @@ class User extends Bucket\BucketAbstract
         $this->password = hashPassword($this->password);
 
         // API GEOLOC
-        $this->getLatLong();
+        #$this->getLatLong();
 
         // photo de profil
         $this->handleProfilePic();
+
+        // geoloc
+        $this->getCityFromCoord();
     }
 
 
@@ -748,13 +754,13 @@ class User extends Bucket\BucketAbstract
     public function setCity(string $city){
         $this->city = $city;
     }
-    public function setLatitude(float $lat){
-        $this->latitude = $lat;
+    public function setLatitude($lat){
+        $this->latitude = (!empty($lat)) ? $lat : NULL;
     }
-    public function setLongitude(float $lng){
-        $this->longitude = $lng;
+    public function setLongitude($lng){
+        $this->longitude = (!empty($lng)) ? $lng : NULL;
     }
-    public function setCountryId(string $country_id){
+    public function setCountryId(int $country_id){
         $this->country_id = $country_id;
     }
     public function setDateBirth(string $date = NULL, bool $check = false){
@@ -799,17 +805,17 @@ class User extends Bucket\BucketAbstract
     public function getCity() : string{
         return $this->city;
     }
-    public function getLatitude() : float{
+    public function getLatitude(){
         return $this->latitude;
     }
-    public function getLongitude() : float{
+    public function getLongitude(){
         return $this->longitude;
     }
     public function getCountryId() : int{
         return $this->country_id;
     }
-    public function getCountry() : Country{
-        return Country::getUniqueById($this->country_id);
+    public function getCountry(){
+        return ($this->country_id > 0) ? Country::getUniqueById($this->country_id) : NULL;
     }
     public function getDateBirth(){
         return $this->date_birth;
