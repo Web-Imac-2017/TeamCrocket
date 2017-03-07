@@ -1,24 +1,24 @@
 <template>
   <header>
     <div class="part_left">
-      <img src="./assets/logo_simple.png" alt="Logo" class="logo">
-      <img src="./assets/patoune.png" alt="Logo" class="logo_mob">
+      <img src="../assets/logo_simple.png" alt="Logo" class="logo">
+      <img src="../assets/patoune.png" alt="Logo" class="logo_mob">
       <div id="research">
         <input type="search" placeholder="Entrez un mot-clef" name="the_search">
         <button id="button_research">
-          <img src="./assets/search.png" alt="research">
+          <img src="../assets/search.png" alt="research">
         </button>
       </div>
     </div>
     <div class="part_right">
       <ul>
-        <li><img src="./assets/home.png" alt="home"></li>
-        <li class="mob separate"><img src="./assets/separate.jpg"></li>
-        <li class="mob"><img src="./assets/search_mob.png" alt="search"></li>
-        <li class="separate"><img src="./assets/separate.jpg"></li>
-        <li><img src="./assets/message.png" alt="message"></li>
-        <li class="separate"><img src="./assets/separate.jpg"></li>
-        <li><img src="./assets/profile.png" alt="profile"></li>
+        <li><router-link :to="{name: 'match'}"><img src="../assets/home.png" alt="home"></router-link></li>
+        <li class="mob separate"><img src="../assets/separate.jpg"></li>
+        <li class="mob"><img src="../assets/search_mob.png" alt="search"></li>
+        <li class="separate"><img src="../assets/separate.jpg"></li>
+        <li><img src="../assets/message.png" alt="message"></li>
+        <li class="separate"><img src="../assets/separate.jpg"></li>
+        <li><img src="../assets/profile.png" alt="profile"></li>
       </ul>
     </div>
   </header>
@@ -30,8 +30,8 @@
 </script>
 
 <style lang="less">
- @import "definitions";
- 
+ @import "../definitions";
+
 header{
   position:fixed;
   display:inline-block;

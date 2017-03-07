@@ -1,11 +1,11 @@
 <template>
     <section id="frame">
-      <img src="./assets/Meetic.png" width="110ox"/>
+      <img src="../assets/Meetic.png" width="110ox"/>
       <h1>Match</h1>
       <h2>Trouvez le profil qui fera chavirer votre coeur</h2>
 
       <div class="profile">
-        <img src="./assets/cat.jpg"/>
+        <img src="../assets/cat.jpg"/>
         <div>
           <span>Pattenrond</span>
           <ul>
@@ -26,7 +26,7 @@
 
 <style lang="less">
 
- @import "definitions"; /* import common definitions */
+ @import "../definitions"; /* import common definitions */
 
   #frame {
     display: block;

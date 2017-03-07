@@ -10,7 +10,7 @@
 </script>
 
 <style lang="less">
-@import "definitions"; /* import common definitions */
+@import "../definitions"; /* import common definitions */
 
 footer {
  text-align:center;

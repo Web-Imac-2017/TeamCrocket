@@ -1,20 +1,21 @@
 <template>
   <div id="app">
   <menu-component></menu-component>
-  <main-component></main-component>
+  <router-view></router-view>
   <footer-component></footer-component>
+
   </div>
 </template>
 
 <script>
-import FooterComponent from "./Footer.vue"
-import MenuComponent from "./Menu.vue"
-import MainComponent from "./Main.vue"
+
+import FooterComponent from "./components/Footer.vue"
+import MenuComponent from "./components/Menu.vue"
+
 
 export default {
 components: {
   FooterComponent,
-  MainComponent,
   MenuComponent
 },
 }

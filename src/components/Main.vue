@@ -3,7 +3,7 @@
 
   <div id="main-index">
 
-      <img src="./assets/Meetic.png" width="250ox" id="logo" />
+      <img src="../assets/Meetic.png" width="250ox" id="logo" />
 
       <div id="text-intro">
         LE SITE DE RENCONTRE POUR VOTRE ANIMAL DE COMPAGNIE
@@ -37,7 +37,7 @@
                 <button type="submit" id="button_validation" class="button_style" onclick="connection()">
                   VALIDER
                   <input type="hidden" name="token" value="temp">
-                  <img src="./assets/search_mob.png"/>
+                  <img src="../assets/search_mob.png"/>
                 </button>
           </form>
        </div>
@@ -161,7 +161,7 @@ function getTask(){
 </script>
 
 <style lang="less">
- @import "definitions";
+ @import "../definitions";
 
 #logo{
   display: block;
