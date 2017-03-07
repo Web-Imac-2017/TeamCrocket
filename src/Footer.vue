@@ -1,6 +1,6 @@
 <template>
   <footer>
-    ©Meowtic, 2017 - Mentions légales - Charte de confiance
+    © Meowtic, 2017 - Mentions légales - Charte de confiance
   </footer>
 </template>
 
@@ -10,17 +10,14 @@
 </script>
 
 <style lang="less">
-@blue :  #212D48;
+@import "definitions"; /* import common definitions */
 
 footer {
-  text-align:center;
-  padding:10px;
-  margin-top:50px;
-  min-height:100%;
-  background-color:@blue;
-  color:white;
+ text-align:center;
+ padding:0.6em;
+ margin-top:5%;
+ font-size: 0.7em;
+ background-color:@darkBlue;
+ color:white;
 }
-
-
-
 </style>
