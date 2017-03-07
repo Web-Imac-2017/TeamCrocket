@@ -12,9 +12,11 @@
     </div>
     <div class="part_right">
       <ul>
-        <li><router-link :to="{name: 'match'}"><img src="../assets/home.png" alt="home"></router-link></li>
+        <li><img src="../assets/home.png" alt="home"></li>
         <li class="mob separate"><img src="../assets/separate.jpg"></li>
         <li class="mob"><img src="../assets/search_mob.png" alt="search"></li>
+        <li class="separate"><img src="../assets/separate.jpg"></li>
+        <li><router-link :to="{name: 'match'}"><img src="../assets/message.png" alt="message"></router-link></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
         <li><img src="../assets/message.png" alt="message"></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
@@ -30,12 +32,14 @@
 </script>
 
 <style lang="less">
- @import "../definitions";
+ @import "../definitions"; /* import common definitions */
 
 header{
   position:fixed;
-  display:inline-block;
+  display:block;
   width:90%;
+  height: @headerHeight;
+  line-height: @headerHeight;
   padding-left:5%;
   padding-right:5%;
   top:0;
@@ -44,30 +48,30 @@ header{
   z-index:99;
 }
 .part_left{
+  display: block;
+  flex-direction: row;
   float:left;
-  width:70%;
+  width:65%;
 }
+
 header .logo{
-  float:left;
-  vertical-align:middle;
-  margin-top:7px;
-  width:150px;
-  display:block;
+  height: 35px;
+  display: inline-block;
+  vertical-align: middle;
 }
+
 header .logo_mob{
   display:none;
 }
 #research{
-  float:left;
-  margin-top:10px;
-  margin-left:20px;
-  width:70%;
+  display: inline-block;
+  margin-left: 1em;
 }
 #research input{
   height:25px;
   border-radius:5px;
   width:50%;
-  min-width:300px;
+  min-width:275px;
 }
 #button_research{
   background-color:@darkBlue;
@@ -79,18 +83,19 @@ header .logo_mob{
   width: 100%;
 }
 .part_right{
-  width:30%;
+  width:35%;
   float:right;
 }
 header ul{
   float:right;
   padding:0;
-  margin:10px;
+  margin:0;
 }
 header ul li img{
   height:25px;
+  vertical-align: middle;
 }
-li {
+header ul li {
   display: inline-block;
   margin: 0 10px;
 }
@@ -100,23 +105,30 @@ li {
 li.mob{
   display:none;
 }
-@media screen and (max-device-width:920px), screen  and (max-width:920px){
-    #research{
-      width:60%;
-    }
+@media screen and (max-device-width:930px), screen  and (max-width:930px){
     #research input{
       min-width:250px;
+    }
+    header .logo_mob{
+      float:left;
+      vertical-align:middle;
+      margin-top:7px;
+      display:block;
+      width:35px;
+    }
+    header .logo{
+      display:none
+    }
+    .part_left{
+      width:55%;
+    }
+    .part_right{
+      width:45%;
     }
 }
 
 
 @media screen and (max-device-width:800px), screen  and (max-width:800px){
-  .part_left{
-    width:60%;
-    }
-  .part_right{
-    width:40%;
-  }
   header .logo{
     display:none;
   }
@@ -124,28 +136,30 @@ li.mob{
     width:auto;
   }
   header .logo_mob{
-    float:left;
+    display: inline-block;
     vertical-align:middle;
-    margin-top:7px;
-    display:block;
-    width:35px;
+    height: 35px;
   }
 }
 
-@media screen and (max-device-width:640px), screen  and (max-width:640px){
+@media screen and (max-device-width:700px), screen  and (max-width:700px){
   #research input{
     min-width:200px;
   }
+  .part_left{
+    width:50%;
+  }
+  .part_right{
+    width:50%;
+  }
 }
-@media screen and (max-device-width:610px), screen  and (max-width:610px){
+@media screen and (max-device-width:650px), screen  and (max-width:650px){
   header ul{
     width:100%;
     margin:0;
-    margin-top:10px;
-    margin-bottom:10px
   }
   header ul li{
-    width:22%;
+    width:17%;
     text-align:center;
     margin:0;
   }
