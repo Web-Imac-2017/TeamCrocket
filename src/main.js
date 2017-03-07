@@ -13,6 +13,10 @@ const router = new VueRouter({
     component: require('./components/Match.vue'),
     name: 'match'
   }, {
+    path: '/profile',
+    component: require('./components/Profile.vue'),
+    name: 'profile'
+  },{
     path: '*',
     redirect: '/'
   }]
