@@ -12,6 +12,11 @@ const router = new VueRouter({
     path: '/match',
     component: require('./components/Match.vue'),
     name: 'match'
+  },
+  {
+    path: '/profile',
+    component: require('./components/MainChoice.vue'),
+    name: 'profile'
   }, {
     path: '*',
     redirect: '/'
