@@ -20,7 +20,7 @@
         <li class="separate"><img src="../assets/separate.jpg"></li>
         <li><img src="../assets/message.png" alt="message"></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
-        <li><img src="../assets/profile.png" alt="profile"></li>
+        <li><router-link :to="{name: 'profile'}"><img src="../assets/profile.png" alt="profile"></router-link></li>
       </ul>
     </div>
   </header>

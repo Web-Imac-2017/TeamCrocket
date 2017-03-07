@@ -18,6 +18,10 @@ const router = new VueRouter({
     component: require('./components/MainChoice.vue'),
     name: 'profile'
   }, {
+    path: '/profile',
+    component: require('./components/Profile.vue'),
+    name: 'profile'
+  },{
     path: '*',
     redirect: '/'
   }]
