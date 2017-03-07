@@ -161,16 +161,7 @@ function getTask(){
 </script>
 
 <style lang="less">
-@val : 15px; /* less example */
-@valBleuF : #212D48;
-@valBleuC : #49556d;
-@valGrisC : #edeef0;
-
-
-body {
-  background-image: url("./assets/texture2.png");
-  background-repeat: repeat;
-}
+ @import "definitions";
 
 #logo{
   display: block;
@@ -188,7 +179,7 @@ body {
   font-size:1.3em;
   font-family: 'Moon';
   font-weight : bold;
-  color:@valBleuF;
+  color:@lightBlue;
   letter-spacing: 0.2em;
 
 }
@@ -197,7 +188,7 @@ body {
   text-align:center;
   font-family: 'Moon';
   font-weight : lighter;
-  color:@valBleuF;
+  color:@darkBlue;
   letter-spacing: 0.2em;
 }
 
@@ -237,14 +228,14 @@ body {
    border-radius: 6px;
    letter-spacing: 0.2em;
    padding:5px;
-   background-color:@valBleuC;
+   background-color:@lightBlue;
    display: block;
    margin: auto;
    font-family: 'Moon';
    font-weight : bold;
    color:white;
    /*box-shadow: 0 0 5px black;
-   text-shadow: 0px -2px @valBleuF;*/
+   text-shadow: 0px -2px @darkBlue;*/
    cursor:pointer;
 
 }
@@ -272,7 +263,7 @@ body {
   font-size:1.7em;
   font-family: 'Moon';
   font-weight : lighter;
-  color:@valBleuC;
+  color:@lightBlue;
   letter-spacing: 0.1em;
   padding-left:20px;
 
@@ -298,7 +289,7 @@ body {
  border-radius: 10px;
  margin-top:5%;
  margin-left:10px;
- background-color:@valGrisC;
+ background-color:@lightGrey;
  }
 
 #main-index li {
