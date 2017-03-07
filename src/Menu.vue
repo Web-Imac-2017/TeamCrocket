@@ -30,8 +30,8 @@
 </script>
 
 <style lang="less">
-@blue : #212D48;
-
+ @import "definitions";
+ 
 header{
   position:fixed;
   display:inline-block;
@@ -40,7 +40,7 @@ header{
   padding-right:5%;
   top:0;
   left:0;
-  background-color:@blue;
+  background-color:@darkBlue;
   z-index:99;
 }
 .part_left{
@@ -70,7 +70,7 @@ header .logo_mob{
   min-width:300px;
 }
 #button_research{
-  background-color:@blue;
+  background-color:@darkBlue;
   width:30px;
   border:none;
   vertical-align:middle;
