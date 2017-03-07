@@ -1,15 +1,14 @@
 
 <template>
-  
+
   <div id="main-index">
-   
-    
+
       <img src="./assets/Meetic.png" width="250ox" id="logo" />
-     
+
       <div id="text-intro">
         LE SITE DE RENCONTRE POUR VOTRE ANIMAL DE COMPAGNIE
       </div>
-     
+
       <p class="p_2">"NE SOYEZ PLUS UN LOUP SOLITAIRE"</p>
 
       <button type="button" id="button_connexion" class="button_style">SE CONNECTER</button>
@@ -21,13 +20,13 @@
               <fieldset>
                <ul>
                 <li>
-                  <label for="pseudo">MAIL</label>              
+                  <label for="pseudo">MAIL</label>
                   <input id="pseudo" name="email" type="email">
                 </li>
                  <div class="trait">
                  </div>
-                <li>  
-                  <label for="pseudo">MOT DE PASSE</label>              
+                <li>
+                  <label for="pseudo">MOT DE PASSE</label>
                   <input id="pseudo" name="password" type="password">
                 </li>
                 </ul>
@@ -35,35 +34,128 @@
                 </div>
                 <div id="pw_lost">Mot de passe perdu?</div>
               </fieldset>
-                <button type="submit" id="button_validation" class="button_style">VALIDER
-                <input type="hidden" name="token" value="temp"> 
-              
-                </br>
-                <img src="./assets/search_mob.png"/>
+                <button type="submit" id="button_validation" class="button_style" onclick="connection()">
+                  VALIDER
+                  <input type="hidden" name="token" value="temp">
+                  <img src="./assets/search_mob.png"/>
                 </button>
           </form>
        </div>
 
-      
-      </div>  
+       <div id="login">
+         <form v-on:submit.prevent="login" id="login-form">
+             <input v-model="loginForm.email" type="email">
+             <input v-model="loginForm.password" type="password">
+             <input type="submit">
+         </form>
+
+         <ul>
+             <people-list-item v-bind:item="item" v-for="item in list"></people-list-item>
+         </ul>
+      </div>
+      </div>
 
   </div>
 </template>
 
 <script>
-    
-    
-   
- var temp = (window.location.pathname).trim();
-    if(temp.charAt(0) == '/'){
-     temp = temp.substr(1);
-    }
 
-    if(temp.charAt(temp.length - 1) == '/'){
-    temp = temp.substr(0, temp.length - 1);
+import Vue from 'vue'
+
+Vue.use(require('vue-resource'));
+
+Vue.component('people-list-item', {
+    props : ['item'],
+    template : '<li><b>{{item.nickname}}</b> - {{item.age}} ans</li>'
+})
+
+export default {
+  data()  {
+    return {
+      list : [],
+      loginForm : {
+          email : '',
+          password : ''
+      }
     }
-    console.log(temp.split('/')); 
-    alert(temp[1]);
+  },
+  methods : {
+     list_users : function(){
+        this.$http.get('https://api.meowtic.com/user/list')
+        .then(function(response){
+            let data = response.data
+            if(data.success){
+                this.list = data.output
+            }
+        }, handleError)
+    },
+
+    login : function(){
+        this.$http.post('https://api.meowtic.com/user/login', this.loginForm, { emulateJSON : true })
+        .then(function(response){
+            let data = response.data
+            if(data.success){
+                // connecté
+            }
+            else{
+
+            }
+        }, handleError)
+    },
+
+    verify : function(email, token){
+        this.$http.post('https://api.meowtic.com/user/verify/'+email+'/'+token)
+        .then(function(response){
+            let data = response.data
+            if(data.success){
+
+            }
+            else{
+                alert(data.message)
+            }
+        }, handleError)
+    }
+  }
+}
+
+var handleError = function(error){
+    console.log('Error! Could not reach the API. ' + error)
+}
+
+var data = getTask();
+
+if(data.task == 'verify'){
+    this.verify(data.email, data.token)
+}
+else if(data.task == 'reset'){
+    /*
+    * ICI ON AFFICHE LE FORMULAIRE POUR RESET LE MOT DE PASSE
+    * LE FORMULAIRE ENVOI LES DONNÉES => http://api.meowtic.com/user/reset
+    * ON CONFIGURE LES CHAMPS DU FORMULAIRE AVEC LE TOKEN / EMAIL
+    * (le but est d'envoyer en POST, le token, l'email, le nouveau mot de passe et la confirmation)
+    */
+}
+
+/**
+* Retourne une tâche active en parsant l'URL
+*/
+function getTask(){
+    var search = (window.location.search).substr(1);
+    var temp = search.split('&');
+
+    var data = {};
+
+    for(var i = 0, n = temp.length; i < n; i++){
+        var temp2 = temp[i].split('=');
+        var key = temp2[0] || '';
+        var value = temp2[1] || '';
+
+        if(key.length > 0){
+            data[key] = value;
+        }
+    }
+    return data;
+}
 
 
 </script>
@@ -76,7 +168,6 @@
 
 
 body {
-
   background-image: url("./assets/texture2.png");
   background-repeat: repeat;
 }
@@ -143,7 +234,6 @@ body {
 }
 
 .button_style{
-
    border-radius: 6px;
    letter-spacing: 0.2em;
    padding:5px;
@@ -175,7 +265,7 @@ body {
   background-color:white;
   border-radius: 6px;
   box-shadow : 7px 7px 4px rgba(0, 0, 0, 0.3);
-  
+
 }
 
 #form_connexion label{
@@ -189,7 +279,7 @@ body {
 }
 
 .trait{
- 
+
    width:320px;
    background-color:#dbdbdb;
    margin-top:5px;
@@ -221,34 +311,22 @@ body {
 }
 
 @media screen and (max-width: 575px ) {
-  
   #text-intro{
   width:400px;
   padding:8px;
   display: block;
   margin: auto;
   font-size:1em;
-  
-
   }
 }
 
 @media screen and (max-width: 465px ) {
-  
   #text-intro{
   width:350px;
   padding:8px;
   display: block;
   margin: auto;
   font-size:1em;
-  
-
   }
 }
-
-
-
-
-
-
 </style>
