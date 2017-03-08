@@ -12,6 +12,14 @@ use App\Model\Country;
 
 class UserController extends BucketAbstractController
 {
+    public function whois() : array{
+        global $_USER;
+        return array(
+            'id' => $_USER->getId(),
+            'ip' => $_SERVER['REMOTE_ADDR']
+        );
+    }
+
     public function list() : array{
         return User::filter($_POST);
     }
@@ -25,10 +33,6 @@ class UserController extends BucketAbstractController
     * @param int $id ID de l'utilisateur
     */
     public function get(int $id = 0) : User{
-        if($_SESSION['uid'] == 0){
-            throw new \Exception(gettext("You must sign in"));
-        }
-
         $user = User::getUniqueById($id);
         if($user->getId() == 0){
             throw new \Exception(sprintf(gettext("User profile %s does not exist"), 'n°'.$id));

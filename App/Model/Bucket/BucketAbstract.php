@@ -191,22 +191,22 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     public function isAuthor() : bool{
         // vérifie les permissions pour les classes possédant un champs creator_id
         $getCreator = self::getKeyGetter('creator_id');
-
+        // on vérifie que l'utilisateur est connecté
         if(method_exists($this, $getCreator)){
-            // on vérifie que l'utilisateur est connecté
-            if($_SESSION['uid'] == 0){
-                return false;
-            }
-
             if(!$this->isNew()){
                 // on vérifie que le créateur est bien l'utilisateur connecté
-                if($this->$getCreator() != $_SESSION['uid']){
-                    return false;
+                if($_SESSION['uid'] > 0 && $this->$getCreator() == $_SESSION['uid']){
+                    return true;
+                }
+            }
+            else{
+                if($_SESSION['uid'] > 0){
+                    return true;
                 }
             }
         }
 
-        return true;
+        return false;
     }
 
     public function isNew() : bool{
@@ -292,7 +292,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         if($item->getId() == 0){
             throw new \Exception(gettext("Not found"));
         }
-
+        
         // on vérifie les permissions
         if(!$item->isAuthor() && !$_USER->hasPermission($orm->getGroup(), User::PERMISSION_DELETE)){
             throw new BucketException(sprintf(gettext("Insufficient permission [%s][%s]"), $orm->getGroup(), User::PERMISSION_DELETE));
@@ -301,7 +301,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         $stmt = $pdo->prepare("DELETE FROM " . DATABASE_CFG['prefix'] . $orm->getTable() . " WHERE id = :id " . $options);
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
 
-        $result = $stmt->execute();
+        //$result = $stmt->execute();
         $stmt->closeCursor();
     }
 
