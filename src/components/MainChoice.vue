@@ -18,7 +18,7 @@
               <div id="pw_lost">Mot de passe perdu?</div>
               <div class="button_validation" >
                 <button type="submit" class="button_style">VALIDER
-                  <img src="./assets/search_mob.png" class="img_button"/>
+                  <img src="../assets/search_mob.png" class="img_button"/>
                 </button>
               </div>
             </fieldset>
@@ -133,7 +133,7 @@
 
 
 <style lang="less">
-  @import "definitions"; /* import common definitions */
+  @import "../definitions"; /* import common definitions */
 
 
   #form_connexion{
@@ -146,7 +146,7 @@
   }
   #form_connexion label{
     font-size:1.3em;
-    font-family: 'Moon';
+    font-family: @fontTitle;
     font-weight : lighter;
     color:@lightBlue;
     letter-spacing: 0.1em;

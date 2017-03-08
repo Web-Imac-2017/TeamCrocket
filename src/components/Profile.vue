@@ -6,8 +6,8 @@
       </div>
       <div id="info_princ"><span class="name">Pimousse</span>, <span class="birth">5</span>ans</div>
         <div id="icon_contact">
-          <img src="./assets/search_mob.png" alt="search">
-          <img src="./assets/search_mob.png" alt="search">
+          <img src="../assets/search_mob.png" alt="search">
+          <img src="../assets/search_mob.png" alt="search">
         </div>
       </div>
       <div id="content_info">
