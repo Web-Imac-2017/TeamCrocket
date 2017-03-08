@@ -292,7 +292,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         if($item->getId() == 0){
             throw new \Exception(gettext("Not found"));
         }
-        
+
         // on vérifie les permissions
         if(!$item->isAuthor() && !$_USER->hasPermission($orm->getGroup(), User::PERMISSION_DELETE)){
             throw new BucketException(sprintf(gettext("Insufficient permission [%s][%s]"), $orm->getGroup(), User::PERMISSION_DELETE));
@@ -301,7 +301,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         $stmt = $pdo->prepare("DELETE FROM " . DATABASE_CFG['prefix'] . $orm->getTable() . " WHERE id = :id " . $options);
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
 
-        //$result = $stmt->execute();
+        $result = $stmt->execute();
         $stmt->closeCursor();
     }
 
