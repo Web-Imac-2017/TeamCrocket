@@ -12,12 +12,12 @@ use App\Model\Country;
 
 class UserController extends BucketAbstractController
 {
-    public function whois() : array{
-        global $_USER;
-        return array(
-            'id' => $_USER->getId(),
-            'ip' => $_SERVER['REMOTE_ADDR']
-        );
+    public function whois() : User{
+        $user = User::getUniqueById($_SESSION['uid']);
+        if($user->getId() == 0){
+            throw new \Exception(gettext("You must sign in"));
+        }
+        return $user;
     }
 
     public function list() : array{

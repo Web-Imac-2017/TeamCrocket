@@ -237,7 +237,7 @@
             <div class="form_group mb-2">
                 <?php
                 $species = App\Model\Species::getUniqueById($animal->getSpeciesId());
-                $characteristicList = App\Model\Characteristic::getList($animal);
+                $characteristicList = App\Model\Characteristic::getListByAnimal($animal);
 
                 foreach($characteristicList as $c){
                     $required = ($c->getRequired()) ? 'required' : '';

@@ -13,14 +13,6 @@ use App\Model\Characteristic;
 
 class ProfileController extends BucketAbstractController
 {
-    public function list_species() : array{
-        return Species::filter($_POST);
-    }
-
-    public function list_characteristics() : array{
-
-    }
-
     public function list() : array{
         return Animal::filter($_POST);
     }

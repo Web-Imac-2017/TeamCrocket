@@ -275,7 +275,7 @@ class Animal extends Bucket\BucketAbstract
             ON DUPLICATE KEY UPDATE value = :value;
         ";
 
-        $list = Characteristic::getList($this);
+        $list = Characteristic::getListByAnimal($this);
         foreach($list as $c){
             $value = $_POST['characteristic'][$c->getId()] ?? '';
             $data[] = array(
@@ -415,7 +415,7 @@ class Animal extends Bucket\BucketAbstract
         return ($this->profile_image_id > 0) ? Image::getUniqueById($this->profile_image_id) : NULL;
     }
     public function getCharacteristics(){
-        return Characteristic::getList($this);
+        return Characteristic::getListByAnimal($this);
     }
     public function getBanned() : int{
         return $this->banned;

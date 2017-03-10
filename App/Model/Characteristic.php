@@ -62,7 +62,7 @@ class Characteristic extends Bucket\BucketAbstract
     * @param Animal $animal
     * @return array
     */
-    public static function getList(Animal $animal){
+    public static function getListByAnimal(Animal $animal){
         $sql = "
             SELECT DISTINCT c.id, c.name, common, required, type,
                 (SELECT value FROM ".DATABASE_CFG['prefix']."animal_characteristic ac WHERE ac.characteristic_id = c.id AND animal_id = :animal_id) as \"value\",
@@ -76,6 +76,26 @@ class Characteristic extends Bucket\BucketAbstract
         return DB::fetchMultipleObject('App\Model\Characteristic', $sql, array(
             [':id', $animal->getSpeciesId(), \PDO::PARAM_INT],
             [':animal_id', $animal->getId(), \PDO::PARAM_INT]
+        ));
+    }
+
+    /**
+    * Retourne la liste des caractéristiques et leur valeurs pour une espèce
+    * @param Species $species
+    * @return array
+    */
+    public static function getListBySpecies(Species $species){
+        $sql = "
+            SELECT DISTINCT c.id, c.name, common, required, type,
+                (SELECT COALESCE(custom_order, 0) FROM ".DATABASE_CFG['prefix']."species_characteristic_order sco WHERE sco.characteristic_id = c.id AND species_id = :id) as \"custom_order\"
+            FROM ".DATABASE_CFG['prefix']."characteristic c
+            LEFT JOIN ".DATABASE_CFG['prefix']."species_characteristic sc ON c.id = sc.characteristic_id
+            WHERE ((species_id = :id AND common = 0) OR common = 1) AND active = 1
+            ORDER BY custom_order ASC, common DESC, c.name ASC
+        ";
+
+        return DB::fetchMultipleObject('App\Model\Characteristic', $sql, array(
+            [':id', $species->getId(), \PDO::PARAM_INT]
         ));
     }
 
