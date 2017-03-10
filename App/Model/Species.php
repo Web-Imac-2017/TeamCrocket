@@ -9,7 +9,7 @@ namespace App\Model;
 
 /*
 @table species
-@group animal_profile
+@group admin
 @field name, string
 */
 
@@ -49,14 +49,20 @@ class Species extends Bucket\BucketAbstract
         return DB::fetchMultipleObject($class, $sql, $data);
     }
 
-    public function addCharacteristic(int $cid){
+    /**
+    * Ajoute un lien entre une caractéristique et une espèce
+    */
+    public function link(int $cid){
         DB::exec("INSERT IGNORE INTO ".DATABASE_CFG['prefix']."species_characteristic(species_id, characteristic_id) VALUES(:species_id, :characteristic_id)", array(
             [':characteristic_id', $cid, \PDO::PARAM_INT],
             [':species_id', $this->getId(), \PDO::PARAM_INT]
         ));
     }
 
-    public function deleteCharacteristic(int $cid){
+    /**
+    * Supprime le lien entre une caractéristique et une espèce
+    */
+    public function unlink(int $cid){
         DB::exec("DELETE FROM ".DATABASE_CFG['prefix']."species_characteristic WHERE species_id = :species_id AND characteristic_id = :characteristic_id", array(
             [':characteristic_id', $cid, \PDO::PARAM_INT],
             [':species_id', $this->getId(), \PDO::PARAM_INT]

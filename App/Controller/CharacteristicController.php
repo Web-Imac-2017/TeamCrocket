@@ -15,14 +15,14 @@ class CharacteristicController extends BucketAbstractController
     * Lie une caractéristique à une espèce
     */
     public function link(){
-        $this->handle_link('addCharacteristic');
+        $this->handle_link('link');
     }
 
     /**
     * Supprime le lien d'une caractéristique à une espèce
     */
     public function unlink(){
-        $this->handle_link('removeCharacteristic');
+        $this->handle_link('unlink');
     }
 
 
