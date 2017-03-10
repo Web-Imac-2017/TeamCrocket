@@ -23,6 +23,11 @@
     </section>
 </template>
 
+<script>
+  import Vue from 'vue'
+  Vue.use(require('vue-resource'));
+
+</script>
 
 <style lang="less">
 

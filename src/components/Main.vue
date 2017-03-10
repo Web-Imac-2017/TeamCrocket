@@ -1,19 +1,58 @@
 
 <template>
-
   <div id="main-index">
+    <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 
+    <div id="text-intro">
+      Le site de rencontre pour votre animal de compagnie
+    </div>
 
-      <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
+    <p class="p_2">"Ne soyez plus un loup solitaire"</p>
 
-      <div id="text-intro">
-        LE SITE DE RENCONTRE POUR VOTRE ANIMAL DE COMPAGNIE
-      </div>
-
-      <p class="p_2">"NE SOYEZ PLUS UN LOUP SOLITAIRE"</p>
+    <div>
+      <button v-on:click="login">Se connecter</button>
+      <button v-on:click="signup">S'inscrire</button>
+      <signup-component v-if="choice == 2"></signup-component>
+      <login-component v-if="choice == 1"></login-component>
+      <p v-else>
+      </p>
+    </div>
 
   </div>
 </template>
+
+<script>
+import Vue from 'vue'
+Vue.use(require('vue-resource'));
+
+import SignupComponent from "./SignUp.vue"
+import LoginComponent from "./LogIn.vue"
+
+
+export default {
+components: {
+  SignupComponent,
+  LoginComponent
+},
+
+data(){
+  return{
+    choice: 0
+  }
+},
+methods: {
+  login: function(){
+    this.choice = 1;
+  },
+signup: function(){
+  this.choice = 2;
+}
+},
+}
+
+
+
+</script>
 
 
 <style lang="less">

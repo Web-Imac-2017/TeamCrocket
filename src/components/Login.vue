@@ -133,7 +133,7 @@
 
 
 <style lang="less">
-  @import "definitions"; /* import common definitions */
+  @import "../definitions"; /* import common definitions */
 
 
   #form_connexion{
