@@ -291,7 +291,7 @@
             $author = $comment->getCreator();
             ?>
             <div class="comment" data-id="<?php echo $comment->getId(); ?>">
-                <img alt="" src="<?php echo $author->getImage()->getThumbPath(); ?>">
+                <img alt="" src="<?php if($author->getImage() != NULL) echo $author->getImage()->getThumbPath(); ?>">
                 <div class="comment-inner">
                     <h5><?php echo $author->getNickname(); ?></h5>
                     <p><?php echo $comment->getContent(); ?></p>
