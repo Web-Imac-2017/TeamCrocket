@@ -8,10 +8,10 @@
 </template>
 
 <script>
-
 import FooterComponent from "./components/Footer.vue"
 import MenuComponent from "./components/Menu.vue"
-
+import Vue from 'vue'
+Vue.use(require('vue-resource'));
 
 export default {
 components: {
