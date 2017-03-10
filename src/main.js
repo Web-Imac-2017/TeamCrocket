@@ -12,6 +12,10 @@ const router = new VueRouter({
     path: '/match',
     component: require('./components/Match.vue'),
     name: 'match'
+  }, {
+    path: '/profile',
+    component: require('./components/ProfileUser.vue'),
+    name: 'profile'
   },
   {
     path: '*',
