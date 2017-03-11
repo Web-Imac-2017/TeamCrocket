@@ -15,7 +15,7 @@
                   <div class="trait"></div>
                 </li>
               </ul>
-              <div id="pw_lost">Mot de passe perdu?</div>
+              <div id="pw_lost">Mot de passe perdu ?</div>
               <div class="button_validation" >
                 <button type="submit" class="button_style">VALIDER
                   <img src="../assets/search_mob.png" class="img_button"/>
@@ -154,7 +154,8 @@
     font-weight : lighter;
     color:@lightBlue;
     letter-spacing: 0.1em;
-    padding-left:20px;
+    padding-left:11%;
+
 
   }
   form#login-form fieldset{
@@ -166,13 +167,17 @@
       margin-top:1em;
     }
 
-input .pseudo{
-   width:100%;
+
+
+.pseudo{
+   width:80%;
+   margin-left: 10%;
    height:2em;
    display:block;
    border-radius: 10px;
    background-color:@lightGrey;
    }
+
 
   #main-index li {
     padding-top:25px;
@@ -180,6 +185,9 @@ input .pseudo{
 
   #pw_lost{
     text-align:right;
+    color:@lightBlue;
+    font-family:@fontText;
+    margin-top:1em;
   }
 
   @media screen and (max-width: 700px ) {
