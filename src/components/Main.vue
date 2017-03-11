@@ -13,7 +13,7 @@
       <button  class="button_connexion" v-on:click="login">Se connecter</button>
       <button class="button_inscription" v-on:click="signup">S'inscrire</button>
       <signupuser-component v-if="choice == 2"></signupuser-component>
-      <login-component v-if="choice == 1"></login-component>
+
 
       <p v-else>
       </p>
@@ -54,9 +54,11 @@ methods: {
     this.choice = 2;
   },
 
-  login: function(){
-    this.choice = 1;
-  }
+login: function(){
+  console.log(this.$route)
+  this.$router.push('/LoginUser')
+  location.href = 'LoginUser'
+}
 },
 }
 
@@ -71,7 +73,7 @@ methods: {
 #main-index #logo{
   display: block;
   margin: auto;
-  margin-top:5em;
+  margin-top:4.3em;
   width:250px;
 }
 
@@ -123,7 +125,13 @@ methods: {
 #button_main{
   margin-top:3.5em;
 }
-
+#button_main button:hover,
+button:active {
+  letter-spacing: 5px;
+  transition: all 580ms ease-in-out;
+  /*border: 1px solid rgba(#fff, 0);*/
+  bottom: 0px;
+}
 
 #recommandation h1{
    font-size:1em;
