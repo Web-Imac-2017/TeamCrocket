@@ -1,8 +1,9 @@
 <template>
-  <div id="content_profile" >
+  <div id="content_profile" v-if="user != null">
     <h1>Profil</h1>
     <div id="cover">
       <div id="profile_picture">
+        <img v-bind:src="user.image.path" v-bind:alt="user.nickname">
       </div>
       <div id="info_princ">
         <span class="name">{{user.nickname}}</span>
@@ -24,8 +25,9 @@
                   <p>
                     <span id="detail_lastname">{{user.lastname}}</span>
                     <span id="detail_lastname2">
-                    <form v-on:submit.prevent="editlastname" id="login-form">
-                      <input class="pseudo" v-model="user.lastname" type="text">
+                    <form v-on:submit.prevent="edit_profile" id="login-form">
+                      <input type="hidden" v-model="user.id">
+                      <input class="pseudo" v-model="user.nickname" type="text">
                       <button type="submit" class="button_style">VALIDER
                         <img src="../assets/search_mob.png" class="img_button"/>
                       </button>
@@ -50,6 +52,9 @@
 
 
   </div>
+  <div v-else>
+    <p>Vous devez vous connecter...</p>
+  </div>
 </template>
 
 <script>
@@ -60,61 +65,33 @@ Vue.use(require('vue-resource'));
 export default {
   data() {
     return {
-      user : {
-        nickname: '',
-        lastname: '',
-        firstname: '',
-        sex: '',
-        description:'',
-        city:'',
-        country_id:'',
-        date_birth:'',
-        id_profil:''
-      }
+      user : null
     }
   },
-  created:function(){
-
-      var instance = this;
-
-      var user = instance.$http.get('https://api.meowtic.com/user/whois/')
+  created : function(){
+    this.$http.get('https://api.meowtic.com/user/whois')
+      .then(function(response){
+        let data = response.data;
+        if(data.success){
+          this.user = response.data.output;
+        }
+    })
+  },
+  methods : {
+    edit_profile : function(){
+      this.$http.post('https://api.meowtic.com/user/edit', {
+        id : this.user.id, // très important, permet d'identifiant l'utilisateur qu'on veut modifier
+        nickname : this.user.nickname 
+      }, { emulateJSON : true })
         .then(function(response){
           let data = response.data;
           if(data.success){
-                this.user.nickname = response.data.output.nickname;
-                this.user.lastname = response.data.output.lastname;
-                this.user.firstname = response.data.output.firstname;
-                this.user.sex = response.data.output.sex;
-                this.user.description = response.data.output.description;
-                this.user.city = response.data.output.city;
-                this.user.country_id = response.data.output.country.name;
-                alert(response.data.output.country.id_profil);
-
-
-      }})
-
-    },
-    methods: {
-      editlastname : function(){
-        this.$http.post('https://api.meowtic.com/user/edit/', this.user.lastname, { emulateJSON : true })
-        .then(function(response){
-            let data = response.data
-            if(data.success){
-                alert('yo')
-            }
-            else{
-
-            }
-        }, handleError)
-      }
-    /*  lastname: function(){
-          document.getElementById("detail_tg").style.visibility="hidden";
-      }*/
+            console.log('Profile modifié');
+            this.user = response.data.output;
+          }
+      })
     }
-}
-
-var handleError = function(error){
-    console.log('Error! Could not reach the API. ' + error)
+  }
 }
 
 
@@ -155,6 +132,11 @@ var handleError = function(error){
   z-index:2;
   left:20px;
   bottom:-30px;
+
+  img{
+    width:100%;
+    height:100%;
+  }
 }
 #info_princ{
   background-color:white;
