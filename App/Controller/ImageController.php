@@ -20,7 +20,7 @@ class ImageController
         $image = Image::getUniqueById($image_id);
 
         if($image->getId() == 0){
-            throw new \Exception(sprintf(gettext("This picture n°%s does not exist"), $image_id));
+            throw new \Exception(sprintf(gettext("This picture %s does not exist"), 'n°'.$image_id));
         }
         $image->markDirty($dirty);
 

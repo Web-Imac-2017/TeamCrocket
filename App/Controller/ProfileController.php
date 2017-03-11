@@ -61,7 +61,7 @@ class ProfileController extends BucketAbstractController
         $animal = Animal::getUniqueById($animal_id);
 
         if($animal->getId() == 0){
-            throw new \Exception(sprintf(gettext("This picture n°%s does not exist"), $animal_id));
+            throw new \Exception(sprintf(gettext("This picture %s does not exist"), 'n°'.$animal_id));
         }
         $animal->markDirty($dirty);
 

@@ -90,7 +90,7 @@ class User extends Bucket\BucketAbstract
                 'lat' => $this->latitude,
                 'lng' => $this->longitude
             ),
-            'country_id' => $this->getCountry(),
+            'country' => $this->getCountry(),
             'date_birth' => $this->date_birth,
             'age' => $this->getAge(),
             'creation_date' => $this->creation_date
@@ -775,6 +775,9 @@ class User extends Bucket\BucketAbstract
     }
 
     // getters
+    public function getCreatorId() : int{
+        return $this->id;
+    }
     public function getNickname() : string{
         return $this->nickname;
     }

@@ -66,6 +66,10 @@ class UserController extends BucketAbstractController
     * Gère également la vérification du compte dans le cas où le token est fourni avec les informations d'authentification
     */
     public function login(){
+        if($_SESSION['uid'] > 0){
+            throw new \Exception(gettext("Already logged in"));
+        }
+
         if(!isset($_SESSION['login_attempts'])){
             $_SESSION['login_attempts'] = 0;
         }
