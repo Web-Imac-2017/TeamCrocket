@@ -66,8 +66,8 @@
               let data = response.data
               if(data.success){
                 console.log(this.$route)
-              this.$router.push('/profileUser')
-              location.href = 'profileUser'
+              this.$router.push('/profileuser')
+              location.href = 'profileuser'
               }
               else{
 
@@ -80,8 +80,8 @@
               let data = response.data
               if(data.success){
                 console.log(this.$route)
-              this.$router.push('/profileUser')
-              location.href = 'profileUser'
+              this.$router.push('/profileuser')
+              location.href = 'profileuser'
               }
               else{
                   alert(data.message)

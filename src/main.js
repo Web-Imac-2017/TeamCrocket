@@ -20,13 +20,13 @@ const router = new VueRouter({
     component: require('./components/Match.vue'),
     name: 'match'
   }, {
-    path: '/loginUser',
+    path: '/loginuser',
     component: require('./components/LoginUser.vue'),
-     name: 'loginUser'
+     name: 'loginuser'
    },{
-    path: '/profile',
+    path: '/profileuser',
     component: require('./components/ProfileUser.vue'),
-    name: 'profile'
+    name: 'profileuser'
   },
   {
     path: '*',
