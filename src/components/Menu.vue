@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="part_left">
-      <img src="../assets/logo_simple.png" alt="Logo" class="logo">
+      <a href="/"><img src="../assets/logo_simple.png" alt="Logo" class="logo"></a>
       <img src="../assets/patoune.png" alt="Logo" class="logo_mob">
       <div id="research">
         <input type="search" placeholder="Entrez un mot-clef" name="the_search">
