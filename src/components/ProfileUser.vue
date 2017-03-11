@@ -58,20 +58,19 @@ export default {
         city:'',
         country_id:'',
         date_birth:'',
-        id_profil:'146'
+        id_profil:''
       }
     }
   },
   created:function(){
 
       var instance = this;
-      instance.$http.get('https://api.meowtic.com/user/get/'+ this.user.id_profil)
 
-      .then(function(response){
+      var user = instance.$http.get('https://api.meowtic.com/user/whois/')
+        .then(function(response){
           let data = response.data;
-          alert(this.$parent.id_user)
           if(data.success){
-                instance.list = data.output;
+  
                 this.user.nickname = response.data.output.nickname;
                 this.user.lastname = response.data.output.lastname;
                 this.user.firstname = response.data.output.firstname;
