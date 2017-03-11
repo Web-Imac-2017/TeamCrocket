@@ -9,14 +9,20 @@
 
     <p class="p_2">"Ne soyez plus un loup solitaire"</p>
 
-    <div>
-      <button v-on:click="login">Se connecter</button>
-      <button v-on:click="signup">S'inscrire</button>
+    <div id="button_main">
+      <button  class="button_connexion" v-on:click="login">Se connecter</button>
+      <button class="button_inscription" v-on:click="signup">S'inscrire</button>
       <signupuser-component v-if="choice == 2"></signupuser-component>
       <login-component v-if="choice == 1"></login-component>
 
       <p v-else>
       </p>
+
+      <div id="recommandation">
+        <h1>ILS RECOMANDENT CE SITE : </h1>
+        <p>JIM : " Ma belle à enfin trouvé son clochard... "</p>
+      </div>
+
     </div>
 
   </div>
@@ -72,8 +78,8 @@ login: function(){
 #main-index #logo{
   display: block;
   margin: auto;
-  margin-top:1em;
-  width:200px;
+  margin-top:5em;
+  width:250px;
 }
 
 #text-intro{
@@ -97,6 +103,49 @@ login: function(){
   font-weight : lighter;
   color:@darkBlue;
   letter-spacing: 0.2em;
+}
+
+
+
+#button_main button{
+   width:300px;
+   border-radius: 6px;
+   letter-spacing: 0.2em;
+   padding:0.3em;
+   background-color:@lightBlue;
+   display: block;
+   margin: auto;
+   margin-top : 1em;
+   margin-bottom: 1em;
+   font-size:1.3em;
+   font-family: 'Moon';
+   font-weight : bold;
+   color:white;
+   /*box-shadow: 0 0 5px black;
+   text-shadow: 0px -2px @valBleuF;*/
+   cursor:pointer;
+
+}
+
+#button_main{
+  margin-top:3.5em;
+}
+#button_main button:hover,
+button:active {
+  letter-spacing: 5px;
+  transition: all 580ms ease-in-out;
+  /*border: 1px solid rgba(#fff, 0);*/
+  bottom: 0px;
+}
+
+#recommandation h1{
+   font-size:1em;
+   margin-top:8em;
+}
+
+#recommandation p{
+  font-family: @fontText;
+  text-align: center;
 }
 
 @media screen and (max-width: 575px ) {
