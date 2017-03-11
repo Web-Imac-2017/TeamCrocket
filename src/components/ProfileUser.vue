@@ -13,22 +13,33 @@
           <img src="../assets/search_mob.png" alt="search">
         </div>
       </div>
+    </div>
 
       <div id="content_info">
         <div class="details">
           <h1>Details</h1>
           <ul>
               <li>
-                  <h2>Nom</h2>
-                  <p><span class="detail_profil">{{user.nickname}}</span></p>
+                  <h2>Nom <!--<img src="../assets/crayon.png" class="change"  v-on:click="lastname"/>--></h2>
+                  <p>
+                    <span id="detail_lastname">{{user.lastname}}</span>
+                    <span id="detail_lastname2">
+                    <form v-on:submit.prevent="editlastname" id="login-form">
+                      <input class="pseudo" v-model="user.lastname" type="text">
+                      <button type="submit" class="button_style">VALIDER
+                        <img src="../assets/search_mob.png" class="img_button"/>
+                      </button>
+                    </form>
+                    </span>
+                  </p>
               </li>
               <li>
                 <h2>Prenom</h2>
-                <p><span class="detail_profil">{{user.nickname}}</span></p>
+                <p><span class="detail_profil">{{user.firstname}}</span></p>
               </li>
               <li>
                 <h2>Sexe</h2>
-                <p><span class="detail_profil">{{user.nickname}}</span></p>
+                <p><span id="detail_tg">{{user.sex}}</span></p>
               </li>
         </ul>
         </div>
@@ -36,7 +47,7 @@
           <h1>Description</h1>
         </div>
       </div>
-    </div>
+
 
   </div>
 </template>
@@ -51,8 +62,8 @@ export default {
     return {
       user : {
         nickname: '',
-        lastname: 'mélo',
-        firstname: 'gg',
+        lastname: '',
+        firstname: '',
         sex: '',
         description:'',
         city:'',
@@ -70,7 +81,6 @@ export default {
         .then(function(response){
           let data = response.data;
           if(data.success){
-  
                 this.user.nickname = response.data.output.nickname;
                 this.user.lastname = response.data.output.lastname;
                 this.user.firstname = response.data.output.firstname;
@@ -78,15 +88,34 @@ export default {
                 this.user.description = response.data.output.description;
                 this.user.city = response.data.output.city;
                 this.user.country_id = response.data.output.country.name;
+                alert(response.data.output.country.id_profil);
 
 
       }})
 
     },
+    methods: {
+      editlastname : function(){
+        this.$http.post('https://api.meowtic.com/user/edit/', this.user, { emulateJSON : true })
+        .then(function(response){
+            let data = response.data
+            if(data.success){
 
+            }
+            else{
 
+            }
+        }, handleError)
+      }
+    /*  lastname: function(){
+          document.getElementById("detail_tg").style.visibility="hidden";
+      }*/
+    }
 }
 
+var handleError = function(error){
+    console.log('Error! Could not reach the API. ' + error)
+}
 
 
 
@@ -148,7 +177,6 @@ export default {
   width:20px
 }
 #content_info{
-  display:inline-block;
   position:relative;
   height:200px;
   width:100%;
