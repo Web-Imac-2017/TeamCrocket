@@ -18,6 +18,19 @@ components: {
   FooterComponent,
   MenuComponent
 },
+data(){
+  return{
+    id_user :''
+  }
+},
+
+  methods: {
+      popup: function(id){
+      this.id_user = id
+      alert(id)
+
+      },
+  }
 }
 </script>
 

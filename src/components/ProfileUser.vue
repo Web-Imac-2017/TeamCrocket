@@ -1,19 +1,36 @@
 <template>
-  <div id="content_profile">
+  <div id="content_profile" >
     <h1>Profil</h1>
     <div id="cover">
       <div id="profile_picture">
       </div>
-      <div id="info_princ"><span class="name">{{user.nickname}}</span>
-        <button @click="user_profile">blabla</button>
+      <div id="info_princ">
+        <span class="name">{{user.nickname}}</span>
+
+
         <div id="icon_contact">
           <img src="../assets/search_mob.png" alt="search">
           <img src="../assets/search_mob.png" alt="search">
         </div>
       </div>
+
       <div id="content_info">
         <div class="details">
-          <h1>Détails</h1>
+          <h1>Details</h1>
+          <ul>
+              <li>
+                  <h2>Nom</h2>
+                  <p><span class="detail_profil">{{user.nickname}}</span></p>
+              </li>
+              <li>
+                <h2>Prenom</h2>
+                <p><span class="detail_profil">{{user.nickname}}</span></p>
+              </li>
+              <li>
+                <h2>Sexe</h2>
+                <p><span class="detail_profil">{{user.nickname}}</span></p>
+              </li>
+        </ul>
         </div>
         <div class="desc">
           <h1>Description</h1>
@@ -34,34 +51,51 @@ export default {
     return {
       user : {
         nickname: '',
-        lastname: '',
-        firstname: '',
+        lastname: 'mélo',
+        firstname: 'gg',
         sex: '',
         description:'',
         city:'',
         country_id:'',
-        date_birth:''
+        date_birth:'',
+        id_profil:'146'
       }
     }
-  }, methods: {
-  user_profile : function(){
-    var instance = this;
-    instance.$http.get('https://api.meowtic.com/user/get/146')
+  },
+  created:function(){
 
-    .then(function(response){
-        let data = response.data;
-        if(data.success){
-            instance.list = data.output;
-            alert(response.data.output.nickname);
-        }
-    })
-  }
+      var instance = this;
+      instance.$http.get('https://api.meowtic.com/user/get/'+ this.user.id_profil)
+
+      .then(function(response){
+          let data = response.data;
+          alert(this.$parent.id_user)
+          if(data.success){
+                instance.list = data.output;
+                this.user.nickname = response.data.output.nickname;
+                this.user.lastname = response.data.output.lastname;
+                this.user.firstname = response.data.output.firstname;
+                this.user.sex = response.data.output.sex;
+                this.user.description = response.data.output.description;
+                this.user.city = response.data.output.city;
+                this.user.country_id = response.data.output.country.name;
+
+
+      }})
+
+    },
+
+
 }
-}
+
+
+
 
 </script>
 
 <style lang="less">
+
+ @import "../definitions";
 @blue : #212D48;
 
 #content_profile{
@@ -137,6 +171,29 @@ export default {
   margin-top:10%;
   padding:2%;
   margin-left:1%;
+}
+
+#content_info h2{
+    font-size:1.1em;
+    text-align: left;
+}
+
+#content_info p{
+  font-family: @fontText;
+  color:gray;
+  margin-top: -2%;
+  margin-left: 1.5%;
+
+}
+
+.name{
+  font-family: @fontTitle;
+  text-transform:uppercase;
+  font-weight: bold;
+  color:@darkBlue;
+  font-size:1.2em;
+  padding-left: 3%;
+
 }
 
 @media screen and (max-device-width:810px), screen  and (max-width:810px){
