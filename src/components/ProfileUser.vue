@@ -3,7 +3,7 @@
     <h1>Profil</h1>
     <div id="cover">
       <div id="profile_picture">
-        <img v-bind:src="user.image.path" v-bind:alt="user.nickname">
+        <img v-if="user.image != null" v-bind:src="user.image.path" v-bind:alt="user.nickname">
       </div>
       <div id="info_princ">
         <span class="name">{{user.nickname}}</span>

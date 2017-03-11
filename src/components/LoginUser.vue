@@ -35,11 +35,6 @@
 
   Vue.use(require('vue-resource'));
 
-  Vue.component('people-list-item', {
-      props : ['item'],
-      template : '<li><b>{{item.nickname}}</b> - {{item.age}} ans</li>'
-  })
-
   export default {
     data()  {
       return {
@@ -51,23 +46,13 @@
       }
     },
     methods : {
-       list_users : function(){
-          this.$http.get('https://api.meowtic.com/user/list')
-          .then(function(response){
-              let data = response.data
-              if(data.success){
-                  this.list = data.output
-              }
-          }, handleError)
-      },
+
       login : function(){
           this.$http.post('https://api.meowtic.com/user/login', this.loginForm, { emulateJSON : true })
           .then(function(response){
               let data = response.data
               if(data.success){
-                console.log(this.$route)
-              this.$router.push('/profileuser')
-              location.href = 'profileuser'
+                  location.href = 'profileuser'
               }
               else{
 
@@ -79,9 +64,7 @@
           .then(function(response){
               let data = response.data
               if(data.success){
-                console.log(this.$route)
-              this.$router.push('/profileuser')
-              location.href = 'profileuser'
+
               }
               else{
                   alert(data.message)
