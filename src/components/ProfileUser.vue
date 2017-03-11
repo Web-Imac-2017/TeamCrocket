@@ -96,11 +96,11 @@ export default {
     },
     methods: {
       editlastname : function(){
-        this.$http.post('https://api.meowtic.com/user/edit/', this.user, { emulateJSON : true })
+        this.$http.post('https://api.meowtic.com/user/edit/', this.user.lastname, { emulateJSON : true })
         .then(function(response){
             let data = response.data
             if(data.success){
-
+                alert('yo')
             }
             else{
 
