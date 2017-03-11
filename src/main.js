@@ -1,6 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+Vue.use(require('vue-resource'));
+
+Vue.http.interceptors.push((request, next) => {
+    request.credentials = true;
+    next();
+});
+
 Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history',
@@ -17,9 +24,9 @@ const router = new VueRouter({
     component: require('./components/LoginUser.vue'),
      name: 'loginUser'
    },{
-    path: '/profileUser',
+    path: '/profile',
     component: require('./components/ProfileUser.vue'),
-    name: 'profileUser'
+    name: 'profile'
   },
   {
     path: '*',
