@@ -12,7 +12,7 @@
     </div>
     <div class="part_right">
       <ul>
-        <li><img src="../assets/home.png" alt="home"></li>
+        <li><router-link :to="{name: 'root'}"><img src="../assets/home.png" alt="home"></router-link></li>
         <li class="mob separate"><img src="../assets/separate.jpg"></li>
         <li class="mob"><img src="../assets/search_mob.png" alt="search"></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
