@@ -33,11 +33,6 @@
 import Vue from 'vue'
 Vue.use(require('vue-resource'));
 
-Vue.http.interceptors.push((request, next) => {
-    request.credentials = true;
-    next();
-});
-
 import SignupuserComponent from "./SignUp.vue"
 import LoginComponent from "./LoginUser.vue"
 
@@ -59,11 +54,9 @@ methods: {
     this.choice = 2;
   },
 
-login: function(){
-  console.log(this.$route)
-               this.$router.push('/LoginUser')
-               location.href = 'LoginUser'
-}
+  login: function(){
+    this.choice = 1;
+  }
 },
 }
 
@@ -130,13 +123,7 @@ login: function(){
 #button_main{
   margin-top:3.5em;
 }
-#button_main button:hover,
-button:active {
-  letter-spacing: 5px;
-  transition: all 580ms ease-in-out;
-  /*border: 1px solid rgba(#fff, 0);*/
-  bottom: 0px;
-}
+
 
 #recommandation h1{
    font-size:1em;
