@@ -7,7 +7,7 @@
       <div class="profile">
         <img src="../assets/cat.jpg"/>
         <div>
-          <span>Pattenrond</span>
+          <span>{{ animal.name }}</span>
           <ul>
             <li>1 an</li>
             <li>Espiègle</li>
@@ -24,8 +24,47 @@
 </template>
 
 <script>
-  import Vue from 'vue'
-  Vue.use(require('vue-resource'));
+import Vue from 'vue'
+Vue.use(require('vue-resource'));
+
+export default {
+  data() {
+    return {
+      animal : {
+        name: '',
+        sex: '',
+        like: '',
+        dislike: ''
+      }
+    }
+  },
+  get : function()
+  {
+    this.$http.get('https://api.meowtic.com/match/get')
+    .then(function(response){
+        let data = response.data;
+        if(data.success){
+            console.log(data.success);
+            this.animal = data.output;
+        }
+    }, handleError)
+
+  },
+  created : function()
+  {
+    this.$http.get('https://api.meowtic.com/match/get')
+    .then(function(response){
+        let data = response.data;
+        if(data.success){
+            console.log(data.success);
+            this.animal = data.output;
+        }
+    }, handleError)
+  }
+}
+var handleError = function(error){
+    console.log('Error! Could not reach the API. ' + error)
+}
 
 </script>
 

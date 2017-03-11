@@ -12,11 +12,12 @@
     <div>
       <button v-on:click="login">Se connecter</button>
       <button v-on:click="signup">S'inscrire</button>
-      <signupuser-component v-if="choice == 2"></signupuser-component>
+      <signup-component v-if="choice == 2"></signup-component>
       <login-component v-if="choice == 1"></login-component>
       <p v-else>
       </p>
     </div>
+
 
   </div>
 </template>
@@ -25,13 +26,13 @@
 import Vue from 'vue'
 Vue.use(require('vue-resource'));
 
-import SignupuserComponent from "./SignUpUser.vue"
+import SignupComponent from "./SignUp.vue"
 import LoginComponent from "./LogIn.vue"
 
 
 export default {
 components: {
-  SignupuserComponent,
+  SignupComponent,
   LoginComponent
 },
 
@@ -49,8 +50,6 @@ signup: function(){
 }
 },
 }
-
-
 
 </script>
 
