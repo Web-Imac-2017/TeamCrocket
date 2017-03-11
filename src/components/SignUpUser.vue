@@ -15,6 +15,9 @@
     <!-- Sexe + image -->
     <label>Ville</label>
     <input key="city-input">
+    <label>Pays</label>
+    <input key="coutry-input">
+
     <div>
       <span>Description</span>
       <br>
