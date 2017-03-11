@@ -12,27 +12,34 @@
     <div>
       <button v-on:click="login">Se connecter</button>
       <button v-on:click="signup">S'inscrire</button>
-      <signup-component v-if="choice == 2"></signup-component>
+      <signupuser-component v-if="choice == 2"></signupuser-component>
       <login-component v-if="choice == 1"></login-component>
+
       <p v-else>
       </p>
     </div>
-
 
   </div>
 </template>
 
 <script>
+
 import Vue from 'vue'
 Vue.use(require('vue-resource'));
 
-import SignupComponent from "./SignUp.vue"
-import LoginComponent from "./LogIn.vue"
+Vue.http.interceptors.push((request, next) => {
+    request.credentials = true;
+    next();
+});
+
+import SignupuserComponent from "./SignUp.vue"
+import LoginComponent from "./LoginUser.vue"
+
 
 
 export default {
 components: {
-  SignupComponent,
+  SignupuserComponent,
   LoginComponent
 },
 
@@ -42,14 +49,19 @@ data(){
   }
 },
 methods: {
-  login: function(){
-    this.choice = 1;
+  signup: function(){
+    this.choice = 2;
   },
-signup: function(){
-  this.choice = 2;
+
+login: function(){
+  console.log(this.$route)
+               this.$router.push('/LoginUser')
+               location.href = 'LoginUser'
 }
 },
 }
+
+
 
 </script>
 
