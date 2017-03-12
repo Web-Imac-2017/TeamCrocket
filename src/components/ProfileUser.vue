@@ -142,6 +142,12 @@
           <p><span id="desc">{{user.description}}</span>
             <textarea id="edit_desc" name="description" v-model="user.description" ></textarea>
           </p>
+          <p>Animaux
+            <div v-on:click="router_id">
+              {{this.user.list_animal}}
+            </div>
+            <router-link :to="{name: 'addpet'}">Add pet</router-link>
+          </p>
         </div>
       </div>
       <button type="submit" class="button_style">VALIDER
@@ -166,7 +172,18 @@ export default {
     }
   },
   created: function(){
-    this.user = this.$parent.user
+    this.user = this.$parent.user;
+    this.$http.get('https://api.meowtic.com/user/list_animal')
+          .then(function(response){
+            if(data.success){
+              var total = response.data.output.item_total;
+              var i = 0;
+              for(i;i<=total;i++){
+                  this.user.list_animal =  this.user[i].name;
+              }
+            }
+          })
+
   },
   methods : {
     edit_details : function(){
@@ -216,7 +233,14 @@ export default {
             alert(response.data.message);
           }
       })
+    },
+    router_id : function(){
+        var id  = this.user[0].id;
+        sessionStorage.setItem("id_animal",34);
+        location.href = 'profileanimal';
+
     }
+
   }
 }
 

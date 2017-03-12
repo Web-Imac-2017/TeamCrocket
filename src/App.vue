@@ -20,8 +20,7 @@ components: {
 },
 data(){
   return{
-    id_user :'',
-    id_user :''
+    user :'',
   }
 },
   created : function(){
@@ -37,9 +36,13 @@ data(){
 
   methods: {
       popup: function(id){
-      this.id_user = id
-
+      this.id = id
       },
+
+      return: function(){
+        alert(this.id);
+
+      }
   }
 }
 </script>

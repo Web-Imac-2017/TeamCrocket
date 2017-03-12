@@ -38,6 +38,10 @@ const router = new VueRouter({
     path: '/messenger',
     component: require('./components/Messenger.vue'),
     name: 'messenger'
+  },{
+    path: '/addpet',
+    component: require('./components/AddPet.vue'),
+    name: 'addpet'
   },
   {
     path: '*',
