@@ -50,9 +50,17 @@
                   <h2>Ce qu'il Aime</h2>
                   <span id="detail_lastname">{{userForm.dislike}}</span>
                 </li>
+                <li>
+                  <h2>Caracteres</h2>
+                  <span>{{caracForm.value}}</span>
+                </li>
+                <li>
+                  <h2>Nourriture preferee</h2>
+                  <span>{{caracForm.value}}</span>
+                </li>
               </ul>
-              <h1>Caracteres</h1>
-                <h3>{{caracForm.name}}</h3>
+
+
             </div>
 
           </div>
@@ -82,7 +90,7 @@ export default {
       },
 
       caracForm : {
-        name:'fr'
+        value:''
       }
 
     }
@@ -94,14 +102,18 @@ export default {
           let data = response.data;
           this.user = response.data.output.data;
           if(data.success){
-            this.userForm.nickname = this.user[0].name;
-            this.userForm.sex = this.user[0].sex;
-            this.userForm.like = this.user[0].like;
-            this.userForm.dislike = this.user[0].dislike;
-            this.userForm.city = this.user[0].city;
-            this.userForm.date_birth = this.user[0].date_birth;
-            this.userForm.age = this.user[0].age;
-            this.caracForm.name = this.user[0].characteristics[0].name
+            int i=0;
+            when(i<=response.data.output.item_total){
+            this.userForm.nickname = this.user[i].name;
+            this.userForm.sex = this.user[i].sex;
+            this.userForm.like = this.user[i].like;
+            this.userForm.dislike = this.user[i].dislike;
+            this.userForm.city = this.user[i].city;
+            this.userForm.date_birth = this.user[i].date_birth;
+            this.userForm.age = this.user[i].age;
+            this.caracForm.value = this.user[i].characteristics[i].value;
+            i++;
+          }
           }
         })
     }
