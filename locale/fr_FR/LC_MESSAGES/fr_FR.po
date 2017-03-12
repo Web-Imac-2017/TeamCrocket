@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2017-03-11 22:50+0100\n"
-"PO-Revision-Date: 2017-03-11 22:52+0100\n"
+"POT-Creation-Date: 2017-03-12 14:45+0100\n"
+"PO-Revision-Date: 2017-03-12 14:46+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -60,19 +60,24 @@ msgstr "Vous devez être le propriétaire"
 msgid "Unknown animal ID [%s][%s]"
 msgstr "L’ID [%s][%s] de l’animal n’existe pas"
 
-#: App/Controller/MessengerController.php:21
+#: App/Controller/MessengerController.php:20
+#: App/Controller/UserController.php:18 App/Controller/UserController.php:34
+msgid "You must sign in"
+msgstr "Vous devez être connecté"
+
+#: App/Controller/MessengerController.php:34
 msgid "Unknown message group"
 msgstr "Groupe de message inconnu"
 
-#: App/Controller/MessengerController.php:24
+#: App/Controller/MessengerController.php:37
 msgid "You don't belong to this group"
 msgstr "Vous n’appartenez pas à ce groupe"
 
-#: App/Controller/MessengerController.php:47
+#: App/Controller/MessengerController.php:60
 msgid "Unknown friend uid"
 msgstr "L’UID du correspondant n’existe pas"
 
-#: App/Controller/MessengerController.php:70
+#: App/Controller/MessengerController.php:84
 #, php-format
 msgid "Message %s does not exist"
 msgstr "Le message %s n’existe pas"
@@ -86,37 +91,33 @@ msgstr "Le profil %s n’existe pas"
 msgid "You cannot do this"
 msgstr "Vous ne pouvez pas effectuer cette action"
 
-#: App/Controller/UserController.php:18
-msgid "You must sign in"
-msgstr "Vous devez être connecté"
-
-#: App/Controller/UserController.php:38
+#: App/Controller/UserController.php:46
 #, php-format
 msgid "User profile %s does not exist"
 msgstr "L’utilisateur %s n’existe pas"
 
-#: App/Controller/UserController.php:70
+#: App/Controller/UserController.php:78
 msgid "Already logged in"
 msgstr "Vous êtes déjà connecté"
 
-#: App/Controller/UserController.php:89 App/Controller/UserController.php:128
-#: App/Controller/UserController.php:139 App/Controller/UserController.php:158
+#: App/Controller/UserController.php:97 App/Controller/UserController.php:136
+#: App/Controller/UserController.php:147 App/Controller/UserController.php:166
 msgid "No account existing for the given email adress"
 msgstr "Aucun compte lié à l’adresse email donnée"
 
-#: App/Controller/UserController.php:96
+#: App/Controller/UserController.php:104
 msgid "Please verify your account"
 msgstr "Veuillez vérifier votre adresse email"
 
-#: App/Controller/UserController.php:102
+#: App/Controller/UserController.php:110
 msgid "Wrong credentials, login failed"
 msgstr "Mauvais identifiants, échec de la connexion"
 
-#: App/Controller/UserController.php:153
+#: App/Controller/UserController.php:161
 msgid "Password confirmation does not match"
 msgstr "La confirmation du mot de passe ne correspond pas"
 
-#: App/Model/Animal.php:312
+#: App/Model/Animal.php:320
 msgid "No file"
 msgstr "Aucun fichier"
 
@@ -141,7 +142,7 @@ msgstr "Introuvable"
 msgid "Could not find class '%s'"
 msgstr "Impossible de trouver la classe ‘%s’"
 
-#: App/Model/Comment.php:37
+#: App/Model/Comment.php:43
 msgid "now"
 msgstr "maintenant"
 
@@ -170,35 +171,31 @@ msgstr "Format invalide"
 msgid "Undefined permission group"
 msgstr "Groupe de permission inexistant"
 
-#: App/Model/User.php:406
-msgid "An account already exists with this email adress"
-msgstr "Un compte est déjà enregistré avec cette adresse email"
-
-#: App/Model/User.php:429
+#: App/Model/User.php:463
 msgid "New and password confirmation does not match"
 msgstr "Le nouveau mot de passe et la confirmation ne correspondent pas"
 
-#: App/Model/User.php:432
+#: App/Model/User.php:466
 msgid "Wrong old password"
 msgstr "Ancien mot de passe erroné"
 
-#: App/Model/User.php:477
+#: App/Model/User.php:511
 msgid "Failed verifying captcha"
 msgstr "Impossible de vérifier le captcha"
 
-#: App/Model/User.php:580
+#: App/Model/User.php:623
 msgid "Could not verify your account, no existing token"
 msgstr "Impossible de vérifier le compte, aucun token existant"
 
-#: App/Model/User.php:583 App/Model/User.php:682
+#: App/Model/User.php:626 App/Model/User.php:725
 msgid "Invalid token"
 msgstr "Token invalide"
 
-#: App/Model/User.php:631 App/Model/User.php:641
+#: App/Model/User.php:674 App/Model/User.php:684
 msgid "Verify your email adress"
 msgstr "Veuillez vérifier votre adresse email"
 
-#: App/Model/User.php:632
+#: App/Model/User.php:675
 msgid ""
 "To finish setting up your account, we just need to make sure this email "
 "adress is yours. Please follow the link bellow (link expires in 48h) :"
@@ -207,16 +204,16 @@ msgstr ""
 "adresse email est la vôtre. Merci de cliquer sur le lien ci-dessous (le lien "
 "expire dans 48h) :"
 
-#: App/Model/User.php:633
+#: App/Model/User.php:676
 #, php-format
 msgid "Verify %s"
 msgstr "Vérifier %s"
 
-#: App/Model/User.php:679
+#: App/Model/User.php:722
 msgid "Could not reset password, no existing token"
 msgstr "Impossible de redéfinir le mot de passe, token invalide"
 
-#: App/Model/User.php:712
+#: App/Model/User.php:755
 msgid ""
 "Please visit the following page to reset your password (link expires in "
 "24h) :"
@@ -224,23 +221,31 @@ msgstr ""
 "Merci de suivre le lien ci-dessous pour définir un nouveau mot de passe (le "
 "lien expire dans 24h) :"
 
-#: App/Model/User.php:721
+#: App/Model/User.php:764
 msgid "Password reset request"
 msgstr "Réinitialisation du mot de passe"
 
-#: App/Model/User.php:728
+#: App/Model/User.php:773
 msgid "Invalid nickname format"
 msgstr "Format du pseudonyme invalide"
 
-#: App/Model/User.php:732
+#: App/Model/User.php:776
+msgid "Nickname already used"
+msgstr "Le nom d’utilisateur est déjà utilisé"
+
+#: App/Model/User.php:783
 msgid "Invalid password format"
 msgstr "Format du mot de passe invalide"
 
-#: App/Model/User.php:742
+#: App/Model/User.php:795
 msgid "Invalid email format"
 msgstr "Format de l’adresse email invalide"
 
-#: App/Model/User.php:767
+#: App/Model/User.php:798
+msgid "Email already used"
+msgstr "L’adresse email est déjà utilisée"
+
+#: App/Model/User.php:826
 msgid "You must be at least 13 years old"
 msgstr "Vous devez être au minimum âgé de 13 ans"
 
@@ -253,3 +258,6 @@ msgstr "Contrôleur invalide ‘%s’"
 #, php-format
 msgid "Invalid task '%s'"
 msgstr "Tâche invalide ‘%s’"
+
+#~ msgid "An account already exists with this email adress"
+#~ msgstr "Un compte est déjà enregistré avec cette adresse email"
