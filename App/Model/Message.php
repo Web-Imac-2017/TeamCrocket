@@ -29,11 +29,16 @@ class Message extends Bucket\BucketAbstract
     }
 
     public function jsonSerialize(){
+        $creator = $this->getCreator();
         return array(
             'id' => $this->id,
             'content' => $this->content,
             'group_id' => $this->group_id,
-            'creator' => $this->getCreator(),
+            'creator' => array(
+                'id' => $creator->getId(),
+                'nickname' => $creator->getNickname(),
+                'image' => $creator->getImage()
+            ),
             'creation_date' => $this->creation_date,
             'modification_date' => $this->modification_date,
             'is_author' => ($_SESSION['uid'] == $this->creator_id)

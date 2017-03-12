@@ -32,8 +32,14 @@ class MessageGroup extends Bucket\BucketAbstract
         return array(
             'id' => $this->id,
             'title' => $this->title,
-            'list' => $this->getList()
+            'head' => $this->getGroupHeadMessage()
         );
+    }
+
+    public function getGroupHeadMessage(){
+        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."message WHERE active = 1 AND group_id = :gid ORDER BY creation_date DESC LIMIT 0, 1";
+        $data = array([':gid', $this->id, \PDO::PARAM_INT]);
+        return DB::fetchUniqueObject('\App\Model\Message', $sql, $data);
     }
 
     public function getList(int $update_date = 0){
