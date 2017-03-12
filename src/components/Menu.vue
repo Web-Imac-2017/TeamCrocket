@@ -18,7 +18,7 @@
         <li class="separate"><img src="../assets/separate.jpg"></li>
         <li><router-link :to="{name: 'match'}"><img src="../assets/message.png" alt="message"></router-link></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
-        <li><img src="../assets/message.png" alt="message"></li>
+        <li><router-link :to="{name: 'messenger'}"><img src="../assets/message.png" alt="message"></router-link></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
         <li><router-link :to="{name: 'profileuser'}"><img src="../assets/profile.png" alt="profile"></router-link></li>
       </ul>
