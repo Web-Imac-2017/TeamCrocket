@@ -165,14 +165,8 @@ export default {
       user : null
     }
   },
-  created : function(){
-    this.$http.get('https://api.meowtic.com/user/whois')
-      .then(function(response){
-        let data = response.data;
-        if(data.success){
-          this.user = response.data.output;
-        }
-    })
+  created: function(){
+    this.user = this.$parent.user
   },
   methods : {
     edit_details : function(){
