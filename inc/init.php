@@ -35,9 +35,10 @@ require ROOT_INC . 'functions.php';
 if(!isset($_SESSION['uid'])){
     $_SESSION['uid'] = 0;
 }
+
 if(!isset($_SESSION['language'])){
     // récupère la langue du navigateur
-    $locale = locale_accept_from_http($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en');
+    $locale = locale_accept_from_http($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'fr');
     #$locale = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
     switch($locale){
         case 'fr' : $lang = 'fr_FR'; break;
@@ -46,7 +47,6 @@ if(!isset($_SESSION['language'])){
 
     $_SESSION['language'] = $lang;
 }
-
 
 if(!defined('LC_MESSAGES')){
     define('LC_MESSAGES', 6); // fix PHP Amel
