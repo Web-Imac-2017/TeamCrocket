@@ -162,6 +162,14 @@ class Animal extends Bucket\BucketAbstract
         }
 
         /**
+        * CREATOR_ID
+        */
+        if(isset($map['creator_id']) && (int)$map['creator_id'] > 0){
+            $data[] = [':creator_id', $map['creator_id'], \PDO::PARAM_INT];
+            $sqlCondition[] = "a.creator_id = :creator_id";
+        }
+
+        /**
         * AGE
         */
         if(isset($map['age_min']) && isset($map['age_max'])){
