@@ -12,7 +12,20 @@ use App\Model\MessageGroup;
 
 class MessengerController extends BucketAbstractController
 {
+    /**
+    * Récupère la liste des conversation pour l'utilisateur connecté
+    */
     public function list() : array{
+        if($_SESSION['uid'] == 0){
+            throw new \Exception(gettext("You must sign in"));
+        }
+        return MessageGroup::getGroupList();
+    }
+
+    /**
+    * Récupère la liste des messages
+    */
+    public function fetch() : array{
         $group_id = (int)($_POST['group_id'] ?? 0);
         $last_update = (int)($_POST['last_update'] ?? 0);
 
@@ -23,7 +36,7 @@ class MessengerController extends BucketAbstractController
         if(!$group->isMember($_USER)){
             throw new \Exception(gettext("You don't belong to this group"));
         }
-        return $group->getList($last_update);
+        return $group->getMessageList($last_update);
     }
 
     /**
@@ -41,13 +54,14 @@ class MessengerController extends BucketAbstractController
     /**
     * Charge une conversation, si elle n'existe pas encore, on la crée
     */
-    public function load() : MessageGroup{
+    public function init() : MessageGroup{
         $friend_uid = (int)($_POST['friend_uid'] ?? 0);
         if(!User::userExistsById($friend_uid)){
             throw new \Exception(gettext("Unknown friend uid"));
         }
 
         $group = MessageGroup::getUniqueByMembers($friend_uid, $_SESSION['uid']);
+
         if($group->getId() == 0){
             $group->setUserAId($_SESSION['uid']);
             $group->setUserBId($friend_uid);

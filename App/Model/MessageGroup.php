@@ -39,10 +39,11 @@ class MessageGroup extends Bucket\BucketAbstract
     public function getGroupHeadMessage(){
         $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."message WHERE active = 1 AND group_id = :gid ORDER BY creation_date DESC LIMIT 0, 1";
         $data = array([':gid', $this->id, \PDO::PARAM_INT]);
-        return DB::fetchUniqueObject('\App\Model\Message', $sql, $data);
+        $result = DB::fetchUniqueObject('\App\Model\Message', $sql, $data);
+        return ($result->getId() > 0) ? $result : null;
     }
 
-    public function getList(int $update_date = 0){
+    public function getMessageList(int $update_date = 0){
         $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."message WHERE active = 1 AND group_id = :gid AND creation_date > DATE_FORMAT(FROM_UNIXTIME(:update_date), '%Y-%m-%d %H:%i:%s')";
         $data = array([':gid', $this->id, \PDO::PARAM_INT], [':update_date', $update_date, \PDO::PARAM_INT]);
         return (array)DB::fetchMultipleObject('\App\Model\Message', $sql, $data);
@@ -60,6 +61,12 @@ class MessageGroup extends Bucket\BucketAbstract
         );
 
         return new MessageGroup(DB::fetchUnique($sql, $data));
+    }
+
+    public static function getGroupList(){
+        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."message_group WHERE active = 1 AND (user_a_id = :id OR user_b_id = :id)";
+        $data = array([':id', $_SESSION['uid'], \PDO::PARAM_INT]);
+        return (array)DB::fetchMultipleObject('\App\Model\MessageGroup', $sql, $data);
     }
 
     protected function beforeInsert(){}
