@@ -20,14 +20,24 @@ components: {
 },
 data(){
   return{
+    id_user :'',
     id_user :''
   }
 },
+  created : function(){
+    this.$http.get('https://api.meowtic.com/user/whois')
+      .then(function(response){
+        let data = response.data;
+        if(data.success){
+          this.id_user = response.data.output.id;
+          this.user = response.data.output.id;
+        }
+    })
+  },
 
   methods: {
       popup: function(id){
       this.id_user = id
-      alert(id)
 
       },
   }
