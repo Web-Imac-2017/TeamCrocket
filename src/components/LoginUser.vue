@@ -5,13 +5,13 @@
              <ul>
                 <li>
                   <label for="pseudo">MAIL</label>
-                  <input  class="pseudo" v-model="loginForm.email" type="email">
+                  <input  class="pseudo" v-model="loginForm.email" type="email" required>
                   <div class="trait"></div>
                 </li>
 
                 <li>
                   <label for="pseudo">MOT DE PASSE</label>
-                  <input class="pseudo" v-model="loginForm.password" type="password">
+                  <input class="pseudo" v-model="loginForm.password" type="password" required>
                   <div class="trait"></div>
                 </li>
               </ul>

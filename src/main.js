@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 
 Vue.use(require('vue-resource'));
 
+Vue.http.options.emulateJSON = true;
+
 Vue.http.interceptors.push((request, next) => {
     request.credentials = true;
     next();
