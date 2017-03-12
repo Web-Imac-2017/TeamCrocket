@@ -142,6 +142,10 @@
           <p><span id="desc">{{user.description}}</span>
             <textarea id="edit_desc" name="description" v-model="user.description" ></textarea>
           </p>
+          <h1>Liste des mes animaux</h1>
+          <span>{{list_animal_name}}</span>
+          <button   v-on:click="show_animal" ></button>
+
         </div>
       </div>
       <button type="submit" class="button_style">VALIDER
@@ -162,7 +166,8 @@ Vue.use(require('vue-resource'));
 export default {
   data() {
     return {
-      user : null
+      user : null,
+      list_animal_name : ''
     }
   },
   created : function(){
@@ -171,6 +176,7 @@ export default {
         let data = response.data;
         if(data.success){
           this.user = response.data.output;
+
         }
     })
   },
@@ -221,6 +227,17 @@ export default {
           else{
             alert(response.data.message);
           }
+      })
+    },
+
+    show_animal : function(){
+      this.$http.get('https://api.meowtic.com/user/list_animal');
+      .then(function(response){
+        let data = response.data;
+        this.user = response.data.output.data;
+        if(data.success){
+          this.list_animal_name = response.data.output.data[0].name;
+        }
       })
     }
   }

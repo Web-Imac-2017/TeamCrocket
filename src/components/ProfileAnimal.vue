@@ -97,23 +97,20 @@ export default {
   },
 
     created : function(){
+      this.$parent.popup(1);
       this.$http.get('https://api.meowtic.com/user/list_animal')
         .then(function(response){
           let data = response.data;
           this.user = response.data.output.data;
           if(data.success){
-            int i=0;
-            when(i<=response.data.output.item_total){
-            this.userForm.nickname = this.user[i].name;
-            this.userForm.sex = this.user[i].sex;
-            this.userForm.like = this.user[i].like;
-            this.userForm.dislike = this.user[i].dislike;
-            this.userForm.city = this.user[i].city;
-            this.userForm.date_birth = this.user[i].date_birth;
-            this.userForm.age = this.user[i].age;
-            this.caracForm.value = this.user[i].characteristics[i].value;
-            i++;
-          }
+            this.userForm.nickname = this.user[0].name;
+            this.userForm.sex = this.user[0].sex;
+            this.userForm.like = this.user[0].like;
+            this.userForm.dislike = this.user[0].dislike;
+            this.userForm.city = this.user[0].city;
+            this.userForm.date_birth = this.user[0].date_birth;
+            this.userForm.age = this.user[0].age;
+            this.caracForm.value = this.user[0].characteristics[0].value
           }
         })
     }
