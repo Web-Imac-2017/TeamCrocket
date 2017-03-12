@@ -30,7 +30,7 @@ data(){
         let data = response.data;
         if(data.success){
           this.id_user = response.data.output.id;
-          this.user = response.data.output.id;
+          this.user = response.data.output;
         }
     })
   },
