@@ -3,14 +3,35 @@
     <h2>Informations du proprietaire</h2>
 
     <form v-on:submit.prevent="signup" id="signup-form">
-        <label>Pseudo*</label>
-        <input type="text" v-model="signupForm.nickname">
-        <label>Mail*</label>
-        <input type="text" v-model="signupForm.email">
-        <label>Mot de passe (les contraintes)*</label>
-        <input type="text" v-model="signupForm.password">
-        <!-- Sexe + image + date de naissance -->
-        <div class="g-recaptcha" data-sitekey="6LcIPBUUAAAAAL7aFlWT0BNXe6nNKbRUTvQNrhXg"></div>
+      <ul>
+        <li>
+          <label>Pseudo (entre 4 et 20 caractères - lettres, chiffres - _ ou . acceptés)*</label>
+          <input type="text" v-model="signupForm.nickname">
+        </li>
+        <li>
+          <label>Mail*</label>
+          <input type="text" v-model="signupForm.email">
+        </li>
+        <li>
+          <label>Mot de passe (les contraintes)*</label>
+          <input type="text" v-model="signupForm.password">
+        </li>
+        <li>
+          <label>Date de naissance*</label>
+          <input type="date" v-model="signupForm.date_birth">
+        </li>
+        <li>
+          <div class="sex">
+            <input type="radio" id="m" value="m" v-model="signupForm.sex">
+            <label for="m"><img src="../assets/man.png" alt="Homme"/></label>
+            <input type="radio" id="f" value="f" v-model="signupForm.sex">
+            <label for="f"><img src="../assets/woman.png" alt="Logo"/></label>
+          </div>
+        </li>
+        <li>
+          <div class="g-recaptcha" data-sitekey="6LcIPBUUAAAAAL7aFlWT0BNXe6nNKbRUTvQNrhXg"></div>
+        </li>
+      </ul>
     </form>
 
   <div>
@@ -26,16 +47,15 @@ data(){
   return{
     rcapt_sig_key: "6LcIPBUUAAAAAL7aFlWT0BNXe6nNKbRUTvQNrhXg",
     rcapt_id: 0, // will be used later
-    choice: 0,
     user: null,
     signupForm: {
       id: 0,
       nickname: '',
       password: '',
       email: '',
-      sex: 'm',
+      sex: '',
       position : {lat: 0, lng: 0},
-      date_birth: '18/01/1995',
+      date_birth: '',
       "g-recaptcha-response": ''
     }
   }
@@ -48,16 +68,12 @@ mounted: function() {
   var g_recaptcha_response = grecaptcha.getResponse(this.rcapt_id);
 
   if (g_recaptcha_response.length == 0) {
-     this.error = "Compleate captcha challenge";
+     this.error = "Complete captcha challenge";
      return
   }
 },
 
 methods: {
-  add: function(){
-    this.choice = 1;
-  },
-
   submit : function(){
     this.signupForm["g-recaptcha-response"] = grecaptcha.getResponse(this.rcapt_id);
     this.$http.post('https://api.meowtic.com/user/edit', this.signupForm, { emulateJSON : true })
@@ -78,10 +94,8 @@ methods: {
 
 <style lang="less">
 @import "../definitions";
-.g-recaptcha form-group
-{
-  height: 10em;
-  width: 10em;
 
+#signup-form {
+  text-align: center;
 }
 </style>
