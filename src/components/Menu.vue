@@ -21,6 +21,8 @@
         <li><router-link :to="{name: 'messenger'}"><img src="../assets/message.png" alt="message"></router-link></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
         <li><router-link :to="{name: 'profileuser'}"><img src="../assets/profile.png" alt="profile"></router-link></li>
+        <li><img src="../assets/deconnexion.png" alt="profile"  v-on:click="logout" ></li>
+
       </ul>
     </div>
   </header>
@@ -28,6 +30,29 @@
 
 <script>
 
+import Vue from 'vue'
+
+Vue.use(require('vue-resource'));
+
+export default {
+
+  methods : {
+
+    logout : function(){
+        this.$http.post('https://api.meowtic.com/user/logout')
+        .then(function(response){
+            let data = response.data
+            if(data.success){
+                alert("déconnecté");
+                location.href = 'root'
+            }
+            else{
+
+            }
+        }, handleError)
+    }
+
+}}
 
 </script>
 
