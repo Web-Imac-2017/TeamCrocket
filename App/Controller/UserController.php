@@ -28,6 +28,14 @@ class UserController extends BucketAbstractController
         return Country::filter($_POST);
     }
 
+    public function list_animal() : array{
+        $user = User::getUniqueById($_SESSION['uid']);
+        if($user->getId() == 0){
+            throw new \Exception(gettext("You must sign in"));
+        }
+        return $user->getAnimalList($_POST);
+    }
+
     /**
     * Récupère un utilisateur
     * @param int $id ID de l'utilisateur

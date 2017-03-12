@@ -361,19 +361,58 @@ class User extends Bucket\BucketAbstract
     * @param int $amount
     * @return array Tableau d'objets Animal
     */
-    public function getAnimalList(int $start = -1, int $amount = -1) : array{
-        $limit = ($start != -1 && $amount != -1) ? "LIMIT :start, :amount" : "";
+    public function getAnimalList(array $map = []) : array{
+        $currentPage = (int)($map['page'] ?? 0);
+        $amountPerPage = 10;
+        $maxPage = 0;
+        $total = 0;
+
         $data = [];
         $data[] = [":id", $this->id, \PDO::PARAM_INT];
 
-        if($start != -1 && $amount != -1){
-            $data[] = [":start", $start, \PDO::PARAM_INT];
-            $data[] = [":amount", $amount, \PDO::PARAM_INT];
+
+        $sqlHeadList = "SELECT *";
+        $sqlHeadCount = "SELECT COUNT(*) as \"total\"";
+        $sqlBody = "FROM ".DATABASE_CFG['prefix']."animal WHERE creator_id = :id AND active = 1";
+        $sqlLimit = "";
+
+        $sqlCount = $sqlHeadCount . " " . $sqlBody . " " . $sqlLimit;
+        $total = (int)DB::fetchUnique($sqlCount, $data)['total'];
+
+        /**
+        * LIMIT
+        */
+        if($total == 0){
+            $currentPage = 0;
+        }
+        if($currentPage > 0){
+            $maxPage = ceil($total / $amountPerPage);
+
+            if($currentPage > $maxPage){
+                $currentPage = $maxPage;
+            }
+
+            $start = ($currentPage - 1) * $amountPerPage;
+
+            $data[] = [':start', $start, \PDO::PARAM_INT];
+            $data[] = [':amount', $amountPerPage, \PDO::PARAM_INT];
+            $sqlLimit .= " LIMIT :start, :amount";
         }
 
-        $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."animal WHERE creator_id = :id AND active = 1 {$limit}";
+        $sqlList = $sqlHeadList . " " . $sqlBody . " " . $sqlLimit;
+        $list = DB::fetchMultipleObject('App\Model\Animal', $sqlList, $data);
 
-        return DB::fetchMultipleObject('App\Model\Animal', $sql, $data);
+        $output = [];
+
+        if($currentPage != 0){
+            $output['current_page'] = $currentPage;
+            $output['page_count'] = $maxPage;
+            $output['page_amount'] = $amountPerPage;
+        }
+        $output['item_total'] = $total;
+        $output['data'] = $list;
+
+        return $output;
     }
 
 
