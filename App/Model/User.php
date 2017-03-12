@@ -440,11 +440,6 @@ class User extends Bucket\BucketAbstract
 
 
     protected function beforeInsert(){
-        // on vérifie que l'utilisateur n'existe pas encore
-        if(User::userExists($this->email)){
-            throw new \Exception(gettext("An account already exists with this email adress"));
-        }
-
         $this->password = hashPassword($this->password);
 
         // reCAPTCHA
@@ -592,16 +587,25 @@ class User extends Bucket\BucketAbstract
     }
 
     /**
-    * Vérifie l'existence d'un ID de compte
-    * /!\ Ne permet pas de savoir si le compte est vérifié, juste si il existe
-    * @param int $id
+    * @param string $nickname
     * @return bool
     */
-    public static function userExistsById(int $id) : bool{
-        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE id = :id AND active = 1 LIMIT 0, 1";
-        $data = array( [":id", $id, \PDO::PARAM_INT] );
+    public static function isNicknameAvailable(string $nickname) : bool{
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE id != :id AND nickname = :nickname LIMIT 0, 1";
+        $data = array( [":id", $_SESSION['uid'], \PDO::PARAM_INT], [":nickname", $nickname, \PDO::PARAM_STR] );
 
-        return (DB::fetchUnique($sql, $data)['id'] > 0);
+        return (DB::fetchUnique($sql, $data)['id'] == 0);
+    }
+
+    /**
+    * @param string $email
+    * @return bool
+    */
+    public static function isEmailAvailable(string $email) : bool{
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE id != :id AND email = :email LIMIT 0, 1";
+        $data = array( [":id", $_SESSION['uid'], \PDO::PARAM_INT], [":email", $email, \PDO::PARAM_STR] );
+
+        return (DB::fetchUnique($sql, $data)['id'] == 0);
     }
 
     /**
@@ -764,8 +768,16 @@ class User extends Bucket\BucketAbstract
 
     // setters
     public function setNickname(string $nickname, bool $check = false){
-        if($check && !testUsername($nickname)) throw new \Exception(gettext("Invalid nickname format"));
-        else $this->nickname = $nickname;
+        if($check){
+            if(!testUsername($nickname)){
+                throw new \Exception(gettext("Invalid nickname format"));
+            }
+            if($this->nickname != $nickname && !User::isNicknameAvailable($nickname)){
+                throw new \Exception(gettext("Nickname already used"));
+            }
+        }
+
+        $this->nickname = $nickname;
     }
     public function setPassword(string $password, bool $check = false){
         if($check && !testPassword($password)) throw new \Exception(gettext("Invalid password format"));
@@ -778,8 +790,16 @@ class User extends Bucket\BucketAbstract
         $this->firstname = $firstname;
     }
     public function setEmail(string $email, bool $check = false){
-        if($check && !testMail($email)) throw new \Exception(gettext("Invalid email format"));
-        else $this->email = $email;
+        if($check){
+            if(!testMail($email)){
+                throw new \Exception(gettext("Invalid email format"));
+            }
+            if($this->email != $email && !User::isEmailAvailable($email)){
+                throw new \Exception(gettext("Email already used"));
+            }
+        }
+
+        $this->email = $email;
     }
     public function setSex(string $sex){
         $this->sex = $sex;
