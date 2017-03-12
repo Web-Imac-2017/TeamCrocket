@@ -27,6 +27,10 @@ const router = new VueRouter({
     path: '/profileuser',
     component: require('./components/ProfileUser.vue'),
     name: 'profileuser'
+  },{
+    path: '/messenger',
+    component: require('./components/Messenger.vue'),
+    name: 'messenger'
   },
   {
     path: '*',
