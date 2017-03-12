@@ -823,7 +823,20 @@ class User extends Bucket\BucketAbstract
         $this->country_id = $country_id;
     }
     public function setDateBirth(string $date = NULL, bool $check = false){
-        if($check && !testAge($date)) throw new \Exception(gettext("You must be at least 13 years old"));
+        if($check && !testAge($date))
+            throw new \Exception(gettext("You must be at least 13 years old"));
+        $this->date_birth = $date;
+    }
+    public function setDateBirth2(array $date_brith, bool $check = false){
+        $day = (int)$date_brith['day'];
+        $month = (int)$date_brith['month'];
+        $year = (int)$date_brith['year'];
+
+        $date = date("Y-d-m", strtotime($year.'-'.$month.'-'.$day));
+
+        if($check && !testAge($date))
+            throw new \Exception(gettext("You must be at least 13 years old"));
+
         $this->date_birth = $date;
     }
     public function setVerified(int $verified){

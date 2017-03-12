@@ -466,6 +466,15 @@ class Animal extends Bucket\BucketAbstract
     public function setDateBirth(string $date = NULL){
         $this->date_birth = $date;
     }
+    public function setDateBirth2(array $date_brith, bool $check = false){
+        $day = (int)$date_brith['day'];
+        $month = (int)$date_brith['month'];
+        $year = (int)$date_brith['year'];
+
+        $date = date("Y-d-m", strtotime($year.'-'.$month.'-'.$day));
+
+        $this->date_birth = $date;
+    }
     public function setBanned(int $banned){
         $this->banned = $banned;
     }
