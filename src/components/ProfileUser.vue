@@ -25,9 +25,10 @@
                   <p>
                     <span id="detail_lastname">{{user.lastname}}</span>
                     <span id="detail_lastname2">
-                    <form v-on:submit.prevent="edit_profile" id="login-form">
-                      <input type="hidden" v-model="user.id">
-                      <input class="pseudo" v-model="userForm.nickname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+                    <form v-on:submit.prevent="edit_profile" id="profile-form">
+                      <input type="hidden" name="id" v-bind:value="user.id">
+                      <input type="file" name="image_file">
+                      <input class="pseudo" name="nickname" v-bind:value="user.nickname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
                       <button type="submit" class="button_style">VALIDER
                         <img src="../assets/search_mob.png" class="img_button"/>
                       </button>
@@ -65,11 +66,7 @@ Vue.use(require('vue-resource'));
 export default {
   data() {
     return {
-      user : null,
-      userForm : {
-        id : 0,
-        nickname : ''
-      }
+      user : null
     }
   },
   created : function(){
@@ -78,23 +75,20 @@ export default {
         let data = response.data;
         if(data.success){
           this.user = response.data.output;
-          this.reloadUserForm();
         }
     })
   },
   methods : {
-    reloadUserForm : function(){
-      this.userForm.id = this.user.id
-      this.userForm.nickname = this.user.nickname
-    },
     edit_profile : function(){
-      this.$http.post('https://api.meowtic.com/user/edit', this.userForm, { emulateJSON : true })
+      // on sérialise le formulaire (IMPORTANT de bien mettre les champs NAME en correspondance avec le nom des champs ATTENDUS côté serveur)
+      let formData = new FormData(document.getElementById('profile-form'));
+
+      this.$http.post('https://api.meowtic.com/user/edit', formData)
         .then(function(response){
           let data = response.data;
           if(data.success){
             console.log('Profile modifié');
             this.user = response.data.output;
-            this.reloadUserForm();
           }
           else{
             alert(response.data.message);
