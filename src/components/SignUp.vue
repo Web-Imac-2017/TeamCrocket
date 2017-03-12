@@ -2,19 +2,22 @@
   <section>
     <h2>Informations du proprietaire</h2>
 
-    <form v-on:submit.prevent="submit" id="signup-form">
+    <form v-on:submit.prevent="signup" id="signup-form">
+      <input type="hidden" name="id" value="0">
+      <input type="hidden" name="latitude" value="">
+      <input type="hidden" name="longitude" value="">
       <ul>
         <li>
           <label>Pseudo (entre 4 et 20 caractères - lettres, chiffres - _ ou . acceptés)*</label>
-          <input type="text" v-model="signupForm.nickname">
+          <input type="text" name="nickname" v-model="signupForm.nickname">
         </li>
         <li>
           <label>Mail*</label>
-          <input type="email" v-model="signupForm.email">
+          <input type="email" name="email" v-model="signupForm.email">
         </li>
         <li>
           <label>Mot de passe (min 8 caractères, minuscule, majuscule, caractère spécial, chiffres au minimum 1 fois)*</label>
-          <input type="password" v-model="signupForm.password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
+          <input type="password" name="password" v-model="signupForm.password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
         </li>
 
         <li>
@@ -24,9 +27,9 @@
 
         <li>
           <div class="sex">
-            <input type="radio" id="m" value="m" v-model="signupForm.sex">
+            <input type="radio" id="m" value="m" name="sex" v-model="signupForm.sex">
             <label for="m"><img src="../assets/man.png" alt="Homme"/></label>
-            <input type="radio" id="f" value="f" v-model="signupForm.sex">
+            <input type="radio" id="f" value="f" name="sex" v-model="signupForm.sex">
             <label for="f"><img src="../assets/woman.png" alt="Logo"/></label>
           </div>
         </li>
@@ -34,11 +37,10 @@
           <div class="g-recaptcha" data-sitekey="6LcIPBUUAAAAAL7aFlWT0BNXe6nNKbRUTvQNrhXg"></div>
         </li>
       </ul>
+      <div>
+        <button type="submit">Valider</button>
+      </div>
     </form>
-
-  <div>
-    <button v-on:click="submit()">Valider</button>
-  </div>
 
   </section>
 </template>
@@ -84,18 +86,15 @@ export default {
   },
 
   methods: {
-    submit : function(){
-      this.signupForm.date_birth = document.getElementById("date_birth").value;
-      this.signupForm["g-recaptcha-response"] = grecaptcha.getResponse(this.rcapt_id);
+    signup : function(){
+      let formData = new FormData(document.getElementById('signup-form'));
 
-      this.$http.post('https://api.meowtic.com/user/edit', this.signupForm)
+      this.$http.post('https://api.meowtic.com/user/edit', formData)
         .then(function(response){
           let data = response.data;
           if(data.success){
-            console.log('Profile créé');
             this.user = response.data.output;
-            alert(document.getElementById("date_birth").value);
-            location.href = 'profileuser';
+            //location.href = 'profileuser';
           }
           else{
             alert(response.data.message);
