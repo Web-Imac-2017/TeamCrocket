@@ -21,7 +21,7 @@
 
       <div id="recommandation">
         <h1>ILS RECOMANDENT CE SITE : </h1>
-        <p>JIM : " Ma belle à enfin trouvé son clochard... "</p>
+        <p>JIM : " Ma belle a enfin trouvé son clochard... "</p>
       </div>
 
     </div>
