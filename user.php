@@ -316,7 +316,7 @@
         <ul class="list mb-3" id="list-animal">
         <?php
         $profiles = $_USER->getAnimalList();
-        foreach($profiles as $profile){
+        foreach($profiles['data'] as $profile){
             echo '<li data-id="'.$profile->getId().'" class="clearfix">
             <a href="index.php?pid='.$profile->getId().'">'.$profile->getName().'</a>
             <div class="float-right">
