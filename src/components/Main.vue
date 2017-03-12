@@ -13,6 +13,7 @@
       <button  class="button_connexion" v-on:click="login">Se connecter</button>
       <button class="button_inscription" v-on:click="signup">S'inscrire</button>
       <signupuser-component v-if="choice == 2"></signupuser-component>
+      <login-component v-if="choice == 1"></login-component>
 
 
       <p v-else>
@@ -55,9 +56,7 @@ methods: {
   },
 
 login: function(){
-  console.log(this.$route)
-  this.$router.push('/LoginUser')
-  location.href = 'LoginUser'
+  this.choice = 1;
 }
 },
 }
@@ -124,13 +123,6 @@ login: function(){
 
 #button_main{
   margin-top:3.5em;
-}
-#button_main button:hover,
-button:active {
-  letter-spacing: 5px;
-  transition: all 580ms ease-in-out;
-  /*border: 1px solid rgba(#fff, 0);*/
-  bottom: 0px;
 }
 
 #recommandation h1{
