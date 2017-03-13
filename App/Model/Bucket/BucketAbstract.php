@@ -281,7 +281,7 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
     }
 
 
-    final public static function deleteById(int $id, string $options = ""){
+    public static function deleteById(int $id, string $options = ""){
         global $_USER;
 
         $orm = BucketParser::parse(get_called_class());

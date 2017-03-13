@@ -74,6 +74,9 @@ class UserController extends BucketAbstractController
     * Gère également la vérification du compte dans le cas où le token est fourni avec les informations d'authentification
     */
     public function login(){
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+
         if($_SESSION['uid'] > 0){
             throw new \Exception(gettext("Already logged in"));
         }
@@ -83,27 +86,35 @@ class UserController extends BucketAbstractController
         }
 
         if($_SESSION['login_attempts'] > 10){
-            /*
-            * TODO Réactiver la limite
-            */
-            #throw new \Exception(gettext("Too many login attempts"));
+            throw new \Exception(gettext("Too many login attempts"));
         }
+
         $_SESSION['login_attempts']++;
 
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
 
-        if(!User::userExists($email)){
+
+
+        $infos = User::accountStatus($email);
+
+        /**
+        * Vérification du compte
+        */
+        if(!$infos['exists']){
             throw new \Exception(gettext("No account existing for the given email adress"));
         }
-        if(!User::isVerified($email)){
+
+        if(!$infos['verified']){
             if(isset($_POST['token'])){
                 $this->verify($email, $_POST['token']);
             }
-            else{
-                throw new \Exception(gettext("Please verify your account"));
-            }
+            else throw new \Exception(gettext("Please verify your account"));
         }
+
+        if($infos['banned']){
+            throw new \Exception(gettext("Your account is banned"));
+        }
+
+
 
         $id = User::login($email, $password);
         if($id == 0){

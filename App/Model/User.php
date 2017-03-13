@@ -203,7 +203,8 @@ class User extends Bucket\BucketAbstract
 
     // geocoding
     public function getLatLong(){
-        $address = $this->city . ', '. $this->getCountry()->getNicename();
+        //$address = $this->city . ', '. $this->getCountry()->getNicename();
+        $address = $this->city;
         $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($address));
         $output = json_decode($geocode);
 
@@ -215,7 +216,7 @@ class User extends Bucket\BucketAbstract
 
     // reverse geocoding
     public function getCityFromCoord(){
-        $geocode = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?latlng='.$this->getLatitude().','.$this->getLongitude().'&result_type=country|locality&key=AIzaSyCjXk_CjR3VFOABhIhnZwu6K21V7m_gJw0');
+        $geocode = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?latlng='.$this->latitude.','.$this->longitude.'&result_type=country|locality&key=AIzaSyCjXk_CjR3VFOABhIhnZwu6K21V7m_gJw0');
         $output = json_decode($geocode);
 
         if($output->status == 'OK'){
@@ -449,7 +450,12 @@ class User extends Bucket\BucketAbstract
         $this->handleProfilePic();
 
         // geoloc
-        $this->getCityFromCoord();
+        if(isset($_POST['latitude']) && isset($_POST['longitude'])){
+            $this->getCityFromCoord();
+        }
+        else if(isset($_POST['city'])){
+            $this->getLatLong();
+        }
     }
 
     protected function beforeUpdate(){
@@ -472,14 +478,16 @@ class User extends Bucket\BucketAbstract
 
         $this->password = hashPassword($this->password);
 
-        // API GEOLOC
-        #$this->getLatLong();
-
         // photo de profil
         $this->handleProfilePic();
 
         // geoloc
-        $this->getCityFromCoord();
+        if(isset($_POST['latitude']) && isset($_POST['longitude'])){
+            $this->getCityFromCoord();
+        }
+        else if(isset($_POST['city'])){
+            $this->getLatLong();
+        }
     }
 
 
@@ -553,13 +561,31 @@ class User extends Bucket\BucketAbstract
     * @return int ID du compte correspondant à la combinaison email/mot de passe
     */
     public static function login(string $email, string $password) : int{
-        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND password = :password AND active = 1 LIMIT 0, 1";
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE email = :email AND password = :password AND banned = 0 AND active = 1 LIMIT 0, 1";
         $data = array(
             [":email", $email, \PDO::PARAM_STR],
             [":password", hashPassword($password), \PDO::PARAM_STR]
         );
         return (int)(DB::fetchUnique($sql, $data)['id']);
     }
+
+    /**
+    * Récupère les informations sur le status d'un compte
+    * @param string $email
+    * @return bool
+    */
+    public static function accountStatus(string $email) : array{
+        $sql = "SELECT id, verified, banned FROM ".DATABASE_CFG['prefix']."user WHERE email = :email LIMIT 0, 1";
+        $data = array( [":email", $email, \PDO::PARAM_STR] );
+
+        $result = DB::fetchUnique($sql, $data);
+        return array(
+            'exists' => ($result['id'] > 0),
+            'verified' => (bool)$result['verified'] ?? false,
+            'banned' => (bool)$result['banned'] ?? false
+        );
+    }
+
 
     /**
     * Détermine si le compte associé à une adresse email est vérifié
@@ -764,6 +790,12 @@ class User extends Bucket\BucketAbstract
         $mail->Subject = gettext("Password reset request");
         $mail->Body = $html;
         $mail->send();
+    }
+
+
+    public static function deleteById(int $id, string $options = ""){
+        DB::exec("DELETE FROM ".DATABASE_CFG['prefix']."image WHERE creator_id = :id", array([':id', $id, \PDO::PARAM_INT]));
+        parent::deleteById($id, $options);
     }
 
     // setters

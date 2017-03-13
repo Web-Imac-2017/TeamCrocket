@@ -28,27 +28,6 @@ class Species extends Bucket\BucketAbstract
         );
     }
 
-
-    /**
-    * Fonction de filtrage par défaut à écraser si on veut affiner l'algo
-    */
-    public static function filter(array $map = []) : array{
-        $data = [];
-        $condition = "";
-        $limit = "";
-
-        $class = get_called_class();
-        $orm = Bucket\BucketParser::parse($class);
-
-        if(isset($map['species_id']) && $map['species_id'] != 0){
-            $data[] = [':species_id', (int)$map['species_id'], \PDO::PARAM_INT];
-            $condition = "AND species_id = :species_id";
-        }
-
-        $sql = "SELECT * FROM ".DATABASE_CFG['prefix'].$orm->getTable()." WHERE active = 1 " . $condition . " " . $limit.";";
-        return DB::fetchMultipleObject($class, $sql, $data);
-    }
-
     /**
     * Ajoute un lien entre une caractéristique et une espèce
     */
