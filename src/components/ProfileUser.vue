@@ -149,7 +149,7 @@
             <li>zefzef</li>
           </ul>
           <h2>Ajouter un animal</h2>
-          <router-link :to="{name: 'addpet'}">+</router-link>
+          <router-link :to="{name: 'addpet'}"><button>+</button></router-link>
 
         </div>
       </div>
@@ -370,6 +370,10 @@ img#img_edit_user{
 
 }
 
+.ajout_animal{
+width:150%;
+}
+
 .name{
   font-family: @fontTitle;
   text-transform:uppercase;
@@ -400,8 +404,6 @@ cursor:pointer;
 #content_profile .button_style{
   border-radius: 6px;
   background-color:@lightBlue;
-
-
   font-size:1.2em;
   font-family: 'Moon';
   color:white;
@@ -420,6 +422,8 @@ cursor:pointer;
 img#img_edit{
     cursor:pointer;
 }
+
+
 
 @media screen and (max-device-width:810px), screen  and (max-width:810px){
   #content_profile{
