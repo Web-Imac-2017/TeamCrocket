@@ -5,8 +5,11 @@
 			<img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 	      	<h1>Messagerie</h1>
 	    	
-	    	<div id="list-preview">
-	      	<previewmessage-component></previewmessage-component>
+	    	<previewmessage-component v-for="contact in contactList" :contact="contact">
+	      	</previewmessage-component>
+	      	<!-- ça c'est ta liste, et tu itères dessus avec le v-for, mais maintenant faut pouvoir utiliser cl'info sur laquelle tu iteres, du coup tu pvas passer un prop, je récup la syntaxe j'arrive
+
+	      	maintenant ton component a acces a la variable-->
 	      	</div>
 
 		</div>
@@ -23,30 +26,65 @@
 	import PreviewmessageComponent from "./PreviewMessage.vue"
 
 	export default {
+
 		components: {
-			PreviewmessageComponent
+			'PreviewmessageComponent' : PreviewmessageComponent
 		},
 
 		data() {
+			return {
 
-		},
+				/*panda : {
+					author:'wesh',
+					date:'blbl',
+					text:'ta soeur'
+				},
+
+				roux : {
+					author:"cc",
+					date:'aa',
+					text:'bleh'
+				},
+
+				contactList:['panda','roux']
+			}*/
+			contactList: []
+		}
 
 		methods:{
-			list_contacts : function() {
+
+			init : function(contactId) {
+				this.$http.post('https://api.meowtic.com/messenger/init/'+contactId)
+				.then(function(response){
+					let data = response.data
+					if(data.success){
+						//afficher la conv complète
+					}
+					else {
+
+					}
+				},handleError)
+			}
+
+			loadListConv : function() {
+				this.$http.post('https://api.meowtic.com/messenger/list',contactList)
+			},
+
+			loadConv : function(convId) {
+				this.$http.post('https://api.meowtic.com/messenger/load')
+			},
+
+			sendMessage : function() {
 
 			},
 
-			get_full_conv : function(contactId) {
+			loadLastMessage : function (contactId) {
 
 			},
 
-			send_message : function() {
 
-			},
+		}
 
-			get_last_message : function (contactId) {
-
-			},
 
 
 		}

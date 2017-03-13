@@ -4,16 +4,15 @@
 		<img src="../assets/razor.jpg" id="avatar">
 		<div id = "txt">
 			<div id="author">
-				<span>Razor</span>
+				<span>{{contact.author}}</span>
 			</div>
 
 			<div id="date">
-				<p>Envoyé à 14:25</p>
+				<p>{{contact.date}}</p>
 			</div>
 
 			<div id="text-prev">
-				<p>Lorem Ipsum
-				Lorem Ipsum</p>
+				{{contact.text}}
 			</div>
 		</div>
 	</div>
@@ -25,9 +24,22 @@
 	import Vue from 'vue'
 	Vue.use(require('vue-resource'));
 
-	var handleError = function(error){
-      console.log('Error! Could not reach the API. ' + error)
-  	}
+	export default {
+		name:"PreviewmessageComponent",
+
+		// ici maintenant
+		// tu définis ton prop pour que vue sache qu'il doit aller le chercher
+		props: {
+			contact: Object //change en Object pour le link back
+		}
+			// maintenant tu as acces à contact dans ton template
+			//à partir du moment ou tu as accès à la contact list dans ton component à gauche là, ça sera automatiquement dispo ici, et mis à jour en temps réel
+
+			//du coup ce qui est dans data sert à rien puisque ça va directement chercher dans la
+			//contact list à gauche ?
+			// exactement, c'est du "one-way data binding", tu fais descendere l'information et elle peut pas être modifié par le component, il peut seulement l'exploiter
+			//ptn c'est beau		
+	}
 
 </script>
 
