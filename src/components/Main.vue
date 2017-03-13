@@ -1,4 +1,3 @@
-
 <template>
   <div id="main-index">
     <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
@@ -134,14 +133,6 @@ login: function(){
   font-family: @fontText;
   text-align: center;
 }
-
-#button_main button:hover,
-#button_main button:active{
-    letter-spacing: 5px;
-    transition: all 580ms ease-in-out;
-    bottom: 0px;
-  }
-
 
 @media screen and (max-width: 575px ) {
 
