@@ -1,6 +1,6 @@
 <template>
   <div id="popup_profile">
-    <router-link :to="{name: 'profileuser'}"><h1>Mon compte</h1></router-link>
+    <router-link :to="{name: 'profileuser'}"><h2>Mon compte</h2></router-link>
     <div v-on:click="logout"><h2>Se deconnecter</h2><img src="../assets/deconnexion.png" alt="deco" id="img_deco"></div>
   </div>
 </template>
@@ -42,16 +42,22 @@ export default {
 @import "../definitions";
 
 #popup_profile {
-  background-color: white
-}
-#img_deco{
-  width: 20px;
-  vertical-align: middle;
+  background-color: white;
 }
 
-div#popup_profile div h2{
-  float:left;
+div#popup_profile h2{
   margin-left: 1em;
+}
+
+
+div#popup_profile div h2{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+div#popup_profile div{
+  display: inline-block;
+  vertical-align: middle;
 }
 
 a{
@@ -59,6 +65,9 @@ a{
 }
 
 img#img_deco{
-margin-left: 1em;
+  margin-left: 1em;
+  width: 20px;
+  vertical-align: middle;
+  display: inline-block;
 }
 </style>
