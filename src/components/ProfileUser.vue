@@ -14,7 +14,7 @@
           <input type="file" id="edit_profile_picture" name="image_file">
         </div>
       </div>
-      <img src="../assets/edit.png" id="img_edit"  v-on:click="edit_details"/>
+      <img src="../assets/edit.png" id="img_edit_user"  v-on:click="edit_details"/>
     </div>
 
       <div id="content_info">
@@ -272,7 +272,7 @@ export default {
 #edit_nickname,#edit_firstname,#edit_lastname,#edit_date_birth,#edit_city,#edit_sex,#edit_profile_picture,#edit_desc{
   display: none;
 }
-img#img_edit{
+img#img_edit_user{
   right:0;
   bottom:0;
   position: absolute;
