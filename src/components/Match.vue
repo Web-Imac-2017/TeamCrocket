@@ -3,7 +3,6 @@
       <img src="../assets/Meetic.png" width="110ox"/>
       <h1>Match</h1>
       <h2>Trouvez le profil qui fera chavirer votre coeur</h2>
-      <input type="hidden" name="id" v-bind:value="user.id">
 
       <div class="profile">
         <img src="../assets/cat.jpg"/>
@@ -57,28 +56,12 @@ export default {
 
   created : function()
   {
-    this.user = this.$parent.user;
-    this.$http.get('https://api.meowtic.com/user/list_animal')
+    var get_id = 33; //sessionStorage.getItem("75");
+    this.$http.get('https://api.meowtic.com/match/get/' + get_id)
     .then(function(response){
       let data = response.data;
 
-      if(data.success){
-        var total = response.data.output.item_total;
-        var i = 0;
-        for(i;i<=total;i++){
-            this.user.list_animal =  this.user[i].name;
-        }
-      }
-    })
-
-    sessionStorage.setItem("id_animal",34);
-
-    this.$http.get('https://api.meowtic.com/match/get/34')
-    .then(function(response){
-        let data = response.data;
-
         if(data.success){
-            console.log(data.success);
             this.animal = data.output;
         }
     }, handleError)
