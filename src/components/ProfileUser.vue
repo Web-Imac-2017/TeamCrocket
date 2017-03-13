@@ -22,7 +22,7 @@
           <h1>Details</h1>
           <ul>
             <li>
-                <h2>Prénom</h2>
+                <h2>Prenom</h2>
                 <p>
                   <span  id="firstname">{{user.firstname}}</span>
                     <input id="edit_firstname" name="firstname" v-model="user.firstname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
@@ -130,7 +130,7 @@
               </p>
             </li>
             <li>
-              <h2>City</h2>
+              <h2>Ville</h2>
               <p><span id="city">{{user.city}}</span>
                 <input id="edit_city" name="city" v-model="user.city" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
               </p>
@@ -142,17 +142,24 @@
           <p><span id="desc">{{user.description}}</span>
             <textarea id="edit_desc" name="description" v-model="user.description" ></textarea>
           </p>
-          <p>Animaux
-            <div v-on:click="router_id">
-              {{this.user.list_animal}}
-            </div>
-            <router-link :to="{name: 'addpet'}">Add pet</router-link>
-          </p>
+          <h1>Mes Animaux</h1>
+          <ul>
+            <li>efzefzefzef</li>
+            <li>zefzefzef</li>
+            <li>zefzef</li>
+          </ul>
+          <h2>Ajouter un animal</h2>
+          <router-link :to="{name: 'addpet'}"><button v-on:click="login">+</button></router-link>
+
         </div>
       </div>
-      <button type="submit" class="button_style">VALIDER
-        <img src="../assets/search_mob.png" class="img_button"/>
-      </button>
+      <div id="button_valid">
+        <button type="submit" class="button_style">VALIDER
+          <img src="../assets/search_mob.png" class="img_button"/>
+        </button>
+
+      </div>
+
     </form>
   </div>
   <div v-else>
@@ -202,6 +209,8 @@ export default {
         document.getElementById("desc").style.display="none";
         document.getElementById("edit_desc").style.display = 'block';
         document.getElementById("edit_profile_picture").style.display = 'block';
+          document.getElementById("button_valid").style.display = "block";
+
     },
     edit_profile : function(){
       // on sérialise le formulaire (IMPORTANT de bien mettre les champs NAME en correspondance avec le nom des champs ATTENDUS côté serveur)
@@ -228,6 +237,8 @@ export default {
             document.getElementById("desc").style.display="block";
             document.getElementById("edit_desc").style.display = 'none';
             document.getElementById("edit_profile_picture").style.display = "none";
+            document.getElementById("button_valid").style.display = "block";
+
           }
           else{
             alert(response.data.message);
@@ -281,6 +292,7 @@ img#img_edit{
   top:20px;
   height:300px;
   background-color:#9ca7be;
+
 }
 #profile_picture{
   background-color:#445680;
@@ -347,8 +359,9 @@ img#img_edit{
 #content_info p{
   font-family: @fontText;
   color:gray;
-  margin-top: -2%;
+  margin-top: 2%;
   margin-left: 1.5%;
+  font-size: 1.2em;
 
 }
 
@@ -361,11 +374,57 @@ img#img_edit{
   padding-left: 3%;
 
 }
+.desc button{
+
+border-radius: 6px;
+background-color:@lightBlue;
+display: block;
+margin: auto;
+font-size:1.2em;
+font-family: 'Moon';
+color:white;
+cursor:pointer;
+
+}
+
+
+.desc h2{
+  float:left;
+}
+
+#content_profile .button_style{
+  border-radius: 6px;
+  background-color:@lightBlue;
+
+
+  font-size:1.2em;
+  font-family: 'Moon';
+  color:white;
+  cursor:pointer;
+
+}
+
+#button_valid{
+  display: none;
+  position:absolute;
+  z-index:88;
+  margin-left: 9em;
+  margin-top:-4em;
+}
+
+img#img_edit{
+    cursor:pointer;
+}
 
 @media screen and (max-device-width:810px), screen  and (max-width:810px){
   #content_profile{
     width:600px;
   }
+
+  h1{
+    font-size: 1.2em;
+  }
+
 }
 @media screen and (max-device-width:620px), screen  and (max-width:620px){
   #content_profile{
