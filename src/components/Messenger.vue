@@ -34,7 +34,7 @@
 		data() {
 			return {
 
-				/*panda : {
+				panda : {
 					author:'wesh',
 					date:'blbl',
 					text:'ta soeur'
@@ -47,11 +47,11 @@
 				},
 
 				contactList:['panda','roux']
-			}*/
-			contactList: []
+			}
+			//contactList: []
 		}
 
-		methods:{
+		/*methods:{
 
 			init : function(contactId) {
 				this.$http.post('https://api.meowtic.com/messenger/init/'+contactId)
@@ -87,7 +87,7 @@
 
 
 
-		}
+		}*/
 
 	}
 

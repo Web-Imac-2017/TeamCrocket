@@ -30,7 +30,7 @@
 		// ici maintenant
 		// tu définis ton prop pour que vue sache qu'il doit aller le chercher
 		props: {
-			contact: Object //change en Object pour le link back
+			contact: String //change en Object pour le link back
 		}
 			// maintenant tu as acces à contact dans ton template
 			//à partir du moment ou tu as accès à la contact list dans ton component à gauche là, ça sera automatiquement dispo ici, et mis à jour en temps réel
