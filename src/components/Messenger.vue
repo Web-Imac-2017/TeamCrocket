@@ -1,12 +1,11 @@
 <template>
-
 	<section id="frame">
 		<div id="messenger-index">
 			<img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 	      	<h1>Messagerie</h1>
-	    	
-	    	<previewmessage-component v-for="contact in contactList" :contact="contact">
-	      	</previewmessage-component>
+
+					<previewmessage-component v-for="contact in contactList" :contact="contact">						</previewmessage-component>
+
 	      	<!-- ça c'est ta liste, et tu itères dessus avec le v-for, mais maintenant faut pouvoir utiliser cl'info sur laquelle tu iteres, du coup tu pvas passer un prop, je récup la syntaxe j'arrive
 
 	      	maintenant ton component a acces a la variable-->
@@ -46,9 +45,22 @@
 					text:'bleh'
 				},
 
-				contactList:['panda','roux']
+				contactList:[{
+					author: 'lol',
+					date: 'jklk',
+					text: 'klmj'
+				},
+				{
+					author: 'lol',
+					date: 'jklk',
+					text: 'klmj'
+				}]
 			}
 			//contactList: []
+		},
+
+		created() {
+
 		}
 
 		/*methods:{

@@ -16,7 +16,7 @@
           <input type="email" name="email">
         </li>
         <li>
-          <label>Mot de passe (minimum 8 caractères avec au moins 1 minuscule, majuscule, chiffre et caractère spécial)*</label>
+          <label>Mot de passe*</label>
           <input type="password" name="password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" title="min 8 caractères, minuscule, majuscule, caractère spécial, chiffres au minimum 1 fois">
         </li>
 
@@ -77,7 +77,6 @@ created: function() {
     {
       that.lat = position.coords.latitude;
       that.long = position.coords.longitude;
-      alert(that.long);
 });
 }
 
