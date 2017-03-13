@@ -1,6 +1,9 @@
+<?php
+$user = (isset($_GET['uid'])) ? App\Model\User::getUniqueById($_GET['uid']) : $_USER;
+?>
 <div class="row">
     <div class="col-4">
-        <?php if($_USER->getId() == 0): ?>
+        <?php if($user->getId() == 0): ?>
         <form id="login-form" method="post" action="api" data-ctrl="user" data-task="login">
             <h4>Sign in</h4>
             <div class="form-body">
@@ -62,40 +65,40 @@
         <form id="profile-form" method="post" action="api" data-ctrl="user" data-task="edit">
             <h4>General information</h4>
             <div class="form-body">
-                <div id="profile_image" data-default-url="<?php echo ($_USER->getImage() != NULL) ? $_USER->getImage()->getPath() : ""; ?>" style="background-image:url(<?php echo ($_USER->getImage() != NULL) ? $_USER->getImage()->getPath() : ""; ?>);"></div>
+                <div id="profile_image" data-default-url="<?php echo ($user->getImage() != NULL) ? $user->getImage()->getPath() : ""; ?>" style="background-image:url(<?php echo ($user->getImage() != NULL) ? $user->getImage()->getPath() : ""; ?>);"></div>
                 <div class="form-group custom-file-input">
                     <input id="image_file" type="file" class="form-element" name="image_file" accept="image/.png,.jpg,.jpeg,.gif">
                     <label for="image_file" data-text="Change profile picture ...">Change profile picture ...</label>
                 </div>
-                <input type="hidden" name="id" value="<?php echo $_USER->getId(); ?>">
-                <div class="form-group"><input type="email" class="form-element" name="email" placeholder="Email" required value="<?php echo $_USER->getEmail(); ?>"></div>
-                <div class="form-group"><input type="text" class="form-element" name="nickname" placeholder="Nickname" required value="<?php echo $_USER->getNickname(); ?>" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés"></div>
-                <div class="form-group"><input type="date" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $_USER->getDateBirth(); ?>"></div>
+                <input type="hidden" name="id" value="<?php echo $user->getId(); ?>">
+                <div class="form-group"><input type="email" class="form-element" name="email" placeholder="Email" required value="<?php echo $user->getEmail(); ?>"></div>
+                <div class="form-group"><input type="text" class="form-element" name="nickname" placeholder="Nickname" required value="<?php echo $user->getNickname(); ?>" pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés"></div>
+                <div class="form-group"><input type="date" class="form-element" name="date_birth" placeholder="Birth date" required value="<?php echo $user->getDateBirth(); ?>"></div>
                 <div class="form-group row nopadding clearfix">
                     <div class="col-4">
-                        <input id="sex-m" class="form-element" type="radio" name="sex" value="m" <?php if($_USER->getSex() == 'm') echo 'checked'; ?>>
+                        <input id="sex-m" class="form-element" type="radio" name="sex" value="m" <?php if($user->getSex() == 'm') echo 'checked'; ?>>
                         <label for="sex-m">Male</label>
                     </div>
                     <div class="col-4">
-                        <input id="sex-f" class="form-element" type="radio" name="sex" value="f" <?php if($_USER->getSex() == 'f') echo 'checked'; ?>>
+                        <input id="sex-f" class="form-element" type="radio" name="sex" value="f" <?php if($user->getSex() == 'f') echo 'checked'; ?>>
                         <label for="sex-f">Female</label>
                     </div>
                 </div>
                 <!--
-                <div class="form-group"><input type="text" class="form-element" name="city" placeholder="City" required value="<?php echo $_USER->getCity(); ?>"></div>
+                <div class="form-group"><input type="text" class="form-element" name="city" placeholder="City" required value="<?php echo $user->getCity(); ?>"></div>
                 <div class="form-group">
                     <select name="country_id" class="form-element">
                         <?php
                         $countries = App\Model\Country::filter();
                         foreach($countries as $country){
-                            $selected = ($country->getId() == $_USER->getCountryId()) ? 'selected' : '';
+                            $selected = ($country->getId() == $user->getCountryId()) ? 'selected' : '';
                             echo "<option {$selected} value=\"{$country->getId()}\">{$country->getNicename()}</option>";
                         }
                         ?>
                     </select>
                 </div>
                 -->
-                <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $_USER->getDescription(); ?></textarea></div>
+                <div class="form-group"><textarea class="form-element" name="description" rows="5" placeholder="Description"><?php echo $user->getDescription(); ?></textarea></div>
             </div>
             <h4 class="mt-2">Security</h4>
             <div class="form-body">
@@ -117,7 +120,7 @@
         <div id="map" style="height:400px;"></div>
         <script>
         function initMap() {
-            var position = { lat : <?php echo $_USER->getLatitude(); ?>, lng : <?php echo $_USER->getLongitude(); ?> };
+            var position = { lat : <?php echo $user->getLatitude(); ?>, lng : <?php echo $user->getLongitude(); ?> };
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 14,
                 center: position,
@@ -134,7 +137,7 @@
         <?php endif; ?>
     </div>
     <div class="col-4">
-        <?php if($_USER->getId() > 0): ?>
+        <?php if($user->getId() > 0): ?>
         <?php $animal = App\Model\Animal::getUniqueById($_GET['pid'] ?? 0); ?>
         <h4>Animal profile <?php echo $animal->getName(); ?></h4>
 
@@ -311,11 +314,11 @@
         <?php endif;?>
     </div>
     <div class="col-4">
-        <?php if($_USER->getId()): ?>
+        <?php if($user->getId()): ?>
         <h4>My animals <a class="float-right btn btn-add" href="index.php?pid=0"><i class="fa fa-plus" aria-hidden="true"></i></a></h4>
         <ul class="list mb-3" id="list-animal">
         <?php
-        $profiles = $_USER->getAnimalList();
+        $profiles = $user->getAnimalList();
         foreach($profiles['data'] as $profile){
             echo '<li data-id="'.$profile->getId().'" class="clearfix">
             <a href="index.php?pid='.$profile->getId().'">'.$profile->getName().'</a>
