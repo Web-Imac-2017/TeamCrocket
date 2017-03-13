@@ -4,12 +4,12 @@
           <form  id="profile-form">
           <div id="cover">
             <div id="profile_picture">
-              <img v-if="user.image != null" v-bind:src="user.image.path" v-bind:alt="user.nickname">
+              <img v-if="userForm.image != null" v-bind:src="userForm.image.path" v-bind:alt="user.nickname">
             </div>
             <img src="../assets/edit.png" id="img_edit"  v-on:click="edit_details"/>
             <div id="info_princ">
               <span class="name" id="name">{{userForm.name}}</span>
-              <input id="edit_name" v-model="userFort.name" name="name" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+              <input id="edit_name" v-model="userForm.name" name="name" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
               <div id="icon_contact">
                 <input type="file" id="edit_profile_picture" name="image_file">
               </div>
@@ -72,6 +72,13 @@
               </ul>
             </div>
           </div>
+          <div id="button_valid">
+            <button type="submit" class="button_style">VALIDER
+              <img src="../assets/search_mob.png" class="img_button"/>
+            </button>
+
+          </div>
+
         </form>
   </div>
 </template>
@@ -113,9 +120,8 @@ export default {
           this.user = response.data.output;
           if(data.success){
             if(this.$parent.user.id ==this.user.creator_id){
-
+                document.getElementById("img_edit").style.display="block";
             }
-
             this.userForm.name = this.user.name;
             this.userForm.sex = this.user.sex;
             this.userForm.like = this.user.like;
@@ -125,6 +131,15 @@ export default {
 
           }
         })
+    },
+    methods : {
+      edit_details : function (){
+
+            document.getElementById("name").style.display="none";
+            document.getElementById("edit_name").style.display = 'block';
+            document.getElementById("edit_profile_picture").style.display = 'block';
+              document.getElementById("button_valid").style.display = "block";
+      }
     }
 
 }
@@ -135,6 +150,9 @@ export default {
 <style lang="less">
 @import "../definitions"; /* import common definitions */
 
+#img_edit,#edit_name,#edit_profile_picture{
+  display:none
+}
 #content_info .details h1{
   margin-top:0.2em;
 }

@@ -144,7 +144,7 @@
           </p>
           <h1>Mes Animaux</h1>
           <ul>
-            <li>{{this.animal.name}}</li>
+            <li v-on:click="router_id">{{this.animal.name}}</li>
             <li>zefzefzef</li>
             <li>zefzef</li>
           </ul>
@@ -251,8 +251,8 @@ export default {
       })
     },
     router_id : function(){
-        var id  = this.user[0].id;
-        sessionStorage.setItem("id_animal",34);
+        var id  =  this.animal.data[0].id;
+        sessionStorage.setItem("id_animal",id);
         location.href = 'profileanimal';
 
     }
