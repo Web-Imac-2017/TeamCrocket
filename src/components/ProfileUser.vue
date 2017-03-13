@@ -25,13 +25,13 @@
                 <h2>Prenom</h2>
                 <p>
                   <span  id="firstname">{{user.firstname}}</span>
-                    <input id="edit_firstname" name="firstname" v-model="user.firstname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+                    <input id="edit_firstname" name="firstname" v-model="user.firstname" type="text" required>
                 </p>
             </li>
             <li>
               <h2>Nom</h2>
               <p><span id="lastname">{{user.lastname}}</span>
-                <input id="edit_lastname" name="lastname" v-model="user.lastname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+                <input id="edit_lastname" name="lastname" v-model="user.lastname" type="text" required>
               </p>
             </li>
             <li>
