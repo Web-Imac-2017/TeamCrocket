@@ -77,7 +77,6 @@ created: function() {
     {
       that.lat = position.coords.latitude;
       that.long = position.coords.longitude;
-      alert(that.long);
 });
 }
 
