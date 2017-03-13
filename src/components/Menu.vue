@@ -91,6 +91,8 @@ header .logo{
   vertical-align: middle;
 }
 
+
+
 header .logo_mob{
   display:none;
 }
@@ -156,6 +158,10 @@ li.mob{
     .part_right{
       width:45%;
     }
+}
+
+div.part_right ul li img{
+     cursor:pointer;
 }
 
 

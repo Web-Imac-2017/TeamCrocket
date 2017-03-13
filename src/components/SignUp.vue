@@ -4,8 +4,8 @@
 
     <form v-on:submit.prevent="signup" id="signup-form">
       <input type="hidden" name="id" value="0">
-      <input type="hidden" name="latitude" value="">
-      <input type="hidden" name="longitude" value="">
+      <input type="hidden" name="latitude" :value="lat">
+      <input type="hidden" name="longitude" :value="long">
       <ul>
         <li>
           <label>Pseudo*</label>
@@ -16,7 +16,7 @@
           <input type="email" name="email">
         </li>
         <li>
-          <label>Mot de passe*</label>
+          <label>Mot de passe (minimum 8 caractères avec au moins 1 minuscule, majuscule, chiffre et caractère spécial)*</label>
           <input type="password" name="password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" title="min 8 caractères, minuscule, majuscule, caractère spécial, chiffres au minimum 1 fois">
         </li>
 
@@ -57,7 +57,9 @@ export default {
   },
   data(){
     return{
-      user: null
+      user: null,
+      lat: 0,
+      long: 0
     }
   },
 
@@ -65,17 +67,32 @@ export default {
       if(window.grecaptcha) {
         grecaptcha.render(document.getElementsByClassName('g-recaptcha')[0], { sitekey : "6LcIPBUUAAAAAL7aFlWT0BNXe6nNKbRUTvQNrhXg" });
       }
+},
+
+created: function() {
+  if (navigator.geolocation)
+  {
+    var that = this;
+    navigator.geolocation.getCurrentPosition(function(position)
+    {
+      that.lat = position.coords.latitude;
+      that.long = position.coords.longitude;
+      alert(that.long);
+});
+}
+
   },
 
   methods: {
     signup : function(){
       let formData = new FormData(document.getElementById('signup-form'));
 
-      this.$http.post('https://api.meowtic.com/user/edit', formData)
+      var that = this;
+      that.$http.post('https://api.meowtic.com/user/edit', formData)
         .then(function(response){
           let data = response.data;
           if(data.success){
-            this.user = response.data.output;
+            that.user = response.data.output;
             //location.href = 'profileuser';
           }
           else{

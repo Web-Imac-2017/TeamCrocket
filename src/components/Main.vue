@@ -1,4 +1,3 @@
-
 <template>
   <div id="main-index">
     <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
