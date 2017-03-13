@@ -160,6 +160,10 @@ li.mob{
     }
 }
 
+div.part_right ul li img{
+     cursor:pointer;
+}
+
 
 @media screen and (max-device-width:800px), screen  and (max-width:800px){
   header .logo{
