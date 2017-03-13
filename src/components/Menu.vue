@@ -20,9 +20,10 @@
         <li class="separate"><img src="../assets/separate.jpg"></li>
         <li><router-link :to="{name: 'messenger'}"><img src="../assets/message.png" alt="message"></router-link></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
-        <li><router-link :to="{name: 'profileuser'}"><img src="../assets/profile.png" alt="profile"></router-link></li>
-        <li><img src="../assets/deconnexion.png" alt="profile"  v-on:click="logout" ></li>
-
+        <li v-on:click="popup"><img src="../assets/profile.png" alt="profile"></li>
+        <popup-component v-if="choice == 1"></popup-component>
+        <p v-else>
+        </p>
       </ul>
     </div>
   </header>
@@ -31,25 +32,26 @@
 <script>
 
 import Vue from 'vue'
-
 Vue.use(require('vue-resource'));
+import PopupComponent from "./PopUpProfile.vue"
+
 
 export default {
-
+  components: {
+    PopupComponent
+  },
+  data(){
+    return{
+      choice: 0
+    }
+  },
   methods : {
-
-    logout : function(){
-        this.$http.post('https://api.meowtic.com/user/logout')
-        .then(function(response){
-            let data = response.data
-            if(data.success){
-                alert("déconnecté");
-                location.href = 'root'
-            }
-            else{
-
-            }
-        }, handleError)
+    popup: function(){
+      if(this.choice == 0){
+        this.choice = 1
+      }else {
+        this.choice = 0
+      }
     }
 
 }}
