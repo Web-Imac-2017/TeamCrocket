@@ -178,4 +178,24 @@ class UserController extends BucketAbstractController
         }
         $user->resetPassword($token, $password1);
     }
+
+    /**
+    * Banni un utilisateur
+    * @param int $id ID du profil
+    * @param bool $dirty ID du profil
+    * @return int id banni
+    */
+    public function banuser(int $user_id, int $dirty){
+        $user = User::getUniqueById($user_id);
+
+        if($user->getId() == 0){
+            throw new \Exception(sprintf(gettext("This user %s does not exist"), 'n°'.$user_id));
+        }
+        $user->markBanned($dirty);
+
+        return array(
+            'banned' => $dirty,
+            'id' => $user->getId()
+        );
+    }
 }

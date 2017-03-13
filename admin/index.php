@@ -23,6 +23,53 @@ require_once(ROOT_INC . 'init.php');
             </div>
         </header>
         <div class="wrapper">
+
+            <div class="row">
+                <div class="col-4">
+                    <h4>Suspects animals profils</h4>
+                    <form id="suspect-animal-form" method="post" action="api" data-ctrl="profile" data-task="#">
+                        <div class="form-group">
+                            <ul class="list" id="suspect-animal-profil">
+                                <?php
+                                $suspectAnimalList = App\Model\Admin\Moderation::getSuspectAnimal();
+
+                                foreach($suspectAnimalList as $suspect){
+                                    echo '<li class="animal" data-id="'.$suspect->getId().'">
+                                    <a href="../index.php?pid='.$suspect->getId().'" target="_blank">'.$suspect->getName().'</a>
+                                    <a class="btn btn-success exec float-right" data-method="post" data-ctrl="profile" data-task="" data-args="'.$suspect->getId().'/1"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                    </li>';
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <h4>Suspects users profils</h4>
+                    <form id="suspect-profil-form" method="post" action="api" data-ctrl="user" data-task="#">
+                        <div class="form-group">
+                            <ul class="list" id="suspect-user-profil">
+                                <?php
+                                $suspectUserList = App\Model\Admin\Moderation::getSuspectUser();
+
+                                foreach($suspectUserList as $suspect){
+                                    if($suspect->getBanned() == 0){
+                                        echo '<li class="user" data-id="'.$suspect->getId().'">
+                                        <a href="../index.php?pid='.$suspect->getId().'" target="_blank">'.$suspect->getNickname().'</a>
+                                        <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="user" data-task="banuser" data-args="'.$suspect->getId().'/1" onClick="alert(\'Êtes-vous sûr de vouloir bannir ce pd ?\')" ><i class="fa fa-ban" aria-hidden="true"></i></a>
+                                        </li>';
+                                    }
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-4">
                     <h4>Dirty profils</h4>
@@ -83,6 +130,18 @@ require_once(ROOT_INC . 'init.php');
         <script src="../script/fontawesome.js"></script>
         <script>
         var callbacks = {
+
+            user : {
+                banuser : function(data){
+                    console.log(data);
+                    if(data.success){
+                        var banned = data.output.banned;
+                        var id = data.output.id;
+                        $('.user[data-id='+id+']').remove();
+                    }
+                }
+            },
+
             profile : {
                 markdirty : function(data){
                     console.log(data);
