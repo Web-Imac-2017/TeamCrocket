@@ -61,6 +61,19 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         DB::exec($sql, $values);
     }
 
+    public function markBanned(int $banned = 0){
+        $orm = BucketParser::parse(get_called_class());
+
+        $sql = "UPDATE ".DATABASE_CFG['prefix']."{$orm->getTable()} SET banned = :banned WHERE id = :id";
+
+        $values = array(
+            [':id', $this->getId(), \PDO::PARAM_INT],
+            [':banned', $banned, \PDO::PARAM_INT]
+        );
+
+        DB::exec($sql, $values);
+    }
+
     public static function getDirtyList() : array{
         $class = get_called_class();
         $orm = BucketParser::parse($class);
@@ -68,7 +81,6 @@ abstract class BucketAbstract implements BucketInterface, \JsonSerializable
         $sql = "SELECT * FROM ".DATABASE_CFG['prefix']."{$orm->getTable()} WHERE dirty = 0 AND active = 1";
         return (array)DB::fetchMultipleObject($class, $sql);
     }
-
 
     /**
     * Construit une requête SQL d'insertion de l'objet courant et l'exécute
