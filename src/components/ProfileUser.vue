@@ -144,12 +144,12 @@
           </p>
           <h1>Mes Animaux</h1>
           <ul>
-            <li>efzefzefzef</li>
+            <li>{{this.animal.name}}</li>
             <li>zefzefzef</li>
             <li>zefzef</li>
           </ul>
           <h2>Ajouter un animal</h2>
-          <router-link :to="{name: 'addpet'}"><button v-on:click="login">+</button></router-link>
+          <router-link :to="{name: 'addpet'}">+</router-link>
 
         </div>
       </div>
@@ -175,21 +175,26 @@ Vue.use(require('vue-resource'));
 export default {
   data() {
     return {
-      user : null
+      user : null,
+      animal : {
+        name : ''
+      }
     }
   },
   created: function(){
     this.user = this.$parent.user;
     this.$http.get('https://api.meowtic.com/user/list_animal')
-          .then(function(response){
-            if(data.success){
-              var total = response.data.output.item_total;
-              var i = 0;
-              for(i;i<=total;i++){
-                  this.user.list_animal =  this.user[i].name;
-              }
-            }
-          })
+    .then(function(response){
+      let data = response.data;
+      this.animal = response.data.output;
+      if(data.success){
+          var total = response.data.output.item_total;
+          var i =0;
+          for(i;i<total;i++){
+                this.animal.name = this.animal.data[i].name
+          }
+        }
+      })
 
   },
   methods : {
