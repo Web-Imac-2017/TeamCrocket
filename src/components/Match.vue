@@ -13,17 +13,21 @@
           <div>
             <ul class="title">
               <span>{{ animal.name }}</span>
-              <span>
+              <li v-if="animal.age == 1">{{ animal.age }} an</li>
+              <li v-if="animal.age == 0"></li>
+              <li v-else>{{ animal.age }} ans</li>
+              <li>
                 <img v-if="animal.sex =='m'" src="../assets/man.png" alt="Homme">
                 <img v-if="animal.sex =='f'" src="../assets/woman.png" alt="Femme">
                 <p v-else></p>
-              </span>
+              </li>
             </ul>
-            <ul>
-              <li>1 an</li>
+            <ul class="text">
               <li>Espiègle</li>
-              <li>Aime {{ animal.like }}</li>
-              <li>N'aime pas {{ animal.dislike }}</li>
+              <li v-if="animal.like != ''">Aime {{ animal.like }}</li>
+              <li v-if="animal.dislike != ''">N'aime pas {{ animal.dislike }}</li>
+              <li v-else></li>
+
             </ul>
           </div>
         </div>
@@ -141,7 +145,6 @@ var handleError = function(error){
     text-align: center;
   }
 
-
   .profile {
     display: flex;
     flex-direction: row;
@@ -156,7 +159,7 @@ var handleError = function(error){
     }
 
     div {
-      padding: 4%;
+      padding: 2%;
       height: 46%;
       width: 46%;
 
