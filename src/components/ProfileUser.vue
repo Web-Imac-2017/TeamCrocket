@@ -67,7 +67,12 @@
           <h1>Mes Animaux</h1>
           {{animals.id}}
           <div v-for="a in animals">
-              <router-link  v-bind:to="'/profileanimal/'+ a.id">{{a.id}}{{a.name}}</router-link>
+                <router-link  v-bind:to="'/profileanimal/'+ a.id">
+                <div class="profile_animal">
+                  <img v-if="a.profile_image != null" v-bind:src="a.profile_image.path" v-bind:alt="a.name">
+                </div>
+                {{a.name}}
+              </router-link>
           </div>
           <h2>Ajouter un animal</h2>
           <router-link :to="{name: 'addpet'}"><button>+</button></router-link>
@@ -103,7 +108,7 @@ export default {
       choice : 0,
       user : null,
       animals: [],
-      animals_info: {id:'',name:''}
+      animals_info: {id:'',name:'', profile_image:''}
     }
   },
   created(){
@@ -212,6 +217,16 @@ img#img_edit_user{
   background-color:#9ca7be;
 
 }
+.profile_animal{
+  width: 50px;
+  height:50px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.profile_animal img{
+  width: 100%
+}
+
 #profile_picture{
   background-color:#445680;
   width:170px;
