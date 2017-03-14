@@ -50,7 +50,10 @@
       <div>
       </div>
     </form>
-    <button type="submit">Valider</button>
+    <button type="submit">Valider
+  <img src="../assets/search_mob.png" class="img_button"/>
+    </button>
+
   </div>
   </section>
 </template>
