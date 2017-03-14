@@ -25,7 +25,7 @@
         </li>
 
         <li>
-          <label>Date de naissance</label>
+          <label class="date_naissance">Date de naissance</label>
           <date-component></date-component>
         </li>
 
@@ -180,4 +180,148 @@ padding-bottom: 3em;
    margin-left: 7em;
    position: absolute;
  }
+
+@media screen and (max-device-width:770px), screen  and (max-width:770px){
+
+
+
+ div#date_birth select{
+   float:left;
+   margin-left: 2em;
+
+ }
+
+#form-inscription{
+
+  width:80%;
+  height:;
+  padding-bottom: 5em;
+}
+
+.g-recaptcha{
+width:50%;
+margin-top: 7em;
+}
+
+div#form-inscription button{
+  z-index: 100;
+  margin-top:-1em;
+  margin-left: 7em;
+  position: absolute;
+}
+
+
+.sex ul{
+  float:right;
+  margin-top: -2em;
+
+}
+
+div#form-inscription button{
+  z-index: 100;
+  margin-top:3em;
+  margin-left: 7em;
+  position: absolute;
+}
+
+ }
+
+ @media screen and (max-device-width:630px), screen  and (max-width:630px){
+
+  .g-recaptcha{
+  margin-left: 20%;
+  width:50%;
+  padding-bottom: 3em;
+   }
+
+ .sex img{
+width:70%;
+padding-right: -0.5em;
+
+ }
+}
+
+ @media screen and (max-device-width:600px), screen  and (max-width:600px){
+
+   label.date_naissance{
+    text-align: center;
+    margin-left: 5em;
+   }
+
+   div#date_birth {
+     margin-left:15%;
+   }
+
+   .sex ul{
+     float:left;
+     margin-left: 40%;
+
+   }
+
+   div#form-inscription button{
+     width:40%;
+   }
+
+   .g-recaptcha{
+     margin-left: 18%;
+
+   }
+
+}
+
+
+@media screen and (max-device-width:540px), screen  and (max-width:540px){
+
+  .g-recaptcha{
+    margin-left: 13%;
+
+  }
+}
+
+@media screen and (max-device-width:480px), screen  and (max-width:480px){
+
+  .g-recaptcha{
+    margin-left: 8%;
+    width:50px;
+
+  }
+  div#date_birth{
+    margin-left: 10%;
+  }
+
+  label.date_naissance{
+    margin-left: 10%;
+  }
+
+
+
+}
+
+@media screen and (max-device-width:405px), screen  and (max-width:405px){
+
+  .g-recaptcha{
+    margin-left: 2%;
+
+  }
+  div#date_birth{
+    margin-left: 5%;
+  }
+
+  div#form-inscription button{
+    width:40%;
+    margin-left:20%;
+  }
+}
+
+@media screen and (max-device-width:395px), screen  and (max-width:395px){
+
+  div#date_birth{
+    margin-left: -0.5%;
+  }
+  .g-recaptcha{
+    margin-bottom: 18%;
+    margin-left: -0.5em;
+  }
+}
+
 </style>
