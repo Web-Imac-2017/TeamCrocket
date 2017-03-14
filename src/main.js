@@ -26,7 +26,7 @@ const router = new VueRouter({
     component: require('./components/LoginUser.vue'),
      name: 'loginuser'
    },{
-     path: '/ProfileAnimal',
+     path: '/ProfileAnimal/:id',
      component: require('./components/ProfileAnimal.vue'),
      name: 'profileanimal'
 

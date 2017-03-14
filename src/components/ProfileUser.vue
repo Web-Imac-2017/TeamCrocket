@@ -65,8 +65,9 @@
             <textarea class="edit_data" name="description" v-model="user.description" ></textarea>
           </p>
           <h1>Mes Animaux</h1>
+          {{animals.id}}
           <div v-for="a in animals">
-              {{a}}
+              <router-link  v-bind:to="'/profileanimal/'+ a.id">{{a.id}}{{a.name}}</router-link>
           </div>
           <h2>Ajouter un animal</h2>
           <router-link :to="{name: 'addpet'}"><button>+</button></router-link>
@@ -102,6 +103,7 @@ export default {
       choice : 0,
       user : null,
       animals: [],
+      animals_info: {id:'',name:''}
     }
   },
   created(){
@@ -124,7 +126,8 @@ export default {
       if(data.success){
         var total = response.data.output.item_total;
           for(var i = 0 ; i<total ; i++){
-            this.animals.push( this.animal.data[i].name);
+            this.animals_info = this.animal.data[i];
+            this.animals.push(this.animals_info);
           }
         }
       })
@@ -167,13 +170,6 @@ export default {
           }
       })
     },
-    router_id : function(){
-        var id  =  this.animal.data[0].id;
-        sessionStorage.setItem("id_animal",id);
-        location.href = 'profileanimal';
-
-    }
-
   }
 }
 

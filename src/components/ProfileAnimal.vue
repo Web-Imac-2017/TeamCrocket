@@ -113,7 +113,7 @@ export default {
   },
 
     created : function(){
-      var get_id = sessionStorage.getItem("id_animal");
+      var get_id = this.$route.params.id;
       this.$http.get('https://api.meowtic.com/profile/get/'+ get_id )
         .then(function(response){
           let data = response.data;
