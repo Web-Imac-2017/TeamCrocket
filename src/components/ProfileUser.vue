@@ -8,7 +8,7 @@
         <img v-if="user.image != null" v-bind:src="user.image.path" v-bind:alt="user.nickname">
       </div>
       <div id="info_princ">
-        <span class="show_data" >{{user.nickname}}</span>
+    <span class="show_data" >{{user.nickname}}</span>
         <input class="edit_data" v-model="user.nickname" name="nickname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
         <div id="icon_contact">
           <input type="file" id="edit_profile_picture" class="edit_data" name="image_file">
@@ -20,6 +20,8 @@
       <div id="content_info">
         <div class="details">
           <h1>Details</h1>
+          <div class="trait"></div>
+            <div id="first">
           <ul>
             <li>
                 <h2>Prenom</h2>
@@ -49,7 +51,10 @@
                 </div>
               </p>
             </li>
-
+          </ul>
+        </div>
+        <div id="second">
+          <ul>
             <li>
               <h2>Date de naissance</h2>
               <p>
@@ -64,23 +69,31 @@
               </p>
             </li>
         </ul>
+      </div>
         </div>
         <div class="desc">
           <h1>Description</h1>
+          <div class="trait"></div>
           <p><span class="show_data">{{user.description}}</span>
             <textarea class="edit_data" name="description" v-model="user.description" ></textarea>
           </p>
           <h1>Mes Animaux</h1>
+
           {{animals.id}}
-          <div v-for="a in animals">
+          <div v-for="a in animals" class="my_animal">
                 <router-link  v-bind:to="'/profileanimal/'+ a.id">
                 <div class="profile_animal">
                   <img v-if="a.profile_image != null" v-bind:src="a.profile_image.path" v-bind:alt="a.name">
                 </div>
-                {{a.name}}
+                <span>{{a.name}}   /   {{a.date_birth}}
+                  <img src="../assets/man.png" alt="Homme"  v-if="a.sex == 'h'"/>
+                  <img src="../assets/woman.png" alt="Homme"  v-if="a.sex == 'f'"/>
+                </span>
+
               </router-link>
           </div>
-          <h2>Ajouter un animal</h2>
+          <h1 class="add_pet">Ajouter un animal</h1>
+
           <router-link :to="{name: 'addpet'}"><button>+</button></router-link>
 
         </div>
@@ -140,6 +153,7 @@ export default {
           for(var i = 0 ; i<total ; i++){
             this.animals_info = this.animal.data[i];
             this.animals.push(this.animals_info);
+
           }
         }
       })
@@ -231,9 +245,19 @@ img#img_edit{
   background-color:#9ca7be;
 
 }
+
+#first{
+  float:left;
+  width: 50%;
+}
+
+#second{
+  float:left;
+}
+
 .profile_animal{
-  width: 50px;
-  height:50px;
+  width: 100px;
+  height:100px;
   display: inline-block;
   vertical-align: middle;
 }
@@ -271,6 +295,14 @@ img#img_edit{
   z-index:2;
   bottom: -30px;
 }
+
+.add_pet{
+
+font-size: 1.1em;
+}
+
+
+
 #icon_contact img{
   width:20px
 }
@@ -302,16 +334,18 @@ img#img_edit{
 #content_info h2{
     font-size:1.1em;
     text-align: left;
+    color:gray;
 }
 
 #content_info p{
   font-family: @fontText;
-  color:gray;
+  color:@darkBlue;
   margin-top: 2%;
   margin-left: 1.5%;
-  font-size: 1.2em;
+  font-size: 1.1em;
 
 }
+
 
 .ajout_animal{
 width:150%;
@@ -326,6 +360,33 @@ width:150%;
   padding-left: 3%;
 
 }
+
+div.desc p{
+  margin-top: 1em;
+}
+
+.my_animal{
+  margin-top: 1em;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+border-radius: 6px;
+border: solid 0.1em #e2e3e3;
+}
+
+
+.my_animal div{
+padding-top: 0.2em;
+
+}
+
+.my_animal span{
+  font-size: 1.3em;
+  font-family: @fontTitle;
+  font-weight : bold;
+  color:@darkBlue;
+  padding-left: 1em;
+}
+
 .desc button{
 
 border-radius: 6px;
@@ -339,9 +400,22 @@ cursor:pointer;
 
 }
 
-
+div#cover{
+  background-image: url(../assets/gorille.jpg) ;
+  background-size: 100%;
+}
 .desc h2{
   float:left;
+}
+
+.show_data{
+  font-size: 1.3em;
+}
+
+div#content_info div.desc div.my_animal a span img{
+width:1.3em;
+padding-left:0.6em;
+padding-top: 0.3em;
 }
 
 #content_profile .button_style{
@@ -354,12 +428,36 @@ cursor:pointer;
 
 }
 
+div#content_info h1{
+padding-top: 1em;
+}
+
+
+div#content_info div.details h2{
+padding-top: 1em;
+}
+
+
 #button_valid{
   display: none;
   position:absolute;
   z-index:88;
   margin-left: 9em;
   margin-top:-4em;
+}
+
+
+
+.desc p{
+padding-top:1em;
+padding-bottom:1em;
+padding-left: 0.3em;
+background-color: #e2e3e3;
+border-radius: 5px;
+}
+
+div.desc div{
+
 }
 
 @media screen and (max-device-width:1000px), screen  and (max-width:1000px){
