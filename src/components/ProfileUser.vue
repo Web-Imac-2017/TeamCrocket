@@ -14,7 +14,7 @@
           <input type="file" id="edit_profile_picture" class="edit_data" name="image_file">
         </div>
       </div>
-      <img src="../assets/edit.png" id="img_edit_user"  v-on:click="edit_details"/>
+      <img src="../assets/edit.png" id="img_edit"  v-on:click="edit_details"/>
     </div>
 
       <div id="content_info">
@@ -36,11 +36,17 @@
             </li>
             <li>
               <h2>Sexe</h2>
-              <p><span class="show_data">{{user.sex}}</span>
-                <select name="sex" class="edit_data">
-                    <option value="m">M</option>
-                    <option value="f">F</option>
-                </select>
+              <p><span class="show_data">
+                    <img src="../assets/man.png" alt="Homme"  v-if="sex == 1"/>
+                    <img src="../assets/woman.png" alt="Femme" v-if="sex == 2"/>
+                    <p v-else></p>
+                  </span>
+                <div class="edit_data">
+                    <label for="m"><img src="../assets/man.png" alt="Homme"/></label>
+                    <input type="radio" id="m" value="m" name="sex">
+                    <label for="f"><img src="../assets/woman.png" alt="Femme"/></label>
+                   <input type="radio" id="f" value="f" name="sex">
+                </div>
               </p>
             </li>
 
@@ -105,6 +111,7 @@ export default {
   },
   data() {
     return{
+      sex : 0,
       choice : 0,
       user : null,
       animals: [],
@@ -136,6 +143,11 @@ export default {
           }
         }
       })
+      if(this.user.sex == 'm'){
+        this.sex = 1;
+      }else if (this.user.sex == 'f') {
+        this.sex = 2
+      }
 
   },
   methods : {
@@ -190,18 +202,20 @@ export default {
 .edit_data{
   display: none;
 }
-img#img_edit_user{
+img#img_edit{
   right:0;
   bottom:0;
   position: absolute;
-  width:3em
+  width:3em;
+  cursor:pointer;
 }
 #content_profile{
   margin:auto;
   margin-top: 100px;
   top:100px;
-  width:800px;
+  width:80%;
   background-color:white;
+  margin-bottom: 100px
 }
 #content_profile  h1{
   z-index:10;
@@ -264,6 +278,7 @@ img#img_edit_user{
   position:relative;
   display: inline-block;
   width:100%;
+  margin-bottom: 50px
 }
 #content_info .details{
   float:left;
@@ -347,12 +362,22 @@ cursor:pointer;
   margin-top:-4em;
 }
 
-img#img_edit{
-    cursor:pointer;
+@media screen and (max-device-width:1000px), screen  and (max-width:1000px){
+  #content_profile{
+    width:90%;
+  }
 }
-
-
-
+@media screen and (max-device-width:900px), screen  and (max-width:900px){
+  #content_profile{
+    width:95%;
+  }
+  #content_info .details,#content_info .desc{
+    width: 90%;
+    margin: auto;
+    float: none;
+    margin-top: 80px
+  }
+}
 @media screen and (max-device-width:810px), screen  and (max-width:810px){
   #content_profile{
     width:600px;
