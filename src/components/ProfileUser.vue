@@ -3,7 +3,7 @@
     <h1>Profil</h1>
     <form  id="profile-form">
     <input type="hidden" name="id" v-bind:value="user.id">
-    <div id="cover">
+    <div id="cover" class="cover_user">
       <div id="profile_picture">
         <img v-if="user.image != null" v-bind:src="user.image.path" v-bind:alt="user.nickname">
       </div>
@@ -82,7 +82,7 @@
           {{animals.id}}
           <div v-for="a in animals" class="my_animal">
                 <router-link  v-bind:to="'/profileanimal/'+ a.id">
-                <div class="profile_animal">
+                <div class="profile_animal_2">
                   <img v-if="a.profile_image != null" v-bind:src="a.profile_image.path" v-bind:alt="a.name">
                 </div>
                 <span>{{a.name}}   /   {{a.date_birth}}
@@ -256,11 +256,22 @@ img#img_edit{
 }
 
 .profile_animal{
+  width: 50px;
+  height:50px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.profile_animal_2{
   width: 100px;
   height:100px;
   display: inline-block;
   vertical-align: middle;
 }
+.profile_animal_2 img{
+  width: 100%
+}
+
 .profile_animal img{
   width: 100%
 }
@@ -401,9 +412,18 @@ cursor:pointer;
 }
 
 div#cover{
-  background-image: url(../assets/gorille.jpg) ;
+
   background-size: 100%;
 }
+
+.cover_user{
+    background-image: url(../assets/gorille.jpg) ;
+}
+
+div#content_info div.desc h1.add_pet{
+  margin-top: 1em;
+}
+
 .desc h2{
   float:left;
 }
