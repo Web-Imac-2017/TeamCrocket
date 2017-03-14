@@ -127,7 +127,7 @@ created: function() {
 }
 #form-inscription label{
   font-size:1.3em;
-  font-family: 'Moon';
+  font-family: @fontTitle;
   font-weight : lighter;
   color:@lightBlue;
   letter-spacing: 0.1em;
