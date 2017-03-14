@@ -2,23 +2,31 @@
     <section id="frame">
       <img src="../assets/Meetic.png" width="110ox"/>
       <h1>Match</h1>
-      <h2>Trouvez le profil qui fera chavirer votre coeur</h2>
+      <h2>Trouvez le profil qui fera chavirer son coeur</h2>
 
       <div class="profile">
-        <img src="../assets/cat.jpg"/>
+        <img v-if="animal.image != null" v-bind:src="animal.image.path" v-bind:alt="animal.name">
+        <img v-else src="../assets/cat.jpg">
         <div>
-          <span>{{ animal.name }}</span>
+          <ul class="title">
+            <span>{{ animal.name }}</span>
+            <span>
+              <img v-if="animal.sex =='m'" src="../assets/man.png" alt="Homme">
+              <img v-else src="../assets/woman.png" alt="Femme">
+              <p v-else></p>
+            </span>
+          </ul>
           <ul>
             <li>1 an</li>
             <li>Espiègle</li>
-            <li>Aime dormir</li>
-            <li>N'aime pas l'eau</li>
+            <li>Aime {{ animal.like }}</li>
+            <li>N'aime pas {{ animal.dislike }}</li>
           </ul>
         </div>
       </div>
       <div id="choice">
-        <a class="accept" href="">accept</a>
-        <a class="refuse" href="">refuse</a>
+        <button>Valider</button>
+        <button v-on:click="refuse">Refuser</button>
       </div>
     </section>
 </template>
@@ -36,35 +44,40 @@ export default {
         sex: '',
         like: '',
         dislike: ''
-      }
+      },
+      choice : true
     }
   },
-/*
-  get : function()
-  {
-    this.$http.get('https://api.meowtic.com/match/get')
-    .then(function(response){
-        let data = response.data;
-        if(data.success){
-            console.log(data.success);
-            this.animal = data.output;
-        }
-    }, handleError)
-
-  },
-  */
 
   created : function()
   {
-    var get_id = 33; //sessionStorage.getItem("75");
-    this.$http.get('https://api.meowtic.com/match/get/' + get_id)
+    var that = this;
+    var get_id = this.$route.params.id;
+    console.log(get_id);
+    that.$http.get('https://api.meowtic.com/match/get/' + get_id)
     .then(function(response){
       let data = response.data;
 
         if(data.success){
-            this.animal = data.output;
+            that.animal = data.output;
         }
     }, handleError)
+  },
+  methods: {
+    refuse : function()
+    {
+      var that = this;
+      var get_id = 33;
+      that.$http.post('https://api.meowtic.com/match/swipe/' + get_id + animal.id + false)
+      .then(function(response){
+        let data = response.data;
+
+        if(data.success){
+          that.choice = data.output;
+        }
+
+      })
+    },
   }
 }
 var handleError = function(error){

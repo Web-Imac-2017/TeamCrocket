@@ -16,7 +16,7 @@
         <li class="mob separate"><img src="../assets/separate.jpg"></li>
         <li class="mob"><img src="../assets/search_mob.png" alt="search"></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
-        <li><router-link :to="{name: 'match'}"><img src="../assets/match.png" alt="message"></router-link></li>
+        <li><router-link :to="{name: 'choicematch'}"><img src="../assets/match.png" alt="message"></router-link></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
         <li><router-link :to="{name: 'messenger'}"><img src="../assets/message.png" alt="message"></router-link></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>

@@ -19,6 +19,10 @@ const router = new VueRouter({
     name: 'root'
   }, {
     path: '/match',
+    component: require('./components/ChoiceMatch.vue'),
+    name: 'choicematch'
+  }, {
+    path: '/match/:id',
     component: require('./components/Match.vue'),
     name: 'match'
   }, {
