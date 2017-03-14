@@ -71,6 +71,26 @@ class ProfileController extends BucketAbstractController
         );
     }
 
+    /**
+    * Banni un profil animal
+    * @param int $id ID du profil
+    * @param bool $dirty ID du profil
+    * @return int id banni
+    */
+    public function banprofile(int $profile_id, int $dirty){
+        $animal = Animal::getUniqueById($profile_id);
+
+        if($animal->getId() == 0){
+            throw new \Exception(sprintf(gettext("This profile %s does not exist"), 'n°'.$animal_id));
+        }
+        $animal->markBanned($dirty);
+
+        return array(
+            'banned' => $dirty,
+            'id' => $animal->getId()
+        );
+    }
+
 
     /**
     * Upload une image pour un profil d'animal

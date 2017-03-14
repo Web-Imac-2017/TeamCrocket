@@ -17,13 +17,13 @@ require_once(ROOT_INC . 'init.php');
         <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js"></script>
     </head>
     <body>
+
         <header id="top" class="row">
             <div class="wrapper">
                 <h1 class="col-12">Administration : </h1>
             </div>
         </header>
         <div class="wrapper">
-
             <div class="row">
                 <div class="col-4">
                     <h4>Suspects users profils</h4>
@@ -35,39 +35,31 @@ require_once(ROOT_INC . 'init.php');
 
                                 foreach($suspectUserList as $user){
                                     if($user->getBanned() == 0){
-                                        echo '<li class="user" data-id="'.$user->getId().'">';
+                                        echo '<li style="list-style-type:none;" class="user" data-id="'.$user->getId().'">';
                                             echo '
-                                            <h4>
                                                 <a href="../index.php?uid='.$user->getId().'" target="_blank">'.$user->getNickname().'</a>
-                                                <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="user" data-task="banuser" data-args="'.$user->getId().'/1" onClick="alert(\'Êtes-vous sûr de vouloir bannir ce pd ?\')" ><i class="fa fa-ban" aria-hidden="true"></i></a>
-                                            </h4>
+                                                <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="user" data-task="banuser" data-args="'.$user->getId().'/1" onClick="alert(\'Êtes-vous sûr de vouloir bannir ce membre ?\')" ><i class="fa fa-ban" aria-hidden="true"></i></a>
                                             ';
                                             ?>
-                                            <h5>Suspects animals profils</h5>
+                                                <ul class="list" id="suspect-animal-profil">
+                                                    <?php
+                                                    $suspectAnimalList = App\Model\Admin\Moderation::getSuspectAnimalByCreator($user->getId());
 
-                                                <div class="form-group">
-                                                    <ul class="list" id="suspect-animal-profil">
-                                                        <?php
-                                                        $suspectAnimalList = App\Model\Admin\Moderation::getSuspectAnimalByCreator($user->getId());
-
-                                                        foreach($suspectAnimalList as $animal){
-                                                            echo '<li class="animal" data-id="'.$animal->getId().'">
-                                                            <a href="../index.php?pid='.$animal->getId().'" target="_blank">'.$animal->getName().'</a>
-                                                            <a class="btn btn-success exec float-right" data-method="post" data-ctrl="profile" data-task="" data-args="'.$animal->getId().'/1"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                                            </li>';
-                                                        }
-                                                        ?>
-                                                    </ul>
-                                                </div>
-
-                                        </li>
+                                                    foreach($suspectAnimalList as $animal){
+                                                        echo '<li style="list-style-type:circle;" class="animal" data-id="'.$animal->getId().'">
+                                                        <a href="../index.php?pid='.$animal->getId().'" target="_blank">'.$animal->getName().'</a>
+                                                        <a class="btn btn-delete exec float-right" data-method="post" data-ctrl="profile" data-task="banprofile" data-args="'.$animal->getId().'/1" onClick="alert(\'Êtes-vous sûr de vouloir bannir ce profil animal ?\')"><i class="fa fa-ban" aria-hidden="true"></i></a>
+                                                        </li>';
+                                                    }
+                                                    ?>
+                                                </ul>
+                                            </li>
                                         <?php
                                     }
                                 }
                                 ?>
                             </ul>
                         </div>
-
                 </div>
 
                 <div class="col-4">
@@ -81,6 +73,7 @@ require_once(ROOT_INC . 'init.php');
                                 foreach($dirtyList as $dirty){
                                     echo '<li class="animal" data-id="'.$dirty->getId().'">
                                     <a href="../index.php?pid='.$dirty->getId().'" target="_blank">'.$dirty->getName().'</a>
+                                    <a style="display:bolck;margin-left: 1%;" class="btn btn-delete exec float-right" data-method="post" data-ctrl="profile" data-task="markdirty" data-args="'.$dirty->getId().'/2"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                     <a class="btn btn-success exec float-right" data-method="post" data-ctrl="profile" data-task="markdirty" data-args="'.$dirty->getId().'/1"><i class="fa fa-check" aria-hidden="true"></i></a>
                                     </li>';
                                 }
@@ -89,8 +82,10 @@ require_once(ROOT_INC . 'init.php');
                         </div>
                     </form>
                 </div>
+            </div>
 
-                <div class="col-4">
+            <div class="row">
+                <div class="col-12">
                     <h4>Dirty profils pictures</h4>
                     <form id="dirty-profil-picture-form" method="post" action="api" data-ctrl="profile" data-task="#">
                         <div class="form-group">
@@ -145,7 +140,16 @@ require_once(ROOT_INC . 'init.php');
                     if(data.success){
                         var dirty = data.output.dirty;
                         var id = data.output.id;
-                        if(dirty == 1) $('.animal[data-id='+id+']').remove();
+                        if(dirty == 1 || dirty == 2) $('.animal[data-id='+id+']').remove();
+                    }
+                },
+
+                banprofile : function(data){
+                    console.log(data);
+                    if(data.success){
+                        var banned = data.output.banned;
+                        var id = data.output.id;
+                        $('.animal[data-id='+id+']').remove();
                     }
                 }
             },
