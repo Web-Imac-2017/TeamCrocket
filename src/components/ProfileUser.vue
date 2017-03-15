@@ -106,7 +106,9 @@
 
       </div>
     </form>
-
+        <div id="delete">
+            <h2 v-on:click="delete_user">Supprimer votre compte</h2>
+        </div>
   </div>
   <div v-else>
     <p>Vous devez vous connecter...</p>
@@ -199,6 +201,20 @@ export default {
           }
           else{
             alert(response.data.message);
+          }
+      })
+    },
+
+    delete_user : function(){
+      this.$http.post('https://api.meowtic.com/user/delete/'+this.user.id)
+      .then(function(response){
+          let data = response.data
+          if(data.success){
+              location.href = 'root'
+              alert('votre compte à bien été supprimé')
+          }
+          else{
+
           }
       })
     },
@@ -324,6 +340,11 @@ float:left;
 
 #icon_contact img{
   width:20px
+}
+
+#delete{
+  cursor: pointer;
+  padding-bottom: 0.5em;
 }
 #content_info{
   position:relative;
