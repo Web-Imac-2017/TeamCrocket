@@ -38,44 +38,49 @@
       <div id="content_info">
         <div class="details">
           <h1>Details</h1>
-          <ul>
-            <li>
-              <h2>Sexe</h2>
-              <p><span class="show_data">
-                    <img src="../assets/man.png" alt="Homme"  v-if="sex == 1"/>
-                    <img src="../assets/woman.png" alt="Femme" v-if="sex == 2"/>
-                    <img src="../assets/unknown.png"alt="Hermaphrodite" v-if="sex == 3"/>
-                    <p v-else></p>
-                  </span>
-                <div class="edit_data">
-                    <label for="m"><img src="../assets/man.png" alt="Homme"/></label>
-                    <input type="radio" id="m" value="m" name="sex">
-                    <label for="f"><img src="../assets/woman.png" alt="Femme"/></label>
-                    <input type="radio" id="f" value="f" name="sex">
-                    <label for="h"><img src="../assets/unknown.png" alt="Hermaphrodite" /></label>
-                    <input type="radio" id="h" value="h" name="sex">
-                </div>
-              </p>
-            </li>
-
+          <div id="first">
+            <ul>
               <li>
-                <h2>Espèce</h2>
-                <p><span class="show_data">{{animal.species.name}}</span>
-                  <select class="edit_data"  name="species" v-model="animal.species.id">
-                     <option value="12">Arthropode</option>
-                     <option value="6">Chat</option>
-                     <option value="8">Cheval</option>
-                     <option value="9">Chien</option>
-                     <option value="13">Lézard</option>
-                     <option value="15">Poisson</option>
-                     <option value="16">Rongeur</option>
-                     <option value="10">Serpent</option>
-                     <option value="14">Tortue</option>
-                     <option value="17">Autre</option>
-                  </select>
+                <h2>Sexe</h2>
+                <p><span class="show_data">
+                      <img src="../assets/man.png" alt="Homme"  v-if="sex == 1"  class="img_sex" />
+                      <img src="../assets/woman.png" alt="Femme" v-if="sex == 2"  class="img_sex" />
+                      <img src="../assets/unknown.png"alt="Hermaphrodite" v-if="sex == 3" class="img_sex" />
+                      <p v-else></p>
+                    </span>
+                  <div class="edit_data">
+                      <label for="m"><img src="../assets/man.png" alt="Homme" class="img_sex" /></label>
+                      <input type="radio" id="m" value="m" name="sex">
+                      <label for="f"><img src="../assets/woman.png" alt="Femme" class="img_sex" /></label>
+                      <input type="radio" id="f" value="f" name="sex">
+                      <label for="h"><img src="../assets/unknown.png" alt="Hermaphrodite" class="img_sex" /></label>
+                      <input type="radio" id="h" value="h" name="sex">
+                  </div>
                 </p>
               </li>
 
+                <li>
+                  <h2>Espèce</h2>
+                  <p><span class="show_data">{{animal.species.name}}</span>
+                    <select class="edit_data"  name="species.id" v-model="animal.species.id">
+                       <option value="12">Arthropode</option>
+                       <option value="6">Chat</option>
+                       <option value="8">Cheval</option>
+                       <option value="9">Chien</option>
+                       <option value="13">Lézard</option>
+                       <option value="15">Poisson</option>
+                       <option value="16">Rongeur</option>
+                       <option value="10">Serpent</option>
+                       <option value="14">Tortue</option>
+                       <option value="17">Autre</option>
+                    </select>
+                  </p>
+                </li>      
+          </ul>
+        </div>
+
+        <div id="second">
+          <ul>
             <li>
               <h2>Date de naissance</h2>
               <p>
@@ -89,7 +94,9 @@
                 <input class="edit_data" name="city" v-model="animal.city" type="text" >
               </p>
             </li>
-        </ul>
+          </ul>
+      </div>
+
         </div>
         <div class="desc">
           <h1>Description</h1>
@@ -98,11 +105,11 @@
           </p>
             <h1>J'aime</h1>
             <p><span class="show_data">{{animal.like}}</span>
-              <textarea style="width:97%;" cols="5" rows="5" class="edit_data" name="like" v-model="animal.like" ></textarea>
+              <textarea style="width:97%;" cols="5" rows="5" class="edit_data" name="info_like" v-model="animal.like" ></textarea>
             </p>
             <h1>Je n'aime pas</h1>
             <p><span class="show_data">{{animal.dislike}}</span>
-              <textarea style="width:97%;" cols="5" rows="5" class="edit_data" name="dislike" v-model="animal.dislike" ></textarea>
+              <textarea style="width:97%;" cols="5" rows="5" class="edit_data" name="info_dislike" v-model="animal.dislike" ></textarea>
             </p>
         </div>
       </div>
@@ -151,12 +158,16 @@ export default {
             }
           }
         })
-        if(this.animal.sex == 'm'){
-          this.sex = 1;
-        }else if (this.animal.sex == 'f') {
-          this.sex = 2;
-        }else if (this.animal.sex == 'h') {
-          this.sex = 3;
+        switch(this.animal.sex){
+          case "m":
+            this.sex=1;
+            break;
+          case "f":
+            this.sex=2;
+            break;
+          default:
+              this.sex=3;
+              break;
         }
          // Type file
           document.querySelector("html").classList.add('js');
@@ -195,7 +206,7 @@ export default {
             let data = response.data;
             if(data.success){
               console.log('Profile modifié');
-              this.user = response.data.output;
+              this.animal = response.data.output;
               this.choice = 0;
               var show = document.getElementsByClassName("show_data");
               for (var i=0;i<show.length;i+=1){

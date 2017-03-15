@@ -40,8 +40,8 @@
             <li>
               <h2>Sexe</h2>
               <p><span class="show_data">
-                    <img src="../assets/man.png" alt="Homme"  v-if="sex == 1"/>
-                    <img src="../assets/woman.png" alt="Femme" v-if="sex == 2"/>
+                    <img src="../assets/man.png" alt="Homme"  v-if="sex == 1"  class="img_sex" />
+                    <img src="../assets/woman.png" alt="Femme" v-if="sex == 2"  class="img_sex" />
                     <p v-else></p>
                   </span>
                 <div class="edit_data">
@@ -235,7 +235,16 @@ export default {
 
  @import "../definitions";
 @blue : #212D48;
-
+input.edit_data,p div#date_birth select, textarea.edit_data{
+  margin:auto;
+  background-color:white;
+  border-radius: 6px;
+  font-size: 1em;
+  padding-top:0.2em;
+  padding-bottom:0.2em;
+  color:@darkBlue;
+  font-family: @fontTitle;
+}
 .edit_data{
   display: none;
 }
@@ -245,6 +254,9 @@ img#img_edit{
   position: absolute;
   width:3em;
   cursor:pointer;
+}
+.edit_data label img{
+  width: 30px
 }
 #content_profile{
   margin:auto;
@@ -314,7 +326,9 @@ padding-top: 1em;
 .profile_animal img{
   width: 100%
 }
-
+.img_sex{
+  width: 50px
+}
 #profile_picture{
   background-color:#445680;
   width:170px;

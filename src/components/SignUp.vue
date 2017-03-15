@@ -164,7 +164,7 @@ div.sex{
   padding-right: 50px;
   width: 100%
 }
- div#date_birth{
+ li.float_left div#date_birth{
   margin-left: 2em;
   margin-top:0.3em;
   padding-bottom: 1em;
