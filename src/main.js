@@ -33,7 +33,6 @@ const router = new VueRouter({
      path: '/ProfileAnimal/:id',
      component: require('./components/ProfileAnimal.vue'),
      name: 'profileanimal'
-
    },{
     path: '/profileuser',
     component: require('./components/ProfileUser.vue'),
@@ -54,6 +53,10 @@ const router = new VueRouter({
     path: '/forgottenpassword',
     component: require('./components/ForgottenPassword.vue'),
     name: 'forgottenpassword'
+  }, {
+    path: '/legalnotice',
+    component: require('./components/LegalNotice.vue'),
+    name: 'legalnotice'
   },
   {
     path: '*',
