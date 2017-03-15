@@ -246,6 +246,10 @@ img#img_edit{
 
 }
 
+div#content_profile h1{
+padding-top: 1em;
+}
+
 #first{
   float:left;
   width: 50%;
