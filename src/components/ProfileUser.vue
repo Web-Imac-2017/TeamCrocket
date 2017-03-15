@@ -6,7 +6,7 @@
     <div id="cover" class="cover_user">
       <div id="profile_picture">
         <img v-if="user.image != null" v-bind:src="user.image.path" v-bind:alt="user.nickname">
-        <img v-if="animal.image == null" src="../assets/none_profil2.png">
+        <img v-if="user.image == null" src="../assets/none_profil.png">
       </div>
       <div id="info_princ">
     <span class="show_data" >{{user.nickname}}</span>
@@ -76,7 +76,7 @@
           <h1>Description</h1>
           <div class="trait"></div>
           <p><span class="show_data">{{user.description}}</span>
-            <textarea class="edit_data" name="description" v-model="user.description" ></textarea>
+            <textarea style="width:97%;" cols="5" rows="5" class="edit_data" name="description" v-model="user.description" ></textarea>
           </p>
           <h1>Mes Animaux</h1>
 
@@ -100,15 +100,17 @@
         </div>
       </div>
 
-      <div id="button_valid" class="edit_data">
-        <button type="submit" class="button_style">VALIDER
-          <img src="../assets/search_mob.png" class="img_button"/>
-        </button>
 
-      </div>
     </form>
+
         <div class="delete">
             <h2 v-on:click="delete_user">Supprimer votre compte</h2>
+        </div>
+
+        <div id="button_valid" class="edit_data">
+          <button type="submit" class="button_style">VALIDER
+          <img src="../assets/search_mob.png" class="img_button"/>
+          </button>
         </div>
   </div>
   <div v-else>
@@ -495,6 +497,13 @@ padding-top: 0.3em;
   font-family: 'Moon';
   color:white;
   cursor:pointer;
+  padding-right: 0.8em;
+  padding-left: 0.8em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  display: block;
+  margin-top: -11.5em;
+  margin-left: -7em;
 
 }
 
@@ -512,8 +521,9 @@ padding-top: 1em;
   display: none;
   position:absolute;
   z-index:88;
-  margin-left: 9em;
+  margin-left: 26%;
   margin-top:-4em;
+
 }
 
 
@@ -528,6 +538,13 @@ border-radius: 5px;
 
 div.desc div{
 
+}
+
+
+@media screen and (max-device-width:1592px), screen  and (max-width:1592px){
+  div#button_valid.edit_data button.button_style{
+  margin-top: -5.5em;
+  }
 }
 
 @media screen and (max-device-width:1000px), screen  and (max-width:1000px){
@@ -546,9 +563,23 @@ div.desc div{
     margin-top: 80px
   }
 }
+
+@media screen and (max-device-width:895px), screen  and (max-width:895px){
+  div#button_valid.edit_data button.button_style{
+  margin-top: 3em;
+  margin-left: 7em;
+  }
+}
+
+
 @media screen and (max-device-width:810px), screen  and (max-width:810px){
   #content_profile{
     width:600px;
+  }
+
+div#cover{
+      background-image: url(../assets/gorille.jpg) ;
+      background-size: auto 100%;
   }
 
   h1{
@@ -561,4 +592,12 @@ div.desc div{
     width:400px;
   }
 }
+
+@media screen and (max-device-width:615px), screen  and (max-width:615px){
+  div#button_valid.edit_data button.button_style{
+  margin-top: 3em;
+  margin-left: 0.08em;
+  }
+}
+
 </style>
