@@ -14,7 +14,6 @@
 
 footer {
  text-align:center;
- top:100%;
  width:100%;
  bottom:0;
  padding-top: 1em;
@@ -22,5 +21,6 @@ footer {
  font-size: 0.7em;
  background-color:@darkBlue;
  color:white;
+ position: fixed;
 }
 </style>
