@@ -106,7 +106,7 @@
 
       </div>
     </form>
-        <div id="delete">
+        <div class="delete">
             <h2 v-on:click="delete_user">Supprimer votre compte</h2>
         </div>
   </div>
@@ -334,15 +334,12 @@ padding-top: 1em;
 font-size: 1.1em;
 }
 
-#delete_user{
-float:left;
-}
 
 #icon_contact img{
   width:20px
 }
 
-#delete{
+.delete{
   cursor: pointer;
   padding-bottom: 0.5em;
 }
