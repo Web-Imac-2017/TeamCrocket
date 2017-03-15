@@ -54,6 +54,8 @@
 <h3>11. Lexique.</h3>
 <p>Utilisateur : Internaute se connectant, utilisant le site susnommé.</p>
 <p>Informations personnelles : « les informations qui permettent, sous quelque forme que ce soit, directement ou non, l'identification des personnes physiques auxquelles elles s'appliquent » (article 4 de la loi n° 78-17 du 6 janvier 1978).</p>
+
+<p class="info">Cette odofopsdjfpofsjopdsjfkop</p>
       </div>
 
 
@@ -79,6 +81,11 @@
    text-align: justify;
    margin-top: 3em;
    color: @darkBlue;
+ }
+
+ .info{
+   margin-top: 3em;
+   font-style: italic;
  }
 
  </style>

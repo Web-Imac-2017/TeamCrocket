@@ -17,12 +17,14 @@
               </div>
           </ul>
         </fieldset>
-          <button type="submit" id="button_validation" class="button_style">VALIDER
-
-          </br>
-          <img src="../assets/search_mob.png"/>
-          </button>
     </form>
+
+            <div id="button_reset">
+              <button type="submit" id="button_validation" class="button_style">VALIDER
+              </br>
+              <img src="../assets/search_mob.png"/>
+              </button>
+            </div>
   </div>
 </template>
 
@@ -81,3 +83,88 @@
 
     }
 </script>
+
+
+<style lang="less">
+  @import "../definitions"; /* import common definitions */
+
+#reset_password{
+  width:600px;
+  margin:auto;
+  margin: auto;
+  background-color:white;
+  border-radius: 6px;
+  box-shadow : 7px 7px 4px rgba(0, 0, 0, 0.3);
+  padding-top:1em;
+  padding-bottom:3em;
+  margin-bottom:3em;
+  margin-top: 7em;
+}
+#reset_password label{
+  font-size:1.3em;
+  font-family: 'Moon';
+  font-weight : lighter;
+  color:@lightBlue;
+  letter-spacing: 0.1em;
+  padding-left:20px;
+
+}
+#reset_password p{
+  margin:1em;
+}
+
+#forgottenpassword-form fieldset ul{
+  width:80%;
+  margin:auto;
+}
+input.forget{
+   width:100%;
+   height:2em;
+   display:block;
+   border-radius: 10px;
+   background-color:@lightGrey;
+}
+
+
+button#button_validation.button_style{
+  border-radius: 6px;
+  background-color:@lightBlue;
+  font-size:1.2em;
+  font-family: 'Moon';
+  color:white;
+  cursor:pointer;
+  padding-right: 0.8em;
+  padding-left: 0.8em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  width:8em;
+}
+
+#button_reset{
+   margin-left: auto;
+   margin-right: auto;
+   width: 20%;
+   position: absolute;
+   margin-left: 14em;
+   margin-top: 2em;
+}
+
+
+
+button#button_validation.button_style img{
+width:1em;
+}
+
+@media screen and (max-width: 700px ) {
+  #reset_password{
+    width:90%;
+  }
+}
+
+@media screen and (max-device-width:440px), screen  and (max-width:440px){
+  #button_reset{
+     margin-left: 31%;
+  }
+
+}
+</style>

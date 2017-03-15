@@ -4,13 +4,26 @@
     <h1>Match</h1>
     <h2>Choisissez votre animal</h2>
     {{animals.id}}
-    <div v-for="a in animals">
-          <router-link  v-bind:to="'/match/'+ a.id">
-          <div class="match_animal">
-            <img v-if="a.profile_image != null" v-bind:src="a.profile_image.path" v-bind:alt="a.name">
-          </div>
-          {{a.name}}
-        </router-link>
+    <div v-for="animal in animals" class="profile-banner">
+      <router-link v-bind:to="'/match/'+ animal.id">
+      <div class="profile-image">
+        <img v-if="animal.profile_image != null" v-bind:src="animal.profile_image.path" v-bind:alt="animal.name">
+        <img v-else src="../assets/none_profil.png">
+      </div>
+      <div class="profile-text">
+        <ul>
+          <span>{{animal.name}}</span>
+          <li v-if="animal.age == 1">{{ animal.age }} an</li>
+          <li v-if="animal.age == 0"></li>
+          <li v-else>{{ animal.age }} ans</li>
+          <li>
+            <img v-if="animal.sex =='m'" src="../assets/man.png" alt="Homme">
+            <img v-if="animal.sex =='f'" src="../assets/woman.png" alt="Femme">
+            <p v-else></p>
+          </li>
+        </ul>
+      </div>
+      </router-link>
     </div>
   </section>
 </template>
@@ -71,4 +84,57 @@ export default {
   text-align: center;
 }
 
+.profile-banner {
+  display: block;
+  flex-direction: row;
+  width: 60%;
+  height: 10rem;
+  margin: auto;
+  margin-top: 1rem;
+  border: 1px solid #DADADA;
+  font-size: 0;
+  text-align: left;
+
+  .profile-image {
+    display: inline-block;
+    vertical-align: top;
+    width: 10rem;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .profile-text {
+    display: inline-block;
+    vertical-align: top;
+    min-width: 10rem;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    font-family: @fontTitle;
+    font-weight : bold;
+    text-align: center;
+    color:@darkBlue;
+    text-align: left;
+
+    li {
+      margin-top: 0.2em;
+    }
+
+    img {
+      width: 1em;
+      height: 1em;
+    }
+  }
+
+}
+
+.profile-banner:hover {
+  -moz-box-shadow: 0 0 8px 0px @darkBlue;
+  -webkit-box-shadow: 0 0 8px 0px @darkBlue;
+  -o-box-shadow: 0 0 8px 0px @darkBlue;
+  box-shadow: 0 0 8px 0px @darkBlue;
+  filter:progid:DXImageTransform.Microsoft.Shadow(color=@darkBlue, Direction=134, Strength=10);
+}
 </style>
