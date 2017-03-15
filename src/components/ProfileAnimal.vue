@@ -122,12 +122,9 @@
 </template>
 
 <script>
-
 import Vue from 'vue'
-
 Vue.use(require('vue-resource'));
 import DateComponent from "./Date.vue"
-
 export default {
   components: {
     DateComponent
@@ -161,10 +158,7 @@ export default {
         }else if (this.animal.sex == 'h') {
           this.sex = 3;
         }
-
-
          // Type file
-
           document.querySelector("html").classList.add('js');
           var fileInput  = document.querySelector( ".input-file, .input-cover" ),
               button     = document.querySelector( ".input-file-trigger, .input-cover-trigger" ),
@@ -178,7 +172,6 @@ export default {
              fileInput.focus();
              return false;
           });
-
           fileInput.addEventListener( "change", function( event ) {
               the_return.innerHTML = this.value;
           });
@@ -195,7 +188,6 @@ export default {
           edit[i].style.display = 'block';
         }
       },
-
       edit_animal : function(){
         let formData = new FormData(document.getElementById('profile-form'));
         this.$http.post('https://api.meowtic.com/profile/edit', formData)
@@ -222,17 +214,13 @@ export default {
       getBackgroundImage () {
        // Get Background image
            return `url("this.animal.cover_image" )`
-
      }
     }
 }
-
-
 </script>
 
 <style lang="less">
 @import "../definitions"; /* import common definitions */
-
 #ban{
   width: 100%;
   overflow: hidden;
@@ -241,7 +229,6 @@ export default {
   height: 300px;
   overflow: hidden;
 }
-
 /* styles de base si JS est activé */
 #profile_picture img{
   position: absolute;
@@ -268,8 +255,6 @@ export default {
   opacity: 0;
   cursor: pointer;
 }
-
-
 .js .input-cover-container {
   position: absolute;
   top: 0;
@@ -300,7 +285,6 @@ export default {
   padding-right: 1em;
   vertical-align: middle;
 }
-
 #content_profile .button_style_2{
   border-radius: 6px;
   background-color:@lightBlue;
@@ -313,12 +297,7 @@ export default {
   padding-top: 0.2em;
   padding-bottom: 0.2em;
   display: block;
-
-
-
 }
-
-
 #button_valid_2{
   display: none;
   position:absolute;
@@ -326,25 +305,21 @@ export default {
   margin-left: 15%;
   margin-top:-9em;
 }
-
 @media screen and (max-device-width:1275px), screen  and (max-width:1275px){
   #button_valid_2{
   margin-top: -8em;
   }
 }
-
   @media screen and (max-device-width:902px), screen  and (max-width:902px){
     #button_valid_2{
     margin-top: -4.3em;
     margin-left: 18em;
     }
 }
-
 @media screen and (max-device-width:610px), screen  and (max-width:610px){
   #button_valid_2{
   margin-top: -4.3em;
   margin-left: 10em;
   }
 }
-
 </style>

@@ -38,7 +38,7 @@
             </div>
           </div>
           <div   v-on:click="popup">
-            <div id="deco" v-on:click="logout"><h2>Se deconnecter</h2><img src="../assets/deconnexion.png" alt="deco" id="img_deco"></div>
+            <div id="deco" v-on:click="logout"><img src="../assets/deconnexion.png" alt="deco" id="img_deco"><h2>Se deconnecter</h2></div>
           </div>
         </div>
       </ul>
@@ -170,10 +170,13 @@ header .logo_mob{
   width:30px;
   border:none;
   vertical-align:middle;
+
+
 }
 #button_research img{
   width: 100%;
 }
+
 .part_right{
   width:35%;
   float:right;
@@ -205,6 +208,7 @@ li.mob{
 #popup_profile {
   background-color: white;
   display: none;
+  padding: 1em
 }
 #popup_profile #list_pet{
   overflow: auto;
@@ -223,11 +227,11 @@ li.mob{
 #deco{
   display: block;
   margin:auto;
-  width:70%;
 }
 #popup_profile #deco h2{
   display: inline-block;
   vertical-align: middle;
+  margin-left: 1em;
 }
 #popup_profile img#img_deco, img#img_user_edit{
   margin-left: 1em;

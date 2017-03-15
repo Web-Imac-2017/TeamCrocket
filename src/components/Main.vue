@@ -1,5 +1,5 @@
 <template>
-  <div id="main-index" v-if="user == null">
+  <div id="main-index">
     <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 
     <div id="text-intro">
@@ -9,11 +9,11 @@
     <p class="p_2">"Ne soyez plus un loup solitaire"</p>
 
     <div id="button_main">
-      <button  class="button_connexion" v-on:click="login">Se connecter</button>
-      <button class="button_inscription" v-on:click="signup">S'inscrire</button>
+    <a class="scroll" href="#2" v-on:click="scroll" > <button  class="button_connexion" v-on:click="login">Se connecter</button></a>
+    <a class="scroll" href="#2"  v-on:click="scroll" > <button class="button_inscription" v-on:click="signup">S'inscrire</button></a>
+      <div id="2"></div>
       <signupuser-component v-if="choice == 2"></signupuser-component>
       <login-component v-if="choice == 1"></login-component>
-
 
       <p v-else>
       </p>
@@ -25,9 +25,6 @@
 
     </div>
 
-  </div>
-  <div v-else>
-    <h1> Recherche </h1>
   </div>
 </template>
 
@@ -49,25 +46,23 @@ components: {
 
 data(){
   return{
-    choice: 0,
-    user: null
+    choice: 0
   }
 },
-created(){
-  var that = this;
-  if(this.$parent.user === ""){
-    this.$http.get('https://api.meowtic.com/user/whois')
-      .then(function(response){
-        let data = response.data;
-        if(data.success){
-          this.user = response.data.output;
-        }
-    })
-  } else {
-    this.user = this.$parent.user;
-  }
-},
+
 methods: {
+
+  scroll: function(){
+    $('.scroll').on('click', function() {
+        var page = $(this).attr('href');
+        var speed = 750;
+        //animate the html/body with the (x, y) of page with offset
+        $('html, body').animate( { scrollTop: $(page).offset().top }, speed );
+        //will not execute until the clic
+        return false;
+      });
+  },
+
   signup: function(){
     this.choice = 2;
   },
