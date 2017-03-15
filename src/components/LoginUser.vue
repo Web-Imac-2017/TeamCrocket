@@ -15,7 +15,9 @@
                   <div class="trait"></div>
                 </li>
               </ul>
-              <div id="pw_lost">Mot de passe perdu ?</div>
+              <div id="password_lost">
+                <router-link :to="{name: 'forgottenpassword'}" id="pw_lost">Mot de passe perdu ?</router-link>
+              </div>
               <div class="button_validation" >
                 <button type="submit" class="button_style">VALIDER
                   <img src="../assets/search_mob.png" class="img_button"/>
@@ -150,7 +152,10 @@
       margin-top:1em;
     }
 
-
+#password_lost{
+  padding: 1em;
+float:right;
+}
 
 .pseudo{
    width:80%;
@@ -166,11 +171,12 @@
     padding-top:25px;
   }
 
-  #pw_lost{
-    text-align:right;
+  fieldset a#pw_lost{
+
     color:@lightBlue;
     font-family:@fontText;
     margin-top:1em;
+
   }
 
   @media screen and (max-width: 700px ) {

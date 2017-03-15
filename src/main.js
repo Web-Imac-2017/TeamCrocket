@@ -45,6 +45,14 @@ const router = new VueRouter({
     path: '/addpet',
     component: require('./components/AddPet.vue'),
     name: 'addpet'
+  },{
+    path: '/reset',
+    component: require('./components/Reset.vue'),
+    name: 'reset'
+  },{
+    path: '/forgottenpassword',
+    component: require('./components/ForgottenPassword.vue'),
+    name: 'forgottenpassword'
   }, {
     path: '/legalnotice',
     component: require('./components/LegalNotice.vue'),
