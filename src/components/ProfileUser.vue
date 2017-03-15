@@ -98,14 +98,15 @@
 
         </div>
       </div>
+
       <div id="button_valid" class="edit_data">
         <button type="submit" class="button_style">VALIDER
           <img src="../assets/search_mob.png" class="img_button"/>
         </button>
 
       </div>
-
     </form>
+
   </div>
   <div v-else>
     <p>Vous devez vous connecter...</p>
@@ -259,6 +260,7 @@ padding-top: 1em;
   float:left;
 }
 
+
 .profile_animal{
   width: 50px;
   height:50px;
@@ -316,7 +318,9 @@ padding-top: 1em;
 font-size: 1.1em;
 }
 
-
+#delete_user{
+float:left;
+}
 
 #icon_contact img{
   width:20px
@@ -394,6 +398,14 @@ padding-top: 0.2em;
 
 }
 
+div#info_princ span.show_data{
+  font-size: 1.5em;
+  font-family: @fontTitle;
+  font-weight : bold;
+  color:@darkBlue;
+  padding-left: 0.2em;
+}
+
 .my_animal span{
   font-size: 1.3em;
   font-family: @fontTitle;
@@ -426,6 +438,7 @@ div#cover{
 
 div#content_info div.desc h1.add_pet{
   margin-top: 1em;
+  padding-bottom: 0.3em;
 }
 
 .desc h2{
