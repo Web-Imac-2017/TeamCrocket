@@ -94,6 +94,11 @@ form#signup-form ul li select{
   color:@darkBlue;
   font-family: @fontTitle;
 }
+
+.button_validation{
+      border-radius: 6px;
+}
+
 @media screen and (max-device-width:650px), screen  and (max-width:650px){
   #addpet{
     width: 90%;

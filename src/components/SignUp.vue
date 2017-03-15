@@ -154,7 +154,8 @@ created: function() {
  div#date_birth{
   float:left;
   margin-left: 2em;
-  margin-top:1.1em;
+  margin-top:0.3em;
+  padding-bottom: 1em;
 
  }
 
