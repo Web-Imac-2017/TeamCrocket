@@ -17,8 +17,6 @@
 import Vue from 'vue'
 Vue.use(require('vue-resource'));
 
-//import DateComponent from "./Date.vue"
-
 export default {
   //components: {
     //DateComponent
@@ -30,7 +28,7 @@ export default {
     return{
 	    id: 0,
 	    txt: '',
-		//content: this.txt,
+		content: this.txt,
 		group_id:1,
 
 		message : {

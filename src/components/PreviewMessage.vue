@@ -15,7 +15,21 @@
 				{{message.text}}
 			</div>
 		</div>
+		<button v-on:click="formMessage">Edit</button>
+		<button v-on:click="deleteMessage">Suppr</button>
 	</div>
+
+	<!--
+	<div id="message-form" v-if="editChoice == 1">
+	<form v-on:submit.prevent="editMessage" id="edit-message">
+			<span><p style="white-space: pre"></p>
+			<br>
+			<textarea v-model="content" placeholder="add multiple lines"></textarea>
+			</span>
+		</form>
+		<button type="submit">Valider</button>
+	</div>
+	-->
 
 </template>
 
@@ -27,7 +41,13 @@
 	export default {
 		name:"PreviewmessageComponent",
 
-		// ici maintenant v-on:click="getDate"
+		data() {
+			return {
+				editChoice:0,
+				content:this.message.text
+			}
+		},
+
 		// tu définis ton prop pour que vue sache qu'il doit aller le chercher
 		props: {
 			message: Object //change en Object pour le link back
@@ -58,11 +78,43 @@
 		},
 
 
-		editMessage: function(event) {
+		formMessage: function(event) {
+			var that = this;
+			that.editChoice = 1;
+		},
 
+		editMessage: function(event) {
+			var that = this;
+  			var message = this.message;
+				that.choice = 1;
+				console.log(that.choice);
+				that.$http.post('https://api.meowtic.com/messenger/edit/',message.id,that.content,message.group_id)
+				.then(function(response){
+					let data = response.data;
+					console.log(data);
+					if(data.success){
+						console.log(data);	
+						that.choice = 0;					
+					}
+					else {
+					}
+				}, handleError)
 		},
 
 		deleteMessage: function(event) {
+			var that = this;
+  			var message = this.message;
+				console.log(that.choice);
+				that.$http.post('https://api.meowtic.com/messenger/delete/',message.id)
+				.then(function(response){
+					let data = response.data;
+					console.log(data);
+					if(data.success){
+						console.log(data);						
+					}
+					else {
+					}
+				}, handleError)
 
 		}
 

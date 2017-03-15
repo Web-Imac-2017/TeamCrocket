@@ -13,7 +13,7 @@
 	      	<!-- ça c'est ta liste, et tu itères dessus avec le v-for, mais maintenant faut pouvoir utiliser cl'info sur laquelle tu iteres, du coup tu pvas passer un prop, je récup la syntaxe j'arrive
 
 	      	maintenant ton component a acces a la variable-->
-	      	</div>
+	    </div>
 
 		</div>
 	</section>
