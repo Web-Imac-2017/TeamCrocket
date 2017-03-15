@@ -6,6 +6,7 @@
     <div id="cover" class="cover_user">
       <div id="profile_picture">
         <img v-if="user.image != null" v-bind:src="user.image.path" v-bind:alt="user.nickname">
+        <img v-if="animal.image == null" src="../assets/none_profil2.png">
       </div>
       <div id="info_princ">
     <span class="show_data" >{{user.nickname}}</span>
