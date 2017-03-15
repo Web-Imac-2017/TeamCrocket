@@ -87,6 +87,9 @@
       </div>
 
     </form>
+    <div class="delete">
+      <h2  v-on:click="delete_animal">Supprimer cette animal</h2>
+    </div>
   </div>
   <div v-else>
     <p>Vous devez vous connecter...</p>
@@ -166,6 +169,20 @@ export default {
             }
             else{
               alert(response.data.message);
+            }
+        })
+      },
+
+      delete_animal : function(){
+        this.$http.post('https://api.meowtic.com/profile/delete/'+this.animal.id)
+        .then(function(response){
+            let data = response.data
+            if(data.success){
+                location.href = 'profileuser'
+                alert('votre compte à bien été supprimé');
+            }
+            else{
+
             }
         })
       },
