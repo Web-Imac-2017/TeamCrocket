@@ -11,7 +11,7 @@
           <img v-if="animal.image != null" v-bind:src="animal.image.path" v-bind:alt="animal.name">
           <img v-else src="../assets/cat.jpg">
           <div>
-            <ul class="title">
+            <ul>
               <span>{{ animal.name }}</span>
               <li v-if="animal.age == 1">{{ animal.age }} an</li>
               <li v-if="animal.age == 0"></li>
@@ -23,7 +23,6 @@
               </li>
             </ul>
             <ul class="text">
-              <li>Espiègle</li>
               <li v-if="animal.like != ''">Aime {{ animal.like }}</li>
               <li v-if="animal.dislike != ''">N'aime pas {{ animal.dislike }}</li>
               <li v-else></li>
@@ -31,13 +30,15 @@
             </ul>
           </div>
         </div>
-        <div id="choice">
-          <button v-on:click="accept">Valider</button>
-          <button v-on:click="refuse">Refuser</button>
+        <div v-on:click="accept"> Valider <!-- id="choice" -->
+          <!-- <button  v-on:click="accept">Valider</button>
+          <button v-on:click="refuse">Refuser</button> -->
         </div>
+        <span id="popup">Popup text...</span>
+
       </div>
       <div v-else>
-        <img src="../assets/crying_dog.jpg" width="400ox">
+        <img src="../assets/crying_dog.jpg" class="no_match">
         <h3>Aucun match disponible</h3>
       </div>
     </section>
@@ -71,7 +72,7 @@ export default {
     get : function()
     {
       var that = this;
-      var get_id = this.$route.params.id
+      var get_id = this.$route.params.id;
       this.loading = true;
       that.$http.get('https://api.meowtic.com/match/get/' + get_id)
       .then(function(response){
@@ -115,8 +116,14 @@ export default {
 
         if(data.success){
           that.choice = data.output.interested;
-          alert("un message a été envoyé");
-          this.get();
+          var popup = document.getElementById("popup");
+          popup.style.display = "block";
+          window.setTimeout(function()
+          {
+            popup.style.display = "none"
+            that.get();
+          }, 2000);
+
         }
       })
     }
@@ -162,14 +169,13 @@ var handleError = function(error){
       padding: 2%;
       height: 46%;
       width: 46%;
-
       text-align: left;
       color: @darkBlue;
 
       span {
         display: block;
-        text-transform: uppercase;
-        font-weight:bolder;
+        font-family: @fontTitle;
+        font-weight: bold;
         font-size: 1.1em;
         text-align: center;
         margin-bottom: 0.7em;
@@ -178,6 +184,10 @@ var handleError = function(error){
       ul li {
         display: block;
         font-weight: 100;
+
+        img {
+          width: 8%;
+        }
       }
     }
 
@@ -192,6 +202,11 @@ var handleError = function(error){
     }
   }
 
+  .no_match {
+    margin-top: 1em;
+    width: 60%;
+  }
+/*
   #choice {
     display: flex;
     width: 60%;
@@ -214,4 +229,33 @@ var handleError = function(error){
       background-color: #F00;
     }
   }
+
+
+*/
+#popup {
+  display: none;
+  position: absolute;
+  height: 20%;
+  width: 60%;
+  top : 40%;
+  left: 20%;
+  background-color: #0FF;
+  -webkit-animation: fade 2s;
+  animation: fade 2s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fade {
+    from {opacity: 0;}
+    40% {opacity: 1;}
+    60% {opacity: 1;}
+    to {opacity: 0;}
+}
+
+@keyframes fade {
+  from {opacity: 0;}
+  40% {opacity: 1;}
+  60% {opacity: 1;}
+  to {opacity: 0;}
+}
 </style>
