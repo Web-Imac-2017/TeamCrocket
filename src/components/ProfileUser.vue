@@ -111,8 +111,11 @@
         </div>
   </div>
   <div v-else>
-    <p>Vous devez vous connecter...</p>
+    <div class="no">
+      <img class="non_connecter" src="../assets/non_connecter.png"/>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -248,6 +251,17 @@ img#img_edit{
   background-color:white;
   margin-bottom: 100px
 }
+
+.non_connecter{
+  margin:auto;
+  display: inherit;
+  padding:5em;
+}
+
+.no{
+  width:100%;
+}
+
 #content_profile  h1{
   z-index:10;
   text-align:center;

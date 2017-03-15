@@ -92,7 +92,7 @@
     </div>
   </div>
   <div v-else>
-    <p>Vous devez vous connecter...</p>
+    <img src="../assets/non_connecter.png"/>
   </div>
 </template>
 
