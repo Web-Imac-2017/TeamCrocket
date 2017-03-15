@@ -1,18 +1,31 @@
 <template>
-   <div id="content_profile" v-if="user != null">
+   <div id="content_profile" v-on:submit.prevent="edit_animal" v-if="user != null">
     <h1>Profil</h1>
-    <form  v-on:submit.prevent="edit_animal"  id="profile-form">
+    <form  id="profile-form">
     <input type="hidden" name="id" v-bind:value="animal.id">
     <div id="cover">
+      <div class="cover">
+        <div class="input-cover-container edit_data">
+          <input class="input-cover" type="file" name="cover_file">
+          <label for="my-file" class="input-cover-trigger" tabindex="0">
+            <img src="../assets/photo.png" id="img_change_cover"/>
+            Importer une nouvelle couverture de profil
+          </label>
+        </div>
+        <p class="cover-return  edit_data"></p>
+        <img v-if="animal.cover_image != null" v-bind:src="animal.cover_image.path" v-bind:alt="animal.name" id="ban">
+      </div>
       <div id="profile_picture">
-        <img v-if="animal.image != null" v-bind:src="animal.path" v-bind:alt="animal.name">
+        <img v-if="animal.profile_image != null" v-bind:src="animal.profile_image.path" v-bind:alt="animal.name">
+        <div class="input-file-container edit_data">
+          <input class="input-file" id="my-file" type="file" name="profile_file">
+          <label for="my-file" class="input-file-trigger" tabindex="0">Importer une photo</label>
+        </div>
+        <p class="file-return  edit_data"></p>
       </div>
       <div id="info_princ">
         <span class="show_data" >{{animal.name}}, {{animal.age}} ans </span>
-        <input class="edit_data" v-model="animal.name" name="nickname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
-        <div id="icon_contact">
-          <input type="file" id="edit_profile_picture" class="edit_data" name="image_file">
-        </div>
+        <input class="edit_data" v-model="animal.name" name="name" type="text" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
       </div>
       <div id="img_edit_animal" v-if="edit == 1">
         <img src="../assets/edit.png" id="img_edit"  v-on:click="edit_details"/>
@@ -24,7 +37,6 @@
       <div id="content_info">
         <div class="details">
           <h1>Details</h1>
-          {{this.animal.path}}
           <ul>
             <li>
               <h2>Sexe</h2>
@@ -47,7 +59,7 @@
               <li>
                 <h2>Espèce</h2>
                 <p><span class="show_data">{{animal.species.name}}</span>
-                  <select class="edit_data"  v-model="animal.species.id">
+                  <select class="edit_data"  name="species" v-model="animal.species.id">
                      <option value="12">Arthropode</option>
                      <option value="6">Chat</option>
                      <option value="8">Cheval</option>
@@ -79,7 +91,6 @@
         </div>
         <div class="desc">
           <h1>Description</h1>
-          {{this.test}}
           <p><span class="show_data">{{animal.description}}</span>
             <textarea class="edit_data" name="description" v-model="animal.description" ></textarea>
           </p>
@@ -94,16 +105,13 @@
         </div>
       </div>
       <div id="button_valid" class="edit_data">
-        <button type="submit" class="button_style" v-on:click="edit_animal()">VALIDER
+        <button type="submit" class="button_style">VALIDER
           <img src="../assets/search_mob.png" class="img_button"/>
         </button>
 
       </div>
 
     </form>
-    <div class="delete">
-      <h2  v-on:click="delete_animal">Supprimer cette animal</h2>
-    </div>
   </div>
   <div v-else>
     <p>Vous devez vous connecter...</p>
@@ -128,7 +136,6 @@ export default {
       sex : 0,
       user: null,
       animal : [],
-      test:[]
     }
   },
   created : function(){
@@ -164,6 +171,27 @@ export default {
             break;
         }
 
+
+
+         // Type file
+
+          document.querySelector("html").classList.add('js');
+          var fileInput  = document.querySelector( ".input-file, .input-cover" ),
+              button     = document.querySelector( ".input-file-trigger, .input-cover-trigger" ),
+              the_return = document.querySelector(".file-return, .cover-return");
+          button.addEventListener( "keydown", function( event ) {
+              if ( event.keyCode == 13 || event.keyCode == 32 ) {
+                  fileInput.focus();
+              }
+          });
+          button.addEventListener( "click", function( event ) {
+             fileInput.focus();
+             return false;
+          });
+
+          fileInput.addEventListener( "change", function( event ) {
+              the_return.innerHTML = this.value;
+          });
     },
     methods : {
       edit_details : function (){
@@ -178,7 +206,8 @@ export default {
         }
       },
       edit_animal : function(){
-        this.$http.post('https://api.meowtic.com/profile/edit', this.animal,  { emulateJSON : true })
+        let formData = new FormData(document.getElementById('profile-form'));
+        this.$http.post('https://api.meowtic.com/profile/edit', formData)
           .then(function(response){
             let data = response.data;
             if(data.success){
@@ -199,20 +228,11 @@ export default {
             }
         })
       },
+      getBackgroundImage () {
+       // Get Background image
+           return `url("this.animal.cover_image" )`
 
-      delete_animal : function(){
-        this.$http.post('https://api.meowtic.com/profile/delete/'+this.animal.id)
-        .then(function(response){
-            let data = response.data
-            if(data.success){
-                location.href = 'profileuser'
-                alert('votre compte à bien été supprimé');
-            }
-            else{
-
-            }
-        })
-      },
+     }
     }
 }
 
@@ -222,4 +242,71 @@ export default {
 <style lang="less">
 @import "../definitions"; /* import common definitions */
 
+#ban{
+  width: 100%;
+  overflow: hidden;
+}
+.cover{
+  height: 300px;
+  overflow: hidden;
+}
+
+/* styles de base si JS est activé */
+#profile_picture img{
+  position: absolute;
+}
+.js .input-file-container {
+  position: absolute;
+  width: 170px;
+  bottom: 0
+}
+.js .input-file-trigger {
+  display: block;
+  padding: 1em;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 1em;
+  transition: all .4s;
+  cursor: pointer;
+}
+.js .input-file {
+  position: absolute;
+  top: 0; left: 0;
+  width: 170px;
+  padding: 14px 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+.js .input-cover-container {
+  position: absolute;
+  top: 0;
+}
+.js .input-cover-trigger {
+  display: block;
+  padding: 1em;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  font-size: 1em;
+  transition: all .4s;
+  cursor: pointer;
+}
+.js .input-cover {
+  position: absolute;
+  top: 0; left: 0;
+  width: 170px;
+  padding: 14px 0;
+  opacity: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+.cover-return{
+  margin: 0
+}
+#img_change_cover{
+  height: 30px;
+  padding-right: 1em;
+  vertical-align: middle;
+}
 </style>
