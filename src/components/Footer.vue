@@ -23,6 +23,7 @@ footer {
  font-size: 0.7em;
  background-color:@darkBlue;
  color:white;
- position: fixed;
+ position: relative;
+ 
 }
 </style>

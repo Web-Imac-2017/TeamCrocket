@@ -24,21 +24,21 @@
           <div class="trait"></div>
         </li>
 
-        <li>
+        <li class="float_left">
           <label class="date_naissance">Date de naissance</label>
           <date-component></date-component>
         </li>
 
-        <li>
+        <li class="float_right">
           <div class="sex">
             <ul>
-              <li>
+              <li  class="float_left">
                   <label for="m"><img src="../assets/man.png" alt="Homme"/></label>
                   <input type="radio" id="m" value="m" name="sex">
               </li>
-              <li>
-            <label for="f"><img src="../assets/woman.png" alt="Logo"/></label>
-              <input type="radio" id="f" value="f" name="sex">
+              <li class="float_left">
+                <label for="f"><img src="../assets/woman.png" alt="Logo"/></label>
+                <input type="radio" id="f" value="f" name="sex">
               </li>
             </ul>
           </div>
@@ -118,7 +118,9 @@ created: function() {
 
 <style lang="less">
 @import "../definitions";
-
+#signup-form ul li label{
+  margin-left: 10%
+}
 
 #form-inscription{
   width:600px;
@@ -134,8 +136,10 @@ created: function() {
   font-weight : lighter;
   color:@lightBlue;
   letter-spacing: 0.1em;
-  padding-left:11%;
-  float:left;
+  text-align: left;
+}
+#form-inscription label img{
+  width: 40px
 }
 
 #form-inscription h1{
@@ -143,25 +147,26 @@ created: function() {
   padding-top:1em
 }
 
- #form-inscription input{
-   width:80%;
-   margin-left: 10%;
-   height:2em;
-   display:block;
-   border-radius: 10px;
-   background-color:@lightGrey;
- }
+#form-inscription input{
+  width:80%;
+  margin-left: 10%;
+  height:2em;
+  display:block;
+  border-radius: 10px;
+  background-color:@lightGrey;
+}
+#form-inscription input[type="radio"]{
+  width:auto;
+  margin: auto
+}
+div.sex{
+  display: inline-block;
+  padding-right: 50px;
+  width: 100%
+}
  div#date_birth{
-  float:left;
   margin-left: 2em;
   margin-top:1.1em;
-
- }
-
- div.sex{
-
-   margin-top: -2em;
-   margin-right: 3em;
 
  }
 
@@ -169,13 +174,20 @@ created: function() {
       display: inline-block;
       margin-right: 1em;
       margin-top: -1em;
-
  }
 
- .g-recaptcha{
-margin-left: 9.3em;
-padding-bottom: 3em;
+ .g-recaptcha div{
+  height:auto !important;
+  width: auto !important;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+     margin: auto;
  }
+.g-recaptcha div iframe{
+   margin: auto;
+    height:auto !important;
+    width: auto !important;
+  }
 
  div#form-inscription button{
    z-index: 100;
@@ -183,27 +195,21 @@ padding-bottom: 3em;
    margin-left: 7em;
    position: absolute;
  }
+ .float_left{
+   float:left;
+ }
+ .float_right{
+   float:right;
+ }
 
 @media screen and (max-device-width:770px), screen  and (max-width:770px){
 
 
 
- div#date_birth select{
-   float:left;
-   margin-left: 2em;
-
- }
-
 #form-inscription{
-
   width:80%;
   height:;
   padding-bottom: 5em;
-}
-
-.g-recaptcha{
-width:50%;
-margin-top: 7em;
 }
 
 div#form-inscription button{
@@ -214,11 +220,6 @@ div#form-inscription button{
 }
 
 
-.sex ul{
-  float:right;
-  margin-top: -2em;
-
-}
 
 div#form-inscription button{
   z-index: 100;
@@ -229,19 +230,11 @@ div#form-inscription button{
 
  }
 
- @media screen and (max-device-width:630px), screen  and (max-width:630px){
+ @media screen and (max-device-width:650px), screen  and (max-width:650px){
 
-  .g-recaptcha{
-  margin-left: 20%;
-  width:50%;
-  padding-bottom: 3em;
-   }
-
- .sex img{
-width:70%;
-padding-right: -0.5em;
-
- }
+.float_left,.float_right{
+  float: none;
+}
 }
 
  @media screen and (max-device-width:600px), screen  and (max-width:600px){
@@ -265,29 +258,12 @@ padding-right: -0.5em;
      width:40%;
    }
 
-   .g-recaptcha{
-     margin-left: 18%;
-
-   }
 
 }
 
-
-@media screen and (max-device-width:540px), screen  and (max-width:540px){
-
-  .g-recaptcha{
-    margin-left: 13%;
-
-  }
-}
 
 @media screen and (max-device-width:480px), screen  and (max-width:480px){
 
-  .g-recaptcha{
-    margin-left: 8%;
-    width:50px;
-
-  }
   div#date_birth{
     margin-left: 10%;
   }
@@ -302,10 +278,6 @@ padding-right: -0.5em;
 
 @media screen and (max-device-width:405px), screen  and (max-width:405px){
 
-  .g-recaptcha{
-    margin-left: 2%;
-
-  }
   div#date_birth{
     margin-left: 5%;
   }
@@ -321,10 +293,7 @@ padding-right: -0.5em;
   div#date_birth{
     margin-left: -0.5%;
   }
-  .g-recaptcha{
-    margin-bottom: 18%;
-    margin-left: -0.5em;
-  }
+
 }
 
 </style>
