@@ -25,7 +25,7 @@ export default {
     }
   },
   created : function(){
-    var start = new Date().getFullYear() - 13;
+    var start = new Date().getFullYear();
     var end = start - 100;
     var i, y;
 
