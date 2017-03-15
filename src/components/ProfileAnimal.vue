@@ -1,15 +1,15 @@
 <template>
-   <div id="content_profile" v-on:submit.prevent="edit_profile" v-if="user != null">
+   <div id="content_profile" v-if="user != null">
     <h1>Profil</h1>
-    <form  id="profile-form">
+    <form  v-on:submit.prevent="edit_animal"  id="profile-form">
     <input type="hidden" name="id" v-bind:value="animal.id">
     <div id="cover">
       <div id="profile_picture">
-        <img v-if="animal.image != null" v-bind:src="animal.image.path" v-bind:alt="animal.nickname">
+        <img v-if="animal.image != null" v-bind:src="animal.path" v-bind:alt="animal.name">
       </div>
       <div id="info_princ">
-        <span class="show_data" >{{animal.nickname}}</span>
-        <input class="edit_data" v-model="animal.nickname" name="nickname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+        <span class="show_data" >{{animal.name}}, {{animal.age}} ans </span>
+        <input class="edit_data" v-model="animal.name" name="nickname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
         <div id="icon_contact">
           <input type="file" id="edit_profile_picture" class="edit_data" name="image_file">
         </div>
@@ -24,20 +24,8 @@
       <div id="content_info">
         <div class="details">
           <h1>Details</h1>
+          {{this.animal.path}}
           <ul>
-            <li>
-                <h2>Prenom</h2>
-                <p>
-                  <span class="show_data">{{animal.firstname}}</span>
-                    <input class="edit_data" name="firstname" v-model="animal.firstname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
-                </p>
-            </li>
-            <li>
-              <h2>Nom</h2>
-              <p><span class="show_data">{{animal.lastname}}</span>
-                <input class="edit_data" name="lastname" v-model="animal.lastname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
-              </p>
-            </li>
             <li>
               <h2>Sexe</h2>
               <p><span class="show_data">
@@ -56,11 +44,28 @@
                 </div>
               </p>
             </li>
+              <li>
+                <h2>Espèce</h2>
+                <p><span class="show_data">{{animal.species.name}}</span>
+                  <select class="edit_data"  v-model="animal.species.id">
+                     <option value="12">Arthropode</option>
+                     <option value="6">Chat</option>
+                     <option value="8">Cheval</option>
+                     <option value="9">Chien</option>
+                     <option value="13">Lézard</option>
+                     <option value="15">Poisson</option>
+                     <option value="16">Rongeur</option>
+                     <option value="10">Serpent</option>
+                     <option value="14">Tortue</option>
+                     <option value="17">Autre</option>
+                  </select>
+                </p>
+              </li>
 
             <li>
               <h2>Date de naissance</h2>
               <p>
-                <span class="show_data">{{animal.date_birth}}, {{animal.age}} ans</span>
+                <span class="show_data">{{animal.date_birth}}</span>
                 <date-component v-if="choice == 1"></date-component>
               </p>
             </li>
@@ -74,13 +79,22 @@
         </div>
         <div class="desc">
           <h1>Description</h1>
+          {{this.test}}
           <p><span class="show_data">{{animal.description}}</span>
             <textarea class="edit_data" name="description" v-model="animal.description" ></textarea>
+          </p>
+          <h1>J'aime</h1>
+          <p><span class="show_data">{{animal.like}}</span>
+            <textarea class="edit_data" name="description" v-model="animal.like" ></textarea>
+          </p>
+          <h1>Je n'aime pas</h1>
+          <p><span class="show_data">{{animal.dislike}}</span>
+            <textarea class="edit_data" name="description" v-model="animal.dislike" ></textarea>
           </p>
         </div>
       </div>
       <div id="button_valid" class="edit_data">
-        <button type="submit" class="button_style">VALIDER
+        <button type="submit" class="button_style" v-on:click="edit_animal()">VALIDER
           <img src="../assets/search_mob.png" class="img_button"/>
         </button>
 
@@ -109,30 +123,44 @@ export default {
       choice : 0,
       edit : 0,
       sex : 0,
-      user : null,
-      animal : '',
+      user: null,
+      animal : [],
+      test:[]
     }
   },
   created : function(){
+
+     this.$http.get('https://api.meowtic.com/user/whois')
+        .then(function(response){
+          let data = response.data;
+          if(data.success){
+            this.user = 1;
+          }
+      });
+
       var get_id = this.$route.params.id;
       this.$http.get('https://api.meowtic.com/profile/get/'+ get_id )
         .then(function(response){
           let data = response.data;
-          this.user = response.data.output;
+          this.animal = response.data.output;
           if(data.success){
-            this.animal = this.user;
-            if(this.$parent.user.id ==this.user.creator_id){
+            if(this.$parent.user.id ==this.animal.creator_id){
               this.edit = 1;
             }
           }
         })
-        if(this.animal.sex == 'm'){
-          this.sex = 1;
-        }else if (this.animal.sex == 'f') {
-          this.sex = 2;
-        }else if (this.animal.sex == 'h') {
-          this.sex = 3;
+        switch(this.animal.sex){
+          case 'm':
+            this.sex = 1;
+            break;
+          case 'f':
+            this.sex = 2;
+            break;
+          default:
+            this.sex = 3;
+            break;
         }
+
     },
     methods : {
       edit_details : function (){
@@ -146,14 +174,13 @@ export default {
           edit[i].style.display = 'block';
         }
       },
-      edit_profile : function(){
-        let formData = new FormData(document.getElementById('profile-form'));
-        this.$http.post('https://api.meowtic.com/profile/edit', formData)
+      edit_animal : function(){
+        this.$http.post('https://api.meowtic.com/profile/edit', this.animal,  { emulateJSON : true })
           .then(function(response){
             let data = response.data;
             if(data.success){
               console.log('Profile modifié');
-              this.user = response.data.output;
+              this.animal = response.data.output;
               this.choice = 0;
               var show = document.getElementsByClassName("show_data");
               for (var i=0;i<show.length;i+=1){

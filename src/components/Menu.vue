@@ -23,9 +23,11 @@
         <li v-on:click="popup"><img src="../assets/profile.png" alt="profile"></li>
         <div id="popup_profile">
           <div  v-on:click="popup">
-            <router-link :to="{name: 'profileuser'}"><h2>Mon compte</h2></router-link>
+            <router-link :to="{name: 'profileuser'}"><h2>Modifier votre compte  <img src="../assets/edit.png" id="img_user_edit"/></h2></router-link>
+            <div class="trait"></div>
           </div>
           <div id="list_pet">
+            <h2>Mes animaux</h2>
             <div v-for="a in animals"  v-on:click="popup">
               <router-link  v-bind:to="'/profileanimal/'+ a.id">
                 <div class="profile_animal">
@@ -36,7 +38,7 @@
             </div>
           </div>
           <div   v-on:click="popup">
-            <div v-on:click="logout"><h2>Se deconnecter</h2><img src="../assets/deconnexion.png" alt="deco" id="img_deco"></div>
+            <div id="deco" v-on:click="logout"><h2>Se deconnecter</h2><img src="../assets/deconnexion.png" alt="deco" id="img_deco"></div>
           </div>
         </div>
       </ul>
@@ -122,6 +124,9 @@ var handleError = function(error){
 
 <style lang="less">
  @import "../definitions"; /* import common definitions */
+/**************************
+      MENU
+************************/
 
 header{
   position:fixed;
@@ -142,15 +147,11 @@ header{
   float:left;
   width:65%;
 }
-
 header .logo{
   height: 35px;
   display: inline-block;
   vertical-align: middle;
 }
-
-
-
 header .logo_mob{
   display:none;
 }
@@ -196,35 +197,39 @@ header ul li {
 li.mob{
   display:none;
 }
-#list_pet{
-  max-height: 50%;
-  overflow: auto;
-  max-height: 400px
-}
+
+/*******************************
+      POP UP
+*******************************/
+
 #popup_profile {
   background-color: white;
   display: none;
 }
-
-div#popup_profile h2{
+#popup_profile #list_pet{
+  overflow: auto;
+  max-height: 400px;
+}
+#popup_profile #list_pet div{
+  padding: 0.2em;
+  padding-left:0.4em
+}
+#popup_profile h2{
   margin-left: 1em;
 }
-
-
-div#popup_profile div h2{
-    display: inline-block;
-    vertical-align: middle;
+#popup_profile div h2{
+  margin: auto;
 }
-
-div#popup_profile div{
+#deco{
+  display: block;
+  margin:auto;
+  width:70%;
+}
+#popup_profile #deco h2{
+  display: inline-block;
   vertical-align: middle;
 }
-
-a{
-  text-decoration: none;
-}
-
-img#img_deco{
+#popup_profile img#img_deco, img#img_user_edit{
   margin-left: 1em;
   width: 20px;
   vertical-align: middle;
