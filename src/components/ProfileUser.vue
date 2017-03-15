@@ -332,7 +332,8 @@ padding-top: 1em;
 #info_princ{
   background-color:white;
   padding: 5px;
-  width : 200px;
+  padding-left: 1em;
+  padding-right: 1em;
   position:absolute;
   z-index:2;
   left:190px;
