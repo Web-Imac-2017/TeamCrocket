@@ -1,5 +1,5 @@
 <template>
-  <div id="main-index">
+  <div id="main-index" v-if="user == null">
     <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 
     <div id="text-intro">
@@ -26,6 +26,9 @@
     </div>
 
   </div>
+  <div v-else>
+    <h1> Recherche </h1>
+  </div>
 </template>
 
 <script>
@@ -46,7 +49,22 @@ components: {
 
 data(){
   return{
-    choice: 0
+    choice: 0,
+    user: null
+  }
+},
+created(){
+  var that = this;
+  if(this.$parent.user === ""){
+    this.$http.get('https://api.meowtic.com/user/whois')
+      .then(function(response){
+        let data = response.data;
+        if(data.success){
+          this.user = response.data.output;
+        }
+    })
+  } else {
+    this.user = this.$parent.user;
   }
 },
 methods: {

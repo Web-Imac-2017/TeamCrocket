@@ -3,157 +3,102 @@
     <h1>Profil</h1>
     <form  id="profile-form">
     <input type="hidden" name="id" v-bind:value="user.id">
-    <div id="cover">
+    <div id="cover" class="cover_user">
       <div id="profile_picture">
         <img v-if="user.image != null" v-bind:src="user.image.path" v-bind:alt="user.nickname">
       </div>
       <div id="info_princ">
-        <span class="name" id="nickname">{{user.nickname}}</span>
-        <input id="edit_nickname" v-model="user.nickname" name="nickname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+    <span class="show_data" >{{user.nickname}}</span>
+        <input class="edit_data" v-model="user.nickname" name="nickname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
         <div id="icon_contact">
-          <input type="file" id="edit_profile_picture" name="image_file">
+          <input type="file" id="edit_profile_picture" class="edit_data" name="image_file">
         </div>
       </div>
-      <img src="../assets/edit.png" id="img_edit_user"  v-on:click="edit_details"/>
+      <img src="../assets/edit.png" id="img_edit"  v-on:click="edit_details"/>
     </div>
 
       <div id="content_info">
         <div class="details">
           <h1>Details</h1>
+          <div class="trait"></div>
+            <div id="first">
           <ul>
             <li>
                 <h2>Prenom</h2>
                 <p>
-                  <span  id="firstname">{{user.firstname}}</span>
-                    <input id="edit_firstname" name="firstname" v-model="user.firstname" type="text" required>
+                  <span class="show_data">{{user.firstname}}</span>
+                    <input class="edit_data" name="firstname" v-model="user.firstname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
                 </p>
             </li>
             <li>
               <h2>Nom</h2>
-              <p><span id="lastname">{{user.lastname}}</span>
-                <input id="edit_lastname" name="lastname" v-model="user.lastname" type="text" required>
+              <p><span class="show_data">{{user.lastname}}</span>
+                <input class="edit_data" name="lastname" v-model="user.lastname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
               </p>
             </li>
             <li>
               <h2>Sexe</h2>
-              <p><span id="sex">{{user.sex}}</span>
-                <select name="sex" id="edit_sex">
-                    <option value="m">M</option>
-                    <option value="f">F</option>
-                </select>
+              <p><span class="show_data">
+                    <img src="../assets/man.png" alt="Homme"  v-if="sex == 1"/>
+                    <img src="../assets/woman.png" alt="Femme" v-if="sex == 2"/>
+                    <p v-else></p>
+                  </span>
+                <div class="edit_data">
+                    <label for="m"><img src="../assets/man.png" alt="Homme"/></label>
+                    <input type="radio" id="m" value="m" name="sex">
+                    <label for="f"><img src="../assets/woman.png" alt="Femme"/></label>
+                   <input type="radio" id="f" value="f" name="sex">
+                </div>
               </p>
             </li>
-
+          </ul>
+        </div>
+        <div id="second">
+          <ul>
             <li>
               <h2>Date de naissance</h2>
               <p>
-                <span id="date_birth">{{user.date_birth}}, {{user.age}} ans</span>
-                <div id="edit_date_birth">
-                  <select name="date_birth2[day]">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                      <option value="11">11</option>
-                      <option value="12">12</option>
-                      <option value="13">13</option>
-                      <option value="14">14</option>
-                      <option value="15">15</option>
-                      <option value="16">16</option>
-                      <option value="17">17</option>
-                      <option value="18">18</option>
-                      <option value="19">19</option>
-                      <option value="20">20</option>
-                      <option value="21">21</option>
-                      <option value="22">22</option>
-                      <option value="23">23</option>
-                      <option value="24">24</option>
-                      <option value="25">25</option>
-                      <option value="26">26</option>
-                      <option value="27">27</option>
-                      <option value="28">28</option>
-                      <option value="29">29</option>
-                      <option value="30">30</option>
-                      <option value="31">31</option>
-                  </select>
-                  <select name="date_birth2[month]">
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
-                      <option value="7">7</option>
-                      <option value="8">8</option>
-                      <option value="9">9</option>
-                      <option value="10">10</option>
-                      <option value="11">11</option>
-                      <option value="12">12</option>
-                  </select>
-                  <select name="date_birth2[year]">
-                    <option value="2017">2017</option>
-                    <option value="2016">2016</option>
-                    <option value="2015">2015</option>
-                    <option value="2014">2014</option>
-                    <option value="2013">2013</option>
-                    <option value="2012">2012</option>
-                    <option value="2011">2011</option>
-                    <option value="2010">2010</option>
-                    <option value="2009">2009</option>
-                    <option value="2008">2008</option>
-                    <option value="2007">2007</option>
-                    <option value="2006">2006</option>
-                    <option value="2005">2005</option>
-                    <option value="2004">2004</option>
-                    <option value="2003">2003</option>
-                    <option value="2002">2002</option>
-                    <option value="2001">2001</option>
-                    <option value="2000">2000</option>
-                    <option value="1999">1999</option>
-                    <option value="1998">1998</option>
-                    <option value="1997">1997</option>
-                    <option value="1996">1996</option>
-                    <option value="1995">1995</option>
-                    <option value="1994">1994</option>
-                    <option value="1993">1993</option>
-                    <option value="1992">1992</option>
-                    <option value="1991">1991</option>
-                    <option value="1990">1990</option>
-                  </select>
-                </div>
+                <span class="show_data">{{user.date_birth}}, {{user.age}} ans</span>
+                <date-component v-if="choice == 1"></date-component>
               </p>
             </li>
             <li>
               <h2>Ville</h2>
-              <p><span id="city">{{user.city}}</span>
-                <input id="edit_city" name="city" v-model="user.city" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+              <p><span class="show_data">{{user.city}}</span>
+                <input class="edit_data" name="city" v-model="user.city" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
               </p>
             </li>
         </ul>
+      </div>
         </div>
         <div class="desc">
           <h1>Description</h1>
-          <p><span id="desc">{{user.description}}</span>
-            <textarea id="edit_desc" name="description" v-model="user.description" ></textarea>
+          <div class="trait"></div>
+          <p><span class="show_data">{{user.description}}</span>
+            <textarea class="edit_data" name="description" v-model="user.description" ></textarea>
           </p>
           <h1>Mes Animaux</h1>
-          <ul>
-            <li v-on:click="router_id">{{this.animal.name}}</li>
-            <li>zefzefzef</li>
-            <li>zefzef</li>
-          </ul>
-          <h2>Ajouter un animal</h2>
+
+          {{animals.id}}
+          <div v-for="a in animals" class="my_animal">
+                <router-link  v-bind:to="'/profileanimal/'+ a.id">
+                <div class="profile_animal_2">
+                  <img v-if="a.profile_image != null" v-bind:src="a.profile_image.path" v-bind:alt="a.name">
+                </div>
+                <span>{{a.name}}   /   {{a.date_birth}}
+                  <img src="../assets/man.png" alt="Homme"  v-if="a.sex == 'h'"/>
+                  <img src="../assets/woman.png" alt="Homme"  v-if="a.sex == 'f'"/>
+                </span>
+
+              </router-link>
+          </div>
+          <h1 class="add_pet">Ajouter un animal</h1>
+
           <router-link :to="{name: 'addpet'}"><button>+</button></router-link>
 
         </div>
       </div>
-      <div id="button_valid">
+      <div id="button_valid" class="edit_data">
         <button type="submit" class="button_style">VALIDER
           <img src="../assets/search_mob.png" class="img_button"/>
         </button>
@@ -171,51 +116,65 @@
 import Vue from 'vue'
 
 Vue.use(require('vue-resource'));
+import DateComponent from "./Date.vue"
 
 export default {
+  components: {
+    DateComponent
+  },
   data() {
-    return {
+    return{
+      sex : 0,
+      choice : 0,
       user : null,
-      animal : {
-        name : ''
-      }
+      animals: [],
+      animals_info: {id:'',name:'', profile_image:''}
     }
   },
-  created: function(){
-    this.user = this.$parent.user;
+  created(){
+    var that = this;
+    if(this.$parent.user === ""){
+      this.$http.get('https://api.meowtic.com/user/whois')
+        .then(function(response){
+          let data = response.data;
+          if(data.success){
+            this.user = response.data.output;
+          }
+      });
+    } else {
+      this.user = this.$parent.user;
+    }
     this.$http.get('https://api.meowtic.com/user/list_animal')
     .then(function(response){
       let data = response.data;
-      this.animal = response.data.output;
+      that.animal = response.data.output;
       if(data.success){
-          var total = response.data.output.item_total;
-          var i =0;
-          for(i;i<total;i++){
-                this.animal.name = this.animal.data[i].name
+        var total = response.data.output.item_total;
+          for(var i = 0 ; i<total ; i++){
+            this.animals_info = this.animal.data[i];
+            this.animals.push(this.animals_info);
+
           }
         }
       })
+      if(this.user.sex == 'm'){
+        this.sex = 1;
+      }else if (this.user.sex == 'f') {
+        this.sex = 2
+      }
 
   },
   methods : {
     edit_details : function(){
-        document.getElementById("nickname").style.display="none";
-        document.getElementById("edit_nickname").style.display = 'block';
-        document.getElementById("firstname").style.display="none";
-        document.getElementById("edit_firstname").style.display = 'block';
-        document.getElementById("lastname").style.display="none";
-        document.getElementById("edit_lastname").style.display = 'block';
-        document.getElementById("date_birth").style.display="none";
-        document.getElementById("edit_date_birth").style.display = 'block';
-        document.getElementById("city").style.display="none";
-        document.getElementById("edit_city").style.display = 'block';
-        document.getElementById("sex").style.display="none";
-        document.getElementById("edit_sex").style.display = 'block';
-        document.getElementById("desc").style.display="none";
-        document.getElementById("edit_desc").style.display = 'block';
-        document.getElementById("edit_profile_picture").style.display = 'block';
-          document.getElementById("button_valid").style.display = "block";
-
+        this.choice = 1;
+        var show = document.getElementsByClassName("show_data");
+        for (var i=0;i<show.length;i+=1){
+          show[i].style.display = 'none';
+        }
+        var edit = document.getElementsByClassName("edit_data");
+        for (var i=0;i<edit.length;i+=1){
+          edit[i].style.display = 'block';
+        }
     },
     edit_profile : function(){
       // on sérialise le formulaire (IMPORTANT de bien mettre les champs NAME en correspondance avec le nom des champs ATTENDUS côté serveur)
@@ -227,36 +186,21 @@ export default {
           if(data.success){
             console.log('Profile modifié');
             this.user = response.data.output;
-            document.getElementById("nickname").style.display='block';
-            document.getElementById("edit_nickname").style.display = "none";
-            document.getElementById("firstname").style.display='block';
-            document.getElementById("edit_firstname").style.display = "none";
-            document.getElementById("lastname").style.display='block';
-            document.getElementById("edit_lastname").style.display = "none";
-            document.getElementById("date_birth").style.display='block';
-            document.getElementById("edit_date_birth").style.display = "none";
-            document.getElementById("city").style.display='block';
-            document.getElementById("edit_city").style.display = "none";
-            document.getElementById("sex").style.display='block';
-            document.getElementById("edit_sex").style.display = "none";
-            document.getElementById("desc").style.display="block";
-            document.getElementById("edit_desc").style.display = 'none';
-            document.getElementById("edit_profile_picture").style.display = "none";
-            document.getElementById("button_valid").style.display = "block";
-
+            this.choice = 0;
+            var show = document.getElementsByClassName("show_data");
+            for (var i=0;i<show.length;i+=1){
+              show[i].style.display = 'block';
+            }
+            var edit = document.getElementsByClassName("edit_data");
+            for (var i=0;i<edit.length;i+=1){
+              edit[i].style.display = 'none';
+            }
           }
           else{
             alert(response.data.message);
           }
       })
     },
-    router_id : function(){
-        var id  =  this.animal.data[0].id;
-        sessionStorage.setItem("id_animal",id);
-        location.href = 'profileanimal';
-
-    }
-
   }
 }
 
@@ -269,21 +213,23 @@ export default {
  @import "../definitions";
 @blue : #212D48;
 
-#edit_nickname,#edit_firstname,#edit_lastname,#edit_date_birth,#edit_city,#edit_sex,#edit_profile_picture,#edit_desc{
+.edit_data{
   display: none;
 }
-img#img_edit_user{
+img#img_edit{
   right:0;
   bottom:0;
   position: absolute;
-  width:3em
+  width:3em;
+  cursor:pointer;
 }
 #content_profile{
   margin:auto;
   margin-top: 100px;
   top:100px;
-  width:800px;
+  width:80%;
   background-color:white;
+  margin-bottom: 100px
 }
 #content_profile  h1{
   z-index:10;
@@ -299,6 +245,37 @@ img#img_edit_user{
   background-color:#9ca7be;
 
 }
+
+#first{
+  float:left;
+  width: 50%;
+}
+
+#second{
+  float:left;
+}
+
+.profile_animal{
+  width: 50px;
+  height:50px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.profile_animal_2{
+  width: 100px;
+  height:100px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.profile_animal_2 img{
+  width: 100%
+}
+
+.profile_animal img{
+  width: 100%
+}
+
 #profile_picture{
   background-color:#445680;
   width:170px;
@@ -329,6 +306,14 @@ img#img_edit_user{
   z-index:2;
   bottom: -30px;
 }
+
+.add_pet{
+
+font-size: 1.1em;
+}
+
+
+
 #icon_contact img{
   width:20px
 }
@@ -336,6 +321,7 @@ img#img_edit_user{
   position:relative;
   display: inline-block;
   width:100%;
+  margin-bottom: 50px
 }
 #content_info .details{
   float:left;
@@ -359,16 +345,18 @@ img#img_edit_user{
 #content_info h2{
     font-size:1.1em;
     text-align: left;
+    color:gray;
 }
 
 #content_info p{
   font-family: @fontText;
-  color:gray;
+  color:@darkBlue;
   margin-top: 2%;
   margin-left: 1.5%;
-  font-size: 1.2em;
+  font-size: 1.1em;
 
 }
+
 
 .ajout_animal{
 width:150%;
@@ -383,6 +371,33 @@ width:150%;
   padding-left: 3%;
 
 }
+
+div.desc p{
+  margin-top: 1em;
+}
+
+.my_animal{
+  margin-top: 1em;
+padding-top: 0.2em;
+padding-bottom: 0.2em;
+border-radius: 6px;
+border: solid 0.1em #e2e3e3;
+}
+
+
+.my_animal div{
+padding-top: 0.2em;
+
+}
+
+.my_animal span{
+  font-size: 1.3em;
+  font-family: @fontTitle;
+  font-weight : bold;
+  color:@darkBlue;
+  padding-left: 1em;
+}
+
 .desc button{
 
 border-radius: 6px;
@@ -396,9 +411,31 @@ cursor:pointer;
 
 }
 
+div#cover{
+
+  background-size: 100%;
+}
+
+.cover_user{
+    background-image: url(../assets/gorille.jpg) ;
+}
+
+div#content_info div.desc h1.add_pet{
+  margin-top: 1em;
+}
 
 .desc h2{
   float:left;
+}
+
+.show_data{
+  font-size: 1.3em;
+}
+
+div#content_info div.desc div.my_animal a span img{
+width:1.3em;
+padding-left:0.6em;
+padding-top: 0.3em;
 }
 
 #content_profile .button_style{
@@ -411,6 +448,16 @@ cursor:pointer;
 
 }
 
+div#content_info h1{
+padding-top: 1em;
+}
+
+
+div#content_info div.details h2{
+padding-top: 1em;
+}
+
+
 #button_valid{
   display: none;
   position:absolute;
@@ -419,12 +466,36 @@ cursor:pointer;
   margin-top:-4em;
 }
 
-img#img_edit{
-    cursor:pointer;
+
+
+.desc p{
+padding-top:1em;
+padding-bottom:1em;
+padding-left: 0.3em;
+background-color: #e2e3e3;
+border-radius: 5px;
 }
 
+div.desc div{
 
+}
 
+@media screen and (max-device-width:1000px), screen  and (max-width:1000px){
+  #content_profile{
+    width:90%;
+  }
+}
+@media screen and (max-device-width:900px), screen  and (max-width:900px){
+  #content_profile{
+    width:95%;
+  }
+  #content_info .details,#content_info .desc{
+    width: 90%;
+    margin: auto;
+    float: none;
+    margin-top: 80px
+  }
+}
 @media screen and (max-device-width:810px), screen  and (max-width:810px){
   #content_profile{
     width:600px;

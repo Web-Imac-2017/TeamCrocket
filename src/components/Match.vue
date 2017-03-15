@@ -2,24 +2,43 @@
     <section id="frame">
       <img src="../assets/Meetic.png" width="110ox"/>
       <h1>Match</h1>
-      <h2>Trouvez le profil qui fera chavirer votre coeur</h2>
-      <input type="hidden" name="id" v-bind:value="user.id">
+      <h2>Trouvez le profil qui fera chavirer son coeur</h2>
+      <div v-if="loading">
+        <h3>loading ...</h3>
+      </div>
+      <div v-else-if="animal != null">
+        <div class="profile">
+          <img v-if="animal.image != null" v-bind:src="animal.image.path" v-bind:alt="animal.name">
+          <img v-else src="../assets/cat.jpg">
+          <div>
+            <ul class="title">
+              <span>{{ animal.name }}</span>
+              <li v-if="animal.age == 1">{{ animal.age }} an</li>
+              <li v-if="animal.age == 0"></li>
+              <li v-else>{{ animal.age }} ans</li>
+              <li>
+                <img v-if="animal.sex =='m'" src="../assets/man.png" alt="Homme">
+                <img v-if="animal.sex =='f'" src="../assets/woman.png" alt="Femme">
+                <p v-else></p>
+              </li>
+            </ul>
+            <ul class="text">
+              <li>Espiègle</li>
+              <li v-if="animal.like != ''">Aime {{ animal.like }}</li>
+              <li v-if="animal.dislike != ''">N'aime pas {{ animal.dislike }}</li>
+              <li v-else></li>
 
-      <div class="profile">
-        <img src="../assets/cat.jpg"/>
-        <div>
-          <span>{{ animal.name }}</span>
-          <ul>
-            <li>1 an</li>
-            <li>Espiègle</li>
-            <li>Aime dormir</li>
-            <li>N'aime pas l'eau</li>
-          </ul>
+            </ul>
+          </div>
+        </div>
+        <div id="choice">
+          <button v-on:click="accept">Valider</button>
+          <button v-on:click="refuse">Refuser</button>
         </div>
       </div>
-      <div id="choice">
-        <a class="accept" href="">accept</a>
-        <a class="refuse" href="">refuse</a>
+      <div v-else>
+        <img src="../assets/crying_dog.jpg" width="400ox">
+        <h3>Aucun match disponible</h3>
       </div>
     </section>
 </template>
@@ -37,53 +56,74 @@ export default {
         sex: '',
         like: '',
         dislike: ''
-      }
+      },
+      choice : false,
+      loading : true
     }
   },
-/*
-  get : function()
-  {
-    this.$http.get('https://api.meowtic.com/match/get')
-    .then(function(response){
-        let data = response.data;
-        if(data.success){
-            console.log(data.success);
-            this.animal = data.output;
-        }
-    }, handleError)
-
-  },
-  */
 
   created : function()
   {
-    this.user = this.$parent.user;
-    this.$http.get('https://api.meowtic.com/user/list_animal')
-    .then(function(response){
-      let data = response.data;
+    this.get();
+  },
 
-      if(data.success){
-        var total = response.data.output.item_total;
-        var i = 0;
-        for(i;i<=total;i++){
-            this.user.list_animal =  this.user[i].name;
+  methods: {
+    get : function()
+    {
+      var that = this;
+      var get_id = this.$route.params.id
+      this.loading = true;
+      that.$http.get('https://api.meowtic.com/match/get/' + get_id)
+      .then(function(response){
+        let data = response.data;
+        that.loading = false;
+          if(data.success){
+              that.animal = data.output;
+              if(data.ouput == null)
+              {
+                return
+              }
+          }
+      }, handleError)
+    },
+
+    refuse : function()
+    {
+      var that = this;
+      var get_id = this.$route.params.id
+      var interested = 0;
+      that.$http.get('https://api.meowtic.com/match/swipe/' + get_id + '/' + that.animal.id + '/' + interested)
+      .then(function(response){
+        let data = response.data;
+        console.log(data.output.interested);
+
+        if(data.success){
+          that.choice = data.output.interested;
+          this.get();
         }
-      }
-    })
+      })
+    },
 
-    sessionStorage.setItem("id_animal",34);
-
-    this.$http.get('https://api.meowtic.com/match/get/34')
-    .then(function(response){
+    accept : function()
+    {
+      var that = this;
+      var get_id = this.$route.params.id
+      var interested = 1;
+      that.$http.get('https://api.meowtic.com/match/swipe/' + get_id + '/' + that.animal.id + '/' + interested)
+      .then(function(response){
         let data = response.data;
 
         if(data.success){
-            console.log(data.success);
-            this.animal = data.output;
+          that.choice = data.output.interested;
+          alert("un message a été envoyé");
+          this.get();
         }
-    }, handleError)
+      })
+    }
   }
 }
+
+
 var handleError = function(error){
     console.log('Error! Could not reach the API. ' + error)
 }
@@ -99,6 +139,7 @@ var handleError = function(error){
     width:60%;
     margin: auto;
     margin-top: 2%;
+    margin-bottom: 2%;
     padding:3%;
     background:white;
     text-align: center;
@@ -118,7 +159,7 @@ var handleError = function(error){
     }
 
     div {
-      padding: 4%;
+      padding: 2%;
       height: 46%;
       width: 46%;
 

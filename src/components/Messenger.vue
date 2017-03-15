@@ -4,7 +4,11 @@
 			<img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 	      	<h1>Messagerie</h1>
 
-					<previewmessage-component v-for="contact in contactList" :contact="contact">						</previewmessage-component>
+	      			<button v-on:click="newConv">Parle à Mélo !</button>
+	      			<sendmessage-component v-if="choice == 1"></sendmessage-component>
+
+					<previewmessage-component v-for="message in previewList" :message="message" v-on:click="loadConv">
+					</previewmessage-component>
 
 	      	<!-- ça c'est ta liste, et tu itères dessus avec le v-for, mais maintenant faut pouvoir utiliser cl'info sur laquelle tu iteres, du coup tu pvas passer un prop, je récup la syntaxe j'arrive
 
@@ -23,29 +27,19 @@
 	Vue.use(require('vue-resource'));
 
 	import PreviewmessageComponent from "./PreviewMessage.vue"
+	import SendmessageComponent from "./SendMessage.vue"
 
 	export default {
 
 		components: {
-			'PreviewmessageComponent' : PreviewmessageComponent
+			'PreviewmessageComponent' : PreviewmessageComponent,
+			'SendmessageComponent' : SendmessageComponent
 		},
 
 		data() {
 			return {
 
-				panda : {
-					author:'wesh',
-					date:'blbl',
-					text:'ta soeur'
-				},
-
-				roux : {
-					author:"cc",
-					date:'aa',
-					text:'bleh'
-				},
-
-				contactList:[{
+				/*contactList:[{
 					author: 'lol',
 					date: 'jklk',
 					text: 'klmj'
@@ -55,13 +49,76 @@
 					date: 'jklk',
 					text: 'klmj'
 				}]
+			}*/
+			user:null,
+			choice: 0,
+			prev: Object,
+			prevId: Object,
+
+			previewList: []
 			}
-			//contactList: []
 		},
 
-		created() {
+		created: function() {
 
-		}
+		 var that = this;
+		    if(this.$parent.user === ""){
+		      this.$http.get('https://api.meowtic.com/user/whois')
+		        .then(function(response){
+		          let data = response.data;
+		          if(data.success){
+		            this.user = response.data.output;
+		          }
+		      });
+		    } else {
+		      this.user = this.$parent.user;
+		    }
+
+		},
+
+
+		methods:{
+
+			newConv: function(event){
+				var that = this;
+				var FRIEND_UID = 146;
+				that.choice = 1;
+				console.log(that.choice);
+				that.$http.post('https://api.meowtic.com/messenger/init/'+FRIEND_UID)
+				.then(function(response){
+					let data = response.data;
+					console.log(data);
+					if(data.success){
+						console.log(data);
+						that.prev=data;
+						that.prevId=that.prev.id;
+						console.log(that.prevId);
+						
+					}
+					else {
+					}
+				}, handleError)
+			}
+
+			/*loadPreview : function() {
+				var _this = this;
+				this.$http.post('https://api.meowtic.com/messenger/list')
+				.then(function(response){
+					let data = response.data;
+					console.log(data);
+					if(data.success){
+						_this.previewList = data;
+					}
+					else {
+					}
+				}, handleError)
+			},
+
+			loadConv: function(event) {
+
+			}
+
+		}*/
 
 		/*methods:{
 
@@ -95,11 +152,11 @@
 			},
 
 
-		}
-
-
-
 		}*/
+
+
+
+		}
 
 	}
 

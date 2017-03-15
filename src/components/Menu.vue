@@ -16,14 +16,29 @@
         <li class="mob separate"><img src="../assets/separate.jpg"></li>
         <li class="mob"><img src="../assets/search_mob.png" alt="search"></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
-        <li><router-link :to="{name: 'match'}"><img src="../assets/match.png" alt="message"></router-link></li>
+        <li><router-link :to="{name: 'choicematch'}"><img src="../assets/match.png" alt="message"></router-link></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
         <li><router-link :to="{name: 'messenger'}"><img src="../assets/message.png" alt="message"></router-link></li>
         <li class="separate"><img src="../assets/separate.jpg"></li>
         <li v-on:click="popup"><img src="../assets/profile.png" alt="profile"></li>
-        <popup-component v-if="choice == 1"></popup-component>
-        <p v-else>
-        </p>
+        <div id="popup_profile">
+          <div  v-on:click="popup">
+            <router-link :to="{name: 'profileuser'}"><h2>Mon compte</h2></router-link>
+          </div>
+          <div id="list_pet">
+            <div v-for="a in animals"  v-on:click="popup">
+              <router-link  v-bind:to="'/profileanimal/'+ a.id">
+                <div class="profile_animal">
+                    <img v-if="a.profile_image != null" v-bind:src="a.profile_image.path" v-bind:alt="a.name">
+                </div>
+                {{a.name}}
+              </router-link>
+            </div>
+          </div>
+          <div   v-on:click="popup">
+            <div v-on:click="logout"><h2>Se deconnecter</h2><img src="../assets/deconnexion.png" alt="deco" id="img_deco"></div>
+          </div>
+        </div>
       </ul>
     </div>
   </header>
@@ -33,28 +48,71 @@
 
 import Vue from 'vue'
 Vue.use(require('vue-resource'));
-import PopupComponent from "./PopUpProfile.vue"
 
 
 export default {
-  components: {
-    PopupComponent
-  },
   data(){
     return{
-      choice: 0
+      choice:0,
+      animals :[],
+      animals_info: {id:'',name:'', profile_image:''},
+      addPet: {
+        id: 0,
+        name: '',
+        species_id: ''
     }
-  },
+  }
+},
+created(){
+   var that = this;
+   if(this.$parent.user === ""){
+     this.$http.get('https://api.meowtic.com/user/whois')
+       .then(function(response){
+         let data = response.data;
+         if(data.success){
+           this.user = response.data.output;
+         }
+     });
+   } else {
+     this.user = this.$parent.user;
+   }
+   this.$http.get('https://api.meowtic.com/user/list_animal')
+   .then(function(response){
+     let data = response.data;
+     that.animal = response.data.output;
+     if(data.success){
+       var total = response.data.output.item_total;
+         for(var i = 0 ; i<total ; i++){
+           this.animals_info = this.animal.data[i];
+           this.animals.push(this.animals_info);
+         }
+       }
+     })
+
+ },
   methods : {
-    popup: function(){
-      if(this.choice == 0){
-        this.choice = 1
-      }else {
-        this.choice = 0
-      }
+    logout : function(){
+        this.$http.post('https://api.meowtic.com/user/logout')
+        .then(function(response){
+            let data = response.data
+            if(data.success){
+                location.href = 'root'
+            }
+            else{
+
+            }
+        })
+    },
+    popup : function () {
+        if(document.getElementById("popup_profile").style.display == 'block'){
+            document.getElementById("popup_profile").style.display = 'none'
+        }else{
+              document.getElementById("popup_profile").style.display = 'block'
+        }
     }
 
 }}
+
 
 var handleError = function(error){
     console.log('Error! Could not reach the API. ' + error)
@@ -138,6 +196,41 @@ header ul li {
 li.mob{
   display:none;
 }
+#list_pet{
+  max-height: 50%;
+  overflow: auto;
+  max-height: 400px
+}
+#popup_profile {
+  background-color: white;
+  display: none;
+}
+
+div#popup_profile h2{
+  margin-left: 1em;
+}
+
+
+div#popup_profile div h2{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+div#popup_profile div{
+  vertical-align: middle;
+}
+
+a{
+  text-decoration: none;
+}
+
+img#img_deco{
+  margin-left: 1em;
+  width: 20px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
 @media screen and (max-device-width:930px), screen  and (max-width:930px){
     #research input{
       min-width:250px;

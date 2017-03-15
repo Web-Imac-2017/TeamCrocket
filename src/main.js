@@ -19,6 +19,10 @@ const router = new VueRouter({
     name: 'root'
   }, {
     path: '/match',
+    component: require('./components/ChoiceMatch.vue'),
+    name: 'choicematch'
+  }, {
+    path: '/match/:id',
     component: require('./components/Match.vue'),
     name: 'match'
   }, {
@@ -26,7 +30,7 @@ const router = new VueRouter({
     component: require('./components/LoginUser.vue'),
      name: 'loginuser'
    },{
-     path: '/ProfileAnimal',
+     path: '/ProfileAnimal/:id',
      component: require('./components/ProfileAnimal.vue'),
      name: 'profileanimal'
 

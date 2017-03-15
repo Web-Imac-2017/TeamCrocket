@@ -1,85 +1,95 @@
 <template>
-  <div id="content_profile">
-          <h1>Profil</h1>
-          <form  id="profile-form">
-          <div id="cover">
-            <div id="profile_picture">
-              <img v-if="userForm.image != null" v-bind:src="userForm.image.path" v-bind:alt="user.nickname">
-            </div>
-            <img src="../assets/edit.png" id="img_edit"  v-on:click="edit_details"/>
-            <div id="info_princ">
-              <span class="name" id="name">{{userForm.name}}</span>
-              <input id="edit_name" v-model="userForm.name" name="name" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
-              <div id="icon_contact">
-                <input type="file" id="edit_profile_picture" name="image_file">
-              </div>
-            </div>
-          </div>
-          <div id="content_info">
-            <div class="details">
-              <div id="right">
-                <h1>Details</h1>
-                <ul>
-                  <li>
-                    <h2>Sexe</h2>
-                    <p><span id="sex">{{userForm.sex}}</span>
-                      <select name="sex" id="edit_sex">
-                          <option value="m">M</option>
-                          <option value="f">F</option>
-                      </select>
-                    </p>
-                  </li>
-                  <li>
-                    <h2>City</h2>
-                    <span>{{userForm.city}}</span>
-                  </li>
-                </ul>
-              </div>
-              <div id="left">
-                <ul>
-                  <li>
-                    <h2>Age</h2>
-                    <span>{{userForm.age}} ans</span>
-                  </li>
-                  <li>
-                    <h2>Naissance</h2>
-                    <span>{{userForm.date_birth}}</span>
-                  </li>
-                </ul>
-              </div>
+   <div id="content_profile" v-on:submit.prevent="edit_profile" v-if="user != null">
+    <h1>Profil</h1>
+    <form  id="profile-form">
+    <input type="hidden" name="id" v-bind:value="animal.id">
+    <div id="cover">
+      <div id="profile_picture">
+        <img v-if="animal.image != null" v-bind:src="animal.image.path" v-bind:alt="animal.nickname">
+      </div>
+      <div id="info_princ">
+        <span class="show_data" >{{animal.nickname}}</span>
+        <input class="edit_data" v-model="animal.nickname" name="nickname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+        <div id="icon_contact">
+          <input type="file" id="edit_profile_picture" class="edit_data" name="image_file">
+        </div>
+      </div>
+      <div id="img_edit_animal" v-if="edit == 1">
+        <img src="../assets/edit.png" id="img_edit"  v-on:click="edit_details"/>
+      </div>
+      <p v-else>
+      </p>
+    </div>
 
+      <div id="content_info">
+        <div class="details">
+          <h1>Details</h1>
+          <ul>
+            <li>
+                <h2>Prenom</h2>
+                <p>
+                  <span class="show_data">{{animal.firstname}}</span>
+                    <input class="edit_data" name="firstname" v-model="animal.firstname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+                </p>
+            </li>
+            <li>
+              <h2>Nom</h2>
+              <p><span class="show_data">{{animal.lastname}}</span>
+                <input class="edit_data" name="lastname" v-model="animal.lastname" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+              </p>
+            </li>
+            <li>
+              <h2>Sexe</h2>
+              <p><span class="show_data">
+                    <img src="../assets/man.png" alt="Homme"  v-if="sex == 1"/>
+                    <img src="../assets/woman.png" alt="Femme" v-if="sex == 2"/>
+                    <img src="../assets/unknown.png"alt="Hermaphrodite" v-if="sex == 3"/>
+                    <p v-else></p>
+                  </span>
+                <div class="edit_data">
+                    <label for="m"><img src="../assets/man.png" alt="Homme"/></label>
+                    <input type="radio" id="m" value="m" name="sex">
+                    <label for="f"><img src="../assets/woman.png" alt="Femme"/></label>
+                    <input type="radio" id="f" value="f" name="sex">
+                    <label for="h"><img src="../assets/unknown.png" alt="Hermaphrodite" /></label>
+                    <input type="radio" id="h" value="h" name="sex">
+                </div>
+              </p>
+            </li>
 
-            </div>
-            <div class="desc">
-              <h1>Description</h1>
-              <ul>
-                <li>
-                  <h2>Ce qu'il Aime</h2>
-                  <span id="detail_lastname">{{userForm.like}}</span>
-                </li>
-                <li>
-                  <h2>Ce qu'il Aime</h2>
-                  <span id="detail_lastname">{{userForm.dislike}}</span>
-                </li>
-                <li>
-                  <h2>Caracteres</h2>
-                  <span>{{caracForm.value}}</span>
-                </li>
-                <li>
-                  <h2>Nourriture preferee</h2>
-                  <span>{{caracForm.value}}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div id="button_valid">
-            <button type="submit" class="button_style">VALIDER
-              <img src="../assets/search_mob.png" class="img_button"/>
-            </button>
+            <li>
+              <h2>Date de naissance</h2>
+              <p>
+                <span class="show_data">{{animal.date_birth}}, {{animal.age}} ans</span>
+                <date-component v-if="choice == 1"></date-component>
+              </p>
+            </li>
+            <li>
+              <h2>Ville</h2>
+              <p><span class="show_data">{{animal.city}}</span>
+                <input class="edit_data" name="city" v-model="animal.city" type="text" required pattern="^[a-zA-Z][a-zA-Z0-9-_\.]{3,20}$" title="Min 4, max 20 caractères, lettre, chifres - _ ou . acceptés">
+              </p>
+            </li>
+        </ul>
+        </div>
+        <div class="desc">
+          <h1>Description</h1>
+          <p><span class="show_data">{{animal.description}}</span>
+            <textarea class="edit_data" name="description" v-model="animal.description" ></textarea>
+          </p>
+        </div>
+      </div>
+      <div id="button_valid" class="edit_data">
+        <button type="submit" class="button_style">VALIDER
+          <img src="../assets/search_mob.png" class="img_button"/>
+        </button>
 
-          </div>
+      </div>
 
-        </form>
+    </form>
+  </div>
+  <div v-else>
+    <p>Vous devez vous connecter...</p>
   </div>
 </template>
 
@@ -88,60 +98,78 @@
 import Vue from 'vue'
 
 Vue.use(require('vue-resource'));
+import DateComponent from "./Date.vue"
 
 export default {
+  components: {
+    DateComponent
+  },
   data() {
     return {
+      choice : 0,
+      edit : 0,
+      sex : 0,
       user : null,
-      userForm : {
-          name:'',
-          sex:'',
-          like:'',
-          dislike:'',
-          city: '',
-          date_birth: '',
-          age: '',
-
-
-      },
-
-      caracForm : {
-        value:''
-      }
-
+      animal : '',
     }
   },
-
-    created : function(){
-      var get_id = sessionStorage.getItem("id_animal");
+  created : function(){
+      var get_id = this.$route.params.id;
       this.$http.get('https://api.meowtic.com/profile/get/'+ get_id )
         .then(function(response){
           let data = response.data;
           this.user = response.data.output;
           if(data.success){
+            this.animal = this.user;
             if(this.$parent.user.id ==this.user.creator_id){
-                document.getElementById("img_edit").style.display="block";
+              this.edit = 1;
             }
-            this.userForm.name = this.user.name;
-            this.userForm.sex = this.user.sex;
-            this.userForm.like = this.user.like;
-            this.userForm.dislike = this.user.dislike;
-            this.userForm.city = this.user.city;
-            this.userForm.date_birth = this.user.date_birth;
-
           }
         })
+        if(this.animal.sex == 'm'){
+          this.sex = 1;
+        }else if (this.animal.sex == 'f') {
+          this.sex = 2;
+        }else if (this.animal.sex == 'h') {
+          this.sex = 3;
+        }
     },
     methods : {
       edit_details : function (){
-
-            document.getElementById("name").style.display="none";
-            document.getElementById("edit_name").style.display = 'block';
-            document.getElementById("edit_profile_picture").style.display = 'block';
-              document.getElementById("button_valid").style.display = "block";
-      }
+        this.choice = 1;
+        var show = document.getElementsByClassName("show_data");
+        for (var i=0;i<show.length;i+=1){
+          show[i].style.display = 'none';
+        }
+        var edit = document.getElementsByClassName("edit_data");
+        for (var i=0;i<edit.length;i+=1){
+          edit[i].style.display = 'block';
+        }
+      },
+      edit_profile : function(){
+        let formData = new FormData(document.getElementById('profile-form'));
+        this.$http.post('https://api.meowtic.com/profile/edit', formData)
+          .then(function(response){
+            let data = response.data;
+            if(data.success){
+              console.log('Profile modifié');
+              this.user = response.data.output;
+              this.choice = 0;
+              var show = document.getElementsByClassName("show_data");
+              for (var i=0;i<show.length;i+=1){
+                show[i].style.display = 'block';
+              }
+              var edit = document.getElementsByClassName("edit_data");
+              for (var i=0;i<edit.length;i+=1){
+                edit[i].style.display = 'none';
+              }
+            }
+            else{
+              alert(response.data.message);
+            }
+        })
+      },
     }
-
 }
 
 
@@ -150,35 +178,4 @@ export default {
 <style lang="less">
 @import "../definitions"; /* import common definitions */
 
-#img_edit,#edit_name,#edit_profile_picture{
-  display:none
-}
-#content_info .details h1{
-  margin-top:0.2em;
-}
-#content_info .desc h1{
-  margin-top:0.2em;
-}
-#content_info .details ul li h2{
-  margin-top:3em;
-}
-#content_info .desc ul li h2{
-  margin-top:3em;
-}
-
-#content_info .desc h3{
-  margin-top:2em;
-}
-
-#content_info span{
-
-}
-
-#right{
-  float:left;
-}
-
-#left{
-  float:right;
-}
 </style>
