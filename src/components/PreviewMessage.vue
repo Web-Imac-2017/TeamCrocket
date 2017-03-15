@@ -4,15 +4,15 @@
 		<img src="../assets/razor.jpg" id="avatar">
 		<div id = "txt">
 			<div id="author">
-				<span>{{contact.author}}</span>
+				<span>{{message.author}}</span>
 			</div>
 
 			<div id="date">
-				<p>{{contact.date}}</p>
+				<p>{{message.date}}</p>
 			</div>
 
 			<div id="text-prev">
-				{{contact.text}}
+				{{message.text}}
 			</div>
 		</div>
 	</div>
@@ -27,18 +27,46 @@
 	export default {
 		name:"PreviewmessageComponent",
 
-		// ici maintenant
+		// ici maintenant v-on:click="getDate"
 		// tu définis ton prop pour que vue sache qu'il doit aller le chercher
 		props: {
-			contact: String //change en Object pour le link back
-		}
+			message: Object //change en Object pour le link back
+		},
 			// maintenant tu as acces à contact dans ton template
 			//à partir du moment ou tu as accès à la contact list dans ton component à gauche là, ça sera automatiquement dispo ici, et mis à jour en temps réel
 
 			//du coup ce qui est dans data sert à rien puisque ça va directement chercher dans la
 			//contact list à gauche ?
 			// exactement, c'est du "one-way data binding", tu fais descendere l'information et elle peut pas être modifié par le component, il peut seulement l'exploiter
-			//ptn c'est beau		
+			//ptn c'est beau	
+
+		created: function() {
+
+		 var that = this;
+		    if(this.$parent.user === ""){
+		      this.$http.get('https://api.meowtic.com/user/whois')
+		        .then(function(response){
+		          let data = response.data;
+		          if(data.success){
+		            this.user = response.data.output;
+		          }
+		      });
+		    } else {
+		      this.user = this.$parent.user;
+		    }
+
+		},
+
+
+		editMessage: function(event) {
+
+		},
+
+		deleteMessage: function(event) {
+
+		}
+
+
 	}
 
 </script>
