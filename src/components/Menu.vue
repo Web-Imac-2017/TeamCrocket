@@ -228,6 +228,7 @@ li.mob{
 #deco{
   display: block;
   margin:auto;
+  cursor: pointer;
 }
 #popup_profile #deco h2{
   display: inline-block;

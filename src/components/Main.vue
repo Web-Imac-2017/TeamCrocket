@@ -9,8 +9,8 @@
     <p class="p_2">"Ne soyez plus un loup solitaire"</p>
 
     <div id="button_main">
-    <a class="scroll" href="#2" v-on:click="scroll" > <button  class="button_connexion" v-on:click="login">Se connecter</button></a>
-    <a class="scroll" href="#2"  v-on:click="scroll" > <button class="button_inscription" v-on:click="signup">S'inscrire</button></a>
+    <a class="scroll" href="#2"> <button  class="button_connexion" v-on:click="login">Se connecter</button></a>
+    <a class="scroll" href="#2"> <button class="button_inscription" v-on:click="signup">S'inscrire</button></a>
       <div id="2"></div>
       <signupuser-component v-if="choice == 2"></signupuser-component>
       <login-component v-if="choice == 1"></login-component>
