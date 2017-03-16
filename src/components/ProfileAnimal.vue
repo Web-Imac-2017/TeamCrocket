@@ -343,7 +343,6 @@ opacity: 0;
   border-radius: 6px;
   background-color:@lightBlue;
   font-size:1.2em;
-  font-family: 'Moon';
   color:white;
   cursor:pointer;
   padding-right: 0.8em;
