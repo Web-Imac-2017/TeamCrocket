@@ -57,8 +57,11 @@ const router = new VueRouter({
     path: '/legalnotice',
     component: require('./components/LegalNotice.vue'),
     name: 'legalnotice'
-  },
-  {
+  },{
+  path: '/research',
+  component: require('./components/Research.vue'),
+  name:'research'
+},{
     path: '*',
     redirect: '/'
   }]
