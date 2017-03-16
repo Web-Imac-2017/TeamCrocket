@@ -1,11 +1,12 @@
 var path = require('path')
 var webpack = require('webpack')
+var projectRoot = path.resolve(__dirname, './')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
     filename: 'build.js'
   },
   module: {
@@ -22,6 +23,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        include: projectRoot,
         exclude: /node_modules/
       },
       {
@@ -61,14 +63,13 @@ if (process.env.NODE_ENV === 'production') {
         NODE_ENV: '"production"'
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    }),
     new webpack.LoaderOptionsPlugin({
       minimize: true
+    }),
+    new HtmlWebpackPlugin({
+      filename: path.resolve(__dirname, './dist/index.html'),
+      template: 'index.html',
+      inject: true
     })
   ])
 }

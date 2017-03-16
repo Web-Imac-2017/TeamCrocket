@@ -1,5 +1,5 @@
 <template>
-	<section id="frame">
+	<section id="frame" v-if="user != null">
 		<div id="messenger-index">
 			<img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 	      	<h1>Messagerie</h1>
@@ -20,6 +20,11 @@
 	      	maintenant ton component a acces a la variable-->
 	    </div>
 	</section>
+	<div v-else>
+		<div class="no">
+			<img class="non_connecter" src="../assets/non_connecter.png"/>
+    </div>
+	</div>
 </template>
 
 
@@ -43,6 +48,7 @@
 
 		data() {
 			return {
+			user:null,
 			choice: 0,
 			previewList: [],
 			message: {},
@@ -51,12 +57,24 @@
 			prevId: Object,
 
 			//message:Array
-			
+
 			}
 		},
 
 		created: function() {
 			//this.loadPreview();
+			var that = this;
+	    if(this.$parent.user === ""){
+	      this.$http.get('https://api.meowtic.com/user/whois')
+	        .then(function(response){
+	          let data = response.data;
+	          if(data.success){
+	            this.user = response.data.output;
+	          }
+	      });
+	    } else {
+	      this.user = this.$parent.user;
+	    }
 		},
 
 
@@ -76,7 +94,7 @@
 						that.prev=data;
 						that.prevId=that.prev.id;
 						console.log(that.prevId);
-						
+
 					}
 					else {
 					}
@@ -103,7 +121,7 @@
 
 			}
 
-		}	
+		}
 
 	}
 
