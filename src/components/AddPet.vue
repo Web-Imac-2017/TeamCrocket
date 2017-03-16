@@ -31,7 +31,7 @@
 
       <div class="button_validation" >
         <button class="button_style"  v-on:click="submit()">VALIDER
-          <img src="../assets/search_mob.png" class="img_button"/>
+            <img src="../assets/search_mob.png" class="img_button"/>
         </button>
       </div>
 
@@ -59,6 +59,7 @@ export default {
           if(data.success){
             console.log('Profile créé');
             this.addPet = response.data.output;
+            location.href = '/profileuser';
           }
           else{
             alert(response.data.message);

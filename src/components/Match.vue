@@ -12,16 +12,17 @@
           <img v-else src="../assets/none_profil.png">
           <div>
               <span>{{ animal.name }}</span>
+
               <ul>
-                <li v-if="animal.age == 1">{{ animal.age }} an</li>
-                <li v-if="animal.age > 1">{{ animal.age }} ans</li>
-                <li v-else></li>
                 <li>
                   <img v-if="animal.sex =='m'" src="../assets/man.png" alt="Homme">
                   <img v-if="animal.sex =='f'" src="../assets/woman.png" alt="Femme">
                   <img v-if="animal.sex ==''" src="../assets/unknown.png" alt="Hermaphrodite">
                   <p v-else></p>
                 </li>
+                <li v-if="animal.age == 1">{{ animal.age }} an</li>
+                <li v-if="animal.age > 1">{{ animal.age }} ans</li>
+                <li v-else></li>
             </ul>
             <ul class="text">
               <li v-if="animal.description != ''">{{ animal.description }}</li>
@@ -31,10 +32,11 @@
             </ul>
           </div>
         </div>
-        <button class="button_accept" v-on:click="accept"> Valider </button>
-        <button class="button_refuse" v-on:click="refuse"> Refuser </button>
-        <span id="popup">Un message a été envoyé à {{ animal.name }}.</span>
-
+        <div id="button_choice">
+          <button class="button_accept" v-on:click="accept"> Valider </button>
+          <button class="button_refuse" v-on:click="refuse"> Refuser </button>
+          <span id="popup">Un message a été envoyé à {{ animal.name }}.</span>
+      </div>
       </div>
       <div v-else>
         <img src="../assets/crying_dog.jpg" class="no_match">
@@ -180,9 +182,10 @@ var handleError = function(error){
         display: block;
         font-family: @fontTitle;
         font-weight: bold;
-        font-size: 1.1em;
+        font-size: 2em;
         text-align: center;
         margin-bottom: 0.7em;
+        padding-top: 0.5em;
       }
 
       ul {
@@ -192,9 +195,10 @@ var handleError = function(error){
       ul li {
         display : inline;
         font-weight: 100;
+        font-size: 1.2em;
 
         img {
-          width: 9%;
+          width: 15%;
         }
       }
 
@@ -216,6 +220,11 @@ var handleError = function(error){
     }
   }
 
+  #button_choice{
+    width:100%;
+    padding-top: 1em
+  }
+
   .button_match(){
    width:10em;
    border-radius: 6px;
@@ -223,11 +232,9 @@ var handleError = function(error){
    padding:0.3em;
    background-color:@lightBlue;
    display: block;
-
-
    //margin-bottom: 1em;
    font-size:1.3em;
-   font-family: 'Moon';
+   font-family: @fontTitle;
    font-weight : bold;
    color:white;
    cursor:pointer;
@@ -235,11 +242,13 @@ var handleError = function(error){
 
  .button_accept{
    .button_match;
-   //margin-top : 2.5em;
+   margin:auto;
+   background-color: @pink;
  }
 
  .button_refuse{
    .button_match;
+    margin:auto;
  }
 
 

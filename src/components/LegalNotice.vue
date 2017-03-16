@@ -2,7 +2,7 @@
     <section id="frame">
       <img src="../assets/Meetic.png" width="110ox"/>
       <h1>Mentions Legales</h1>
-      <div class="text">
+      <div class="text_2">
         <h3>1. Présentation du site.</h3>
 <p>En vertu de l'article 6 de la loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique, il est précisé aux utilisateurs du site <a href="http://www.meowtic.com/">www.meowtic.com</a> l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi :</p>
 <p><strong>Propriétaire</strong> : Team Crocket – Ugo Bouveron, Jérémie Metter-Rothan, Amel Negra, Cédric Porcher, Laura Reyes, Noémie Busquet, Mélodie Mersch, Marion Prigent et Sophie Salton.<br />
@@ -77,7 +77,7 @@
    text-align: center;
  }
 
- .text {
+ .text_2 {
    text-align: justify;
    margin-top: 3em;
    color: @darkBlue;
