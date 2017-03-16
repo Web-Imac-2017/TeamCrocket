@@ -98,7 +98,7 @@ class MessageGroup extends Bucket\BucketAbstract
         return $this->user_b_id;
     }
 
-    public function isMember(App\Model\User $user) : bool{
+    public function isMember(\App\Model\User $user) : bool{
         return ($user->getId() == $this->user_a_id || $user->getId() == $this->user_b_id);
     }
 }

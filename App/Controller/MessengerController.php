@@ -26,6 +26,8 @@ class MessengerController extends BucketAbstractController
     * Récupère la liste des messages
     */
     public function fetch() : array{
+        global $_USER;
+
         $group_id = (int)($_POST['group_id'] ?? 0);
         $last_update = (int)($_POST['last_update'] ?? 0);
 
@@ -54,8 +56,10 @@ class MessengerController extends BucketAbstractController
     /**
     * Charge une conversation, si elle n'existe pas encore, on la crée
     */
-    public function init() : MessageGroup{
-        $friend_uid = (int)($_POST['friend_uid'] ?? 0);
+    public function init(int $friend_uid) : MessageGroup{
+        if($_SESSION['uid'] == 0){
+            throw new \Exception(gettext("You must sign in"));
+        }
         if(!User::userExistsById($friend_uid)){
             throw new \Exception(gettext("Unknown friend uid"));
         }

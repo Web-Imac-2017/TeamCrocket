@@ -612,6 +612,13 @@ class User extends Bucket\BucketAbstract
         return ((int)(DB::fetchUnique($sql, $data)['id']) > 0);
     }
 
+    public static function userExistsById(int $id) : int{
+        $sql = "SELECT id FROM ".DATABASE_CFG['prefix']."user WHERE id = :id AND active = 1 LIMIT 0, 1";
+        $data = array( [":id", $id, \PDO::PARAM_INT] );
+
+        return ((int)(DB::fetchUnique($sql, $data)['id']) > 0);
+    }
+
     /**
     * @param string $nickname
     * @return bool
