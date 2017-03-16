@@ -14,8 +14,16 @@
             <li>
               <h2>Espece</h2>
               <select name="species_id" v-model="addPet.species_id">
+                  <option value="12">Arthropode</option>
                   <option value="6">Chat</option>
-                  <option value="7">Chien</option>
+                  <option value="8">Cheval</option>
+                  <option value="9">Chien</option>
+                  <option value="13">Lézard</option>
+                  <option value="15">Poisson</option>
+                  <option value="16">Rongeur</option>
+                  <option value="10">Serpent</option>
+                  <option value="14">Tortue</option>
+                  <option value="17">Autre</option>
               </select>
             </li>
         </ul>
@@ -96,7 +104,7 @@ form#signup-form ul li select{
 }
 
 .button_validation{
-      border-radius: 6px;
+    border-radius: 6px;
 }
 
 @media screen and (max-device-width:650px), screen  and (max-width:650px){
