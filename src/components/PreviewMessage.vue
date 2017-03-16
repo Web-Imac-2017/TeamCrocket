@@ -4,19 +4,19 @@
 		<img src="../assets/razor.jpg" id="avatar">
 		<div id = "txt">
 			<div id="author">
-				<span>{{message.author}}</span>
+				<span>{{message.creator.nickname}}</span>
 			</div>
 
 			<div id="date">
-				<p>{{message.date}}</p>
+				<p>{{message.creation_date}}</p>
 			</div>
 
 			<div id="text-prev">
-				{{message.text}}
+				{{message.content}}
 			</div>
 		</div>
-		<button v-on:click="formMessage">Edit</button>
-		<button v-on:click="deleteMessage">Suppr</button>
+		<button v-on:click="formMessage">Modifier</button>
+		<button v-on:click="deleteMessage">Supprimer</button>
 	
 
 	
@@ -52,21 +52,12 @@
 			        content: message.content,
 			        group_id: message.group_id
 			    }
-
 			}
 		},
 
-		// tu définis ton prop pour que vue sache qu'il doit aller le chercher
 		props: {
-			message: {} //change en Object pour le link back
+			message: {} 
 		},
-			// maintenant tu as acces à contact dans ton template
-			//à partir du moment ou tu as accès à la contact list dans ton component à gauche là, ça sera automatiquement dispo ici, et mis à jour en temps réel
-
-			//du coup ce qui est dans data sert à rien puisque ça va directement chercher dans la
-			//contact list à gauche ?
-			// exactement, c'est du "one-way data binding", tu fais descendere l'information et elle peut pas être modifié par le component, il peut seulement l'exploiter
-			//ptn c'est beau	
 
 		created: function() {
 			var that = this;

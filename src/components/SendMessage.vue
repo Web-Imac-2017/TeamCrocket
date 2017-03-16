@@ -2,15 +2,20 @@
 
 	<div id="message-form">
 		<h2>Entamez la discussion !</h2>    
-    <form v-on:submit.prevent="sendmessage" id="message-form">
+    <form v-on:submit.prevent="sendmessage">
       <input type="hidden" name="formData.id" value="0">
-      <input type="hidden" name="formData.group_id" value="1">
+      <input type="hidden" name="formData.group_id" value="1"> <!--remplacer value par
+      le group_id envoyé en props quand on aura le lien entre components et back-->
 			
-      <span><p style="white-space: pre">blbl {{formData.content}}</p>
+      <span><p style="white-spacea"></p>
 			<br>
-			<textarea v-model="formData.content" placeholder="add multiple lines"></textarea>
-      <button type="submit">Valider</button>
-			</span>
+			<textarea v-model="formData.content" placeholder="Ecrivez votre message" class="white-space"></textarea>
+      <br>
+      </span>
+      <div id="button_form">
+        <button type="submit" class="button_form">Envoyer
+        </button>
+      </div>
 		</form>
 	</div>
 
@@ -21,11 +26,6 @@ import Vue from 'vue'
 Vue.use(require('vue-resource'));
 
 export default {
-  //components: {
-    //DateComponent
-  //},
-
-  
 
   name:"SendmessageComponent",
 
@@ -34,32 +34,38 @@ export default {
       formData: {
         id: 0,
         content: '',
-        group_id: 1 //remplacer par v-model="group_id" qd y aura le lien avec preview pour le group_id avec props
-      }
-      //msg: ''
-	    /*id: 0,
-	    txt: '',
-		content: this.txt,
-		group_id:1,
-
-		message : {
-            txt : '',
-            date : ''
-        }*/
-
+        group_id: 1
+      },
+      animal:null,
     }
   },
 
 created: function() {
-
+  //this.getrandom();
 },
 
 methods: {
 
+    /*getrandom : function()
+    {
+      var that = this;
+      var get_id = this.$route.params.id;
+      this.loading = true;
+      that.$http.get('https://api.meowtic.com/user/get/' + get_id)
+      .then(function(response){
+        let data = response.data;
+        that.loading = false;
+          if(data.success){
+              that.animal = data.output;
+              if(data.ouput == null)
+              {
+                return
+              }
+          }
+      }, handleError)
+    },*/
 
-  	sendmessage: function(event) {
-      //let formData = new FormData(document.getElementById('message-form'));
-
+  	sendmessage: function(event) { //envoie au compte id 146, on aurait pu envoyer à n'importe qui si on avait le lien back...
   		var that = this;
 			var FRIEND_UID = 146;
 			that.choice = 1;
@@ -69,6 +75,7 @@ methods: {
 					let data = response.data;
 					if(data.success){
 						console.log(data);
+           // alert(data.content);
 						
 					}
 					else {
@@ -77,58 +84,13 @@ methods: {
 				}, handleError)
 
   	}
-
   }
- 
 }
 
 
  var handleError = function(error){
       console.log('Error! Could not reach the API. ' + error)
   }
-
-   /* created : function(){
-      var get_id = this.$route.params.id;
-      this.$http.get('https://api.meowtic.com/profile/get/'+ get_id )
-        .then(function(response){
-          let data = response.data;
-          this.user = response.data.output;
-          if(data.success){
-            if(this.$parent.user.id ==this.user.creator_id){
-                document.getElementById("img_edit").style.display="block";
-            }
-            this.userForm.name = this.user.name;
-            this.userForm.sex = this.user.sex;
-            this.userForm.like = this.user.like;
-            this.userForm.dislike = this.user.dislike;
-            this.userForm.city = this.user.city;
-            this.userForm.date_birth = this.user.date_birth;
-
-          }
-        })
-    },
-
-
-
-    signup : function(){
-      let formData = new FormData(document.getElementById('signup-form'));
-
-      var that = this;
-      that.$http.post('https://api.meowtic.com/user/edit', formData)
-        .then(function(response){
-          let data = response.data;
-          if(data.success){
-            that.user = response.data.output;
-            //location.href = 'profileuser';
-          }
-          else{
-            alert(response.data.message);
-          }
-      })
-    }
-  }*/
-
-
 
 
 </script>
@@ -138,12 +100,40 @@ methods: {
 	@import "../definitions";
 
 	#message-form{
-		width:100%;
+		width:80%;
 		background-color: white;
-		margin-bottom:10px;
-		margin-top:10px;
-		border: 1px solid #DADADA;
+		margin-top:2%;
+    margin: auto;
+
+    @media (max-width: 700px)
+    {
+      flex-direction: column;
+      width: 100%;
+      img, div, textarea {
+      width: 100%;
+      }
+    }
+
 	}
 
+  .white-space {
+    width:100%;
+    height:200px;
+    margin-bottom:2%;
+    margin-top:2%;
+    margin: auto;
+    border: 1px solid #DADADA;
+    font-size:1em;
+
+    @media (max-width: 700px)
+    {
+      flex-direction: column;
+      width: auto;
+      img, div, textarea {
+      width: auto;
+      }
+    }
+
+  }
 
 </style>

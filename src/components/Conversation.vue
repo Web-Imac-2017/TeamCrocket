@@ -35,7 +35,7 @@
 
 				user: null,
 
-				fullConv:[{
+				/*fullConv:[{
 					author: 'lol',
 					date: 'jklk',
 					text: 'klmj'
@@ -44,7 +44,7 @@
 					author: 'lol',
 					date: 'jklk',
 					text: 'klmj'
-				}]
+				}]*/
 			}
 			//contactList: []
 			//fullConv = fetch(0)
@@ -57,9 +57,9 @@
 
 
 		methods:{
-			loadConv: function(event, time) {
+			loadConv: function(event) {
 				var _this = this;
-				this.$http.post('https://api.meowtic.com/messenger/fetch',time)
+				this.$http.post('https://api.meowtic.com/messenger/fetch')
 				.then(function(response){
 					let data = response.data;
 					console.log(data);

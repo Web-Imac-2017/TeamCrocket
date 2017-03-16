@@ -3,9 +3,14 @@
 		<div id="messenger-index">
 			<img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 	      	<h1>Messagerie</h1>
-
-	      			<button v-on:click="newConv">Parle à Mélo !</button>
-	      			<sendmessage-component v-if="choice == 1"></sendmessage-component>
+	      			<!--
+	      			<div id="button_form" >
+	      				<br>
+	      				<button v-on:click="newConv" class="button_form">Nouveau contact</button>
+	      				<br><br>
+	      			</div>
+	      			-->
+	      			<sendmessage-component></sendmessage-component>
 
 					<previewmessage-component v-for="message in previewList" :message="message" v-on:click="loadPreview">
 					</previewmessage-component>
@@ -14,8 +19,6 @@
 
 	      	maintenant ton component a acces a la variable-->
 	    </div>
-
-		</div>
 	</section>
 </template>
 
@@ -35,41 +38,25 @@
 			PreviewmessageComponent,
 			SendmessageComponent
 			//'ConversationComponent' : ConversationComponent
+
 		},
 
 		data() {
 			return {
-
-				/*contactList:[{
-					author: 'lol',
-					date: 'jklk',
-					text: 'klmj'
-				},
-				{
-					author: 'lol',
-					date: 'jklk',
-					text: 'klmj'
-				}]
-			}*/
-			//user:null,
 			choice: 0,
-			//prev: Object,
-			//prevId: Object,
-
 			previewList: [],
-			message: {}
+			message: {},
+
+			prev: Object,
+			prevId: Object,
 
 			//message:Array
 			
 			}
-
-		
-
 		},
 
 		created: function() {
-			console.log("bruh");
-			this.loadPreview();
+			//this.loadPreview();
 		},
 
 
@@ -79,7 +66,7 @@
 				var that = this;
 				var FRIEND_UID = 146;
 				that.choice = 1;
-				console.log(that.choice);
+				//console.log(that.choice);
 				that.$http.post('https://api.meowtic.com/messenger/init/'+FRIEND_UID)
 				.then(function(response){
 					let data = response.data;
@@ -97,16 +84,14 @@
 			},
 
 			loadPreview : function() {
-				console.log("fuck it");
 				var that = this;
 				that.$http.post('https://api.meowtic.com/messenger/list')
 				.then(function(response){
 					let data = response.data;
-					console.log("blblblbl");
 					console.log(data);
 					if(data.success){
 						that.previewList = data['output'];
-						console.log("preview List");
+						//console.log("preview List");
 						console.log(that.previewList);
 					}
 					else {
@@ -174,7 +159,7 @@
 	#messenger-index #logo{
 		display: block;
 		margin: auto;
-	 	width:110px;
+	 	width:250px;
 	}
 
 	#list-preview{
@@ -182,5 +167,42 @@
 
 	}
 
+	#messenger-index {
+	    display: block;
+	    width:60%;
+	    margin: auto;
+	    padding:3.45%;
+	    background:white;
+	    text-align: center;
+
+	    @media (max-width: 700px)
+		{
+		  flex-direction: column;
+		  width: 100%;
+		  img, div {
+		  width: 100%;
+		  margin:auto;
+		  text-align:center;
+	  	}
+	}
+  }
+
+
+
+.button_form{
+  border-radius: 4px;
+  background-color:@lightBlue;
+  font-size:0.9em;
+  font-family: 'Moon';
+  color:white;
+  cursor:pointer;
+  padding-right: 0.8em;
+  padding-left: 0.8em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  display: block;
+  margin:auto;
+
+}
 
 </style>
