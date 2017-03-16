@@ -12,7 +12,7 @@ Vue.http.interceptors.push((request, next) => {
 
 Vue.use(VueRouter)
 const router = new VueRouter({
-  mode: 'history',
+  //mode: 'history',
   routes: [{
     path: '/',
     component: require('./components/Main.vue'),
@@ -57,7 +57,7 @@ const router = new VueRouter({
     path: '/legalnotice',
     component: require('./components/LegalNotice.vue'),
     name: 'legalnotice'
-  },{
+  }, {
   path: '/research',
   component: require('./components/Research.vue'),
   name:'research'

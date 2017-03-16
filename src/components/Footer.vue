@@ -2,7 +2,6 @@
   <footer>
     © Meowtic, 2017 -
     <router-link :to="{name: 'legalnotice'}">Mentions légales</router-link>
-       - Charte de confiance
   </footer>
 </template>
 
