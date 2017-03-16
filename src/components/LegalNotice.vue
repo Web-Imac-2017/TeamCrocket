@@ -55,7 +55,7 @@
 <p>Utilisateur : Internaute se connectant, utilisant le site susnommé.</p>
 <p>Informations personnelles : « les informations qui permettent, sous quelque forme que ce soit, directement ou non, l'identification des personnes physiques auxquelles elles s'appliquent » (article 4 de la loi n° 78-17 du 6 janvier 1978).</p>
 
-<p class="info">Cette odofopsdjfpofsjopdsjfkop</p>
+<p class="info">Ces mentions légales n'ont aucune valeur juridique.</p>
       </div>
 
 

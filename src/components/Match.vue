@@ -3,23 +3,23 @@
       <img src="../assets/Meetic.png" width="110ox"/>
       <h1>Match</h1>
       <h2>Trouvez le profil qui fera chavirer son coeur</h2>
-      <div v-if="loading">
-        <h3>loading ...</h3>
+      <div class="load" v-if="loading">
+        <h3>Nous recherchons votre âme sœur...</h3>
       </div>
       <div v-else-if="animal != null">
         <div class="profile">
-          <img v-if="animal.image != null" v-bind:src="animal.image.path" v-bind:alt="animal.name">
-          <img v-else src="../assets/cat.jpg">
+          <img v-if="animal.profile_image != null" v-bind:src="animal.profile_image.path" v-bind:alt="animal.name">
+          <img v-else src="../assets/none_profil.png">
           <div>
             <ul>
               <span>{{ animal.name }}</span>
               <li v-if="animal.age == 1">{{ animal.age }} an</li>
-              <li v-if="animal.age == 0"></li>
-              <li v-else>{{ animal.age }} ans</li>
+              <li v-if="animal.age > 1">{{ animal.age }} ans</li>
+              <li v-else></li>
               <li>
                 <img v-if="animal.sex =='m'" src="../assets/man.png" alt="Homme">
                 <img v-if="animal.sex =='f'" src="../assets/woman.png" alt="Femme">
-                <p v-else></p>
+                <img v-else src="../assets/unknown.png" alt="Hermaphrodite">
               </li>
             </ul>
             <ul class="text">
@@ -30,11 +30,9 @@
             </ul>
           </div>
         </div>
-        <div v-on:click="accept"> Valider <!-- id="choice" -->
-          <!-- <button  v-on:click="accept">Valider</button>
-          <button v-on:click="refuse">Refuser</button> -->
-        </div>
-        <span id="popup">Popup text...</span>
+        <button class="button_accept" v-on:click="accept"> Valider </button>
+        <button class="button_refuse" v-on:click="refuse"> Refuser </button>
+        <span id="popup">Un message a été envoyé à {{ animal.name }}.</span>
 
       </div>
       <div v-else>
@@ -52,14 +50,10 @@ export default {
   data() {
     return {
       user : null,
-      animal : {
-        name: '',
-        sex: '',
-        like: '',
-        dislike: ''
-      },
+      animal : null,
       choice : false,
-      loading : true
+      loading : true,
+      sex : 0
     }
   },
 
@@ -80,6 +74,7 @@ export default {
         that.loading = false;
           if(data.success){
               that.animal = data.output;
+
               if(data.ouput == null)
               {
                 return
@@ -122,8 +117,7 @@ export default {
           {
             popup.style.display = "none"
             that.get();
-          }, 2000);
-
+          }, 3000);
         }
       })
     }
@@ -150,6 +144,16 @@ var handleError = function(error){
     padding:3%;
     background:white;
     text-align: center;
+  }
+
+  .load {
+    margin-bottom: 11em;
+  }
+
+
+  h3 {
+    color: @darkBlue;
+    padding-top: 8em;
   }
 
   .profile {
@@ -194,7 +198,7 @@ var handleError = function(error){
     @media (max-width: 700px)
     {
       flex-direction: column;
-      width: 40%;
+      width: 45%;
 
       img, div {
         width: 100%;
@@ -202,36 +206,38 @@ var handleError = function(error){
     }
   }
 
+  .button_match(){
+   width:10em;
+   border-radius: 6px;
+   letter-spacing: 0.2em;
+   padding:0.3em;
+   background-color:@lightBlue;
+   display: block;
+
+
+   //margin-bottom: 1em;
+   font-size:1.3em;
+   font-family: 'Moon';
+   font-weight : bold;
+   color:white;
+   cursor:pointer;
+ }
+
+ .button_accept{
+   .button_match;
+   //margin-top : 2.5em;
+ }
+
+ .button_refuse{
+   .button_match;
+ }
+
+
   .no_match {
     margin-top: 1em;
     width: 60%;
   }
-/*
-  #choice {
-    display: flex;
-    width: 60%;
-    margin: auto;
 
-    a {
-      height: 10em;
-      width: 10em;
-      line-height: 10em;
-      border-radius: 100%;
-      color: @lightBlue;
-      margin: 1em;
-    }
-
-    a.accept {
-      background-color: #0F0;
-    }
-
-    a.refuse {
-      background-color: #F00;
-    }
-  }
-
-
-*/
 #popup {
   display: none;
   position: absolute;
@@ -239,12 +245,15 @@ var handleError = function(error){
   width: 60%;
   top : 40%;
   left: 20%;
-  background-color: #0FF;
+  padding-top: 5em;
+  background-color: @lightBlue;
+  font-size: 1.2em;
+  color: white;
   -webkit-animation: fade 2s;
-  animation: fade 2s
+  animation: fade 3s
 }
 
-/* Add animation (fade in the popup) */
+/* Popup animation */
 @-webkit-keyframes fade {
     from {opacity: 0;}
     40% {opacity: 1;}
