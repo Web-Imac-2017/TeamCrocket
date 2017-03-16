@@ -13,7 +13,7 @@ require_once(ROOT_INC . 'init.php');
     <head>
         <meta charset="utf-8">
         <title>Backend</title>
-        <link rel="stylesheet/less" type="text/css" href="../less/style.less" />
+        <link rel="stylesheet/less" type="text/css" href="./less/style.less" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.7.2/less.min.js"></script>
     </head>
     <body>
