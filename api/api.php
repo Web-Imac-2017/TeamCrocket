@@ -11,7 +11,7 @@ require_once(ROOT_INC . 'init.php');
 // API
 $request = $_GET['request'] ?? '';
 
-$request != NULL && preg_match('#api\/(.*)\/(.*)(?:\/(.*)\/?)?$#iU', $request, $matches);
+$request != NULL && preg_match('#(.*)\/(.*)(?:\/(.*)\/?)?$#iU', $request, $matches);
 $export = array();
 
 $route = NULL;
