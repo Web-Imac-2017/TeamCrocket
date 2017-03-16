@@ -28,8 +28,9 @@
   </div>
   <div id="main-co" v-else>
     <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
-    <h1>Bienvenue sur Meowtic </h1>
-    <h2>Pour des rencontres qui ont du chien</h2>
+    <h1>Recherche </h1>
+    <h2>Voici tout les profils des animaux à la recherche du grand amour, n'hésitez pas à visiter leurs profils, s'il y en a un qui vous à tapé dans l'oeil</h2>
+    <research-component></research-component>
   </div>
 </template>
 
@@ -40,13 +41,15 @@ Vue.use(require('vue-resource'));
 
 import SignupuserComponent from "./SignUp.vue"
 import LoginComponent from "./LoginUser.vue"
+import ResearchComponent from "./Research.vue"
 
 
 
 export default {
 components: {
   SignupuserComponent,
-  LoginComponent
+  LoginComponent,
+  ResearchComponent
 },
 
 data(){

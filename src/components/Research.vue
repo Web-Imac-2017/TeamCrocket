@@ -1,8 +1,5 @@
 <template>
-    <section id="frame">
-      <img src="../assets/Meetic.png" width="110ox"/>
-      <h1>Recherche</h1>
-      <h2>Ici se trouve tout les profils de nos abonnés, n'hésitez pas à visiter leurs profils si quelqu'un vous a tapé dans l'oeil !</h2>
+    <section id="frame">    
       <div v-if="loading">
         <h3>loading ...</h3>
       </div>
