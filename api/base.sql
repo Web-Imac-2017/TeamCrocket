@@ -1,31 +1,20 @@
--- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
---
--- Client :  localhost
--- Généré le :  Lun 06 Mars 2017 à 00:00
--- Version du serveur :  5.6.35
--- Version de PHP :  7.1.1
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
---
--- Base de données :  `teamcrocket`
---
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- --------------------------------------------------------
+CREATE DATABASE IF NOT EXISTS `teamcrocket` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `teamcrocket`;
 
---
--- Structure de la table `ajkl7_animal`
---
-
-CREATE TABLE `ajkl7_animal` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `creator_id` int(10) UNSIGNED NOT NULL,
-  `species_id` int(10) UNSIGNED DEFAULT NULL,
-  `cover_image_id` int(10) UNSIGNED DEFAULT NULL,
-  `profile_image_id` int(10) UNSIGNED DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_animal` (
+  `id` int(10) unsigned NOT NULL,
+  `creator_id` int(10) unsigned NOT NULL,
+  `species_id` int(10) unsigned DEFAULT NULL,
+  `cover_image_id` int(10) unsigned DEFAULT NULL,
+  `profile_image_id` int(10) unsigned DEFAULT NULL,
   `name` varchar(32) NOT NULL,
   `sex` char(1) NOT NULL DEFAULT 'm',
   `description` text NOT NULL,
@@ -33,44 +22,43 @@ CREATE TABLE `ajkl7_animal` (
   `info_dislike` varchar(64) NOT NULL,
   `date_birth` date DEFAULT NULL,
   `banned` tinyint(1) NOT NULL DEFAULT '0',
+  `dirty` tinyint(2) NOT NULL DEFAULT '0',
+  `date_last_moderation` datetime DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
-  `dirty` tinyint(1) NOT NULL DEFAULT '0',
-  `date_last_moderation` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
---
--- Contenu de la table `ajkl7_animal`
---
+INSERT INTO `ajkl7_animal` (`id`, `creator_id`, `species_id`, `cover_image_id`, `profile_image_id`, `name`, `sex`, `description`, `info_like`, `info_dislike`, `date_birth`, `banned`, `dirty`, `date_last_moderation`, `creation_date`, `modification_date`, `active`) VALUES
+(22, 140, 9, 64, 63, 'Totor', 'f', 'Totor est ma première golden retriever. C''est une chienne douce, affectueuse et une maman extraordinaire', '', '', '2013-03-07', 0, 1, '2017-03-14 12:32:44', '2017-03-01 15:05:07', '2017-03-04 15:37:14', 1),
+(24, 140, 17, 24, 66, 'Didier', 'm', 'Avec les gros sabots. Si on voit les marques, ou si on voit les logos de l''entreprise, pas de soucis !', 'Le droit', 'Les retards', '2010-03-07', 0, 1, '2017-03-14 12:33:59', '2017-03-01 15:14:12', '2017-03-04 15:38:47', 1),
+(26, 140, 6, 67, 68, 'Sully', 'f', 'J''adore mes maitres Anna et Dudule !', 'La sieste et les croquettes', '', '2017-01-01', 0, 1, '2017-03-14 12:34:00', '2017-03-01 16:35:07', '2017-03-04 15:41:44', 1),
+(28, 140, 13, 29, 70, 'Lézio', 'm', 'Mort de rire', 'La chaleur et les jours d''été', '', '2015-06-12', 0, 2, NULL, '2017-03-01 16:36:44', '2017-03-04 15:46:27', 1),
+(29, 140, 14, 31, 71, 'Mado', 'f', '', 'La salade et le concombre', '', '2014-02-02', 0, 2, NULL, '2017-03-01 16:38:46', '2017-03-04 15:47:36', 1),
+(30, 141, 11, 33, NULL, 'Pouik', 'm', '', '', '', '1996-08-10', 0, 2, NULL, '2017-03-01 16:42:27', '2017-03-01 16:44:50', 1),
+(32, 142, 17, NULL, 72, 'Michou', 'm', '', '', '', '1954-05-09', 0, 2, NULL, '2017-03-04 13:20:01', '2017-03-04 15:53:13', 1),
+(37, 144, 6, NULL, NULL, 'laura', 'h', 'aime l''herbe', '', '', '2004-01-01', 0, 0, NULL, '2017-03-13 16:34:21', '2017-03-15 17:33:18', 1),
+(38, 144, 7, NULL, NULL, 'gogo', 'm', '', '', '', NULL, 0, 2, NULL, '2017-03-13 16:34:45', NULL, 1),
+(39, 144, 6, NULL, NULL, 'sophie', 'F', '', '', '', NULL, 0, 2, NULL, '2017-03-13 16:49:11', NULL, 1),
+(40, 144, 7, NULL, NULL, 'sophiiiiie', 'm', '', '', '', NULL, 0, 2, NULL, '2017-03-13 16:50:04', NULL, 1),
+(41, 144, 7, NULL, NULL, 'lolo', 'm', '', '', '', NULL, 0, 2, NULL, '2017-03-13 16:50:34', NULL, 1),
+(42, 144, 6, NULL, NULL, 'ururu', '1', '', 'utu', '', NULL, 0, 2, NULL, '2017-03-13 17:34:37', NULL, 1),
+(43, 144, 6, NULL, NULL, 'julien', '1', '', 'zefe', '', NULL, 0, 2, NULL, '2017-03-13 17:34:56', NULL, 1),
+(44, 146, 6, NULL, NULL, 'Animal', 'm', '', '', '', NULL, 0, 2, NULL, '2017-03-13 21:28:53', NULL, 1),
+(48, 146, 6, NULL, NULL, 'PetitChat', 'm', '', '', '', '2011-07-05', 0, 0, NULL, '2017-03-15 16:17:33', '2017-03-15 19:48:08', 1),
+(50, 146, 6, NULL, NULL, 'Gustave', 'm', '', '', '', NULL, 0, 0, NULL, '2017-03-15 20:13:51', NULL, 1),
+(53, 143, 16, 145, 138, 'DAVIIIIIIIIIIIIIIID', 'h', 'J''aime le tunning, les grosses bécannes. Avec mes potes on a pas des ptites bilouutes tu vois !!', 'Moumou, Les rideaux', 'qu''on me laisse tout seul', '2017-01-01', 0, 0, NULL, '2017-03-16 00:27:26', '2017-03-16 18:48:59', 1),
+(54, 143, 6, NULL, 131, 'Luzard', 'm', 'je viens de noisiel !', 'le chocolat, pg de Gennes', 'le rer', '2017-01-01', 0, 0, NULL, '2017-03-16 00:35:23', '2017-03-16 16:08:38', 1),
+(55, 143, 6, NULL, 118, 'Lemmiwinks', 'f', 'Une grande aventure, t''attend dans ce corridore, \r\nDépeche toi lemmiwinks ou bientot tu seras mort, \r\nTon voyage, tu verras, sera sombre et sera noir ...  \r\nMais tu dois sortir de ce cul pour raconter ton histoire. \r\n \r\nLemmiwinks, lemmiwinks lemmiwinks, lemmiwinks \r\n  \r\nLemmwinkis avance et marche sans t''arrêter \r\nPour trouver la sortie-du-cul-de-l''homme gay \r\nLa route est longue et bien-des-perils-tu-affronteras \r\nMais continue Lemmiwinks tu arriveras. ', 'Maitre esclave', 'le noir', '2017-01-01', 0, 0, NULL, '2017-03-16 00:38:41', '2017-03-16 16:09:43', 1),
+(62, 146, 6, NULL, NULL, 'UnAutrePetitChat', 'm', '', '', '', NULL, 0, 0, NULL, '2017-03-16 10:19:59', NULL, 1),
+(63, 146, 17, NULL, NULL, 'Stitch', 'm', '', '', '', '2015-04-04', 0, 0, NULL, '2017-03-16 13:40:17', '2017-03-16 14:06:22', 1),
+(64, 146, 6, NULL, NULL, 'cinznozc', 'm', '', '', '', NULL, 0, 0, NULL, '2017-03-16 14:41:07', NULL, 1);
 
-INSERT INTO `ajkl7_animal` (`id`, `creator_id`, `species_id`, `cover_image_id`, `profile_image_id`, `name`, `sex`, `description`, `info_like`, `info_dislike`, `date_birth`, `banned`, `creation_date`, `modification_date`, `dirty`, `date_last_moderation`, `active`) VALUES
-(22, 140, 9, 64, 63, 'Totor', 'f', 'Totor est ma première golden retriever. C\'est une chienne douce, affectueuse et une maman extraordinaire', '', '', '2013-03-07', 0, '2017-03-01 15:05:07', '2017-03-04 15:37:14', 1, '2017-03-05 23:19:50', 1),
-(24, 140, 17, 24, 66, 'Didier', 'm', 'Avec les gros sabots. Si on voit les marques, ou si on voit les logos de l\'entreprise, pas de soucis !', 'Le droit', 'Les retards', '2010-03-07', 0, '2017-03-01 15:14:12', '2017-03-04 15:38:47', 1, '2017-03-05 23:19:59', 1),
-(26, 140, 6, 67, 68, 'Sully', 'f', 'J\'adore mes maitres Anna et Dudule !', 'La sieste et les croquettes', '', '2017-01-01', 0, '2017-03-01 16:35:07', '2017-03-04 15:41:44', 0, NULL, 1),
-(27, 135, 9, 55, 57, 'Rex', 'm', '', 'Os', '', '2016-03-01', 0, '2017-03-01 16:35:43', '2017-03-05 21:11:55', 0, NULL, 1),
-(28, 140, 13, 29, 70, 'Lézio', 'm', 'Mort de rire', 'La chaleur et les jours d\'été', '', '2015-06-12', 0, '2017-03-01 16:36:44', '2017-03-04 15:46:27', 0, NULL, 1),
-(29, 140, 14, 31, 71, 'Mado', 'f', '', 'La salade et le concombre', '', '2014-02-02', 0, '2017-03-01 16:38:46', '2017-03-04 15:47:36', 0, NULL, 1),
-(30, 141, 11, 33, NULL, 'Pouik', 'm', '', '', '', '1996-08-10', 0, '2017-03-01 16:42:27', '2017-03-01 16:44:50', 0, NULL, 1),
-(31, 135, 6, 37, 59, 'Tigrou', 'm', 'Chat adopté', 'Grenouilles', 'Herbe', '2008-05-09', 0, '2017-03-02 10:51:31', '2017-03-04 15:30:13', 0, NULL, 1),
-(32, 142, 17, NULL, 72, 'Michou', 'm', '', '', '', '1954-05-09', 0, '2017-03-04 13:20:01', '2017-03-04 15:53:13', 0, NULL, 1),
-(33, 143, 9, 74, 75, 'Albert', 'm', 'Jeune, doux, attentionné, cherche jeune damoiselle pour mes sorties à Pompidou.  \r\nTatouage sur la fesse gauche', 'La musique Indé', 'La faim dans le monde', '2016-02-02', 0, '2017-03-04 16:10:03', NULL, 0, NULL, 1);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_animal_characteristic`
---
-
-CREATE TABLE `ajkl7_animal_characteristic` (
-  `animal_id` int(10) UNSIGNED NOT NULL,
-  `characteristic_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_animal_characteristic` (
+  `animal_id` int(10) unsigned NOT NULL,
+  `characteristic_id` int(10) unsigned NOT NULL,
   `value` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
---
--- Contenu de la table `ajkl7_animal_characteristic`
---
 
 INSERT INTO `ajkl7_animal_characteristic` (`animal_id`, `characteristic_id`, `value`) VALUES
 (22, 4, '0'),
@@ -85,10 +73,6 @@ INSERT INTO `ajkl7_animal_characteristic` (`animal_id`, `characteristic_id`, `va
 (26, 5, '4'),
 (26, 8, ''),
 (26, 9, ''),
-(27, 4, '20'),
-(27, 5, '3'),
-(27, 8, 'Timide'),
-(27, 9, 'Croquettes'),
 (28, 4, '40'),
 (28, 5, '1'),
 (28, 8, 'Fénéant'),
@@ -101,104 +85,127 @@ INSERT INTO `ajkl7_animal_characteristic` (`animal_id`, `characteristic_id`, `va
 (30, 5, '0'),
 (30, 8, ''),
 (30, 9, ''),
-(31, 4, '40'),
-(31, 5, '2'),
-(31, 8, 'Joueur'),
-(31, 9, ''),
 (32, 4, '170'),
 (32, 5, '85'),
 (32, 8, 'Joueur'),
-(32, 9, ''),
-(33, 4, '50'),
-(33, 5, '4'),
-(33, 8, 'sérieux'),
-(33, 9, 'croquette végétarienne');
+(32, 9, '');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_animal_comment`
---
-
-CREATE TABLE `ajkl7_animal_comment` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `animal_id` int(10) UNSIGNED NOT NULL,
-  `creator_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_animal_comment` (
+  `id` int(10) unsigned NOT NULL,
+  `animal_id` int(10) unsigned NOT NULL,
+  `creator_id` int(10) unsigned NOT NULL,
   `content` varchar(255) NOT NULL,
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Contenu de la table `ajkl7_animal_comment`
---
-
-INSERT INTO `ajkl7_animal_comment` (`id`, `animal_id`, `creator_id`, `content`, `creation_date`, `modification_date`, `active`) VALUES
-(1, 24, 143, 'Hello', '2017-03-16 00:00:00', NULL, 1),
-(3, 27, 135, 'Hello', '2017-03-05 21:40:57', NULL, 1);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_animal_gallery`
---
-
-CREATE TABLE `ajkl7_animal_gallery` (
-  `animal_id` int(10) UNSIGNED NOT NULL,
-  `image_id` int(10) UNSIGNED NOT NULL
+CREATE TABLE IF NOT EXISTS `ajkl7_animal_gallery` (
+  `animal_id` int(10) unsigned NOT NULL,
+  `image_id` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Contenu de la table `ajkl7_animal_gallery`
---
-
 INSERT INTO `ajkl7_animal_gallery` (`animal_id`, `image_id`) VALUES
-(27, 50),
 (28, 69);
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_animal_match`
---
-
-CREATE TABLE `ajkl7_animal_match` (
-  `animal_a_id` int(10) UNSIGNED NOT NULL,
-  `animal_b_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_animal_match` (
+  `animal_a_id` int(10) unsigned NOT NULL,
+  `animal_b_id` int(10) unsigned NOT NULL,
   `interested` tinyint(1) NOT NULL,
   `date_swipe` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
---
--- Contenu de la table `ajkl7_animal_match`
---
-
 INSERT INTO `ajkl7_animal_match` (`animal_a_id`, `animal_b_id`, `interested`, `date_swipe`) VALUES
-(27, 22, 1, '2017-03-05 21:08:40'),
-(27, 24, 1, '2017-03-05 21:06:02'),
-(27, 26, 0, '2017-03-05 21:08:48'),
-(27, 28, 0, '2017-03-05 21:09:04'),
-(27, 29, 0, '2017-03-05 21:06:49'),
-(27, 30, 0, '2017-03-05 21:09:01'),
-(27, 32, 1, '2017-03-05 21:09:07'),
-(28, 31, 1, NULL),
-(31, 22, 0, '2017-03-05 22:12:38'),
-(31, 24, 1, '2017-03-05 22:12:43'),
-(31, 26, 0, '2017-03-05 22:13:30'),
-(31, 28, 1, '2017-03-05 22:13:22'),
-(31, 29, 1, '2017-03-05 22:12:33'),
-(31, 30, 1, '2017-03-05 22:12:55'),
-(31, 32, 1, '2017-03-05 22:12:50');
+(44, 37, 1, '2017-03-15 16:59:47'),
+(44, 38, 1, '2017-03-15 16:36:04'),
+(44, 39, 0, '2017-03-15 16:59:46'),
+(44, 40, 1, '2017-03-15 16:57:45'),
+(44, 41, 1, '2017-03-15 16:29:20'),
+(44, 42, 1, '2017-03-15 17:03:25'),
+(44, 43, 1, '2017-03-15 16:49:05'),
+(48, 37, 1, '2017-03-15 17:12:48'),
+(48, 38, 1, '2017-03-15 17:17:21'),
+(48, 39, 1, '2017-03-15 17:16:55'),
+(48, 40, 1, '2017-03-15 17:04:18'),
+(48, 41, 1, '2017-03-15 17:12:47'),
+(48, 42, 0, '2017-03-15 16:18:03'),
+(48, 43, 1, '2017-03-15 17:16:49'),
+(50, 37, 1, '2017-03-16 00:45:27'),
+(50, 38, 1, '2017-03-16 00:45:37'),
+(50, 39, 1, '2017-03-16 00:45:10'),
+(50, 40, 1, '2017-03-16 00:45:07'),
+(50, 41, 1, '2017-03-16 00:45:00'),
+(50, 42, 1, '2017-03-16 00:45:17'),
+(50, 43, 1, '2017-03-16 00:45:21'),
+(50, 53, 1, '2017-03-16 00:45:24'),
+(50, 54, 1, '2017-03-16 00:45:14'),
+(50, 55, 1, '2017-03-16 00:45:33'),
+(53, 37, 1, '2017-03-16 09:42:41'),
+(53, 38, 1, '2017-03-16 09:48:04'),
+(53, 39, 1, '2017-03-16 09:50:51'),
+(53, 40, 1, '2017-03-16 09:51:03'),
+(53, 41, 1, '2017-03-16 09:54:15'),
+(53, 42, 1, '2017-03-16 09:51:07'),
+(53, 43, 1, '2017-03-16 09:50:31'),
+(53, 44, 1, '2017-03-16 09:50:47'),
+(53, 48, 1, '2017-03-16 09:49:51'),
+(53, 50, 1, '2017-03-16 01:24:03'),
+(53, 62, 1, '2017-03-16 14:50:35'),
+(53, 63, 1, '2017-03-16 14:50:41'),
+(53, 64, 0, '2017-03-16 16:43:02'),
+(54, 37, 0, '2017-03-16 00:55:33'),
+(54, 38, 0, '2017-03-16 00:55:30'),
+(54, 39, 0, '2017-03-16 00:55:35'),
+(54, 40, 0, '2017-03-16 00:55:29'),
+(54, 41, 0, '2017-03-16 00:55:31'),
+(54, 42, 0, '2017-03-16 00:55:32'),
+(54, 43, 0, '2017-03-16 00:55:34'),
+(54, 44, 0, '2017-03-16 00:55:28'),
+(54, 48, 0, '2017-03-16 00:55:27'),
+(54, 50, 0, '2017-03-16 00:55:26'),
+(54, 62, 0, '2017-03-16 16:49:13'),
+(54, 63, 0, '2017-03-16 16:50:32'),
+(54, 64, 0, '2017-03-16 16:50:33'),
+(55, 37, 1, '2017-03-16 00:43:19'),
+(55, 38, 1, '2017-03-16 00:43:30'),
+(55, 39, 1, '2017-03-16 10:02:26'),
+(55, 40, 1, '2017-03-16 00:43:26'),
+(55, 41, 1, '2017-03-16 00:43:33'),
+(55, 42, 1, '2017-03-16 10:04:31'),
+(55, 43, 1, '2017-03-16 00:43:23'),
+(55, 44, 1, '2017-03-16 10:16:21'),
+(55, 48, 1, '2017-03-16 00:43:37'),
+(55, 50, 1, '2017-03-16 10:00:56'),
+(55, 62, 0, '2017-03-16 16:50:55'),
+(55, 63, 0, '2017-03-16 16:51:01'),
+(55, 64, 0, '2017-03-16 16:51:01'),
+(62, 37, 1, '2017-03-16 13:38:03'),
+(62, 38, 1, '2017-03-16 13:38:42'),
+(62, 39, 1, '2017-03-16 10:28:19'),
+(62, 40, 1, '2017-03-16 13:38:01'),
+(62, 41, 1, '2017-03-16 13:35:30'),
+(62, 42, 0, '2017-03-16 10:28:24'),
+(62, 43, 1, '2017-03-16 13:38:46'),
+(62, 53, 1, '2017-03-16 13:38:58'),
+(62, 54, 1, '2017-03-16 13:36:30'),
+(62, 55, 1, '2017-03-16 13:39:21'),
+(63, 37, 1, '2017-03-16 13:51:56'),
+(63, 38, 1, '2017-03-16 13:49:15'),
+(63, 39, 1, '2017-03-16 14:01:35'),
+(63, 40, 1, '2017-03-16 13:43:20'),
+(63, 41, 1, '2017-03-16 13:51:41'),
+(63, 42, 1, '2017-03-16 13:41:24'),
+(63, 43, 1, '2017-03-16 14:01:00'),
+(63, 53, 1, '2017-03-16 14:35:14'),
+(63, 54, 1, '2017-03-16 13:43:07'),
+(63, 55, 1, '2017-03-16 13:41:30'),
+(64, 38, 0, '2017-03-16 15:54:28'),
+(64, 39, 0, '2017-03-16 15:54:29'),
+(64, 41, 0, '2017-03-16 16:13:17'),
+(64, 43, 0, '2017-03-16 15:54:30');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_characteristic`
---
-
-CREATE TABLE `ajkl7_characteristic` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_characteristic` (
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(32) NOT NULL,
   `common` tinyint(1) NOT NULL DEFAULT '0',
   `required` tinyint(1) NOT NULL DEFAULT '0',
@@ -206,11 +213,7 @@ CREATE TABLE `ajkl7_characteristic` (
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `ajkl7_characteristic`
---
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 INSERT INTO `ajkl7_characteristic` (`id`, `name`, `common`, `required`, `type`, `creation_date`, `modification_date`, `active`) VALUES
 (4, 'Taille (cm)', 1, 0, 1, '2017-02-25 00:00:00', NULL, 1),
@@ -221,14 +224,8 @@ INSERT INTO `ajkl7_characteristic` (`id`, `name`, `common`, `required`, `type`, 
 (9, 'Nourriture préférée', 1, 0, 0, '2017-02-25 00:00:00', NULL, 1),
 (10, 'Jouet préféré', 0, 0, 0, '2017-02-26 00:00:00', NULL, 1);
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_country`
---
-
-CREATE TABLE `ajkl7_country` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_country` (
+  `id` int(10) unsigned NOT NULL,
   `iso` char(2) NOT NULL,
   `name` varchar(80) NOT NULL,
   `nicename` varchar(80) NOT NULL,
@@ -238,11 +235,7 @@ CREATE TABLE `ajkl7_country` (
   `modification_date` datetime DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-
---
--- Contenu de la table `ajkl7_country`
---
+) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 INSERT INTO `ajkl7_country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`, `phonecode`, `modification_date`, `creation_date`, `active`) VALUES
 (1, 'AF', 'AFGHANISTAN', 'Afghanistan', 'AFG', 4, 93, NULL, NULL, 1),
@@ -297,7 +290,7 @@ INSERT INTO `ajkl7_country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`,
 (50, 'CD', 'CONGO, THE DEMOCRATIC REPUBLIC OF THE', 'Congo, the Democratic Republic of the', 'COD', 180, 242, NULL, NULL, 1),
 (51, 'CK', 'COOK ISLANDS', 'Cook Islands', 'COK', 184, 682, NULL, NULL, 1),
 (52, 'CR', 'COSTA RICA', 'Costa Rica', 'CRI', 188, 506, NULL, NULL, 1),
-(53, 'CI', 'COTE D\'IVOIRE', 'Cote D\'Ivoire', 'CIV', 384, 225, NULL, NULL, 1),
+(53, 'CI', 'COTE D''IVOIRE', 'Cote D''Ivoire', 'CIV', 384, 225, NULL, NULL, 1),
 (54, 'HR', 'CROATIA', 'Croatia', 'HRV', 191, 385, NULL, NULL, 1),
 (55, 'CU', 'CUBA', 'Cuba', 'CUB', 192, 53, NULL, NULL, 1),
 (56, 'CY', 'CYPRUS', 'Cyprus', 'CYP', 196, 357, NULL, NULL, 1),
@@ -356,11 +349,11 @@ INSERT INTO `ajkl7_country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`,
 (109, 'KZ', 'KAZAKHSTAN', 'Kazakhstan', 'KAZ', 398, 7, NULL, NULL, 1),
 (110, 'KE', 'KENYA', 'Kenya', 'KEN', 404, 254, NULL, NULL, 1),
 (111, 'KI', 'KIRIBATI', 'Kiribati', 'KIR', 296, 686, NULL, NULL, 1),
-(112, 'KP', 'KOREA, DEMOCRATIC PEOPLE\'S REPUBLIC OF', 'Korea, Democratic People\'s Republic of', 'PRK', 408, 850, NULL, NULL, 1),
+(112, 'KP', 'KOREA, DEMOCRATIC PEOPLE''S REPUBLIC OF', 'Korea, Democratic People''s Republic of', 'PRK', 408, 850, NULL, NULL, 1),
 (113, 'KR', 'KOREA, REPUBLIC OF', 'Korea, Republic of', 'KOR', 410, 82, NULL, NULL, 1),
 (114, 'KW', 'KUWAIT', 'Kuwait', 'KWT', 414, 965, NULL, NULL, 1),
 (115, 'KG', 'KYRGYZSTAN', 'Kyrgyzstan', 'KGZ', 417, 996, NULL, NULL, 1),
-(116, 'LA', 'LAO PEOPLE\'S DEMOCRATIC REPUBLIC', 'Lao People\'s Democratic Republic', 'LAO', 418, 856, NULL, NULL, 1),
+(116, 'LA', 'LAO PEOPLE''S DEMOCRATIC REPUBLIC', 'Lao People''s Democratic Republic', 'LAO', 418, 856, NULL, NULL, 1),
 (117, 'LV', 'LATVIA', 'Latvia', 'LVA', 428, 371, NULL, NULL, 1),
 (118, 'LB', 'LEBANON', 'Lebanon', 'LBN', 422, 961, NULL, NULL, 1),
 (119, 'LS', 'LESOTHO', 'Lesotho', 'LSO', 426, 266, NULL, NULL, 1),
@@ -485,116 +478,78 @@ INSERT INTO `ajkl7_country` (`id`, `iso`, `name`, `nicename`, `iso3`, `numcode`,
 (238, 'ZM', 'ZAMBIA', 'Zambia', 'ZMB', 894, 260, NULL, NULL, 1),
 (239, 'ZW', 'ZIMBABWE', 'Zimbabwe', 'ZWE', 716, 263, NULL, NULL, 1);
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_image`
---
-
-CREATE TABLE `ajkl7_image` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_image` (
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(48) NOT NULL,
   `extension` varchar(8) NOT NULL,
-  `creator_id` int(10) UNSIGNED NOT NULL,
-  `creation_date` datetime DEFAULT NULL,
-  `modification_date` datetime DEFAULT NULL,
+  `creator_id` int(10) unsigned NOT NULL,
   `dirty` tinyint(2) NOT NULL DEFAULT '0',
   `date_last_moderation` datetime DEFAULT NULL,
+  `creation_date` datetime DEFAULT NULL,
+  `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=146 DEFAULT CHARSET=utf8;
 
---
--- Contenu de la table `ajkl7_image`
---
+INSERT INTO `ajkl7_image` (`id`, `name`, `extension`, `creator_id`, `dirty`, `date_last_moderation`, `creation_date`, `modification_date`, `active`) VALUES
+(21, '44576617b0efb730970135963f27d027', 'jpeg', 140, 2, NULL, '2017-03-01 15:03:01', NULL, 1),
+(23, '127629b20e91cd95beaa6c3711bd504e', 'jpeg', 140, 2, NULL, '2017-03-01 15:06:21', NULL, 1),
+(24, '9f03d8c110cebf28fd053b1e9839550f', 'jpeg', 140, 2, NULL, '2017-03-01 15:14:12', NULL, 1),
+(26, 'db638ce598b3cfd5d1fce5f82956199d', 'jpeg', 140, 2, NULL, '2017-03-01 16:35:24', NULL, 1),
+(29, '28ad158297790a03d5b302221c6e4a0d', 'jpeg', 140, 2, NULL, '2017-03-01 16:36:44', NULL, 1),
+(30, 'd4bbdf1dabfad6f6300c32e3fe7a5cdf', 'gif', 140, 2, NULL, '2017-03-01 16:36:52', NULL, 1),
+(31, 'de96059fba13c045286e3fb153fa3574', 'jpeg', 140, 2, NULL, '2017-03-01 16:38:46', NULL, 1),
+(32, 'c6bafe6eee26db4bbf716062ff914597', 'jpeg', 140, 2, NULL, '2017-03-01 16:38:57', NULL, 1),
+(33, 'db9a552aef87c69d529e37f6d1ca7073', 'jpeg', 141, 2, NULL, '2017-03-01 16:42:27', NULL, 1),
+(34, '6a47969e6d60f316a823c32640efe1c9', 'jpeg', 141, 2, NULL, '2017-03-01 16:42:39', NULL, 1),
+(63, 'aa2f2bcbab37a0c89f6262f7634cb2bc', 'jpeg', 140, 1, '2017-03-14 12:36:04', '2017-03-04 15:35:27', NULL, 1),
+(64, '24c0a9b6bac05ccbf549261df5c2bd47', 'jpeg', 140, 1, '2017-03-14 12:36:04', '2017-03-04 15:35:43', NULL, 1),
+(66, '313b032e0a007a06c2d19e951d7bf619', 'jpeg', 140, 1, '2017-03-14 12:36:05', '2017-03-04 15:38:12', NULL, 1),
+(67, 'ab4599cbc53083239da33b89b70cc649', 'jpeg', 140, 1, '2017-03-14 12:36:05', '2017-03-04 15:41:44', NULL, 1),
+(68, '54099ba190aad6ecc73fe424576b8ca1', 'jpeg', 140, 2, NULL, '2017-03-04 15:41:44', NULL, 1),
+(69, 'a93f2a7f25e2152b0865af18680b738a', 'jpeg', 140, 2, NULL, '2017-03-04 15:45:48', NULL, 1),
+(70, '41a3fa6e6dd9c0d27daa00899603d953', 'jpeg', 140, 2, NULL, '2017-03-04 15:46:26', NULL, 1),
+(71, '131576ae19f642126d997217e97e2bb2', 'jpeg', 140, 2, NULL, '2017-03-04 15:47:36', NULL, 1),
+(72, '3bb4fa7a2a5c113d7a7c6c56f777d76e', 'jpeg', 142, 1, '2017-03-14 12:36:07', '2017-03-04 15:53:12', NULL, 1),
+(91, 'f52f805ff5e1ffe73d541ee244d48c3e', 'jpeg', 144, 1, '2017-03-14 12:36:10', '2017-03-12 16:35:14', NULL, 1),
+(94, '81b6c45e50a9ebdb501fa21a7a9e3224', 'jpeg', 143, 0, NULL, '2017-03-15 17:33:49', NULL, 1),
+(103, 'e374646b6140f71fa1c0f2484efa1bf9', 'jpeg', 143, 0, NULL, '2017-03-15 20:21:37', NULL, 1),
+(104, '55fe3c65aa5d7252651453c9fafd3da5', 'jpeg', 143, 0, NULL, '2017-03-15 20:21:37', NULL, 1),
+(109, '216d754dd823f7de2a0b1300a4f4a75f', 'jpeg', 143, 0, NULL, '2017-03-15 23:50:54', NULL, 1),
+(111, '28e440a2ba1b5cc938667ba3699a95cf', 'jpeg', 143, 0, NULL, '2017-03-16 00:15:43', NULL, 1),
+(118, '2f450b689f7e027917a3c96030f069bb', 'jpeg', 143, 0, NULL, '2017-03-16 00:41:43', NULL, 1),
+(119, 'ce4a56ae6e4300710682a62994db9701', 'jpeg', 143, 0, NULL, '2017-03-16 01:01:08', NULL, 1),
+(131, '329b1afa704c1cd097b319a9e6aea2bf', 'jpeg', 143, 0, NULL, '2017-03-16 09:54:06', NULL, 1),
+(138, '58ef4bc66bc3842f43afe105cf07c21e', 'jpeg', 143, 0, NULL, '2017-03-16 09:57:34', NULL, 1),
+(145, '96b70c64960d46e0bdd68a8f034b6ae8', 'jpeg', 143, 0, NULL, '2017-03-16 18:48:59', NULL, 1);
 
-INSERT INTO `ajkl7_image` (`id`, `name`, `extension`, `creator_id`, `creation_date`, `modification_date`, `dirty`, `date_last_moderation`, `active`) VALUES
-(21, '44576617b0efb730970135963f27d027', 'jpeg', 140, '2017-03-01 15:03:01', NULL, 1, '2017-03-05 23:20:06', 1),
-(23, '127629b20e91cd95beaa6c3711bd504e', 'jpeg', 140, '2017-03-01 15:06:21', NULL, 1, '2017-03-05 23:21:14', 1),
-(24, '9f03d8c110cebf28fd053b1e9839550f', 'jpeg', 140, '2017-03-01 15:14:12', NULL, 1, '2017-03-05 23:39:34', 1),
-(26, 'db638ce598b3cfd5d1fce5f82956199d', 'jpeg', 140, '2017-03-01 16:35:24', NULL, 1, '2017-03-05 23:39:37', 1),
-(28, '3d2b114ed75dadae5b33ebf736567493', 'jpeg', 135, '2017-03-01 16:35:57', NULL, 1, '2017-03-05 23:40:49', 1),
-(29, '28ad158297790a03d5b302221c6e4a0d', 'jpeg', 140, '2017-03-01 16:36:44', NULL, 1, '2017-03-05 23:54:37', 1),
-(30, 'd4bbdf1dabfad6f6300c32e3fe7a5cdf', 'gif', 140, '2017-03-01 16:36:52', NULL, 1, '2017-03-05 23:56:16', 1),
-(31, 'de96059fba13c045286e3fb153fa3574', 'jpeg', 140, '2017-03-01 16:38:46', NULL, 1, '2017-03-05 23:57:04', 1),
-(32, 'c6bafe6eee26db4bbf716062ff914597', 'jpeg', 140, '2017-03-01 16:38:57', NULL, 1, NULL, 1),
-(33, 'db9a552aef87c69d529e37f6d1ca7073', 'jpeg', 141, '2017-03-01 16:42:27', NULL, 2, NULL, 1),
-(34, '6a47969e6d60f316a823c32640efe1c9', 'jpeg', 141, '2017-03-01 16:42:39', NULL, 0, NULL, 1),
-(35, 'd365c1b6290c96b5d923b2e67b457617', 'jpeg', 135, '2017-03-01 19:40:38', NULL, 0, NULL, 1),
-(37, '8cc5b70124a7a39d71e0fc025c7ac935', 'jpeg', 135, '2017-03-02 10:51:31', NULL, 0, NULL, 1),
-(38, 'b0dea2afa0be158026cc96e09ff7b567', 'jpeg', 135, '2017-03-02 10:51:44', NULL, 0, NULL, 1),
-(39, '240c3177428111c64d03bdb3caf5f8c7', 'jpeg', 135, '2017-03-02 13:11:28', NULL, 0, NULL, 1),
-(50, '514a750f6cabbd8a1fc57bbef4c7f0ce', 'jpeg', 135, '2017-03-04 15:27:51', NULL, 0, NULL, 1),
-(55, 'a07cc434f89d6ff624316fe84afc07b6', 'jpeg', 135, '2017-03-04 15:28:17', NULL, 0, NULL, 1),
-(57, '737c89485a261dc8b37da9ab90ede950', 'jpeg', 135, '2017-03-04 15:29:25', NULL, 0, NULL, 1),
-(59, '49bf26eb17d3c28c81a812d5c2061408', 'jpeg', 135, '2017-03-04 15:30:13', NULL, 0, NULL, 1),
-(63, 'aa2f2bcbab37a0c89f6262f7634cb2bc', 'jpeg', 140, '2017-03-04 15:35:27', NULL, 0, NULL, 1),
-(64, '24c0a9b6bac05ccbf549261df5c2bd47', 'jpeg', 140, '2017-03-04 15:35:43', NULL, 0, NULL, 1),
-(66, '313b032e0a007a06c2d19e951d7bf619', 'jpeg', 140, '2017-03-04 15:38:12', NULL, 0, NULL, 1),
-(67, 'ab4599cbc53083239da33b89b70cc649', 'jpeg', 140, '2017-03-04 15:41:44', NULL, 0, NULL, 1),
-(68, '54099ba190aad6ecc73fe424576b8ca1', 'jpeg', 140, '2017-03-04 15:41:44', NULL, 0, NULL, 1),
-(69, 'a93f2a7f25e2152b0865af18680b738a', 'jpeg', 140, '2017-03-04 15:45:48', NULL, 0, NULL, 1),
-(70, '41a3fa6e6dd9c0d27daa00899603d953', 'jpeg', 140, '2017-03-04 15:46:26', NULL, 0, NULL, 1),
-(71, '131576ae19f642126d997217e97e2bb2', 'jpeg', 140, '2017-03-04 15:47:36', NULL, 0, NULL, 1),
-(72, '3bb4fa7a2a5c113d7a7c6c56f777d76e', 'jpeg', 142, '2017-03-04 15:53:12', NULL, 0, NULL, 1),
-(73, '92d094632603e560cc05e7d157b91ddd', 'jpeg', 143, '2017-03-04 16:10:01', NULL, 0, NULL, 1),
-(74, 'c128464526f5edb857d908a20e1869e0', 'jpeg', 143, '2017-03-04 16:10:03', NULL, 0, NULL, 1),
-(75, '52bb24dcdf59e653e333e45666606052', 'jpeg', 143, '2017-03-04 16:10:03', NULL, 0, NULL, 1),
-(76, '93d33d207c0ecd9aa8f047cd1b6af9e4', 'jpeg', 135, '2017-03-04 21:23:18', NULL, 0, NULL, 1),
-(77, '7b6c58ed2af6d946fa53df6ad2d310b2', 'jpeg', 135, '2017-03-04 21:23:46', NULL, 0, NULL, 1),
-(78, '68ab49e1934388eee5117a1e5587940f', 'jpeg', 135, '2017-03-04 21:24:51', NULL, 0, NULL, 1),
-(79, '42fe911e7b00f36947c9a3d73acd80db', 'jpeg', 135, '2017-03-04 21:26:14', NULL, 0, NULL, 1),
-(80, '54b635a52d2f24c44bb27551176a6968', 'jpeg', 135, '2017-03-04 21:29:34', NULL, 0, NULL, 1),
-(81, '38bbc4487f890f49372e302c939df1dc', 'jpeg', 135, '2017-03-04 21:31:50', NULL, 0, NULL, 1),
-(83, '7aac7e2b12cf614efa55721aaeb5b466', 'jpeg', 135, '2017-03-04 22:24:00', NULL, 0, NULL, 1),
-(84, '5eacad192ca75f6181d92bc8769c9823', 'jpeg', 135, '2017-03-05 21:11:00', NULL, 0, NULL, 1);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_message`
---
-
-CREATE TABLE `ajkl7_message` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_message` (
+  `id` int(10) unsigned NOT NULL,
   `content` text NOT NULL,
-  `group_id` int(10) UNSIGNED NOT NULL,
-  `creator_id` int(10) UNSIGNED NOT NULL,
+  `group_id` int(10) unsigned NOT NULL,
+  `creator_id` int(10) unsigned NOT NULL,
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_message_group`
---
-
-CREATE TABLE `ajkl7_message_group` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_message_group` (
+  `id` int(10) unsigned NOT NULL,
   `title` varchar(32) NOT NULL,
-  `user_a_id` int(10) UNSIGNED NOT NULL,
-  `user_b_id` int(10) UNSIGNED NOT NULL,
+  `user_a_id` int(10) unsigned NOT NULL,
+  `user_b_id` int(10) unsigned NOT NULL,
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
+INSERT INTO `ajkl7_message_group` (`id`, `title`, `user_a_id`, `user_b_id`, `creation_date`, `modification_date`, `active`) VALUES
+(3, '', 143, 146, '2017-03-15 20:38:53', NULL, 1);
 
---
--- Structure de la table `ajkl7_permission_group`
---
-
-CREATE TABLE `ajkl7_permission_group` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_permission_group` (
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(16) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
-
---
--- Contenu de la table `ajkl7_permission_group`
---
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 INSERT INTO `ajkl7_permission_group` (`id`, `name`, `active`) VALUES
 (1, 'animal_profile', 1),
@@ -604,23 +559,13 @@ INSERT INTO `ajkl7_permission_group` (`id`, `name`, `active`) VALUES
 (5, 'image', 1),
 (6, 'parameter', 1);
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_species`
---
-
-CREATE TABLE `ajkl7_species` (
-  `id` int(11) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_species` (
+  `id` int(11) unsigned NOT NULL,
   `name` varchar(32) NOT NULL,
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `ajkl7_species`
---
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 INSERT INTO `ajkl7_species` (`id`, `name`, `creation_date`, `modification_date`, `active`) VALUES
 (6, 'Chat', '2017-02-25 00:00:00', NULL, 1),
@@ -636,162 +581,448 @@ INSERT INTO `ajkl7_species` (`id`, `name`, `creation_date`, `modification_date`,
 (16, 'Rongeur', '2017-02-26 00:00:00', NULL, 1),
 (17, 'Autre', '2017-02-26 00:00:00', NULL, 1);
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_species_characteristic`
---
-
-CREATE TABLE `ajkl7_species_characteristic` (
-  `species_id` int(10) UNSIGNED NOT NULL,
-  `characteristic_id` int(10) UNSIGNED NOT NULL
+CREATE TABLE IF NOT EXISTS `ajkl7_species_characteristic` (
+  `species_id` int(10) unsigned NOT NULL,
+  `characteristic_id` int(10) unsigned NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Contenu de la table `ajkl7_species_characteristic`
---
-
 INSERT INTO `ajkl7_species_characteristic` (`species_id`, `characteristic_id`) VALUES
-(8, 7);
+(8, 7),
+(7, 7);
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_species_characteristic_order`
---
-
-CREATE TABLE `ajkl7_species_characteristic_order` (
-  `species_id` int(10) UNSIGNED NOT NULL,
-  `characteristic_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_species_characteristic_order` (
+  `species_id` int(10) unsigned NOT NULL,
+  `characteristic_id` int(10) unsigned NOT NULL,
   `custom_order` smallint(6) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_todo`
---
-
-CREATE TABLE `ajkl7_todo` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_todo` (
+  `id` int(10) unsigned NOT NULL,
   `name` varchar(32) NOT NULL,
   `done` tinyint(1) NOT NULL,
-  `creator_id` int(10) UNSIGNED DEFAULT NULL,
+  `creator_id` int(10) unsigned DEFAULT NULL,
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_user`
---
-
-CREATE TABLE `ajkl7_user` (
-  `id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_user` (
+  `id` int(10) unsigned NOT NULL,
   `nickname` varchar(32) NOT NULL,
   `password` varchar(40) NOT NULL,
   `lastname` varchar(32) NOT NULL,
   `firstname` varchar(32) NOT NULL,
   `email` varchar(128) NOT NULL,
   `sex` char(1) NOT NULL DEFAULT 'h' COMMENT 'h/f',
-  `image_id` int(10) UNSIGNED DEFAULT NULL,
+  `image_id` int(10) unsigned DEFAULT NULL,
   `description` text NOT NULL,
   `city` varchar(32) NOT NULL,
-  `latitude` float(9,6) NOT NULL,
-  `longitude` float(9,6) NOT NULL,
-  `country_id` int(10) UNSIGNED NOT NULL,
+  `latitude` float(9,6) DEFAULT NULL,
+  `longitude` float(9,6) DEFAULT NULL,
+  `country_id` int(10) unsigned DEFAULT NULL,
   `date_birth` date DEFAULT NULL,
   `verified` tinyint(1) NOT NULL DEFAULT '0',
   `banned` tinyint(1) NOT NULL DEFAULT '0',
   `creation_date` datetime DEFAULT NULL,
   `modification_date` datetime DEFAULT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `ajkl7_user`
---
+) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8;
 
 INSERT INTO `ajkl7_user` (`id`, `nickname`, `password`, `lastname`, `firstname`, `email`, `sex`, `image_id`, `description`, `city`, `latitude`, `longitude`, `country_id`, `date_birth`, `verified`, `banned`, `creation_date`, `modification_date`, `active`) VALUES
-(135, 'metterrothan', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan@gmail.com', 'm', 84, '', 'Paris', 48.856613, 2.352222, 73, '1993-05-10', 1, 0, '2017-02-22 21:59:36', '2017-03-05 21:11:00', 1),
 (140, 'cedric', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'porcher.cedric27@gmail.com', 'm', 21, '', 'Marne-La-Vallée', 48.859276, 2.598505, 73, '2000-03-16', 1, 0, '2017-03-01 15:01:35', '2017-03-01 15:03:01', 1),
-(141, 'olivier', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'olivier@faugere.com', 'm', NULL, '', 'Noisiel', 48.854778, 2.628701, 73, '1996-04-10', 1, 0, '2017-03-01 16:41:16', NULL, 1),
+(141, 'olivier', 'ac6ce1ec537c3bcee085826621658f0ade4055b9', '', '', 'olivier@faugere.com', 'm', NULL, '', 'Noisiel', 48.854778, 2.628701, 73, '1996-04-10', 1, 1, '2017-03-01 16:41:16', NULL, 1),
 (142, 'metterrothan2', 'c988bcd6db651257fc3812b021b9a8acae87831c', '', '', 'jmetterrothan2@gmail.com', 'm', NULL, '', 'Noisiel', 48.854778, 2.628701, 73, '1993-05-10', 1, 0, '2017-02-22 21:59:36', '2017-03-03 18:48:33', 1),
-(143, 'Maiion', '4447c631d562e1094272593a0d376fb396cfd85c', '', '', 'mar.laur@hotmail.fr', 'f', 73, 'La tartiflette c\'est la vie.\r\n', 'rezé', 0.000000, 0.000000, 73, '1994-01-24', 0, 0, '2017-03-04 16:01:23', '2017-03-04 17:06:12', 1),
-(144, 'zefe', '452019bd8b734a196fb07b326012a3b4f0eedcbc', '', '', 'prigent.gwenn@gmail.com', 'm', NULL, '', 'rezé', 0.000000, 0.000000, 73, '1994-01-24', 0, 0, '2017-03-04 17:13:19', '2017-03-04 17:14:39', 1);
+(143, 'Marion', '452019bd8b734a196fb07b326012a3b4f0eedcbc', 'PRINGENT', 'Marion', 'mar.laur@hotmail.fr', 'f', 94, 'La tartiflette c''est la vie.\r\n', 'Reze', 0.000000, 0.000000, 73, '2004-01-01', 1, 0, '2017-03-04 16:01:23', '2017-03-15 19:27:36', 1),
+(144, 'hhhh', '452019bd8b734a196fb07b326012a3b4f0eedcbc', 'Pringent', 'Marion', 'prigent.gwenn@gmail.com', 'm', 91, 'J''aime la vie', 'wfwdwxgfs', 0.000000, 0.000000, 73, '1998-01-01', 1, 0, '2017-03-04 17:13:19', '2017-03-13 17:38:39', 1),
+(145, 'pineapple', '452019bd8b734a196fb07b326012a3b4f0eedcbc', '', '', 'pineapplesquadstd@gmail.com', 'm', NULL, '', 'rezé', 0.000000, 0.000000, 73, '1994-01-24', 1, 0, '2017-03-05 12:13:02', '2017-03-05 12:53:05', 1),
+(146, 'melodie', '56f27f62c80c3126c412eee1be98d9397003d49f', '', '', 'melodie.mersch@gmail.com', 'm', NULL, '', 'Noisiel', 0.000000, 0.000000, 73, '1995-01-18', 1, 0, '2017-03-05 17:56:58', NULL, 1),
+(147, 'fznoinoz2N', '5d169174039d2b325954c875197d5ce7625b7a8e', '', '', 'cnoznozc@czzc.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 11:39:51', NULL, 1),
+(149, 'melodie2', '08fb0a1aa25c9150b413be69d131fc82124987c7', '', '', 'melodie@test.fr', '', NULL, '', '', NULL, NULL, 73, '2000-01-01', 1, 0, '2017-03-12 12:03:59', NULL, 1),
+(150, 'ojnzvnojNE2', '2e1760d1781fca41b404af11a9e7f4e8000a1b53', '', '', 'cnpznp@vzpi.fr', 'f', NULL, '', '', NULL, NULL, 73, '2002-01-01', 1, 0, '2017-03-12 13:03:25', NULL, 1),
+(151, 'vnonov3', '33c63fe052f5202fe9bcf8a45a3455490c315851', '', '', 'znonzovi@nozicnoz.fr', 'm', NULL, '', '', NULL, NULL, 73, '2000-01-01', 1, 0, '2017-03-12 13:52:25', NULL, 1),
+(152, 'czobbocz', '84be85683198fbf9700b183c8d288532510cf8af', '', '', 'bzcbcz@ozv.fr', 'f', NULL, '', '', NULL, NULL, 73, '2000-02-02', 1, 0, '2017-03-12 13:54:18', NULL, 1),
+(153, 'ijncnjciz', '24d61445f326f6e54c9df77a733ef2110d69c11f', '', '', 'zibix@uzbx.fr', 'm', NULL, '', '', NULL, NULL, 73, '2001-01-01', 1, 0, '2017-03-12 14:02:08', NULL, 1),
+(154, 'novnovno', 'e2d441cc9bf8f0a7bc5e52aedea06b24afc458c7', '', '', 'vnioczcz@cjnoz.fr', 'm', NULL, '', '', NULL, NULL, 73, '2001-01-01', 1, 0, '2017-03-12 14:03:43', NULL, 1),
+(155, 'melodie00', '75f01e59a11d55e4887afd7575f119fc8eefd363', '', '', 'test@testd.fr', 'f', NULL, '', '', NULL, NULL, 73, '2000-10-10', 1, 0, '2017-03-12 14:28:08', NULL, 1),
+(156, 'RockettKitten', 'e19fd5051e8d1072ef204d123b93d9e29afaeafe', '', '', 'sophie.noltas@gmail.com', 'f', NULL, '', '', NULL, NULL, 73, '1995-03-17', 1, 0, '2017-03-12 17:06:03', NULL, 1),
+(158, 'njcdzn9N', 'e0a15d3d3c1e91d616df0c2bbd8cdb2d8e185baf', '', '', 'ncoai@nziov.fr', 'f', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 17:59:53', NULL, 1),
+(159, 'andncuen', '8efb45e7fffbd60d7901241dff8dc5410247dd7f', '', '', 'adinc@ncnu.fr', '', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:12:23', NULL, 1),
+(160, 'cehuziczb', 'a04df8aad0dcf08a222939fb93faad433b859b5b', '', '', 'bceiuzbze@zniud.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:13:28', NULL, 1),
+(161, 'czniczninzic', '70e4a21e51b622383224291edaa313ade5e4e462', '', '', 'bucz@zcin.cer', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:14:24', NULL, 1),
+(162, 'cnsjcnj', '40d1a8d6b28bdf19b24abc7d07cd889c7a78af4a', '', '', 'ncsnjsc@nzco.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:21:34', NULL, 1),
+(163, 'nonaoncanoac', '930bef787d27cead1591e5fd9594eaffc57b8d85', '', '', 'ionacnaiocinoa@zfon.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:26:28', NULL, 1),
+(164, 'bjoacbjo', '4ba9e67a4fb185f832aae26da9866b2fc308d2d6', '', '', 'boz@bcoz.fr', 'f', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:27:44', NULL, 1),
+(165, 'abciubica', '9de9784dbb5984406a8fb3424c7247aa8bc782c0', '', '', 'ouzc@noca.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:29:08', NULL, 1),
+(166, 'noznozv', '6f0774ff37be524d85f60dddf421adf98483966f', '', '', 'oniz@iovz.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:46:30', NULL, 1),
+(167, 'coucouc', '9c83fdea12c4ad442072bc3a68eab517b76b4019', '', '', 'coucou@cocd.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:56:15', NULL, 1),
+(168, 'ncncndjei', '7cf07c1f0c2d73b0e7cb6d80f499d80a655fda02', '', '', 'ncdjek@ncdj.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:57:13', NULL, 1),
+(169, 'cnbjd', '64b0baa74a33263079b2002fea38f4ac256318fe', '', '', 'ncznzc@fn.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 18:58:28', NULL, 1),
+(170, 'dvevev2', '87015e6ec9005e9c71fe90215d821ff0772b4ff9', '', '', 'vred@ce.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 19:05:59', NULL, 1),
+(171, 'nozc', '04087de42273a5651de53d39cdccf504e0b9c482', '', '', 'acnio@czin.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 19:18:47', NULL, 1),
+(172, 'nicznin', '0cc7f9f9247f8bb1fa50ff67927e31c5dff1b753', '', '', 'nicn@nczn.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 19:38:21', NULL, 1),
+(173, 'melodieOO', '527a8dd4018563eb5689f1f4a845601ec6ff1b3b', '', '', 'melodie@gmail.com', 'f', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 19:40:02', NULL, 1),
+(174, 'ondnpq', 'b753f88d3ae351100397e2d727f707311916fd39', '', '', 'npicz@sncio.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 19:41:13', NULL, 1),
+(175, 'nojznozvjnovz', 'fce8b9404d73df75488628257713e9b342df02f4', '', '', 'nvzoj@znvo.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 19:42:23', NULL, 1),
+(176, 'ofnznozf', '8cc2d6b03461e76f018e09987592dfd25e9bef0a', '', '', 'noz@novz.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 19:45:04', NULL, 1),
+(177, 'JHNB', '3c7019428683ec75d92e5ba7616cfacc94e6eaf5', '', '', 'melodie.mersch+bin@gmail.com', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 19:52:28', NULL, 1),
+(178, 'inniinoac', '1ab60eb77cc3fbc2d95df6c2658bcf8d462c46f5', '', '', 'nozv@novzb.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 20:02:28', NULL, 1),
+(179, 'OKOKUHUH', 'd359fc36117c5dc9099cbca4df0290f13db8be02', '', '', 'meo@kc.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 20:05:12', NULL, 1),
+(180, 'JNBHH', '805e2ce4b54df7b56e1be28a7f0bb0af76f48502', '', '', 'iibbib@doz.ue', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 20:06:44', NULL, 1),
+(181, 'znojznc', 'd965870f0db8ece267b51f0b2e52feb818830d3b', '', '', 'ozcnnzco@nso.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 20:17:38', NULL, 1),
+(184, 'zpcpsccsc', '6c056b42d7337fd3985228bd6fd73ae23e3a4957', '', '', 'ncnja@ncn.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 20:25:41', NULL, 1),
+(185, 'oinczznoc', 'a83af6a24ee6439a7fde1d4f8bd5fad36c8ebca0', '', '', 'ncnocznocz@ncoz.fr', 'm', NULL, '', '', NULL, NULL, 73, '1985-09-09', 1, 0, '2017-03-12 20:29:46', NULL, 1),
+(186, 'znocnao', 'b2e153c1882cdc06e59d466c6cdf4057127cb6f1', '', '', 'apjnc@caiz.fr', 'm', NULL, '', '', NULL, NULL, 73, '1992-12-10', 1, 0, '2017-03-12 20:30:30', NULL, 1),
+(187, 'cocococoodod', 'b0c1fa8099c8e88ec4581aed90191a30b065ea46', '', '', 'koc@do.fjv', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 20:31:09', NULL, 1),
+(188, 'melomelo', '155eec55d89bf250c10052410d64f08657816e81', '', '', 'test@test9.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 20:33:09', NULL, 1),
+(189, 'ddddd', '78a52fbdee87e56ecf5c73e1374c81234aff26f2', '', '', 'ddd@dedz.fr', 'm', NULL, '', '', NULL, NULL, 73, '1993-11-10', 1, 0, '2017-03-12 20:39:18', NULL, 1),
+(190, 'metterrothan23', '35e09263adacb4b3bafcd1480f7fa50e310f14b9', '', '', 'contact@metter.fr', 'm', NULL, '', '', NULL, NULL, 73, '2001-01-01', 1, 0, '2017-03-12 20:41:17', NULL, 1),
+(191, 'kjjdnc', '6bbdbec333757be4a5b7dbb28758523c02b66955', '', '', 'kkdls@kdkd.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 20:43:04', NULL, 1),
+(192, 'nocnoaonca', '1faea7abd8ae3e408d29c08cf66a477665ab0e31', '', '', 'nocaz@noi.fr', 'm', NULL, '', '', NULL, NULL, 73, '1989-12-10', 1, 0, '2017-03-12 20:45:17', NULL, 1),
+(193, 'nocqlnqc', '088f903b488222a984628e64471226099fe66c0e', '', '', 'znc@nkc.fr', 'm', NULL, '', '', NULL, NULL, 73, '1990-05-07', 1, 0, '2017-03-12 20:46:18', NULL, 1),
+(194, 'anojanox', '503c651e809e70865d60f8f56fd83a4bfd1f323a', '', '', 'noaanxo@czno.fr', 'm', NULL, '', '', NULL, NULL, 73, '1999-07-09', 1, 0, '2017-03-12 20:47:34', NULL, 1),
+(195, 'Mojfejc', 'e375a51a3a91d74e754844e84b48a35a62dbcec5', '', '', 'dkke@efk.fr', 'm', NULL, '', '', NULL, NULL, 73, '1990-08-12', 1, 0, '2017-03-12 20:49:35', NULL, 1),
+(196, 'nfdkzk', 'c9b41a175ab1c0905418225cac9b76fc0ea6f17f', '', '', 'kddk@jd.fr', 'm', NULL, '', '', NULL, NULL, 73, '0000-00-00', 1, 0, '2017-03-12 20:53:42', NULL, 1),
+(197, 'aicnoac', '8a11f27113a7a202f2c6d8ba42a613f577eff23a', '', '', 'noc@zcno.fr', 'm', NULL, '', '', 0.000000, 0.000000, 73, '1999-07-04', 1, 0, '2017-03-12 20:58:09', NULL, 1),
+(198, 'nzfiznc', '13b2b14c8338b745518f87e64694793ac012abdb', '', '', 'zic@nicz.fr', 'm', NULL, '', '', 0.000000, 0.000000, 73, '0000-00-00', 1, 0, '2017-03-12 21:01:40', NULL, 1),
+(199, 'frfrfrrv', 'c5a781803f76d0391c0560277e772e86e04389da', '', '', 'jndezjn@ncjzzcjn.fr', 'm', NULL, '', '', NULL, NULL, 73, '1996-05-08', 1, 0, '2017-03-12 21:19:22', NULL, 1),
+(200, 'vrvrvev', '7b139a6a175e09b0daea28ce2fa866dc7e7a9038', '', '', 'veveev@ev.fr', 'm', NULL, '', '', 0.000000, 0.000000, 73, '1993-06-06', 1, 0, '2017-03-12 21:22:13', NULL, 1),
+(201, 'melodie8', '7525fa85f10d4a3f8a7f108e2383d0dc8baea25a', '', '', 'test@test222.fr', 'm', NULL, '', '', 0.000000, 0.000000, 73, '1996-09-08', 1, 0, '2017-03-12 22:49:12', NULL, 1),
+(202, 'jznjdznad', '7e98fd7b85df637f4a1bb844111c4d45f3458043', '', '', 'jndanajd@cijnz.fr', 'm', NULL, '', '', 0.000000, 0.000000, 73, '0000-00-00', 1, 0, '2017-03-12 22:52:35', NULL, 1),
+(203, 'ijocnocns', 'a659c6244d8c945544cca5c1ccb6750ce54c6c04', '', '', 'cijnscijns@novzu.fr', 'm', NULL, '', '', NULL, NULL, 73, '1994-11-08', 1, 0, '2017-03-13 10:27:10', NULL, 1),
+(204, 'zfninozvnoizv', '75e594c74ee218f032ed81d854f175a20359b5c1', '', '', 'znozvno@ncoz.fr', 'm', NULL, '', '', NULL, NULL, 73, '2001-03-06', 1, 0, '2017-03-13 10:28:36', NULL, 1),
+(205, 'anoizvon', '40bb03cbe2f43e116f883f195119c14cd7f7a0b6', '', '', 'djvzc@nsz.fr', 'm', NULL, '', 'Champs-sur-Marne', 48.839249, 2.588404, 73, '2004-01-01', 1, 0, '2017-03-13 10:31:18', NULL, 1),
+(206, 'vznpinvzi', '3b684498b0f12072992128fb4ac1a43ad0a1d98d', '', '', 'inovzznov@voin.fr', 'm', NULL, '', 'Champs-sur-Marne', 48.839245, 2.588440, 73, '2004-01-01', 1, 0, '2017-03-13 10:33:06', NULL, 1),
+(207, 'melodie000', '657afc23e39d1c7ab5b4a446bc78b8c319609fb4', '', '', 'melodie.mersch@hotmail.fr', 'f', NULL, '', 'Champs-sur-Marne', 48.839027, 2.586799, 73, '1997-09-05', 1, 0, '2017-03-13 16:09:52', NULL, 1),
+(208, 'Sosodu77', 'c5093885aa85d529dc5f5e4ea51a766e77f7ea10', '', '', 'sophienotlas@gmail.com', 'f', NULL, '', 'Champs-sur-Marne', 48.836651, 2.590698, 73, '1995-01-01', 0, 0, '2017-03-15 21:54:10', NULL, 1);
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_user_log_connexion`
---
-
-CREATE TABLE `ajkl7_user_log_connexion` (
-  `user_id` int(11) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_user_log_connexion` (
+  `user_id` int(11) unsigned NOT NULL,
   `ip_adress` varchar(48) NOT NULL,
   `user_agent` varchar(32) NOT NULL,
   `last_connexion_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
---
--- Contenu de la table `ajkl7_user_log_connexion`
---
-
 INSERT INTO `ajkl7_user_log_connexion` (`user_id`, `ip_adress`, `user_agent`, `last_connexion_date`) VALUES
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (140, '193.50.159.52', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (140, '193.50.159.52', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (141, '193.50.159.52', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '78.221.246.18', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '193.50.159.70', 'Mozilla/5.0 (X11; Linux x86_64; ', '0000-00-00 00:00:00'),
-(135, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '193.50.159.52', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
-(135, '37.163.118.194', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (142, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (140, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (142, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
 (143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
 (144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(142, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
-(135, '::1', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00');
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (X11; Linux x86_64) ', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(144, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(142, '46.193.1.205', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(146, '80.13.38.173', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(146, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(146, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(146, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(146, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(144, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(140, '193.50.159.52', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '37.140.228.54', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '37.140.228.54', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '37.140.228.54', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(144, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(146, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(146, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '37.140.228.54', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '37.140.228.54', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(146, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '80.13.35.168', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(146, '92.90.20.138', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '90.63.236.254', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '37.140.228.54', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(146, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; Wi', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(146, '193.50.159.59', 'Mozilla/5.0 (Macintosh; Intel Ma', '0000-00-00 00:00:00'),
+(143, '193.50.159.52', 'Mozilla/5.0 (Windows NT 10.0; WO', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00'),
+(143, '193.50.159.59', 'Mozilla/5.0 (Windows NT 6.3; WOW', '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_user_permission`
---
-
-CREATE TABLE `ajkl7_user_permission` (
-  `group_id` int(10) UNSIGNED NOT NULL,
-  `user_id` int(10) UNSIGNED DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_user_permission` (
+  `group_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
   `r` tinyint(1) NOT NULL DEFAULT '0',
   `c` tinyint(1) NOT NULL DEFAULT '0',
   `u` tinyint(1) NOT NULL DEFAULT '0',
@@ -799,14 +1030,7 @@ CREATE TABLE `ajkl7_user_permission` (
   `a` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
---
--- Contenu de la table `ajkl7_user_permission`
---
-
 INSERT INTO `ajkl7_user_permission` (`group_id`, `user_id`, `r`, `c`, `u`, `d`, `a`) VALUES
-(1, 135, 1, 1, 0, 0, 0),
-(4, 135, 0, 0, 0, 0, 1),
-(5, 135, 1, 1, 0, 0, 0),
 (1, 140, 1, 1, 0, 0, 0),
 (5, 140, 1, 1, 0, 0, 0),
 (1, 141, 1, 1, 0, 0, 0),
@@ -816,53 +1040,271 @@ INSERT INTO `ajkl7_user_permission` (`group_id`, `user_id`, `r`, `c`, `u`, `d`, 
 (1, 143, 1, 1, 0, 0, 0),
 (5, 143, 1, 1, 0, 0, 0),
 (1, 144, 1, 1, 0, 0, 0),
-(5, 144, 1, 1, 0, 0, 0);
+(5, 144, 1, 1, 0, 0, 0),
+(1, 145, 1, 1, 0, 0, 0),
+(5, 145, 1, 1, 0, 0, 0),
+(1, 146, 1, 1, 0, 0, 0),
+(5, 146, 1, 1, 0, 0, 0),
+(1, 147, 1, 1, 0, 0, 0),
+(5, 147, 1, 1, 0, 0, 0),
+(2, 147, 1, 1, 0, 0, 0),
+(1, 149, 1, 1, 0, 0, 0),
+(5, 149, 1, 1, 0, 0, 0),
+(2, 149, 1, 1, 0, 0, 0),
+(1, 150, 1, 1, 0, 0, 0),
+(5, 150, 1, 1, 0, 0, 0),
+(2, 150, 1, 1, 0, 0, 0),
+(1, 151, 1, 1, 0, 0, 0),
+(5, 151, 1, 1, 0, 0, 0),
+(2, 151, 1, 1, 0, 0, 0),
+(1, 152, 1, 1, 0, 0, 0),
+(5, 152, 1, 1, 0, 0, 0),
+(2, 152, 1, 1, 0, 0, 0),
+(1, 153, 1, 1, 0, 0, 0),
+(5, 153, 1, 1, 0, 0, 0),
+(2, 153, 1, 1, 0, 0, 0),
+(1, 154, 1, 1, 0, 0, 0),
+(5, 154, 1, 1, 0, 0, 0),
+(2, 154, 1, 1, 0, 0, 0),
+(1, 155, 1, 1, 0, 0, 0),
+(5, 155, 1, 1, 0, 0, 0),
+(2, 155, 1, 1, 0, 0, 0),
+(1, 156, 1, 1, 0, 0, 0),
+(5, 156, 1, 1, 0, 0, 0),
+(2, 156, 1, 1, 0, 0, 0),
+(1, 158, 1, 1, 0, 0, 0),
+(5, 158, 1, 1, 0, 0, 0),
+(2, 158, 1, 1, 0, 0, 0),
+(1, 159, 1, 1, 0, 0, 0),
+(5, 159, 1, 1, 0, 0, 0),
+(2, 159, 1, 1, 0, 0, 0),
+(1, 160, 1, 1, 0, 0, 0),
+(5, 160, 1, 1, 0, 0, 0),
+(2, 160, 1, 1, 0, 0, 0),
+(1, 161, 1, 1, 0, 0, 0),
+(5, 161, 1, 1, 0, 0, 0),
+(2, 161, 1, 1, 0, 0, 0),
+(1, 162, 1, 1, 0, 0, 0),
+(5, 162, 1, 1, 0, 0, 0),
+(2, 162, 1, 1, 0, 0, 0),
+(1, 163, 1, 1, 0, 0, 0),
+(5, 163, 1, 1, 0, 0, 0),
+(2, 163, 1, 1, 0, 0, 0),
+(1, 164, 1, 1, 0, 0, 0),
+(5, 164, 1, 1, 0, 0, 0),
+(2, 164, 1, 1, 0, 0, 0),
+(1, 165, 1, 1, 0, 0, 0),
+(5, 165, 1, 1, 0, 0, 0),
+(2, 165, 1, 1, 0, 0, 0),
+(1, 166, 1, 1, 0, 0, 0),
+(5, 166, 1, 1, 0, 0, 0),
+(2, 166, 1, 1, 0, 0, 0),
+(1, 167, 1, 1, 0, 0, 0),
+(5, 167, 1, 1, 0, 0, 0),
+(2, 167, 1, 1, 0, 0, 0),
+(1, 168, 1, 1, 0, 0, 0),
+(5, 168, 1, 1, 0, 0, 0),
+(2, 168, 1, 1, 0, 0, 0),
+(1, 169, 1, 1, 0, 0, 0),
+(5, 169, 1, 1, 0, 0, 0),
+(2, 169, 1, 1, 0, 0, 0),
+(1, 170, 1, 1, 0, 0, 0),
+(5, 170, 1, 1, 0, 0, 0),
+(2, 170, 1, 1, 0, 0, 0),
+(1, 171, 1, 1, 0, 0, 0),
+(5, 171, 1, 1, 0, 0, 0),
+(2, 171, 1, 1, 0, 0, 0),
+(1, 172, 1, 1, 0, 0, 0),
+(5, 172, 1, 1, 0, 0, 0),
+(2, 172, 1, 1, 0, 0, 0),
+(1, 173, 1, 1, 0, 0, 0),
+(5, 173, 1, 1, 0, 0, 0),
+(2, 173, 1, 1, 0, 0, 0),
+(1, 174, 1, 1, 0, 0, 0),
+(5, 174, 1, 1, 0, 0, 0),
+(2, 174, 1, 1, 0, 0, 0),
+(1, 175, 1, 1, 0, 0, 0),
+(5, 175, 1, 1, 0, 0, 0),
+(2, 175, 1, 1, 0, 0, 0),
+(1, 176, 1, 1, 0, 0, 0),
+(5, 176, 1, 1, 0, 0, 0),
+(2, 176, 1, 1, 0, 0, 0),
+(1, 177, 1, 1, 0, 0, 0),
+(5, 177, 1, 1, 0, 0, 0),
+(2, 177, 1, 1, 0, 0, 0),
+(1, 178, 1, 1, 0, 0, 0),
+(5, 178, 1, 1, 0, 0, 0),
+(2, 178, 1, 1, 0, 0, 0),
+(1, 179, 1, 1, 0, 0, 0),
+(5, 179, 1, 1, 0, 0, 0),
+(2, 179, 1, 1, 0, 0, 0),
+(1, 180, 1, 1, 0, 0, 0),
+(5, 180, 1, 1, 0, 0, 0),
+(2, 180, 1, 1, 0, 0, 0),
+(1, 181, 1, 1, 0, 0, 0),
+(5, 181, 1, 1, 0, 0, 0),
+(2, 181, 1, 1, 0, 0, 0),
+(1, 184, 1, 1, 0, 0, 0),
+(5, 184, 1, 1, 0, 0, 0),
+(2, 184, 1, 1, 0, 0, 0),
+(1, 185, 1, 1, 0, 0, 0),
+(5, 185, 1, 1, 0, 0, 0),
+(2, 185, 1, 1, 0, 0, 0),
+(1, 186, 1, 1, 0, 0, 0),
+(5, 186, 1, 1, 0, 0, 0),
+(2, 186, 1, 1, 0, 0, 0),
+(1, 187, 1, 1, 0, 0, 0),
+(5, 187, 1, 1, 0, 0, 0),
+(2, 187, 1, 1, 0, 0, 0),
+(1, 188, 1, 1, 0, 0, 0),
+(5, 188, 1, 1, 0, 0, 0),
+(2, 188, 1, 1, 0, 0, 0),
+(1, 189, 1, 1, 0, 0, 0),
+(5, 189, 1, 1, 0, 0, 0),
+(2, 189, 1, 1, 0, 0, 0),
+(1, 190, 1, 1, 0, 0, 0),
+(5, 190, 1, 1, 0, 0, 0),
+(2, 190, 1, 1, 0, 0, 0),
+(1, 191, 1, 1, 0, 0, 0),
+(5, 191, 1, 1, 0, 0, 0),
+(2, 191, 1, 1, 0, 0, 0),
+(1, 192, 1, 1, 0, 0, 0),
+(5, 192, 1, 1, 0, 0, 0),
+(2, 192, 1, 1, 0, 0, 0),
+(1, 193, 1, 1, 0, 0, 0),
+(5, 193, 1, 1, 0, 0, 0),
+(2, 193, 1, 1, 0, 0, 0),
+(1, 194, 1, 1, 0, 0, 0),
+(5, 194, 1, 1, 0, 0, 0),
+(2, 194, 1, 1, 0, 0, 0),
+(1, 195, 1, 1, 0, 0, 0),
+(5, 195, 1, 1, 0, 0, 0),
+(2, 195, 1, 1, 0, 0, 0),
+(1, 196, 1, 1, 0, 0, 0),
+(5, 196, 1, 1, 0, 0, 0),
+(2, 196, 1, 1, 0, 0, 0),
+(1, 197, 1, 1, 0, 0, 0),
+(5, 197, 1, 1, 0, 0, 0),
+(2, 197, 1, 1, 0, 0, 0),
+(1, 198, 1, 1, 0, 0, 0),
+(5, 198, 1, 1, 0, 0, 0),
+(2, 198, 1, 1, 0, 0, 0),
+(1, 199, 1, 1, 0, 0, 0),
+(5, 199, 1, 1, 0, 0, 0),
+(2, 199, 1, 1, 0, 0, 0),
+(1, 200, 1, 1, 0, 0, 0),
+(5, 200, 1, 1, 0, 0, 0),
+(2, 200, 1, 1, 0, 0, 0),
+(1, 201, 1, 1, 0, 0, 0),
+(5, 201, 1, 1, 0, 0, 0),
+(2, 201, 1, 1, 0, 0, 0),
+(1, 202, 1, 1, 0, 0, 0),
+(5, 202, 1, 1, 0, 0, 0),
+(2, 202, 1, 1, 0, 0, 0),
+(1, 203, 1, 1, 0, 0, 0),
+(5, 203, 1, 1, 0, 0, 0),
+(2, 203, 1, 1, 0, 0, 0),
+(1, 204, 1, 1, 0, 0, 0),
+(5, 204, 1, 1, 0, 0, 0),
+(2, 204, 1, 1, 0, 0, 0),
+(1, 205, 1, 1, 0, 0, 0),
+(5, 205, 1, 1, 0, 0, 0),
+(2, 205, 1, 1, 0, 0, 0),
+(1, 206, 1, 1, 0, 0, 0),
+(5, 206, 1, 1, 0, 0, 0),
+(2, 206, 1, 1, 0, 0, 0),
+(1, 207, 1, 1, 0, 0, 0),
+(5, 207, 1, 1, 0, 0, 0),
+(2, 207, 1, 1, 0, 0, 0),
+(2, 146, 1, 1, 0, 0, 0),
+(2, 145, 1, 1, 0, 0, 0),
+(2, 144, 1, 1, 0, 0, 0),
+(2, 143, 1, 1, 0, 0, 0),
+(2, 141, 1, 1, 0, 0, 0),
+(2, 140, 1, 1, 0, 0, 0),
+(2, 142, 1, 1, 0, 0, 0),
+(1, 208, 1, 1, 0, 0, 0),
+(5, 208, 1, 1, 0, 0, 0),
+(2, 208, 1, 1, 0, 0, 0);
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_user_reset_password`
---
-
-CREATE TABLE `ajkl7_user_reset_password` (
-  `user_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_user_reset_password` (
+  `user_id` int(10) unsigned NOT NULL,
   `token` varchar(32) NOT NULL,
   `date_exp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `ajkl7_user_reset_password`
---
 
 INSERT INTO `ajkl7_user_reset_password` (`user_id`, `token`, `date_exp`) VALUES
-(135, 'Ya5xkhDdOZe7AG4pgX3okIk3dMDyaUTK', '2017-03-05 17:55:26');
+(144, 'V41vsyB2QnUXzsK7tVvOQ5arFWMCwSEZ', '2017-03-12 16:08:20');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `ajkl7_user_verification`
---
-
-CREATE TABLE `ajkl7_user_verification` (
-  `user_id` int(10) UNSIGNED NOT NULL,
+CREATE TABLE IF NOT EXISTS `ajkl7_user_verification` (
+  `user_id` int(10) unsigned NOT NULL,
   `token` varchar(32) NOT NULL,
   `date_exp` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Contenu de la table `ajkl7_user_verification`
---
-
 INSERT INTO `ajkl7_user_verification` (`user_id`, `token`, `date_exp`) VALUES
-(141, '3ZLoFHA2cujPFzmXPOrslNE242kASVBa', '2017-03-03 16:41:16');
+(141, '3ZLoFHA2cujPFzmXPOrslNE242kASVBa', '2017-03-03 16:41:16'),
+(146, 'NmunxU5JVbRPIubUYAdsDjJzGzfr8ULC', '2017-03-07 17:56:58'),
+(147, 'JaI111PFjvEy1C1sLRHmtacYpRbflRSZ', '2017-03-14 11:39:51'),
+(149, 'UURRVFjUlym2meuBkMlWrORWPSEQ4SHE', '2017-03-14 12:03:59'),
+(150, 'DHqZi1xU3LREaVKapx8PTW7Wmtz8sWOH', '2017-03-14 13:03:25'),
+(151, 'fnrOanG8Gy6W5gG6n7YX5CFA1MC1AuKE', '2017-03-14 13:52:25'),
+(152, 'EEoOEBzy0qYKUqnEBy3gKBjVFlEKXm6N', '2017-03-14 13:54:18'),
+(153, 'IBwguEzYqoyqVTiIKeR4QAziU8Cnn8p8', '2017-03-14 14:02:08'),
+(154, 'fp17g7k5EvO1BoUBHvlHieVTOSOj5H8F', '2017-03-14 14:03:44'),
+(155, 'jSxCNgYDQ0nLwUGfVBNdC0G1TLdXXFoX', '2017-03-14 14:28:08'),
+(156, 'RZzrZcQ7bkS0IOwRDbBzPVRiOGrKKBay', '2017-03-14 17:06:03'),
+(158, '71xDZEdX1hpTGLCJJrZoZpmbrkpM7X2J', '2017-03-14 17:59:53'),
+(159, 'WYN4yIdTiM5p2y5fZQDCoOBnU7NojugF', '2017-03-14 18:12:23'),
+(160, 'ekOGyRBdlFgEK4BxvHntgMU4AnXXIOBY', '2017-03-14 18:13:28'),
+(161, 'n3Q5eKiHntzv18nNVw6CPlWdO6lGW2DL', '2017-03-14 18:14:24'),
+(162, 'oBml6WfI0Ids0hasBXGkh558NNFWz7kw', '2017-03-14 18:21:34'),
+(163, 'VZeBjFLsaIwOpqrvgHaq8vXJmigjUGaB', '2017-03-14 18:26:28'),
+(164, 'z2DXWJUqLbkMDEC2Jns2Bi0vgfAOqSXo', '2017-03-14 18:27:44'),
+(165, 'dsz6SUXiDQweaMXNxia7h7O4hPimTC4G', '2017-03-14 18:29:08'),
+(166, '5tVHVzhTeV2w5zPtZgHoctGYS3Katy07', '2017-03-14 18:46:30'),
+(167, 'mpSB36GXPWXbg0mwCDUSJgjeLQJAgevp', '2017-03-14 18:56:15'),
+(168, 'ABMv1SjBxDzkHg68vcQadZwXMKRoVmNJ', '2017-03-14 18:57:13'),
+(169, 't4HXJRYd8vUhEffySXiqcCKlFQ5uqx2U', '2017-03-14 18:58:28'),
+(170, 'HvsDHHFN5jQj08kYwhn3WgFVaWVCgWtj', '2017-03-14 19:05:59'),
+(171, 'cebtIXyfAXZBRGz3jmKBAb52oMcBFBpg', '2017-03-14 19:18:47'),
+(172, 'IOjXzC5QijB3K6f0KgOMwriir7lUHyAt', '2017-03-14 19:38:21'),
+(173, 'Omt3nweimzkklLkSoCEOQAVLvcFihMSj', '2017-03-14 19:40:02'),
+(174, 'Y8MGCJkq0yTqMCRCxIQ8UGHT3SYdfA3X', '2017-03-14 19:41:13'),
+(175, 'nXrRHl2diWCdq4OA2RV2IjCNNuTjaHMm', '2017-03-14 19:42:23'),
+(176, 'sMGl2Oa1fSI3CkoiuYpxzQ0UogCjJ3vJ', '2017-03-14 19:45:04'),
+(177, 'fu3UrnBCkI8F4gFBKg4muDp1mIPmQ2dt', '2017-03-14 19:52:28'),
+(178, 'A0Jy64ycxUUvCXSA4cGwslNVFi2HverB', '2017-03-14 20:02:28'),
+(179, 'nWlLnk0xXw7DAnbFjqdxloQifk2d808F', '2017-03-14 20:05:12'),
+(180, 'gpnX8rhUdMSOfWfmq5NQRnev7rStFRnH', '2017-03-14 20:06:44'),
+(181, 'NGN8E7IeyRLaJ51K2tfCQQLKSZ7AgFTo', '2017-03-14 20:17:38'),
+(184, 'z3C4F32PmQJkhsPkJICtCHjxiPT4IPxB', '2017-03-14 20:25:41'),
+(185, 'SjatlT4bOF5cEzrcJCGCYTzxQs2AY87t', '2017-03-14 20:29:46'),
+(186, 'JOaxDdlkJAaRSLJzvcUqQGM5NGm55fuG', '2017-03-14 20:30:30'),
+(187, '6ts1OArrYtBerCHADgOystCvtiWQYlI8', '2017-03-14 20:31:09'),
+(188, 'l33jnr7zxVg0NWWRsMhev0Vj5lwq726r', '2017-03-14 20:33:09'),
+(189, 'L0GLFgQTkOkiUZHXhHUWXOYFP5pl5QNt', '2017-03-14 20:39:18'),
+(190, 'BlrySmnPvzQNkIhmr5eWIN2kwE6MdAAa', '2017-03-14 20:41:17'),
+(191, 'uIetKaJkQ0o2jUXGlEgbmzXuSGHFT5th', '2017-03-14 20:43:04'),
+(192, 'c4wXGvcNONEDa13vxaBpKzEcntJ6JvxU', '2017-03-14 20:45:17'),
+(193, 'uxIWRy2jv6H3nNDXUQajXl8aBMl2TT0l', '2017-03-14 20:46:18'),
+(194, 'LaYATuTcxNTVwhhi3BPkKFHY2M7zAWRo', '2017-03-14 20:47:34'),
+(195, '4bNewIzXj7DoO1FxApttP7xwRETN1BmI', '2017-03-14 20:49:35'),
+(196, '7P7XXn11N4LsFHFqZDFEJ3PnzsbqB1Hl', '2017-03-14 20:53:42'),
+(197, 'xYy3I2Fx8NCTJBHTSQzJrfmrcOPEI5wH', '2017-03-14 20:58:09'),
+(198, 'PhNvfNwNYREIBtKjlZMtFe5SCGlxE1PR', '2017-03-14 21:01:40'),
+(199, '4XEdusLhZpDNKNzlm41e3kjWD4xb6yRh', '2017-03-14 21:19:22'),
+(200, 'CU1A414qlsvWjW3cDKcqjNtdpYK73fcK', '2017-03-14 21:22:13'),
+(201, 'rAajkmlXzUcpJV33VewEIdh1mGgwjOSM', '2017-03-14 22:49:12'),
+(202, '4eWUuTpvdYQqoqvoy3DYxBrSxzo33E3d', '2017-03-14 22:52:35'),
+(203, 'BoTcM35REXgXpniOBHqvYzy7xiF3G3Pv', '2017-03-15 10:27:10'),
+(204, 'KvizsLMrGaUpgPZPyqoV0zNOIlV4WS0v', '2017-03-15 10:28:36'),
+(205, 'lQbf0LrN2zSvxpSUK5ulcyEuQGo2jyPP', '2017-03-15 10:31:18'),
+(206, 'KJqSoKqalgMyoCZFh4QAoBp7yt0lmgrr', '2017-03-15 10:33:06'),
+(207, 'R31AJawiqylLGmniIAIMuoOXAcLDHwhn', '2017-03-15 16:09:52'),
+(208, '1XgzBBoUTa204zVvLcH8odFDLUuODxJw', '2017-03-17 21:54:10');
 
---
--- Index pour les tables exportées
---
 
---
--- Index pour la table `ajkl7_animal`
---
 ALTER TABLE `ajkl7_animal`
   ADD PRIMARY KEY (`id`),
   ADD KEY `owner_id` (`creator_id`),
@@ -870,100 +1312,58 @@ ALTER TABLE `ajkl7_animal`
   ADD KEY `cover_id` (`cover_image_id`),
   ADD KEY `profile_image_id` (`profile_image_id`);
 
---
--- Index pour la table `ajkl7_animal_characteristic`
---
 ALTER TABLE `ajkl7_animal_characteristic`
   ADD UNIQUE KEY `animal_id` (`animal_id`,`characteristic_id`),
   ADD KEY `ajkl7_animal_characteristic_ibfk_2` (`characteristic_id`);
 
---
--- Index pour la table `ajkl7_animal_comment`
---
 ALTER TABLE `ajkl7_animal_comment`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ajkl7_animal_comment_ibfk_1` (`animal_id`),
   ADD KEY `user_id` (`creator_id`);
 
---
--- Index pour la table `ajkl7_animal_gallery`
---
 ALTER TABLE `ajkl7_animal_gallery`
   ADD KEY `ajkl7_animal_gallery_ibfk_1` (`animal_id`),
   ADD KEY `image_id` (`image_id`);
 
---
--- Index pour la table `ajkl7_animal_match`
---
 ALTER TABLE `ajkl7_animal_match`
   ADD UNIQUE KEY `user_id` (`animal_a_id`,`animal_b_id`),
   ADD KEY `user_prop_id` (`animal_b_id`);
 
---
--- Index pour la table `ajkl7_characteristic`
---
 ALTER TABLE `ajkl7_characteristic`
   ADD PRIMARY KEY (`id`);
 
---
--- Index pour la table `ajkl7_country`
---
 ALTER TABLE `ajkl7_country`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id` (`id`);
 
---
--- Index pour la table `ajkl7_image`
---
 ALTER TABLE `ajkl7_image`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ajkl7_image_ibfk_1` (`creator_id`);
 
---
--- Index pour la table `ajkl7_message`
---
 ALTER TABLE `ajkl7_message`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ajkl7_message_ibfk_1` (`group_id`),
   ADD KEY `author_id` (`creator_id`);
 
---
--- Index pour la table `ajkl7_message_group`
---
 ALTER TABLE `ajkl7_message_group`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_a` (`user_a_id`),
   ADD KEY `user_b` (`user_b_id`);
 
---
--- Index pour la table `ajkl7_permission_group`
---
 ALTER TABLE `ajkl7_permission_group`
   ADD PRIMARY KEY (`id`);
 
---
--- Index pour la table `ajkl7_species`
---
 ALTER TABLE `ajkl7_species`
   ADD PRIMARY KEY (`id`);
 
---
--- Index pour la table `ajkl7_species_characteristic`
---
 ALTER TABLE `ajkl7_species_characteristic`
   ADD KEY `species_id` (`species_id`),
   ADD KEY `characteristic_id` (`characteristic_id`);
 
---
--- Index pour la table `ajkl7_todo`
---
 ALTER TABLE `ajkl7_todo`
   ADD PRIMARY KEY (`id`),
   ADD KEY `creator_id` (`creator_id`);
 
---
--- Index pour la table `ajkl7_user`
---
 ALTER TABLE `ajkl7_user`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
@@ -971,192 +1371,100 @@ ALTER TABLE `ajkl7_user`
   ADD KEY `country_id` (`country_id`),
   ADD KEY `image_id` (`image_id`);
 
---
--- Index pour la table `ajkl7_user_log_connexion`
---
 ALTER TABLE `ajkl7_user_log_connexion`
   ADD KEY `user_id` (`user_id`);
 
---
--- Index pour la table `ajkl7_user_permission`
---
 ALTER TABLE `ajkl7_user_permission`
   ADD UNIQUE KEY `module_id` (`group_id`,`user_id`),
   ADD KEY `user_id` (`user_id`);
 
---
--- Index pour la table `ajkl7_user_reset_password`
---
 ALTER TABLE `ajkl7_user_reset_password`
   ADD UNIQUE KEY `user_id` (`user_id`);
 
---
--- Index pour la table `ajkl7_user_verification`
---
 ALTER TABLE `ajkl7_user_verification`
   ADD UNIQUE KEY `user_id` (`user_id`);
 
---
--- AUTO_INCREMENT pour les tables exportées
---
 
---
--- AUTO_INCREMENT pour la table `ajkl7_animal`
---
 ALTER TABLE `ajkl7_animal`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
---
--- AUTO_INCREMENT pour la table `ajkl7_animal_comment`
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=70;
 ALTER TABLE `ajkl7_animal_comment`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT pour la table `ajkl7_characteristic`
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_characteristic`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
---
--- AUTO_INCREMENT pour la table `ajkl7_country`
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 ALTER TABLE `ajkl7_country`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=240;
---
--- AUTO_INCREMENT pour la table `ajkl7_image`
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=240;
 ALTER TABLE `ajkl7_image`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
---
--- AUTO_INCREMENT pour la table `ajkl7_message`
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=146;
 ALTER TABLE `ajkl7_message`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `ajkl7_message_group`
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 ALTER TABLE `ajkl7_message_group`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `ajkl7_permission_group`
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 ALTER TABLE `ajkl7_permission_group`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
---
--- AUTO_INCREMENT pour la table `ajkl7_species`
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 ALTER TABLE `ajkl7_species`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
---
--- AUTO_INCREMENT pour la table `ajkl7_todo`
---
+  MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=18;
 ALTER TABLE `ajkl7_todo`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `ajkl7_user`
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 ALTER TABLE `ajkl7_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
---
--- Contraintes pour les tables exportées
---
+  MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=209;
 
---
--- Contraintes pour la table `ajkl7_animal`
---
 ALTER TABLE `ajkl7_animal`
   ADD CONSTRAINT `ajkl7_animal_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_ibfk_2` FOREIGN KEY (`species_id`) REFERENCES `ajkl7_species` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_ibfk_3` FOREIGN KEY (`cover_image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_ibfk_4` FOREIGN KEY (`profile_image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_animal_characteristic`
---
 ALTER TABLE `ajkl7_animal_characteristic`
   ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_characteristic_ibfk_2` FOREIGN KEY (`characteristic_id`) REFERENCES `ajkl7_characteristic` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_animal_comment`
---
 ALTER TABLE `ajkl7_animal_comment`
   ADD CONSTRAINT `ajkl7_animal_comment_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_comment_ibfk_2` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_animal_gallery`
---
 ALTER TABLE `ajkl7_animal_gallery`
   ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_1` FOREIGN KEY (`animal_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_gallery_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_animal_match`
---
 ALTER TABLE `ajkl7_animal_match`
   ADD CONSTRAINT `ajkl7_animal_match_ibfk_1` FOREIGN KEY (`animal_a_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_animal_match_ibfk_2` FOREIGN KEY (`animal_b_id`) REFERENCES `ajkl7_animal` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_image`
---
 ALTER TABLE `ajkl7_image`
   ADD CONSTRAINT `ajkl7_image_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_message`
---
 ALTER TABLE `ajkl7_message`
   ADD CONSTRAINT `ajkl7_message_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `ajkl7_message_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_message_ibfk_2` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_message_group`
---
 ALTER TABLE `ajkl7_message_group`
-  ADD CONSTRAINT `ajkl7_message_group_ibfk_1` FOREIGN KEY (`user_a_id`) REFERENCES `ajkl7_user` (`id`),
-  ADD CONSTRAINT `ajkl7_message_group_ibfk_2` FOREIGN KEY (`user_b_id`) REFERENCES `ajkl7_user` (`id`);
+  ADD CONSTRAINT `ajkl7_message_group_ibfk_2` FOREIGN KEY (`user_b_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `ajkl7_message_group_ibfk_1` FOREIGN KEY (`user_a_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_species_characteristic`
---
 ALTER TABLE `ajkl7_species_characteristic`
   ADD CONSTRAINT `ajkl7_species_characteristic_ibfk_1` FOREIGN KEY (`species_id`) REFERENCES `ajkl7_species` (`id`),
   ADD CONSTRAINT `ajkl7_species_characteristic_ibfk_2` FOREIGN KEY (`characteristic_id`) REFERENCES `ajkl7_characteristic` (`id`);
 
---
--- Contraintes pour la table `ajkl7_todo`
---
 ALTER TABLE `ajkl7_todo`
   ADD CONSTRAINT `ajkl7_todo_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_user`
---
 ALTER TABLE `ajkl7_user`
   ADD CONSTRAINT `ajkl7_user_ibfk_1` FOREIGN KEY (`country_id`) REFERENCES `ajkl7_country` (`id`),
   ADD CONSTRAINT `ajkl7_user_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `ajkl7_image` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_user_log_connexion`
---
 ALTER TABLE `ajkl7_user_log_connexion`
   ADD CONSTRAINT `ajkl7_user_log_connexion_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_user_permission`
---
 ALTER TABLE `ajkl7_user_permission`
   ADD CONSTRAINT `ajkl7_user_permission_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `ajkl7_permission_group` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `ajkl7_user_permission_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_user_reset_password`
---
 ALTER TABLE `ajkl7_user_reset_password`
   ADD CONSTRAINT `uid_urp_fk` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Contraintes pour la table `ajkl7_user_verification`
---
 ALTER TABLE `ajkl7_user_verification`
   ADD CONSTRAINT `uid_fk` FOREIGN KEY (`user_id`) REFERENCES `ajkl7_user` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
