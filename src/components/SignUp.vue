@@ -47,12 +47,11 @@
           <div class="g-recaptcha" data-sitekey="6LcIPBUUAAAAAL7aFlWT0BNXe6nNKbRUTvQNrhXg"></div>
         </li>
       </ul>
-      <div>
-      </div>
+      <button type="submit">Valider
+       <img src="../assets/search_mob.png" class="img_button"/>
+      </button>
     </form>
-    <button type="submit">Valider
-  <img src="../assets/search_mob.png" class="img_button"/>
-    </button>
+
 
   </div>
   </section>
@@ -98,7 +97,7 @@ created: function() {
   methods: {
     signup : function(){
       let formData = new FormData(document.getElementById('signup-form'));
-
+      alert("inn");
       var that = this;
       that.$http.post('https://api.meowtic.com/user/edit', formData)
         .then(function(response){
