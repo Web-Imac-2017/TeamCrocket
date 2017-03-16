@@ -55,7 +55,7 @@
               </li>
 
                 <li>
-                  <h2>Espèce</h2>
+                  <h2>Espece</h2>
                   <p><span class="show_data">{{animal.species.name}}</span>
                     <select class="edit_data"  name="species.id" v-model="animal.species.id">
                        <option value="12">Arthropode</option>
