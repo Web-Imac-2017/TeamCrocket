@@ -6,23 +6,13 @@
     {{animals.id}}
     <div v-for="animal in animals" class="profile-banner">
       <router-link v-bind:to="'/match/'+ animal.id">
-      <div class="profile-image">
-        <img v-if="animal.profile_image != null" v-bind:src="animal.profile_image.path" v-bind:alt="animal.name">
-        <img v-else src="../assets/none_profil.png">
-      </div>
-      <div class="profile-text">
-        <ul>
+        <div class="profile-image">
+          <img v-if="animal.profile_image != null" v-bind:src="animal.profile_image.path" v-bind:alt="animal.name">
+          <img v-else src="../assets/none_profil.png">
+        </div>
+        <div class="profile-text">
           <span>{{animal.name}}</span>
-          <li v-if="animal.age == 1">{{ animal.age }} an</li>
-          <li v-if="animal.age == 0"></li>
-          <li v-else>{{ animal.age }} ans</li>
-          <li>
-            <img v-if="animal.sex =='m'" src="../assets/man.png" alt="Homme">
-            <img v-if="animal.sex =='f'" src="../assets/woman.png" alt="Femme">
-            <p v-else></p>
-          </li>
-        </ul>
-      </div>
+        </div>
       </router-link>
     </div>
   </section>
@@ -65,6 +55,7 @@ export default {
             this.animals_info = this.animal.data[i];
             this.animals.push(this.animals_info);
           }
+
         }
       })
   },
@@ -88,38 +79,81 @@ export default {
   display: block;
   flex-direction: row;
   width: 60%;
-  height: 10rem;
+  height: 7rem;
   margin: auto;
   margin-top: 1rem;
   border: 1px solid #DADADA;
   font-size: 0;
   text-align: left;
+  @media (max-width: 1022px) {
+    width: 100%;
+    height: 20rem;
+  }
+
+  @media (max-width: 930px) {
+    height: 17rem;
+  }
+
+  @media (max-width: 800px) {
+    height: 15rem;
+  }
+
+  @media (max-width: 650px) {
+    height: 13rem;
+  }
+
+  @media (max-width: 650px) {
+    height: 11rem;
+  }
+
+  @media (max-width: 470px) {
+    height: 9rem;
+  }
 
   .profile-image {
     display: inline-block;
     vertical-align: top;
-    width: 10rem;
+    width: 7rem;
     height: 100%;
+
+    @media (max-width: 1022px) {
+      width: 100%;
+      height: 80%;
+    }
+
     img {
       width: 100%;
       height: 100%;
+
     }
   }
 
   .profile-text {
     display: inline-block;
     vertical-align: top;
-    min-width: 10rem;
+    min-width: 12rem;
     padding: 0.5rem;
     font-size: 1.2rem;
     font-family: @fontTitle;
     font-weight : bold;
-    text-align: center;
-    color:@darkBlue;
     text-align: left;
+    color:@darkBlue;
 
-    li {
-      margin-top: 0.2em;
+    @media (max-width: 1022px) {
+      width: 100%;
+      height: 80%;
+    }
+
+    @media (max-width: 800px) {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 650px) {
+      font-size: 0.7rem;
+    }
+
+    @media (max-width: 550px) {
+      font-size: 0.6rem;
     }
 
     img {
@@ -128,6 +162,11 @@ export default {
     }
   }
 
+  @media (max-width: 1022px)
+  {
+    flex-direction: column;
+    width: 45%;
+  }
 }
 
 .profile-banner:hover {
