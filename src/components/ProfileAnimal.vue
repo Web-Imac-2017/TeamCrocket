@@ -96,15 +96,15 @@
         <div class="desc">
           <h1>Description</h1>
           <p><span class="show_data">{{animal.description}}</span>
-            <textarea style="width:97%;" cols="5" rows="5" class="edit_data" name="description" v-model="animal.description" ></textarea>
+            <textarea style="width:97%;" cols="2" rows="1" class="edit_data" name="description" v-model="animal.description" ></textarea>
           </p>
             <h1>J'aime</h1>
             <p><span class="show_data">{{animal.like}}</span>
-              <textarea style="width:97%;" cols="5" rows="5" class="edit_data" name="info_like" v-model="animal.like" ></textarea>
+              <textarea style="width:97%;" cols="2" rows="1" class="edit_data" name="info_like" v-model="animal.like" ></textarea>
             </p>
             <h1>Je n'aime pas</h1>
             <p><span class="show_data">{{animal.dislike}}</span>
-              <textarea style="width:97%;" cols="5" rows="5" class="edit_data" name="info_dislike" v-model="animal.dislike" ></textarea>
+              <textarea style="width:97%;" cols="2" rows="1" class="edit_data" name="info_dislike" v-model="animal.dislike" ></textarea>
             </p>
         </div>
       </div>
@@ -116,7 +116,7 @@
       </div>
 
       <div class="delete">
-          <h2 v-on:click="delete_animal">Supprimer ce compte</h2>
+          <h2 class="edit_data" v-on:click="delete_animal">Supprimer ce compte</h2>
       </div>
 
 
