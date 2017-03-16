@@ -145,11 +145,13 @@ export default {
       choice : 0,
       edit : 0,
       sex : 0,
+      id_animal:'',
       user: null,
       animal : [],
     }
   },
   created : function(){
+      Vue.set(this.id_animal,this.$route.params.id);
       var get_id = this.$route.params.id;
       this.$http.get('https://api.meowtic.com/profile/get/'+ get_id )
         .then(function(response){

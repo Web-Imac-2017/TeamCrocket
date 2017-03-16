@@ -7,6 +7,10 @@
       <div id="profile_picture">
         <img v-if="user.image != null" v-bind:src="user.image.path" v-bind:alt="user.nickname">
         <img v-if="user.image == null" src="../assets/none_profil.png">
+        <div class="input-file-container edit_data">
+          <input class="input-file" id="my-file" type="file" name="profile_file">
+          <label for="my-file" class="input-file-trigger" tabindex="0">Importer une photo</label>
+        </div>
       </div>
       <div id="info_princ">
     <span class="show_data" >{{user.nickname}}</span>
@@ -133,7 +137,7 @@ export default {
   },
   data() {
     return{
-      sex : 0,
+      sex : 2,
       choice : 0,
       user : null,
       animals: [],
@@ -168,7 +172,7 @@ export default {
       })
       if(this.user.sex == 'm'){
         this.sex = 1;
-      }else if (this.user.sex == 'f') {
+      }else {
         this.sex = 2
       }
 

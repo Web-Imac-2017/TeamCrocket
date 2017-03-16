@@ -57,6 +57,7 @@ export default {
     return{
       choice:0,
       animals :[],
+      user:null,
       animals_info: {id:'',name:'', profile_image:''},
       addPet: {
         id: 0,
@@ -106,13 +107,14 @@ created(){
         })
     },
     popup : function () {
+      if(this.user != null){
         if(document.getElementById("popup_profile").style.display == 'block'){
             document.getElementById("popup_profile").style.display = 'none'
         }else{
               document.getElementById("popup_profile").style.display = 'block'
         }
     }
-
+    }
 }}
 
 

@@ -1,5 +1,5 @@
 <template>
-  <div id="main-index">
+  <div id="main-index" v-if="user == null">
     <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 
     <div id="text-intro">
@@ -26,6 +26,11 @@
     </div>
 
   </div>
+  <div id="main-co" v-else>
+    <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
+    <h1>Bienvenue sur Meowtic </h1>
+    <h2>Pour des rencontres qui ont du chien</h2>
+  </div>
 </template>
 
 <script>
@@ -46,10 +51,20 @@ components: {
 
 data(){
   return{
-    choice: 0
+    choice: 0,
+    user:null
   }
 },
 
+created : function(){
+  this.$http.get('https://api.meowtic.com/user/whois')
+    .then(function(response){
+      let data = response.data;
+      if(data.success){
+        this.user = response.data.output;
+      }
+  })
+},
 methods: {
 
   scroll: function(){
@@ -81,7 +96,7 @@ login: function(){
 <style lang="less">
  @import "../definitions"; /* import common definitions */
 
-#main-index #logo{
+#main-index #logo,#main-co #logo {
   display: block;
   margin: auto;
   margin-top:4.3em;

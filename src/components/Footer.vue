@@ -24,6 +24,5 @@ footer {
  background-color:@darkBlue;
  color:white;
  position: relative;
- 
 }
 </style>

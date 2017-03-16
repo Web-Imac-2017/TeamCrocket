@@ -168,7 +168,6 @@ float:right;
 
 
   #main-index li {
-  
     text-align: left;
     padding-top:25px;
   }
