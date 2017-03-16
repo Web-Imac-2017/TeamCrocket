@@ -56,7 +56,10 @@
 			//prev: Object,
 			//prevId: Object,
 
-			previewList: []
+			previewList: [],
+			message: {}
+
+			//message:Array
 			
 			}
 
@@ -65,6 +68,7 @@
 		},
 
 		created: function() {
+			console.log("bruh");
 			this.loadPreview();
 		},
 
@@ -101,7 +105,7 @@
 					console.log("blblblbl");
 					console.log(data);
 					if(data.success){
-						that.previewList = data;
+						that.previewList = data['output'];
 						console.log("preview List");
 						console.log(that.previewList);
 					}
