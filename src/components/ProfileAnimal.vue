@@ -5,13 +5,8 @@
     <input type="hidden" name="id" v-bind:value="animal.id">
     <div id="cover">
       <div class="cover">
-        <div class="input-cover-container edit_data">
-          <input class="input-cover" type="file" name="cover_file">
-          <label for="my-file" class="input-cover-trigger" tabindex="0">
-            <img src="../assets/photo.png" id="img_change_cover"/>
-            Importer une nouvelle couverture de profil
-          </label>
-        </div>
+          <label id="input_file" class="edit_data"  for="img_ban">  <img src="../assets/photo.png" id="img_change_cover"/> Changer votre couverture</label>
+          <input  id="img_ban"  class="edit_data" type="file" name="cover_file">
         <p class="cover-return  edit_data"></p>
         <img v-if="animal.cover_image != null" v-bind:src="animal.cover_image.path" v-bind:alt="animal.name" id="ban">
       </div>
@@ -151,7 +146,6 @@ export default {
     }
   },
   created : function(){
-      Vue.set(this.id_animal,this.$route.params.id);
       var get_id = this.$route.params.id;
       this.$http.get('https://api.meowtic.com/profile/get/'+ get_id )
         .then(function(response){
@@ -316,6 +310,25 @@ export default {
   height: 30px;
   padding-right: 1em;
   vertical-align: middle;
+}
+label#input_file{
+  position: absolute;
+  background: rgba(0,0,0,0.5);
+  color: #fff;
+  border-radius:0;
+  padding: 1em;
+  padding-left: 2em;
+  padding-right: 2em;
+}
+#img_ban{
+opacity: 0;
+}
+#img_ban.edit_data{
+  position: absolute;
+
+}
+#img_ban.edit_data input{
+  background-color: red
 }
 #content_profile .button_style_2{
   border-radius: 6px;
