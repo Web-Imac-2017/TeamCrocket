@@ -48,6 +48,7 @@
 
 		data() {
 			return {
+			user:null,
 			choice: 0,
 			previewList: [],
 			message: {},
@@ -62,6 +63,18 @@
 
 		created: function() {
 			//this.loadPreview();
+			var that = this;
+	    if(this.$parent.user === ""){
+	      this.$http.get('https://api.meowtic.com/user/whois')
+	        .then(function(response){
+	          let data = response.data;
+	          if(data.success){
+	            this.user = response.data.output;
+	          }
+	      });
+	    } else {
+	      this.user = this.$parent.user;
+	    }
 		},
 
 

@@ -1,5 +1,5 @@
 <template>
-    <section id="frame">    
+    <section id="frame">
       <div v-if="loading">
         <h3>loading ...</h3>
       </div>
@@ -115,8 +115,7 @@ export default {
         }
     }, handleError)
     },
-
-  }
+}
 
   }
 
@@ -143,6 +142,10 @@ var handleError = function(error){
     text-align: center;
   }
 
+  div#main-co h2{
+    font-family: @fontText;
+  }
+  
   .profile_2 {
     display: flex;
     flex-direction: row;
