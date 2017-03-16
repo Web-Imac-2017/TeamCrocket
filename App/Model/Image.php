@@ -202,12 +202,12 @@ class Image extends Bucket\BucketAbstract
     }
 
     public function getPath() : string{
-        $dir = "http://" . GLOBAL_CFG['files'] . "/users/" . $this->creator_id . "/";
+        $dir = "//" . GLOBAL_CFG['files'] . "/users/" . $this->creator_id . "/";
         return $dir . $this->name . '.' . $this->extension;
     }
 
     public function getThumbPath() : string{
-        $dir = "http://" . GLOBAL_CFG['files'] . "/users/" . $this->creator_id . "/";
+        $dir = "//" . GLOBAL_CFG['files'] . "/users/" . $this->creator_id . "/";
         return $dir . $this->name . '_thumb.' . $this->extension;
     }
 
