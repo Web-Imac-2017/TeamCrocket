@@ -51,7 +51,7 @@
     methods : {
 
       login : function(){
-          this.$http.post('https://api.meowtic.com/user/login', this.loginForm, { emulateJSON : true })
+          this.$http.post('user/login', this.loginForm, { emulateJSON : true })
           .then(function(response){
               let data = response.data
               if(data.success){
@@ -63,7 +63,7 @@
           }, handleError)
       },
       verify : function(email, token){
-          this.$http.post('https://api.meowtic.com/user/verify/'+email+'/'+token)
+          this.$http.post('user/verify/'+email+'/'+token)
           .then(function(response){
               let data = response.data
               if(data.success){
@@ -89,7 +89,7 @@
   else if(data.task == 'reset'){
       /*
       * ICI ON AFFICHE LE FORMULAIRE POUR RESET LE MOT DE PASSE
-      * LE FORMULAIRE ENVOI LES DONNÉES => http://api.meowtic.com/user/reset
+      * LE FORMULAIRE ENVOI LES DONNÉES => user/reset
       * ON CONFIGURE LES CHAMPS DU FORMULAIRE AVEC LE TOKEN / EMAIL
       * (le but est d'envoyer en POST, le token, l'email, le nouveau mot de passe et la confirmation)
       */

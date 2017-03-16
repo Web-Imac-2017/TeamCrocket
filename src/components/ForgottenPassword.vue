@@ -39,7 +39,7 @@
     },
     methods : {
     forgottenpassword : function(){
-          this.$http.post('https://api.meowtic.com/user/forgottenpassword/' + this.forgottenPassword.email , { emulateJSON : true })
+          this.$http.post('user/forgottenpassword/' + this.forgottenPassword.email , { emulateJSON : true })
           .then(function(response){
               let data = response.data
               if(data.success){

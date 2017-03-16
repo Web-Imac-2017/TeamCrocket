@@ -97,9 +97,8 @@ created: function() {
   methods: {
     signup : function(){
       let formData = new FormData(document.getElementById('signup-form'));
-      alert("inn");
       var that = this;
-      that.$http.post('https://api.meowtic.com/user/edit', formData)
+      that.$http.post('user/edit', formData)
         .then(function(response){
           let data = response.data;
           if(data.success){

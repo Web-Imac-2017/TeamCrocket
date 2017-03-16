@@ -72,7 +72,7 @@ export default {
   {
     var that = this;
     this.loading = true;
-    that.$http.get('https://api.meowtic.com/profile/list')
+    that.$http.get('profile/list')
     .then(function(response){
       let data = response.data;
       that.loading = false;
@@ -96,7 +96,7 @@ export default {
   sex : function(){
     var that = this;
     this.loading = true;
-    that.$http.get('https://api.meowtic.com/profile/list')
+    that.$http.get('profile/list')
     .then(function(response){
       let data = response.data;
       that.loading = false;

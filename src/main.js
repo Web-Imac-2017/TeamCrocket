@@ -4,6 +4,8 @@ import VueRouter from 'vue-router'
 Vue.use(require('vue-resource'));
 
 Vue.http.options.emulateJSON = true;
+//Vue.http.options.root = "localhost";
+Vue.http.options.root = "https//api.meowtic.com";
 
 Vue.http.interceptors.push((request, next) => {
     request.credentials = true;

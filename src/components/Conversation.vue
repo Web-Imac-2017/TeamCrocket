@@ -59,7 +59,7 @@
 		methods:{
 			loadConv: function(event) {
 				var _this = this;
-				this.$http.post('https://api.meowtic.com/messenger/fetch')
+				this.$http.post('messenger/fetch')
 				.then(function(response){
 					let data = response.data;
 					console.log(data);
@@ -86,7 +86,7 @@
 		/*methods:{
 
 			init : function(contactId) {
-				this.$http.post('https://api.meowtic.com/messenger/init/'+contactId)
+				this.$http.post('messenger/init/'+contactId)
 				.then(function(response){
 					let data = response.data
 					if(data.success){
@@ -99,11 +99,11 @@
 			}
 
 			loadListConv : function() {
-				this.$http.post('https://api.meowtic.com/messenger/list',contactList)
+				this.$http.post('messenger/list',contactList)
 			},
 
 			loadConv : function(convId) {
-				this.$http.post('https://api.meowtic.com/messenger/load')
+				this.$http.post('messenger/load')
 			},
 
 			sendMessage : function() {

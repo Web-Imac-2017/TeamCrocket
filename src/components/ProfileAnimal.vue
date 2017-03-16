@@ -185,7 +185,7 @@ export default {
       },
       edit_animal : function(){
         let formData = new FormData(document.getElementById('profile-form'));
-        this.$http.post('https://api.meowtic.com/profile/edit', formData)
+        this.$http.post('profile/edit', formData)
           .then(function(response){
             let data = response.data;
             if(data.success){
@@ -213,7 +213,7 @@ export default {
 
 
     delete_animal : function(){
-      this.$http.post('https://api.meowtic.com/profile/delete/'+this.animal.id)
+      this.$http.post('profile/delete/'+this.animal.id)
       .then(function(response){
           let data = response.data
           if(data.success){
@@ -227,7 +227,7 @@ export default {
     },
   changeId : function(){
       var get_id = this.$route.params.id;
-      this.$http.get('https://api.meowtic.com/profile/get/'+ get_id )
+      this.$http.get('profile/get/'+ get_id )
         .then(function(response){
           let data = response.data;
           this.user = response.data.output;

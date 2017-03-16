@@ -65,7 +65,7 @@
 			//this.loadPreview();
 			var that = this;
 	    if(this.$parent.user === ""){
-	      this.$http.get('https://api.meowtic.com/user/whois')
+	      this.$http.get('user/whois')
 	        .then(function(response){
 	          let data = response.data;
 	          if(data.success){
@@ -85,7 +85,7 @@
 				var FRIEND_UID = 146;
 				that.choice = 1;
 				//console.log(that.choice);
-				that.$http.post('https://api.meowtic.com/messenger/init/'+FRIEND_UID)
+				that.$http.post('messenger/init/'+FRIEND_UID)
 				.then(function(response){
 					let data = response.data;
 					console.log(data);
@@ -103,7 +103,7 @@
 
 			loadPreview : function() {
 				var that = this;
-				that.$http.post('https://api.meowtic.com/messenger/list')
+				that.$http.post('messenger/list')
 				.then(function(response){
 					let data = response.data;
 					console.log(data);
@@ -128,7 +128,7 @@
 		/*methods:{
 
 			init : function(contactId) {
-				this.$http.post('https://api.meowtic.com/messenger/init/'+contactId)
+				this.$http.post('messenger/init/'+contactId)
 				.then(function(response){
 					let data = response.data
 					if(data.success){
@@ -141,11 +141,11 @@
 			}
 
 			loadListConv : function() {
-				this.$http.post('https://api.meowtic.com/messenger/list',contactList)
+				this.$http.post('messenger/list',contactList)
 			},
 
 			loadConv : function(convId) {
-				this.$http.post('https://api.meowtic.com/messenger/load')
+				this.$http.post('messenger/load')
 			},
 
 			sendMessage : function() {

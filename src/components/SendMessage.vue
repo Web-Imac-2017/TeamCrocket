@@ -51,7 +51,7 @@ methods: {
       var that = this;
       var get_id = this.$route.params.id;
       this.loading = true;
-      that.$http.get('https://api.meowtic.com/user/get/' + get_id)
+      that.$http.get('user/get/' + get_id)
       .then(function(response){
         let data = response.data;
         that.loading = false;
@@ -70,7 +70,7 @@ methods: {
 			var FRIEND_UID = 146;
 			that.choice = 1;
 			console.log(that.choice);
-			that.$http.post('https://api.meowtic.com/messenger/edit/'+FRIEND_UID,that.formData)
+			that.$http.post('messenger/edit/'+FRIEND_UID,that.formData)
 				.then(function(response){
 					let data = response.data;
 					if(data.success){

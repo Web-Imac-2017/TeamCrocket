@@ -69,7 +69,7 @@ export default {
 created(){
    var that = this;
    if(this.$parent.user === ""){
-     this.$http.get('https://api.meowtic.com/user/whois')
+     this.$http.get('user/whois')
        .then(function(response){
          let data = response.data;
          if(data.success){
@@ -79,7 +79,7 @@ created(){
    } else {
      this.user = this.$parent.user;
    }
-   this.$http.get('https://api.meowtic.com/user/list_animal')
+   this.$http.get('user/list_animal')
    .then(function(response){
      let data = response.data;
      that.animal = response.data.output;
@@ -95,7 +95,7 @@ created(){
  },
   methods : {
     logout : function(){
-        this.$http.post('https://api.meowtic.com/user/logout')
+        this.$http.post('user/logout')
         .then(function(response){
             let data = response.data
             if(data.success){

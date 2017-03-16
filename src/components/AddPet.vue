@@ -53,7 +53,7 @@ export default {
 },
   methods: {
     submit : function(){
-      this.$http.post('https://api.meowtic.com/profile/edit', this.addPet, { emulateJSON : true })
+      this.$http.post('profile/edit', this.addPet, { emulateJSON : true })
         .then(function(response){
           let data = response.data;
           if(data.success){

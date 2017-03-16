@@ -71,7 +71,7 @@ export default {
       var that = this;
       var get_id = this.$route.params.id;
       this.loading = true;
-      that.$http.get('https://api.meowtic.com/match/get/' + get_id)
+      that.$http.get('match/get/' + get_id)
       .then(function(response){
         let data = response.data;
         that.loading = false;
@@ -91,7 +91,7 @@ export default {
       var that = this;
       var get_id = this.$route.params.id
       var interested = 0;
-      that.$http.get('https://api.meowtic.com/match/swipe/' + get_id + '/' + that.animal.id + '/' + interested)
+      that.$http.get('match/swipe/' + get_id + '/' + that.animal.id + '/' + interested)
       .then(function(response){
         let data = response.data;
         console.log(data.output.interested);
@@ -108,7 +108,7 @@ export default {
       var that = this;
       var get_id = this.$route.params.id
       var interested = 1;
-      that.$http.get('https://api.meowtic.com/match/swipe/' + get_id + '/' + that.animal.id + '/' + interested)
+      that.$http.get('match/swipe/' + get_id + '/' + that.animal.id + '/' + interested)
       .then(function(response){
         let data = response.data;
 

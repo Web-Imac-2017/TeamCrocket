@@ -75,7 +75,7 @@
 			editMessage: function(event) {
 				var that = this;
 					console.log(that.choice);
-					that.$http.post('https://api.meowtic.com/messenger/edit/',that.formData)
+					that.$http.post('messenger/edit/',that.formData)
 					.then(function(response){
 						let data = response.data;
 						console.log(data);
@@ -92,7 +92,7 @@
 				var that = this;
 	  			var message = this.message;
 					console.log(that.choice);
-					that.$http.post('https://api.meowtic.com/messenger/delete/',message.id)
+					that.$http.post('messenger/delete/',message.id)
 					.then(function(response){
 						let data = response.data;
 						console.log(data);

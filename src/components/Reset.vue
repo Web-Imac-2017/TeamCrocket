@@ -51,7 +51,7 @@
     methods : {
 
       reset : function(){
-          this.$http.post('https://api.meowtic.com/user/reset', this.resetPassword,{ emulateJSON : true })
+          this.$http.post('user/reset', this.resetPassword,{ emulateJSON : true })
           .then(function(response){
           alert('yo');
               let data = response.data;
@@ -73,7 +73,7 @@
   var data =  getTask();
 
   function getTask(){
-      var search = "https://www.meowtic.com/?task=reset&email=prigent.gwenn@gmail.com&token=qIelRAnygBzyGrTLfPKE0s1CNzjvjlSj";
+      var search = "?task=reset&email=prigent.gwenn@gmail.com&token=qIelRAnygBzyGrTLfPKE0s1CNzjvjlSj";
       var regex_mail = /[a-z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}/;
       var regex_token = search.match(/token=(.+)/);
       var data = {};
