@@ -50,28 +50,16 @@
 			//fullConv = fetch(0)
 		},
 
-		created: function() {
-
-		 var that = this;
-		    if(this.$parent.user === ""){
-		      this.$http.get('https://api.meowtic.com/user/whois')
-		        .then(function(response){
-		          let data = response.data;
-		          if(data.success){
-		            this.user = response.data.output;
-		          }
-		      });
-		    } else {
-		      this.user = this.$parent.user;
-		    }
-
-		 },
+		/*created: function() {
+			var that = this;
+			that.loadConv(0);
+		 },*/
 
 
 		methods:{
-			loadConv: function(event) {
+			loadConv: function(event, time) {
 				var _this = this;
-				this.$http.post('https://api.meowtic.com/messenger/fetch')
+				this.$http.post('https://api.meowtic.com/messenger/fetch',time)
 				.then(function(response){
 					let data = response.data;
 					console.log(data);

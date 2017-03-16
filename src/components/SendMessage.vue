@@ -1,14 +1,17 @@
 <template>
 
 	<div id="message-form">
-		<h2>Entamez la discussion !</h2>
-    	<form v-on:submit.prevent="sendmessage" id="send-message">
-			<span><p style="white-space: pre"></p>
+		<h2>Entamez la discussion !</h2>    
+    <form v-on:submit.prevent="sendmessage" id="message-form">
+      <input type="hidden" name="formData.id" value="0">
+      <input type="hidden" name="formData.group_id" value="1">
+			
+      <span><p style="white-space: pre">blbl {{formData.content}}</p>
 			<br>
-			<textarea v-model="txt" placeholder="add multiple lines"></textarea>
+			<textarea v-model="formData.content" placeholder="add multiple lines"></textarea>
+      <button type="submit">Valider</button>
 			</span>
 		</form>
-		<button type="submit">Valider</button>
 	</div>
 
 </template>
@@ -22,11 +25,19 @@ export default {
     //DateComponent
   //},
 
+  
+
   name:"SendmessageComponent",
 
   data(){
     return{
-	    id: 0,
+      formData: {
+        id: 0,
+        content: '',
+        group_id: 1 //remplacer par v-model="group_id" qd y aura le lien avec preview pour le group_id avec props
+      }
+      //msg: ''
+	    /*id: 0,
 	    txt: '',
 		content: this.txt,
 		group_id:1,
@@ -34,56 +45,47 @@ export default {
 		message : {
             txt : '',
             date : ''
-        }
+        }*/
 
     }
   },
 
 created: function() {
 
- var that = this;
-    if(this.$parent.user === ""){
-      this.$http.get('https://api.meowtic.com/user/whois')
-        .then(function(response){
-          let data = response.data;
-          if(data.success){
-            this.user = response.data.output;
-          }
-      });
-    } else {
-      this.user = this.$parent.user;
-    }
-    this.creator=this.user;
-    this.is_author=this.user;
-
 },
 
 methods: {
 
 
-  	sendmessage: function() {
+  	sendmessage: function(event) {
+      //let formData = new FormData(document.getElementById('message-form'));
+
   		var that = this;
-  		var content = this.txt;
-				var FRIEND_UID = 146;
-				that.choice = 1;
-				console.log(that.choice);
-				that.$http.post('https://api.meowtic.com/messenger/edit/',0,content,1)
+			var FRIEND_UID = 146;
+			that.choice = 1;
+			console.log(that.choice);
+			that.$http.post('https://api.meowtic.com/messenger/edit/'+FRIEND_UID,that.formData)
 				.then(function(response){
 					let data = response.data;
-					console.log(data);
 					if(data.success){
 						console.log(data);
-						console.log("success biatche");
 						
 					}
 					else {
+            alert(response.data.message);
 					}
 				}, handleError)
 
   	}
 
   }
+ 
+}
 
+
+ var handleError = function(error){
+      console.log('Error! Could not reach the API. ' + error)
+  }
 
    /* created : function(){
       var get_id = this.$route.params.id;
@@ -125,7 +127,7 @@ methods: {
       })
     }
   }*/
-}
+
 
 
 

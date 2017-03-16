@@ -7,7 +7,7 @@
 	      			<button v-on:click="newConv">Parle à Mélo !</button>
 	      			<sendmessage-component v-if="choice == 1"></sendmessage-component>
 
-					<previewmessage-component v-for="message in previewList" :message="message" v-on:click="loadConv">
+					<previewmessage-component v-for="message in previewList" :message="message" v-on:click="loadPreview">
 					</previewmessage-component>
 
 	      	<!-- ça c'est ta liste, et tu itères dessus avec le v-for, mais maintenant faut pouvoir utiliser cl'info sur laquelle tu iteres, du coup tu pvas passer un prop, je récup la syntaxe j'arrive
@@ -32,8 +32,9 @@
 	export default {
 
 		components: {
-			'PreviewmessageComponent' : PreviewmessageComponent,
-			'SendmessageComponent' : SendmessageComponent
+			PreviewmessageComponent,
+			SendmessageComponent
+			//'ConversationComponent' : ConversationComponent
 		},
 
 		data() {
@@ -50,30 +51,21 @@
 					text: 'klmj'
 				}]
 			}*/
-			user:null,
+			//user:null,
 			choice: 0,
-			prev: Object,
-			prevId: Object,
+			//prev: Object,
+			//prevId: Object,
 
 			previewList: []
+			
 			}
+
+		
+
 		},
 
 		created: function() {
-
-		 var that = this;
-		    if(this.$parent.user === ""){
-		      this.$http.get('https://api.meowtic.com/user/whois')
-		        .then(function(response){
-		          let data = response.data;
-		          if(data.success){
-		            this.user = response.data.output;
-		          }
-		      });
-		    } else {
-		      this.user = this.$parent.user;
-		    }
-
+			this.loadPreview();
 		},
 
 
@@ -98,16 +90,20 @@
 					else {
 					}
 				}, handleError)
-			}
+			},
 
-			/*loadPreview : function() {
-				var _this = this;
-				this.$http.post('https://api.meowtic.com/messenger/list')
+			loadPreview : function() {
+				console.log("fuck it");
+				var that = this;
+				that.$http.post('https://api.meowtic.com/messenger/list')
 				.then(function(response){
 					let data = response.data;
+					console.log("blblblbl");
 					console.log(data);
 					if(data.success){
-						_this.previewList = data;
+						that.previewList = data;
+						console.log("preview List");
+						console.log(that.previewList);
 					}
 					else {
 					}
@@ -118,7 +114,9 @@
 
 			}
 
-		}*/
+		}	
+
+	}
 
 		/*methods:{
 
@@ -156,9 +154,6 @@
 
 
 
-		}
-
-	}
 
 	var handleError = function(error){
       console.log('Error! Could not reach the API. ' + error)

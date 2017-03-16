@@ -17,20 +17,22 @@
 		</div>
 		<button v-on:click="formMessage">Edit</button>
 		<button v-on:click="deleteMessage">Suppr</button>
-	</div>
+	
 
-	<!--
-	<div id="message-form" v-if="editChoice == 1">
-	<form v-on:submit.prevent="editMessage" id="edit-message">
-			<span><p style="white-space: pre"></p>
-			<br>
-			<textarea v-model="content" placeholder="add multiple lines"></textarea>
-			</span>
-		</form>
-		<button type="submit">Valider</button>
+	
+		<div id="message-form" v-if="editChoice == 1">
+			<form v-on:submit.prevent="editMessage" id="edit-message">
+				<input type="hidden" name="formData.id" v-model="message.id">
+      			<input type="hidden" name="formData.group_id" v-model="message.group_id">
+				<span><p style="white-space: pre"></p>
+				<br>
+				<textarea v-model="formData.content" placeholder="add multiple lines"></textarea>
+				<button type="submit">Valider</button>
+				</span>
+			</form>
+		</div>
 	</div>
-	-->
-
+	
 </template>
 
 
@@ -43,14 +45,20 @@
 
 		data() {
 			return {
-				editChoice:0,
-				content:this.message.text
+				editChoice: 0,
+				
+				formData: {
+			        id: message.id,
+			        content: message.content,
+			        group_id: message.group_id
+			    }
+
 			}
 		},
 
 		// tu définis ton prop pour que vue sache qu'il doit aller le chercher
 		props: {
-			message: Object //change en Object pour le link back
+			message: Array //change en Object pour le link back
 		},
 			// maintenant tu as acces à contact dans ton template
 			//à partir du moment ou tu as accès à la contact list dans ton component à gauche là, ça sera automatiquement dispo ici, et mis à jour en temps réel
@@ -61,60 +69,50 @@
 			//ptn c'est beau	
 
 		created: function() {
-
-		 var that = this;
-		    if(this.$parent.user === ""){
-		      this.$http.get('https://api.meowtic.com/user/whois')
-		        .then(function(response){
-		          let data = response.data;
-		          if(data.success){
-		            this.user = response.data.output;
-		          }
-		      });
-		    } else {
-		      this.user = this.$parent.user;
-		    }
-
+			var that = this;
+			that.editChoice = 0;
 		},
 
+		methods: {
 
-		formMessage: function(event) {
-			var that = this;
-			that.editChoice = 1;
-		},
 
-		editMessage: function(event) {
-			var that = this;
-  			var message = this.message;
-				that.choice = 1;
-				console.log(that.choice);
-				that.$http.post('https://api.meowtic.com/messenger/edit/',message.id,that.content,message.group_id)
-				.then(function(response){
-					let data = response.data;
-					console.log(data);
-					if(data.success){
-						console.log(data);	
-						that.choice = 0;					
-					}
-					else {
-					}
-				}, handleError)
-		},
+			formMessage: function(event) {
+				var that = this;
+				that.editChoice = 1;
+			},
 
-		deleteMessage: function(event) {
-			var that = this;
-  			var message = this.message;
-				console.log(that.choice);
-				that.$http.post('https://api.meowtic.com/messenger/delete/',message.id)
-				.then(function(response){
-					let data = response.data;
-					console.log(data);
-					if(data.success){
-						console.log(data);						
-					}
-					else {
-					}
-				}, handleError)
+			editMessage: function(event) {
+				var that = this;
+					console.log(that.choice);
+					that.$http.post('https://api.meowtic.com/messenger/edit/',that.formData)
+					.then(function(response){
+						let data = response.data;
+						console.log(data);
+						if(data.success){
+							console.log(data);	
+							that.editChoice = 0;					
+						}
+						else {
+						}
+					}, handleError)
+			},
+
+			deleteMessage: function(event) {
+				var that = this;
+	  			var message = this.message;
+					console.log(that.choice);
+					that.$http.post('https://api.meowtic.com/messenger/delete/',message.id)
+					.then(function(response){
+						let data = response.data;
+						console.log(data);
+						if(data.success){
+							console.log(data);						
+						}
+						else {
+						}
+					}, handleError)
+
+			}
 
 		}
 
