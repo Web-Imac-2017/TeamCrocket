@@ -75,7 +75,7 @@
                        <option value="17">Autre</option>
                     </select>
                   </p>
-                </li>      
+                </li>
           </ul>
         </div>
 
@@ -112,6 +112,10 @@
               <textarea style="width:97%;" cols="5" rows="5" class="edit_data" name="info_dislike" v-model="animal.dislike" ></textarea>
             </p>
         </div>
+      </div>
+
+      <div class="delete">
+          <h2 v-on:click="delete_animal">Supprimer ce compte</h2>
       </div>
 
       <div id="button_valid_2" class="edit_data">
@@ -225,7 +229,22 @@ export default {
       getBackgroundImage () {
        // Get Background image
            return `url("this.animal.cover_image" )`
-     }
+     },
+
+
+          delete_animal : function(){
+            this.$http.post('https://api.meowtic.com/profile/delete/'+this.animal.id)
+            .then(function(response){
+                let data = response.data
+                if(data.success){
+                    location.href = '/'
+
+                }
+                else{
+
+                }
+            })
+          },
     }
 }
 </script>
