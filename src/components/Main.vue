@@ -70,17 +70,6 @@ created : function(){
 },
 methods: {
 
-  scroll: function(){
-    $('.scroll').on('click', function() {
-        var page = $(this).attr('href');
-        var speed = 750;
-        //animate the html/body with the (x, y) of page with offset
-        $('html, body').animate( { scrollTop: $(page).offset().top }, speed );
-        //will not execute until the clic
-        return false;
-      });
-  },
-
   signup: function(){
     this.choice = 2;
   },
