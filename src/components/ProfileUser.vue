@@ -247,7 +247,7 @@ input.edit_data,p div#date_birth select, textarea.edit_data{
   padding-top:0.2em;
   padding-bottom:0.2em;
   color:@darkBlue;
-  font-family: @fontTitle;
+  font-family:@fontText;
 }
 .edit_data{
   display: none;

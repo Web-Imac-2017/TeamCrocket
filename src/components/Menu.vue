@@ -210,7 +210,6 @@ li.mob{
 #popup_profile {
   background-color: white;
   display: none;
-  padding: 1em
 }
 #popup_profile #list_pet{
   overflow: auto;
