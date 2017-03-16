@@ -4,29 +4,30 @@
       <h1>Match</h1>
       <h2>Trouvez le profil qui fera chavirer son coeur</h2>
       <div class="load" v-if="loading">
-        <h3>Nous recherchons votre âme sœur...</h3>
+        <h3>Nous recherchons son âme sœur...</h3>
       </div>
       <div v-else-if="animal != null">
         <div class="profile">
           <img v-if="animal.profile_image != null" v-bind:src="animal.profile_image.path" v-bind:alt="animal.name">
           <img v-else src="../assets/none_profil.png">
           <div>
-            <ul>
               <span>{{ animal.name }}</span>
-              <li v-if="animal.age == 1">{{ animal.age }} an</li>
-              <li v-if="animal.age > 1">{{ animal.age }} ans</li>
-              <li v-else></li>
-              <li>
-                <img v-if="animal.sex =='m'" src="../assets/man.png" alt="Homme">
-                <img v-if="animal.sex =='f'" src="../assets/woman.png" alt="Femme">
-                <img v-else src="../assets/unknown.png" alt="Hermaphrodite">
-              </li>
+              <ul>
+                <li v-if="animal.age == 1">{{ animal.age }} an</li>
+                <li v-if="animal.age > 1">{{ animal.age }} ans</li>
+                <li v-else></li>
+                <li>
+                  <img v-if="animal.sex =='m'" src="../assets/man.png" alt="Homme">
+                  <img v-if="animal.sex =='f'" src="../assets/woman.png" alt="Femme">
+                  <img v-if="animal.sex ==''" src="../assets/unknown.png" alt="Hermaphrodite">
+                  <p v-else></p>
+                </li>
             </ul>
             <ul class="text">
+              <li v-if="animal.description != ''">{{ animal.description }}</li>
               <li v-if="animal.like != ''">Aime {{ animal.like }}</li>
               <li v-if="animal.dislike != ''">N'aime pas {{ animal.dislike }}</li>
               <li v-else></li>
-
             </ul>
           </div>
         </div>
@@ -150,7 +151,6 @@ var handleError = function(error){
     margin-bottom: 11em;
   }
 
-
   h3 {
     color: @darkBlue;
     padding-top: 8em;
@@ -185,13 +185,23 @@ var handleError = function(error){
         margin-bottom: 0.7em;
       }
 
+      ul {
+        text-align: center;
+      }
+
       ul li {
-        display: block;
+        display : inline;
         font-weight: 100;
 
         img {
-          width: 8%;
+          width: 9%;
         }
+      }
+
+      .text {
+        display: block;
+        text-align: left;
+
       }
     }
 
