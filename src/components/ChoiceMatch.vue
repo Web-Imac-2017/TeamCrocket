@@ -1,5 +1,5 @@
 <template>
-  <section id="frame">
+  <section id="frame"   v-if="user != null">
     <img src="../assets/Meetic.png" width="110ox"/>
     <h1>Match</h1>
     <h2>Choisissez votre animal</h2>
@@ -16,6 +16,12 @@
       </router-link>
     </div>
   </section>
+
+  <div v-else>
+    <div class="no">
+      <img class="non_connecter" src="../assets/non_connecter.png"/>
+    </div>
+  </div>
 </template>
 
 <script>

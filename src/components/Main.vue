@@ -29,7 +29,7 @@
   <div id="main-co" v-else>
     <img src="../assets/Meetic.png" id="logo" alt="Logo"/>
     <h1>Recherche </h1>
-    <h2>Voici tout les profils des animaux à la recherche du grand amour, n'hésitez pas à visiter leurs profils, s'il y en a un qui vous à tapé dans l'oeil</h2>
+    <h2>Voici tous les profils des animaux à la recherche du grand amour, n'hésitez pas à visiter leurs profils, s'il y en a un qui vous a tapé dans l'oeil</h2>
     <research-component></research-component>
   </div>
 </template>

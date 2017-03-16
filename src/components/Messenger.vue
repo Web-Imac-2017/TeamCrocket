@@ -1,5 +1,5 @@
 <template>
-	<section id="frame">
+	<section id="frame" v-if="user != null">
 		<div id="messenger-index">
 			<img src="../assets/Meetic.png" id="logo" alt="Logo"/>
 	      	<h1>Messagerie</h1>
@@ -20,6 +20,11 @@
 	      	maintenant ton component a acces a la variable-->
 	    </div>
 	</section>
+	<div v-else>
+		<div class="no">
+			<img class="non_connecter" src="../assets/non_connecter.png"/>
+    </div>
+	</div>
 </template>
 
 
@@ -51,7 +56,7 @@
 			prevId: Object,
 
 			//message:Array
-			
+
 			}
 		},
 
@@ -76,7 +81,7 @@
 						that.prev=data;
 						that.prevId=that.prev.id;
 						console.log(that.prevId);
-						
+
 					}
 					else {
 					}
@@ -103,7 +108,7 @@
 
 			}
 
-		}	
+		}
 
 	}
 

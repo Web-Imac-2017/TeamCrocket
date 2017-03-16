@@ -1,5 +1,5 @@
 <template>
-    <section id="frame">
+    <section id="frame" >
       <img src="../assets/Meetic.png" width="110ox"/>
       <h1>Match</h1>
       <h2>Trouvez le profil qui fera chavirer son coeur</h2>
