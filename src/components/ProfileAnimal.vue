@@ -55,7 +55,7 @@
               </li>
 
                 <li>
-                  <h2>Espèce</h2>
+                  <h2>Espece</h2>
                   <p><span class="show_data">{{animal.species.name}}</span>
                     <select class="edit_data"  name="species.id" v-model="animal.species.id">
                        <option value="12">Arthropode</option>
@@ -108,17 +108,18 @@
             </p>
         </div>
       </div>
-
-      <div class="delete">
-          <h2 v-on:click="delete_animal">Supprimer ce compte</h2>
-      </div>
-
       <div id="button_valid_2" class="edit_data">
         <button type="submit" class="button_style_2">VALIDER
           <img src="../assets/search_mob.png" class="img_button"/>
         </button>
 
       </div>
+
+      <div class="delete">
+          <h2 v-on:click="delete_animal">Supprimer ce compte</h2>
+      </div>
+
+
 
     </form>
   </div>
@@ -145,47 +146,30 @@ export default {
       animal : [],
     }
   },
-  created : function(){
-      var get_id = this.$route.params.id;
-      this.$http.get('https://api.meowtic.com/profile/get/'+ get_id )
-        .then(function(response){
-          let data = response.data;
-          this.user = response.data.output;
-          if(data.success){
-            this.animal = this.user;
-            if(this.$parent.user.id ==this.user.creator_id){
-              this.edit = 1;
-            }
-          }
-        })
-        switch(this.animal.sex){
-          case "m":
-            this.sex=1;
-            break;
-          case "f":
-            this.sex=2;
-            break;
-          default:
-              this.sex=3;
-              break;
+  watch :{
+    '$route'(to, from) {
+      this.changeId();
+    }
+  },
+  mounted : function(){
+    this.changeId();
+   // Type file
+    document.querySelector("html").classList.add('js');
+    var fileInput  = document.querySelector( ".input-file, .input-cover" ),
+        button     = document.querySelector( ".input-file-trigger, .input-cover-trigger" ),
+        the_return = document.querySelector(".file-return, .cover-return");
+    button.addEventListener( "keydown", function( event ) {
+        if ( event.keyCode == 13 || event.keyCode == 32 ) {
+            fileInput.focus();
         }
-         // Type file
-          document.querySelector("html").classList.add('js');
-          var fileInput  = document.querySelector( ".input-file, .input-cover" ),
-              button     = document.querySelector( ".input-file-trigger, .input-cover-trigger" ),
-              the_return = document.querySelector(".file-return, .cover-return");
-          button.addEventListener( "keydown", function( event ) {
-              if ( event.keyCode == 13 || event.keyCode == 32 ) {
-                  fileInput.focus();
-              }
-          });
-          button.addEventListener( "click", function( event ) {
-             fileInput.focus();
-             return false;
-          });
-          fileInput.addEventListener( "change", function( event ) {
-              the_return.innerHTML = this.value;
-          });
+    });
+    button.addEventListener( "click", function( event ) {
+       fileInput.focus();
+       return false;
+    });
+    fileInput.addEventListener( "change", function( event ) {
+        the_return.innerHTML = this.value;
+    });
     },
     methods : {
       edit_details : function (){
@@ -228,20 +212,45 @@ export default {
      },
 
 
-          delete_animal : function(){
-            this.$http.post('https://api.meowtic.com/profile/delete/'+this.animal.id)
-            .then(function(response){
-                let data = response.data
-                if(data.success){
-                    location.href = '/'
+    delete_animal : function(){
+      this.$http.post('https://api.meowtic.com/profile/delete/'+this.animal.id)
+      .then(function(response){
+          let data = response.data
+          if(data.success){
+              location.href = '/'
 
-                }
-                else{
+          }
+          else{
 
-                }
-            })
-          },
+          }
+      })
+    },
+  changeId : function(){
+      var get_id = this.$route.params.id;
+      this.$http.get('https://api.meowtic.com/profile/get/'+ get_id )
+        .then(function(response){
+          let data = response.data;
+          this.user = response.data.output;
+          if(data.success){
+            this.animal = this.user;
+            if(this.$parent.user.id ==this.user.creator_id){
+              this.edit = 1;
+            }switch(this.animal.sex){
+              case "m":
+                this.sex=1;
+                break;
+              case "f":
+                this.sex=2;
+                break;
+              default:
+                  this.sex=3;
+                  break;
+            }
+          }
+        })
     }
+
+    },
 }
 </script>
 
@@ -345,11 +354,14 @@ opacity: 0;
 }
 #button_valid_2{
   display: none;
-  position:absolute;
-  z-index:88;
-  margin-left: 15%;
-  margin-top:-9em;
+  margin-top:-2em;
+  margin-bottom:2em;
+  width: 100%;
 }
+#button_valid_2 button{
+  margin: auto;
+}
+
 @media screen and (max-device-width:1275px), screen  and (max-width:1275px){
   #button_valid_2{
   margin-top: -8em;

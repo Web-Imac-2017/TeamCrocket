@@ -18,6 +18,7 @@
               <div id="password_lost">
                 <router-link :to="{name: 'forgottenpassword'}" id="pw_lost">Mot de passe perdu ?</router-link>
               </div>
+              <p id="error_log"> Mot de passe ou login incorrect</p>
               <div class="button_validation" >
                 <button type="submit" class="button_style">VALIDER
                   <img src="../assets/search_mob.png" class="img_button"/>
@@ -57,7 +58,7 @@
                   location.href = 'profileuser'
               }
               else{
-
+                document.getElementById("error_log").style.display =  "block"
               }
           }, handleError)
       },
@@ -124,7 +125,10 @@
 <style lang="less">
   @import "../definitions"; /* import common definitions */
 
-
+  #error_log{
+    display: none;
+    color:red
+  }
   #form_connexion{
     width:600px;
     margin:auto;
