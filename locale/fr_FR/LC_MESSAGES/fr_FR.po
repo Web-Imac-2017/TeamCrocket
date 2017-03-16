@@ -1,0 +1,271 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2017-03-12 18:46+0100\n"
+"PO-Revision-Date: 2017-03-12 18:46+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SearchPath-0: App\n"
+"X-Poedit-SearchPath-1: inc\n"
+"X-Poedit-SearchPath-2: api.php\n"
+
+#: App/Controller/CharacteristicController.php:38
+msgid "Insufficient permission"
+msgstr "Permission insuffisante"
+
+#: App/Controller/CharacteristicController.php:41
+#: App/Controller/SpeciesController.php:28
+#, php-format
+msgid "Species %s does not exist"
+msgstr "L’espèce %s n’existe pas"
+
+#: App/Controller/CharacteristicController.php:44
+msgid "Invalid characteristic"
+msgstr "Caractéristique invalide"
+
+#: App/Controller/CharacteristicController.php:66
+#, php-format
+msgid "Characteristic %s does not exist"
+msgstr "La caractéristique %s n’existe pas"
+
+#: App/Controller/CommentController.php:27
+#, php-format
+msgid "Comment %s does not exist"
+msgstr "Le commentaire %s n’existe pas"
+
+#: App/Controller/ImageController.php:23
+#: App/Controller/ProfileController.php:64
+#, php-format
+msgid "This picture %s does not exist"
+msgstr "L’image %s n’existe pas"
+
+#: App/Controller/MatchController.php:24
+msgid "Unknown animal ID"
+msgstr "L’ID de l’animal n’existe pas"
+
+#: App/Controller/MatchController.php:27 App/Controller/MatchController.php:50
+#: App/Controller/MatchController.php:67 App/Controller/MatchController.php:86
+msgid "You must be the owner"
+msgstr "Vous devez être le propriétaire"
+
+#: App/Controller/MatchController.php:47
+#, php-format
+msgid "Unknown animal ID [%s][%s]"
+msgstr "L’ID [%s][%s] de l’animal n’existe pas"
+
+#: App/Controller/MessengerController.php:20
+#: App/Controller/UserController.php:18 App/Controller/UserController.php:34
+msgid "You must sign in"
+msgstr "Vous devez être connecté"
+
+#: App/Controller/MessengerController.php:34
+msgid "Unknown message group"
+msgstr "Groupe de message inconnu"
+
+#: App/Controller/MessengerController.php:37
+msgid "You don't belong to this group"
+msgstr "Vous n’appartenez pas à ce groupe"
+
+#: App/Controller/MessengerController.php:60
+msgid "Unknown friend uid"
+msgstr "L’UID du correspondant n’existe pas"
+
+#: App/Controller/MessengerController.php:84
+#, php-format
+msgid "Message %s does not exist"
+msgstr "Le message %s n’existe pas"
+
+#: App/Controller/ProfileController.php:27
+#, php-format
+msgid "Profile %s does not exist"
+msgstr "Le profil %s n’existe pas"
+
+#: App/Controller/ProfileController.php:81
+msgid "You cannot do this"
+msgstr "Vous ne pouvez pas effectuer cette action"
+
+#: App/Controller/UserController.php:46
+#, php-format
+msgid "User profile %s does not exist"
+msgstr "L’utilisateur %s n’existe pas"
+
+#: App/Controller/UserController.php:81
+msgid "Already logged in"
+msgstr "Vous êtes déjà connecté"
+
+#: App/Controller/UserController.php:89
+msgid "Too many login attempts"
+msgstr "Trop de tentatives de connexion"
+
+#: App/Controller/UserController.php:103 App/Controller/UserController.php:147
+#: App/Controller/UserController.php:158 App/Controller/UserController.php:177
+msgid "No account existing for the given email adress"
+msgstr "Aucun compte lié à l’adresse email donnée"
+
+#: App/Controller/UserController.php:110
+msgid "Please verify your account"
+msgstr "Veuillez vérifier votre adresse email"
+
+#: App/Controller/UserController.php:114
+msgid "Your account is banned"
+msgstr "Votre compte a été fermé par un administrateur"
+
+#: App/Controller/UserController.php:121
+msgid "Wrong credentials, login failed"
+msgstr "Mauvais identifiants, échec de la connexion"
+
+#: App/Controller/UserController.php:172
+msgid "Password confirmation does not match"
+msgstr "La confirmation du mot de passe ne correspond pas"
+
+#: App/Model/Animal.php:320
+msgid "No file"
+msgstr "Aucun fichier"
+
+#: App/Model/Bucket/BucketAbstract.php:85
+#: App/Model/Bucket/BucketAbstract.php:126
+#: App/Model/Bucket/BucketAbstract.php:298
+#, php-format
+msgid "Insufficient permission [%s][%s]"
+msgstr "Permission insuffisante [%s][%s]"
+
+#: App/Model/Bucket/BucketAbstract.php:107
+#: App/Model/Bucket/BucketAbstract.php:150
+msgid "Query failed"
+msgstr "Échec de la requête"
+
+#: App/Model/Bucket/BucketAbstract.php:293
+msgid "Not found"
+msgstr "Introuvable"
+
+#: App/Model/Bucket/BucketParser.php:23
+#, php-format
+msgid "Could not find class '%s'"
+msgstr "Impossible de trouver la classe ‘%s’"
+
+#: App/Model/Comment.php:43
+msgid "now"
+msgstr "maintenant"
+
+#: App/Model/Image.php:53
+msgid "Error"
+msgstr "Erreur"
+
+#: App/Model/Image.php:56
+#, php-format
+msgid "Invalid image extension for %s (only %s)"
+msgstr "Format de l’image %s invalide (uniquement %s) "
+
+#: App/Model/Image.php:59
+msgid "File is too large"
+msgstr "Fichier trop volumineux"
+
+#: App/Model/Image.php:70
+msgid "Could not move image"
+msgstr "Impossible de transférer l’image"
+
+#: App/Model/Species.php:90
+msgid "Invalid format"
+msgstr "Format invalide"
+
+#: App/Model/User.php:285
+msgid "Undefined permission group"
+msgstr "Groupe de permission inexistant"
+
+#: App/Model/User.php:463
+msgid "New and password confirmation does not match"
+msgstr "Le nouveau mot de passe et la confirmation ne correspondent pas"
+
+#: App/Model/User.php:466
+msgid "Wrong old password"
+msgstr "Ancien mot de passe erroné"
+
+#: App/Model/User.php:511
+msgid "Failed verifying captcha"
+msgstr "Impossible de vérifier le captcha"
+
+#: App/Model/User.php:641
+msgid "Could not verify your account, no existing token"
+msgstr "Impossible de vérifier le compte, aucun token existant"
+
+#: App/Model/User.php:644 App/Model/User.php:743
+msgid "Invalid token"
+msgstr "Token invalide"
+
+#: App/Model/User.php:692 App/Model/User.php:702
+msgid "Verify your email adress"
+msgstr "Veuillez vérifier votre adresse email"
+
+#: App/Model/User.php:693
+msgid ""
+"To finish setting up your account, we just need to make sure this email "
+"adress is yours. Please follow the link bellow (link expires in 48h) :"
+msgstr ""
+"Afin de valider votre inscription, nous devons simplement vérifier que cette "
+"adresse email est la vôtre. Merci de cliquer sur le lien ci-dessous (le lien "
+"expire dans 48h) :"
+
+#: App/Model/User.php:694
+#, php-format
+msgid "Verify %s"
+msgstr "Vérifier %s"
+
+#: App/Model/User.php:740
+msgid "Could not reset password, no existing token"
+msgstr "Impossible de redéfinir le mot de passe, token invalide"
+
+#: App/Model/User.php:773
+msgid ""
+"Please visit the following page to reset your password (link expires in "
+"24h) :"
+msgstr ""
+"Merci de suivre le lien ci-dessous pour définir un nouveau mot de passe (le "
+"lien expire dans 24h) :"
+
+#: App/Model/User.php:782
+msgid "Password reset request"
+msgstr "Réinitialisation du mot de passe"
+
+#: App/Model/User.php:791
+msgid "Invalid nickname format"
+msgstr "Format du pseudonyme invalide"
+
+#: App/Model/User.php:794
+msgid "Nickname already used"
+msgstr "Le nom d’utilisateur est déjà utilisé"
+
+#: App/Model/User.php:801
+msgid "Invalid password format"
+msgstr "Format du mot de passe invalide"
+
+#: App/Model/User.php:813
+msgid "Invalid email format"
+msgstr "Format de l’adresse email invalide"
+
+#: App/Model/User.php:816
+msgid "Email already used"
+msgstr "L’adresse email est déjà utilisée"
+
+#: App/Model/User.php:845 App/Model/User.php:856
+msgid "You must be at least 13 years old"
+msgstr "Vous devez être au minimum âgé de 13 ans"
+
+#: api.php:29
+#, php-format
+msgid "Invalid controller '%s'"
+msgstr "Contrôleur invalide ‘%s’"
+
+#: api.php:32
+#, php-format
+msgid "Invalid task '%s'"
+msgstr "Tâche invalide ‘%s’"
+
+#~ msgid "An account already exists with this email adress"
+#~ msgstr "Un compte est déjà enregistré avec cette adresse email"
